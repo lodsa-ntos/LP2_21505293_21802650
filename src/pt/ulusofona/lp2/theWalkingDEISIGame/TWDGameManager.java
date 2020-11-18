@@ -173,6 +173,23 @@ public class TWDGameManager {
     }
 
     public int getElementId(int x, int y) {
+        for (Humano h : humanos){
+            if (h.xAtual == x && h.yAtual == y){
+                System.out.println(h.getXAtual() + "," + h.getYAtual());
+                return h.getId();
+            } else {
+
+            }
+        }
+
+        for (Zombie z : zombies){
+            if (z.xAtual == x && z.yAtual == y){
+                System.out.println(z.getXAtual() + "," + z.getYAtual());
+                return z.getId();
+            } else {
+
+            }
+        }
 
         return 0;
     }

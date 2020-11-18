@@ -35,11 +35,11 @@ public class Humano {
         return tipo;
     }
 
-    public int getxAtual() {
+    public int getXAtual() {
         return xAtual;
     }
 
-    public int getyAtual() {
+    public int getYAtual() {
         return yAtual;
     }
 

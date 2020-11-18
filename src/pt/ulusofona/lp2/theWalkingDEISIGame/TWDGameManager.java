@@ -1,7 +1,7 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 public class TWDGameManager {
-         return null;
+       
 
 }
     public int getInitialTeam() {

@@ -4,7 +4,7 @@
 # Diagrama UML
 ![](diagrama.png?raw=true "Diagrama UML")
 <p align="justify"> Para modelar a realidade apresentada e responder aos requisitos funcionais apresentados ao longo do
-enunciado implementamos no diagrama a classe TWDGameManager que vai representar o simulador para as açoes do jogo, a classe Humano que vai representar com as suas carateristicas uma das criaturas , assim como a classe Zombie.Implementamos também uma nova classe Equipamento, porque são itens que vão existir no mapa e que podem ser apanhados
+enunciado implementamos no diagrama a classe TWDGameManager que vai representar o simulador para as açoes do jogo, a classe Humano que vai representar com as suas carateristicas uma das criaturas, assim como a classe Zombie. Implementamos também uma nova classe Equipamento, porque são itens que vão existir no mapa e que podem ser apanhados
 e/ou destruídos pelas criaturas e que têm caracteristicas próprias, com isso verificamos que no simulador deve representar atributos do tipo Equipamento (...).</p>
 
 # Descrição

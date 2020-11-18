@@ -2,6 +2,9 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import org.omg.CORBA.DynAnyPackage.Invalid;
 
+/*Site dropProjet*/
+// https://deisi.ulusofona.pt/drop-project/upload/lp2-2021-projecto-p1
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -177,15 +180,6 @@ public class TWDGameManager {
             if (h.xAtual == x && h.yAtual == y){
                 System.out.println(h.getXAtual() + "," + h.getYAtual());
                 return h.getId();
-            } else {
-
-            }
-        }
-
-        for (Zombie z : zombies){
-            if (z.xAtual == x && z.yAtual == y){
-                System.out.println(z.getXAtual() + "," + z.getYAtual());
-                return z.getId();
             } else {
 
             }

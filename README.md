@@ -1,1 +1,2 @@
-![](diagrama.png?raw=true "Diagrama UML")
+![](diagrama.pdf?raw=true "Diagrama UML")
+

@@ -25,6 +25,14 @@ public class Equipamento {
         return id;
     }
 
+    public int getXAtual() {
+        return xAtual;
+    }
+
+    public int getYAtual() {
+        return yAtual;
+    }
+
     public String getTitulo() {
         return titulo;
     }
@@ -47,6 +55,10 @@ public class Equipamento {
         } else{
             erro = "Erro!! Tipo nao reconhecido!";
         }
+    }
+
+    public String getImagePNG() {
+        return null;
     }
 
     @Override

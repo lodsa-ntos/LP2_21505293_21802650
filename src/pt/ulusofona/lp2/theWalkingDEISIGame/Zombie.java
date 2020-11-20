@@ -1,5 +1,10 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
+import javax.swing.*;
+import java.io.IOException;
+
+import static java.lang.Thread.sleep;
+
 public class Zombie {
 
     int id;
@@ -12,8 +17,13 @@ public class Zombie {
 
     int xAtual;
     int yAtual;
+    int xAnterior;
+    int yAnterior;
 
     int nrZombies = 0;
+
+    public Zombie() {
+    }
 
     public Zombie (int id, int idTipo, String nome, int xAtual, int yAtual) {
         this.id = id;
@@ -59,7 +69,7 @@ public class Zombie {
         }
     }
 
-   // Devolve o id da Equipa da criatura.
+    // Devolve o id da Equipa da criatura.
     public int getIdEquipa() {
         return idEquipa;
     }
@@ -77,8 +87,7 @@ public class Zombie {
 
     // Metodo que devolve o nome do ficheiro de imagem (formato PNG) que representa a criatura.
     public String getImagePNG() {
-
-        return null;
+        return new String("zomb.png");
     }
 
 

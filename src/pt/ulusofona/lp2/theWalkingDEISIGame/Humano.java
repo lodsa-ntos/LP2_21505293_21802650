@@ -1,5 +1,7 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
+import java.awt.*;
+
 public class Humano {
 
     int id;
@@ -12,6 +14,8 @@ public class Humano {
 
     int xAtual;
     int yAtual;
+    int xAnterior;
+    int yAnterior;
 
     int nrHumanos = 0;
 
@@ -73,9 +77,13 @@ public class Humano {
         }
     }
 
-    public String getImagePNG() {
+    public void mudarCoordenadas (int novoX, int novoY){
+        this.xAtual = novoX;
+        this.yAtual = novoY;
+    }
 
-        return null;
+    public String getImagePNG() {
+        return new String("hum.png");
     }
 
     @Override

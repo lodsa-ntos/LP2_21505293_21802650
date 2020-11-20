@@ -158,17 +158,17 @@ public class TWDGameManager {
                         int posX = Integer.parseInt(novaFila[2].trim());
                         int posY = Integer.parseInt(novaFila[3].trim());
 
-                        //Verificar se o idTipo é zombie ou humano e adiciona na respetiva lista
+                        //Verificar se o idTipo é Escudo ou Espada e adiciona na respetiva lista
                         if (idTipo == 0) {
                             Equipamento eq = new Equipamento(id, idTipo, posX, posY);
-                            equipamentos.add(eq); // adiciona zombie
+                            equipamentos.add(eq); // adiciona equipamento
                             eq.setNrEquipamentos(1); // incrementa se houver mais um
-                            eq.setIdTipo(idTipo); // chama o tipo de criatura e diz-me se é zombie ou humano
+                            eq.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
                         } else if (idTipo == 1) {
                             Equipamento eq1 = new Equipamento(id, idTipo, posX, posY);
-                            equipamentos.add(eq1); // adiciona zombie
+                            equipamentos.add(eq1); // adiciona equipamento
                             eq1.setNrEquipamentos(1); // incrementa se houver mais um
-                            eq1.setIdTipo(idTipo); // chama o tipo de criatura e diz-me se é zombie ou humano
+                            eq1.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
                         }
                     }
                 }// else
@@ -294,7 +294,6 @@ public class TWDGameManager {
                 System.out.println(e.getXAtual() + "," + e.getYAtual());
                 return e.getiD();
             } else {
-
             }
         } */
 

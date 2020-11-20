@@ -19,6 +19,9 @@ public class Humano {
 
     int nrHumanos = 0;
 
+    public Humano() {
+    }
+
     public Humano(int id, int idTipo, String nome, int xAtual, int yAtual) {
         this.id = id;
         this.idTipo = idTipo;

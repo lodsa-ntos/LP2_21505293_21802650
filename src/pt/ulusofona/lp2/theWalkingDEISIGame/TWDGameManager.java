@@ -19,14 +19,14 @@ public class TWDGameManager {
     static ArrayList<Humano> humanos = new ArrayList<>();
 
     //Lista de Zombies
-    ArrayList<Zombie> zombies = new ArrayList<>();
+    static ArrayList<Zombie> zombies = new ArrayList<>();
 
     //Lista de Equipamento
-    ArrayList<Equipamento> equipamentos = new ArrayList<>();
+    static ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
     int linhaAtual = 0;
-    static int numLinha = 0;
-    static int numColuna = 0;
+    static int numLinha;
+    static int numColuna;
     int idEquipaAtual = 0;
     int nrTurno;
     int nC;

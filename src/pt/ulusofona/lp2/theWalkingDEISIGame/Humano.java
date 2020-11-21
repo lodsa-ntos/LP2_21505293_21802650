@@ -1,12 +1,10 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
-import java.awt.*;
-
 public class Humano {
 
     int id;
     int idTipo;
-    int idEquipa;
+    int idEquipa = 0;
     String nome;
 
     String tipo;
@@ -42,10 +40,6 @@ public class Humano {
         return idTipo;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
     public int getXAtual() {
         return xAtual;
     }
@@ -54,17 +48,15 @@ public class Humano {
         return yAtual;
     }
 
-    public void setNrHumanos(int nrHumanos) {
+    public void contarHumanos(int nrHumanos) {
         this.nrHumanos += nrHumanos;
     }
 
-    public void setTipo(int idTipo){
-        if(idTipo == 0){
-            tipo = "Zombie";
-        } else if (idTipo == 1){
-            tipo = "Humano";
-        } else{
-            tipo = "Erro!! Tipo nao reconhecido!";
+    public String getTipo(){
+        if(this.idTipo == 0){
+            return tipo = "Zombie";
+        } else {
+            return tipo = "Humano";
         }
     }
 
@@ -74,13 +66,11 @@ public class Humano {
     }
 
     // Metodo onde <Equipa> corresponde aos nomes (p.e. “Os Vivos” ou “Os Outros”).
-    public void setEquipa(int idEquipa) {
-        if(idEquipa == 0){
-            equipa = "Os Vivos";
-        } else if (idTipo == 1){
-            equipa = "Os Outros";
-        } else{
-            equipa = "Erro!! Equipa nao reconhecida!";
+    public String getEquipa() {
+        if(this.idEquipa == 0){
+            return equipa = "Os Vivos";
+        } else {
+            return equipa = "Os Outros";
         }
     }
 

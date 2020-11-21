@@ -1,14 +1,8 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
-/*Site dropProjet*/
-// https://deisi.ulusofona.pt/drop-project/upload/lp2-2021-projecto-p1
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class TWDGameManager {
 
@@ -23,20 +17,18 @@ public class TWDGameManager {
 
     //Lista de Humanos
     ArrayList<Humano> humanos = new ArrayList<>();
-    int nrHumanos = humanos.size();
 
     //Lista de Zombies
     ArrayList<Zombie> zombies = new ArrayList<>();
-    int nrZombies = humanos.size();
 
     //Lista de Equipamento
     ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
     int linhaAtual = 0;
-    int numLinha;
-    int numColuna;
+    int numLinha = 0;
+    int numColuna = 0;
     int idEquipaAtual = 0;
-    int turnoAtual;
+    int nrTurno;
     int nC;
     int nE;
     Humano criaturaAJogar = null;
@@ -61,10 +53,9 @@ public class TWDGameManager {
 
             String linha;
 
-            // Primeira linha que indica as linhas e as colunas do mapa. Falta ler o Mapa e definir tamanho
+            // Primeira linha que indica as linhas e as colunas do mapa.
             // ler uma linha do ficheiro
             // vai quebrando a string em varias substrings a partir do espaço vazio
-            // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
             linha = leitor.nextLine();
             String[] mapa = linha.split(" ");
             numLinha = Integer.parseInt(mapa[0].trim()); // guarda na primeira posicao do array o numLinha
@@ -79,15 +70,6 @@ public class TWDGameManager {
             // ler uma linha do ficheiro
             linha = leitor.nextLine();
             nC = Integer.parseInt(linha);
-
-            // imprime o numero de linhas e de colunas
-            System.out.println(Arrays.toString(mapa).replace("[","").replace(",","").replace("]",""));
-
-            // imprime o ID da equipa que começa o jogo
-            System.out.println(idEquipaAtual);
-
-            // imprime o número de criaturas em jogo.
-            System.out.println(nC);
 
             int nLinhas = 0;
             nLinhas = nC;
@@ -116,13 +98,13 @@ public class TWDGameManager {
                     if (idTipo == 0) {
                         Zombie zombie = new Zombie(id, idTipo, nome, posX, posY);
                         zombies.add(zombie); // adiciona zombie
-                        zombie.setnrZombies(1); // incrementa se houver mais um
-                        zombie.setTipo(idTipo); // chama o tipo de criatura e diz-me se é zombie ou humano
+                        zombie.contarZombies(1); // incrementa se houver mais um
+                        zombie.getTipo(); // chama o tipo de criatura e diz-me se é zombie ou humano
                     } else if (idTipo == 1) {
                         Humano humano = new Humano(id, idTipo, nome, posX, posY);
                         humanos.add(humano); // adiciona humano
-                        humano.setNrHumanos(1); // incrementa se houver mais um
-                        humano.setTipo(idTipo); // chama o tipo de criatura e diz-me se é zombie ou humano
+                        humano.contarHumanos(1); // incrementa se houver mais um
+                        humano.getTipo(); // chama o tipo de criatura e diz-me se é zombie ou humano
                     }
 
                     linhaAtual++;
@@ -132,13 +114,6 @@ public class TWDGameManager {
                     // ler uma linha do ficheiro
                     linha = leitor.nextLine();
                     nE = Integer.parseInt(linha);
-
-                    // imprime o número de equipamentos em jogo.
-                    System.out.println(nE);
-                    // enquanto o ficheiro tiver linhas não-lidas
-
-                    int nEquipamentoslidos = 0;
-                    nEquipamentoslidos = nE;
 
                     while (leitor.hasNextLine()) {
 
@@ -186,12 +161,16 @@ public class TWDGameManager {
         int [] tamanho = new int[2];
         tamanho[0] = numLinha;
         tamanho[1] = numColuna;
-
+        System.out.println(Arrays.toString(tamanho));
         return tamanho;
     }
 
     public int getInitialTeam() {
-        return  idEquipaAtual;
+        if (nrTurno % 2 == 0) {
+            return idEquipaAtual;
+        } else {
+            return idEquipaAtual = 1;
+        }
     }
 
     public List<Humano> getHumans() {
@@ -204,65 +183,38 @@ public class TWDGameManager {
 
     public boolean move(int xO, int yO, int xD, int yD) {
 
-        Humano h1 = new Humano();
-
-        // Coordenadas de origem fora do mapa
-        if(xO < 0 && xO > numLinha){
-            valido = false;
-        }
-
-        // Coordenadas de origem fora do mapa
-        else if (yO < 0 && yO > numColuna){
-            valido = false;
-        }
-
-        // Coordenadas de destino fora do mapa
-        else if (xD < 0 && xD > numLinha){
-            valido = false;
-        }
-
-        // Coordenadas de destino fora do mapa
-        else if (yD < 0 && yD > numColuna){
-            valido = false;
-        }
-
-        if (xD - 1 != xO && xD + 1 != xO && yD - 1 != yO && yD + 1 != yO){
-            valido = false;
-        }
-
-        int nrTurno = 1;
-        if(h1.getIdTipo() == 1 && nrTurno % 2 != 0){
+        // Devolve falso se o movimento for incompativel com o tipo de movimentação ou coordenadas estão fora do tabuleiro
+        if (xO >= numLinha || yO >= numColuna || xD >= numLinha || yD >= numColuna) {
             return false;
         }
 
-        if (!valido){
-            return false;
-        }
-
-        //movimenta
-        for(Humano human: humanos){
-            if(human.xAtual== xO && human.yAtual == yO){
-                criaturaAJogar=human;
-
-                human.xAtual = xD;
-                human.yAtual = yD;
+        //percorre a lista... verifica o conjunto de humanos existenteste e pega a posicao do mapa
+        for (Humano humano : humanos) {
+            if (humano.getIdEquipa() == idEquipaAtual && humano.getXAtual() == xO && humano.getYAtual() == yO){
+                //Move uma posicao
+                humano.xAtual = xD;
+                humano.yAtual = yD;
             }
         }
 
+        if (nrTurno % 2 == 0) {
+            idEquipaAtual = 0;
+            nrTurno++;
+        } else {
+            idEquipaAtual = 1;
+            nrTurno++;
+        }
         return true;
     }
 
     public boolean gameIsOver() {
-
         return false;
     }
 
     public List<String> getAuthors() {
-
         List<String> creditos = new ArrayList<>();
         creditos.add("Lodney Santos " + "|" + " nº: " + "21505293");
         creditos.add("Jolina Guvulo " + "|" + " nº: " + "21802650");
-
         return creditos;
     }
 
@@ -273,7 +225,6 @@ public class TWDGameManager {
     public int getElementId(int x, int y) {
         for (Humano h : humanos){
             if (h.xAtual == x && h.yAtual == y){
-                System.out.println(h.getXAtual() + "," + h.getYAtual());
                 return h.getId();
             } else {
 
@@ -282,7 +233,6 @@ public class TWDGameManager {
 
         for (Zombie z : zombies){
             if (z.xAtual == x && z.yAtual == y){
-                System.out.println(z.getXAtual() + "," + z.getYAtual());
                 return z.getId();
             } else {
 
@@ -291,13 +241,11 @@ public class TWDGameManager {
 
         for (Equipamento e : equipamentos){
             if (e.xAtual == x && e.yAtual == y){
-                System.out.println(e.getXAtual() + "," + e.getYAtual());
                 return e.getiD();
             } else {
 
             }
         }
-
         return 0;
     }
 
@@ -306,8 +254,7 @@ public class TWDGameManager {
         List<String> resultados = new ArrayList<>();
 
         resultados.add("Nr. de turnos terminados: ");
-        int nrTurnos = 1;
-        resultados.add("Turnos: " + nrTurnos + "\n");
+        resultados.add("Turnos: " + nrTurno + "\n");
 
         Humano quantHumanos = new Humano();
         resultados.add("\n");
@@ -323,7 +270,7 @@ public class TWDGameManager {
     }
 
     public boolean isDay() {
-        return true;
+        return nrTurno == 2;
     }
 
     public boolean hasEquipment(int creatureId, int equipmentTypeId) {

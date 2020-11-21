@@ -1,19 +1,15 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
-import javax.swing.*;
-import java.io.IOException;
-
-import static java.lang.Thread.sleep;
-
 public class Zombie {
 
     int id;
     int idTipo;
-    int idEquipa;
+    int idEquipa = 1;
     String nome;
 
     String tipo;
     String equipa;
+    int turnos;
 
     int xAtual;
     int yAtual;
@@ -42,10 +38,6 @@ public class Zombie {
         return nome;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
     public int getXAtual() {
         return xAtual;
     }
@@ -54,35 +46,35 @@ public class Zombie {
         return yAtual;
     }
 
-    public void setnrZombies (int nrZombies) {
+    public void contarZombies (int nrZombies) {
         this.nrZombies += nrZombies;
     }
 
     // Metodo onde <Tipo> corresponde aos nomes (p.e. “Humano” ou “Zombie”).
-    public void setTipo(int idTipo){
-        if(idTipo == 0){
-            tipo = "Zombie";
-        } else if (idTipo == 1){
-            tipo = "Humano";
-        } else{
-            tipo = "Erro!! Tipo nao reconhecido!";
+    public String getTipo(){
+        if(this.idTipo == 0){
+            return tipo = "Zombie";
+        } else {
+            return tipo = "Humano";
         }
     }
 
     // Devolve o id da Equipa da criatura.
     public int getIdEquipa() {
-        return idEquipa;
+        return this.idEquipa;
     }
 
     // Metodo onde <Equipa> corresponde aos nomes (p.e. “Os Vivos” ou “Os Outros”).
-    public void setEquipa(int idEquipa) {
-        if(idEquipa == 0){
-            equipa = "Os Vivos";
-        } else if (idTipo == 1){
-            equipa = "Os Outros";
-        } else{
-            equipa = "Erro!! Equipa nao reconhecida!";
+    public String getEquipa() {
+        if(this.idEquipa == 0){
+            return equipa = "Os Vivos";
+        } else {
+            return equipa = "Os Outros";
         }
+    }
+
+    public int getNrTurnos() {
+        return turnos;
     }
 
     // Metodo que devolve o nome do ficheiro de imagem (formato PNG) que representa a criatura.

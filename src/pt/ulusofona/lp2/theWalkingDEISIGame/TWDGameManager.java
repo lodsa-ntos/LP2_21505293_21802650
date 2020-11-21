@@ -2,6 +2,7 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class TWDGameManager {
@@ -144,6 +145,7 @@ public class TWDGameManager {
                             equipamentos.add(eq1); // adiciona equipamento
                             eq1.setNrEquipamentos(1); // incrementa se houver mais um
                             eq1.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                            System.out.println(equipamentos);
                         }
                     }
                 }// else
@@ -174,6 +176,11 @@ public class TWDGameManager {
     }
 
     public List<Humano> getHumans() {
+        for(Humano humano: humanos){
+            if (humano.idTipo != 1) {
+                return null;
+            }
+        }
         return humanos;
     }
 
@@ -183,18 +190,44 @@ public class TWDGameManager {
 
     public boolean move(int xO, int yO, int xD, int yD) {
 
-        // Devolve falso se o movimento for incompativel com o tipo de movimentação ou coordenadas estão fora do tabuleiro
-        if (xO >= numLinha || yO >= numColuna || xD >= numLinha || yD >= numColuna) {
-            return false;
+        // Devolve falso se o movimento for incompativel com o tipo de movimentação ou coordenadas estão fora do Mapa
+        //if (xO < 0|| xO > numLinha || yO < 0 || yO > numColuna) {
+           // return false;
+      //  }
+        //VALIDAÇÕES PARA COORDENADAS DE ORIGEM FORA DO TABULEIRO
+        if (xO < 0 && xO > numLinha){
+            valido = false; // estão fora do tabuleiro
+        }
+
+        else if (yO < 0 && yO > numColuna){
+            valido = false; // estão fora do tabuleiro
+        }
+
+        // VALIDAÇÕES PARA COORDENADAS DE DESTINO FORA DO TABULEIRO
+        else if (xD < 0 && xD > numLinha){
+            valido = false; //sai fora do tabuleiro
+        }
+
+        else if (yD < 0 && yD > numColuna){
+            valido = false; // sai fora do tabuleiro
+        }
+
+        else if (xD - 1 != xO && xD + 1 != xO && yD - 1 != yO && yD + 1 != yO){
+            valido = false;
+        }
+
+        if (!valido){
+           return false;
         }
 
         //percorre a lista... verifica o conjunto de humanos existenteste e pega a posicao do mapa
         for (Humano humano : humanos) {
-            if (humano.getIdEquipa() == idEquipaAtual && humano.getXAtual() == xO && humano.getYAtual() == yO){
+            if (humano.xAtual==xO && humano.yAtual == yO ){
                 //Move uma posicao
                 humano.xAtual = xD;
                 humano.yAtual = yD;
             }
+
         }
 
         if (nrTurno % 2 == 0) {
@@ -270,10 +303,10 @@ public class TWDGameManager {
     }
 
     public boolean isDay() {
-        return nrTurno == 2;
+        return nrTurno != 2;
     }
 
     public boolean hasEquipment(int creatureId, int equipmentTypeId) {
-        return true;
+        return false;
     }
 }

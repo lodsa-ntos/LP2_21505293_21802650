@@ -1,11 +1,14 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
+import java.util.ArrayList;
+
 public class Zombie {
 
     int id;
     int idTipo;
     int idEquipa = 1;
     String nome;
+    ArrayList<Equipamento> destruidos;
 
     String tipo;
     String equipa;
@@ -85,6 +88,10 @@ public class Zombie {
 
     @Override
     public String toString() {
-        return id + " | " + tipo + " | " + equipa + " | " + nome + " | (" + xAtual + " , " + yAtual + ") " ;
+        if (destruidos != null){
+            return "Criatura: " + id + " | " + tipo + " | " + equipa + " | " + nome + " " + destruidos + " @ (" + xAtual + " , " + yAtual + ") ";
+        } else {
+            return "Criatura: " + id + " | " + tipo + " | " + equipa + " | " + nome + " sem equipamento destruido " + "@ (" + xAtual + " , " + yAtual + ") ";
+        }
     }
 }

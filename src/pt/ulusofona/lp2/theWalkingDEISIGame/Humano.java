@@ -1,5 +1,7 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
+import java.util.ArrayList;
+
 public class Humano {
 
     int id;
@@ -16,6 +18,7 @@ public class Humano {
     int yAnterior;
 
     int nrHumanos = 0;
+    ArrayList<Equipamento> equipamentos;
 
     public Humano() {
     }
@@ -85,6 +88,10 @@ public class Humano {
 
     @Override
     public String toString() {
-        return id + " | " + tipo + " | " + equipa + " | " + nome + " | (" + xAtual + " , " + yAtual + ") " ;
+        if (equipamentos != null){
+            return "Criatura: " + id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos + " @ (" + xAtual + " , " + yAtual + ") ";
+        } else {
+            return "Criatura: " + id + " | " + tipo + " | " + equipa + " | " + nome + " sem equipamento " + " @ (" + xAtual + " , " + yAtual + ") ";
+        }
     }
 }

@@ -2,7 +2,6 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class TWDGameManager {
@@ -17,7 +16,7 @@ public class TWDGameManager {
     ------------------------------------------------------------------------------------------*/
 
     //Lista de Humanos
-    ArrayList<Humano> humanos = new ArrayList<>();
+    static ArrayList<Humano> humanos = new ArrayList<>();
 
     //Lista de Zombies
     ArrayList<Zombie> zombies = new ArrayList<>();
@@ -26,8 +25,8 @@ public class TWDGameManager {
     ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
     int linhaAtual = 0;
-    int numLinha = 0;
-    int numColuna = 0;
+    static int numLinha = 0;
+    static int numColuna = 0;
     int idEquipaAtual = 0;
     int nrTurno;
     int nC;
@@ -45,12 +44,12 @@ public class TWDGameManager {
 
         try {
 
-            String nomeFicheiro = "mapa.txt";
-            File ficheiroDados = new File(nomeFicheiro);
+            //String nomeFicheiro = "mapa.txt";
+            //File ficheiroDados = new File(nomeFicheiro);
 
             Scanner leitor;
 
-            leitor = new Scanner(ficheiroDados);
+            leitor = new Scanner(ficheiroInicial);
 
             String linha;
 
@@ -84,8 +83,8 @@ public class TWDGameManager {
                     // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
                     String[] dados = linha.split(":");
 
-                    // Imprime as criaturas
-                    System.out.println(linha);
+                    // Imprime as linhas com criaturas
+                    // System.out.println(linha);
 
                     // Converte as Strings lidas para os tipos esperados
                     // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
@@ -101,11 +100,15 @@ public class TWDGameManager {
                         zombies.add(zombie); // adiciona zombie
                         zombie.contarZombies(1); // incrementa se houver mais um
                         zombie.getTipo(); // chama o tipo de criatura e diz-me se é zombie ou humano
+                        zombie.getEquipa();
+                        System.out.println(zombie.toString());
                     } else if (idTipo == 1) {
                         Humano humano = new Humano(id, idTipo, nome, posX, posY);
                         humanos.add(humano); // adiciona humano
                         humano.contarHumanos(1); // incrementa se houver mais um
                         humano.getTipo(); // chama o tipo de criatura e diz-me se é zombie ou humano
+                        humano.getEquipa();
+                        System.out.println(humano.toString());
                     }
 
                     linhaAtual++;
@@ -124,8 +127,8 @@ public class TWDGameManager {
                         // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
                         String[] novaFila = linha.split(":");
 
-                        // Imprime os equipamentos
-                        System.out.println(linha);
+                        // Imprime linhas com os equipamentos
+                        // System.out.println(linha);
 
                         // Converte as Strings lidas para os tipos esperados
                         // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
@@ -135,17 +138,12 @@ public class TWDGameManager {
                         int posY = Integer.parseInt(novaFila[3].trim());
 
                         //Verificar se o idTipo é Escudo ou Espada e adiciona na respetiva lista
-                        if (idTipo == 0) {
+                        if (idTipo == 0 || idTipo == 1) {
                             Equipamento eq = new Equipamento(id, idTipo, posX, posY);
                             equipamentos.add(eq); // adiciona equipamento
                             eq.setNrEquipamentos(1); // incrementa se houver mais um
                             eq.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
-                        } else if (idTipo == 1) {
-                            Equipamento eq1 = new Equipamento(id, idTipo, posX, posY);
-                            equipamentos.add(eq1); // adiciona equipamento
-                            eq1.setNrEquipamentos(1); // incrementa se houver mais um
-                            eq1.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
-                            System.out.println(equipamentos);
+                            System.out.println(eq.toString());
                         }
                     }
                 }// else
@@ -163,7 +161,6 @@ public class TWDGameManager {
         int [] tamanho = new int[2];
         tamanho[0] = numLinha;
         tamanho[1] = numColuna;
-        System.out.println(Arrays.toString(tamanho));
         return tamanho;
     }
 
@@ -176,11 +173,6 @@ public class TWDGameManager {
     }
 
     public List<Humano> getHumans() {
-        for(Humano humano: humanos){
-            if (humano.idTipo != 1) {
-                return null;
-            }
-        }
         return humanos;
     }
 
@@ -232,11 +224,10 @@ public class TWDGameManager {
 
         if (nrTurno % 2 == 0) {
             idEquipaAtual = 0;
-            nrTurno++;
         } else {
             idEquipaAtual = 1;
-            nrTurno++;
         }
+        nrTurno++;
         return true;
     }
 
@@ -274,6 +265,7 @@ public class TWDGameManager {
 
         for (Equipamento e : equipamentos){
             if (e.xAtual == x && e.yAtual == y){
+                System.out.println(e.getXAtual() + "," + e.getYAtual());
                 return e.getiD();
             } else {
 

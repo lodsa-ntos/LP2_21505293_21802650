@@ -71,7 +71,7 @@ public class TWDGameManager {
             linha = leitor.nextLine();
             nC = Integer.parseInt(linha);
 
-            int nLinhas = 0;
+            int nLinhas;
             nLinhas = nC;
 
             // enquanto o ficheiro tiver linhas não-lidas

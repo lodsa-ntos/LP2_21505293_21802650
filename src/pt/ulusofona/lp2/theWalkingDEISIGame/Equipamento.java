@@ -28,10 +28,6 @@ public class Equipamento {
         return id;
     }
 
-    public int getIdTipo() {
-        return idTipo;
-    }
-
     public int getXAtual() {
         return xAtual;
     }

@@ -11,7 +11,7 @@ public class TestZombie {
     @Test
     public void test01GetImagePNG() {
         Zombie zombie = new Zombie();
-        String imageEsperada = "hum.png";
+        String imageEsperada = "zomb.png";
         String imageObtida = zombie.getImagePNG();
         assertEquals (imageEsperada, imageObtida);
 
@@ -19,9 +19,18 @@ public class TestZombie {
 
     @Test
     public void test02GetIdEquipa() {
-        Zombie zombie = new Zombie(2, 1, "Freddy M.", 3, 4);
-        int idEsperado = 2;
+        Zombie zombie = new Zombie(3, 0, "Paciente Zero", 4, 4);
+        int idEsperado = 3;
         int idObtido = zombie.getId();
+        assertEquals(idEsperado, idObtido);
+    }
+
+    @Test
+    public void test03GetIdTipo() {
+        Zombie zombie = new Zombie();
+        zombie.setTipo(0);
+        String idEsperado = "Zombie";
+        String idObtido = zombie.getTipo();
         assertEquals(idEsperado, idObtido);
     }
 }

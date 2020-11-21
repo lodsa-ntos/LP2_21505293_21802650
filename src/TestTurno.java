@@ -9,19 +9,11 @@ public class TestTurno {
     }
 
     @Test
-    public void test01GetImagePNG() {
-        Zombie zombie = new Zombie(2, 1, "Freddy M.", 3, 4);
-        int idEsperado = 2;
-        int idObtido = zombie.getId();
+    public void test01TurnoJogar() {
+        Zombie zombie = new Zombie();
+        int idEsperado = 0;
+        int idObtido = zombie.getXAtual();
         assertEquals(idEsperado, idObtido);
 
-    }
-
-    @Test
-    public void test02GetIdEquipa() {
-        Humano humano = new Humano(2, 1, "Freddy M.", 3, 4);
-        int idEsperado = 2;
-        int idObtido = humano.getId();
-        assertEquals(idEsperado, idObtido);
     }
 }

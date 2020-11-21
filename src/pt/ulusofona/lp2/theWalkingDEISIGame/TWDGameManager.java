@@ -33,8 +33,8 @@ public class TWDGameManager {
     ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
     int linhaAtual = 0;
-    int numLinha = 0;
-    int numColuna = 0;
+    int numLinha;
+    int numColuna;
     int idEquipaAtual = 0;
     int turnoAtual;
     int nC;
@@ -183,12 +183,11 @@ public class TWDGameManager {
     }
 
     public int[] getWorldSize() {
-        // FALTA MELHORAR
-        int [] tam = new int[2];
-        tam[0] = numLinha;
-        tam[1] = numColuna;
+        int [] tamanho = new int[2];
+        tamanho[0] = numLinha;
+        tamanho[1] = numColuna;
 
-        return tam;
+        return tamanho;
     }
 
     public int getInitialTeam() {
@@ -248,21 +247,6 @@ public class TWDGameManager {
                 human.xAtual = xD;
                 human.yAtual = yD;
             }
-        }
-
-        for(Zombie zomb: zombies){
-            if(zomb.xAtual== xO && zomb.yAtual == yO){
-                criaturaAJogar2 = zomb;
-
-                zomb.xAtual = xD;
-                zomb.yAtual = yD;
-            }
-        }
-
-        if(nrTurno % 2 == 0){
-            idEquipaAtual = 0;
-        } else {
-            idEquipaAtual = 1;
         }
 
         return true;

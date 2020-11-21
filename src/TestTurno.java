@@ -1,19 +1,19 @@
 import org.junit.Test;
 import pt.ulusofona.lp2.theWalkingDEISIGame.Humano;
+import pt.ulusofona.lp2.theWalkingDEISIGame.Zombie;
 
 import static org.junit.Assert.assertEquals;
 
-public class TestHumano {
-
-    public TestHumano() {
+public class TestTurno {
+    public TestTurno() {
     }
 
     @Test
     public void test01GetImagePNG() {
-        Humano humano = new Humano();
-        String imageEsperada = "hum.png";
-        String imageObtida = humano.getImagePNG();
-        assertEquals (imageEsperada, imageObtida);
+        Zombie zombie = new Zombie(2, 1, "Freddy M.", 3, 4);
+        int idEsperado = 2;
+        int idObtido = zombie.getId();
+        assertEquals(idEsperado, idObtido);
 
     }
 

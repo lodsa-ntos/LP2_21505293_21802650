@@ -14,6 +14,9 @@ public class Equipamento {
     int nrEquipamentos = 0;
     String erro;
 
+    public Equipamento() {
+    }
+
     public Equipamento(int id, int idTipo, int xAtual, int yAtual) {
         this.id = id;
         this.idTipo = idTipo;
@@ -23,6 +26,10 @@ public class Equipamento {
 
     public int getiD() {
         return id;
+    }
+
+    public int getIdTipo() {
+        return idTipo;
     }
 
     public int getXAtual() {
@@ -58,7 +65,7 @@ public class Equipamento {
     }
 
     public String getImagePNG() {
-        return null;
+        return new String("equipment.png");
     }
 
     @Override

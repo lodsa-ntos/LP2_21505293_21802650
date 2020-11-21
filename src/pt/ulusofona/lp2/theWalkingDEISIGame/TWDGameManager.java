@@ -1,7 +1,5 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
-import org.omg.CORBA.DynAnyPackage.Invalid;
-
 /*Site dropProjet*/
 // https://deisi.ulusofona.pt/drop-project/upload/lp2-2021-projecto-p1
 
@@ -41,6 +39,8 @@ public class TWDGameManager {
     int turnoAtual;
     int nC;
     int nE;
+    Humano criaturaAJogar = null;
+    Zombie criaturaAJogar2 = null;
 
     boolean valido = true;
 
@@ -176,7 +176,6 @@ public class TWDGameManager {
 
             leitor.close();
 
-
         } catch (FileNotFoundException exception) {
             System.out.println("Erro no " + exception.getMessage());
         }
@@ -206,47 +205,64 @@ public class TWDGameManager {
 
     public boolean move(int xO, int yO, int xD, int yD) {
 
-        if (xD - 1 != xO && xD + 1 != xO && yD - 1 != yO && yD +1 != yO){
+        Humano h1 = new Humano();
+
+        // Coordenadas de origem fora do mapa
+        if(xO < 0 && xO > numLinha){
             valido = false;
+        }
+
+        // Coordenadas de origem fora do mapa
+        else if (yO < 0 && yO > numColuna){
+            valido = false;
+        }
+
+        // Coordenadas de destino fora do mapa
+        else if (xD < 0 && xD > numLinha){
+            valido = false;
+        }
+
+        // Coordenadas de destino fora do mapa
+        else if (yD < 0 && yD > numColuna){
+            valido = false;
+        }
+
+        if (xD - 1 != xO && xD + 1 != xO && yD - 1 != yO && yD + 1 != yO){
+            valido = false;
+        }
+
+        int nrTurno = 1;
+        if(h1.getIdTipo() == 1 && nrTurno % 2 != 0){
+            return false;
         }
 
         if (!valido){
             return false;
         }
 
-        // percorre a listahumanos... verifica e pega a posicao da criatura no mapa
-        for (Humano h : humanos){
-            if (h.xAtual == xO && h.yAtual == yO){
-                //volta a posicao anterior
-                h.xAnterior = h.xAtual;
-                h.yAnterior = h.yAtual;
+        //movimenta
+        for(Humano human: humanos){
+            if(human.xAtual== xO && human.yAtual == yO){
+                criaturaAJogar=human;
 
-                //move uma posicao
-                h.xAtual = xD;
-                h.yAtual = yD;
+                human.xAtual = xD;
+                human.yAtual = yD;
             }
         }
 
-        // percorre a lista zombies... verifica e pega a posicao da criatura no mapa
-        for (Zombie z : zombies){
-            if (z.xAtual == xO && z.yAtual == yO){
-                //volta a posicao anterior
-                z.xAnterior = z.xAtual;
-                z.yAnterior = z.yAtual;
+        for(Zombie zomb: zombies){
+            if(zomb.xAtual== xO && zomb.yAtual == yO){
+                criaturaAJogar2 = zomb;
 
-                //move uma posicao
-                z.xAtual = xD;
-                z.yAtual = yD;
-
+                zomb.xAtual = xD;
+                zomb.yAtual = yD;
             }
         }
 
-        //Processa Turnos
-
-        if (idEquipaAtual == 0) {
-            idEquipaAtual = 1;
-        } else {
+        if(nrTurno % 2 == 0){
             idEquipaAtual = 0;
+        } else {
+            idEquipaAtual = 1;
         }
 
         return true;
@@ -289,13 +305,14 @@ public class TWDGameManager {
             }
         }
 
-        /*for (Equipamento e : equipamentos){
+        for (Equipamento e : equipamentos){
             if (e.xAtual == x && e.yAtual == y){
                 System.out.println(e.getXAtual() + "," + e.getYAtual());
                 return e.getiD();
             } else {
+
             }
-        } */
+        }
 
         return 0;
     }
@@ -304,19 +321,28 @@ public class TWDGameManager {
 
         List<String> resultados = new ArrayList<>();
 
-        // (...)
+        resultados.add("Nr. de turnos terminados: ");
+        int nrTurnos = 1;
+        resultados.add("Turnos: " + nrTurnos + "\n");
+
+        Humano quantHumanos = new Humano();
+        resultados.add("\n");
+        resultados.add("OS VIVOS");
+        resultados.add(quantHumanos.getId() + " | " + quantHumanos.getNome());
+
+        Zombie quantidadeZ = new Zombie();
+        resultados.add("\n");
+        resultados.add(" OS OUTROS ");
+        resultados.add(quantidadeZ.getId() + " | " + quantidadeZ.getNome()+"");
 
         return resultados;
     }
 
     public boolean isDay() {
-
-
         return true;
     }
 
     public boolean hasEquipment(int creatureId, int equipmentTypeId) {
-
-        return false;
+        return true;
     }
 }

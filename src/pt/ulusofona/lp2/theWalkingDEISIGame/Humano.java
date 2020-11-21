@@ -38,6 +38,10 @@ public class Humano {
         return nome;
     }
 
+    public int getIdTipo() {
+        return idTipo;
+    }
+
     public String getTipo() {
         return tipo;
     }

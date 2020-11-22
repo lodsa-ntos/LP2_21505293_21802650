@@ -28,6 +28,10 @@ public class Equipamento {
         return id;
     }
 
+    public int getIdTipo() {
+        return idTipo;
+    }
+
     public int getXAtual() {
         return xAtual;
     }
@@ -51,21 +55,13 @@ public class Equipamento {
     public void setIdTipo(int idTipo) {
         if(idTipo == 0){
             titulo = "Escudo de madeira";
-            descricao = "Permite obter proteção contra 1 ataque de zombies.";
         } else if (idTipo == 1){
             titulo = "Espada samurai";
-            descricao = "Serve para decapitar e/ou desmembrar zombies.";
-        } else{
-            erro = "Erro!! Tipo nao reconhecido!";
         }
-    }
-
-    public String getImagePNG() {
-        return new String("equipment.png");
     }
 
     @Override
     public String toString() {
-        return "Equipamento: " + id + " | " + titulo + " @ (" + xAtual + "," + yAtual + ") ";
+        return id + " | " + titulo + " @ (" + xAtual + ", " + yAtual + ") ";
     }
 }

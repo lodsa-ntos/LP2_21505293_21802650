@@ -221,7 +221,9 @@ public class TWDGameManager {
             valido = false; // sai fora do mapa
         }
 
-        else if (xD - 1 != xO && xD + 1 != xO && yD - 1 != yO && yD + 1 != yO){
+        // xD - 1 != xO && xD + 1 != xO && yD - 1 != yO && yD + 1 != yO
+        // verifica horizontalmente, verticalmente e diagonalmente
+        else if ( Math.abs(xD - xO) >= 2 || Math.abs(yD - yO) >= 2){
             valido = false;
         }
 
@@ -231,10 +233,16 @@ public class TWDGameManager {
 
         //percorre a lista... verifica o conjunto de humanos existentes e pega a posicao do mapa
         for (Humano humano : humanos) {
-            if (humano.xAtual==xO && humano.yAtual == yO ){
-                //Move uma posicao
-                humano.xAtual = xD;
-                humano.yAtual = yD;
+            if (humano.xAtual==xO && humano.yAtual == yO ) {
+                for (Equipamento eq: equipamentos){
+                    if (eq.xAtual == xD && eq.yAtual == yD){
+                        //Move uma posicao
+                        humano.xAtual = xD;
+                        humano.yAtual = yD;
+                        humano.equipamentos.add(eq);
+                        nrTurno++;
+                    }
+                }
             }
 
         }
@@ -244,7 +252,6 @@ public class TWDGameManager {
         } else {
             idEquipaAtual = 1;
         }
-        nrTurno++;
         return true;
     }
 
@@ -264,30 +271,27 @@ public class TWDGameManager {
     }
 
     public int getElementId(int x, int y) {
+        System.out.println("X: "+ x + "\nY: " + y);
         for (Humano h : humanos){
-            if (h.xAtual == x && h.yAtual == y){
+            if (h.xAtual == x && h.yAtual == y) {
                 return h.getId();
-            } else {
-
             }
         }
 
         for (Zombie z : zombies){
-            if (z.xAtual == x && z.yAtual == y){
+            if (z.xAtual == x && z.yAtual == y) {
                 return z.getId();
-            } else {
-
             }
         }
 
         for (Equipamento e : equipamentos){
+            System.out.println("E.X: "+e.xAtual + "\nE.Y: "+e.yAtual);
             if (e.xAtual == x && e.yAtual == y){
-                System.out.println(e.getXAtual() + "," + e.getYAtual());
+                System.out.println("entrou");
                 return e.getiD();
-            } else {
-
             }
         }
+
         return 0;
     }
 
@@ -320,18 +324,7 @@ public class TWDGameManager {
         // verifica se o humano tem o equipamento
         for (Humano humano: humanos) {
             if (humano.getId() == creatureId) {
-                for (Equipamento equipamento: humano.equipamentos) {
-                    if (equipamento.idTipo == equipmentTypeId) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        // verifica se o zombie tem o equipamento
-        for (Zombie zombie: zombies) {
-            if (zombie.getId() == creatureId) {
-                for (Equipamento equipamento: zombie.destruidos) {
+                for (Equipamento equipamento : humano.equipamentos) {
                     if (equipamento.idTipo == equipmentTypeId) {
                         return true;
                     }

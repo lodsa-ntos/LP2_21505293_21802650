@@ -89,9 +89,9 @@ public class Zombie {
     @Override
     public String toString() {
         if (destruidos != null){
-            return "Criatura: " + id + " | " + tipo + " | " + equipa + " | " + nome + " " + destruidos.size() + " @ (" + xAtual + "," + yAtual + ") ";
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + destruidos.size() + " @ (" + xAtual + ", " + yAtual + ")";
         } else {
-            return "Criatura: " + id + " | " + tipo + " | " + equipa + " | " + nome + "@ (" + xAtual + "," + yAtual + ") ";
+            return id + " | " + tipo + " | " + equipa + " | " + nome + "@ (" + xAtual + ", " + yAtual + ")";
         }
     }
 }

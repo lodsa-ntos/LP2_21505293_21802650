@@ -57,7 +57,12 @@ public class TWDGameManager {
             // ler uma linha do ficheiro
             // vai quebrando a string em varias substrings a partir do espaço vazio
             linha = leitor.nextLine();
+
             String[] mapa = linha.split(" ");
+            // verifica se o ficheiro cumpre com as regras
+            if(mapa.length > 2) {
+                return false;
+            }
             numLinha = Integer.parseInt(mapa[0].trim()); // guarda na primeira posicao do array o numLinha
             numColuna = Integer.parseInt(mapa[1].trim()); // guarda na primeira posicao do array o numColuna
 
@@ -76,7 +81,8 @@ public class TWDGameManager {
 
             // enquanto o ficheiro tiver linhas não-lidas
             while (leitor.hasNextLine()) {
-                if (linhaAtual != nLinhas) {
+                // linhaAtual != nLinhas
+                if (linhaAtual < nLinhas) {
                     // lê uma linha do ficheiro até achar uma quebra de linha
                     linha = leitor.nextLine();
 
@@ -113,7 +119,7 @@ public class TWDGameManager {
 
                     linhaAtual++;
 
-                } else if (linhaAtual < linha.length()) {
+                } else if (linhaAtual == nLinhas) { // verifica se as primeiras linhas ja foram lidas
                     // Setima linha que indica o número de equipamentos em jogo.
                     // ler uma linha do ficheiro
                     linha = leitor.nextLine();
@@ -153,6 +159,7 @@ public class TWDGameManager {
 
         } catch (FileNotFoundException exception) {
             System.out.println("Erro no " + exception.getMessage());
+            return false;
         }
         return true;
     }

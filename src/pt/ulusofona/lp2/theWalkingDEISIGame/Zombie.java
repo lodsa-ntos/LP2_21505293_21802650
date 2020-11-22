@@ -8,7 +8,7 @@ public class Zombie {
     int idTipo;
     int idEquipa = 1;
     String nome;
-    ArrayList<Equipamento> destruidos;
+    ArrayList<Equipamento> destruidos = new ArrayList<>();
 
     String tipo;
     String equipa;
@@ -84,7 +84,6 @@ public class Zombie {
     public String getImagePNG() {
         return new String("zomb.png");
     }
-
 
     @Override
     public String toString() {

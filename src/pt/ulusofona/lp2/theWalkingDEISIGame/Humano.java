@@ -18,7 +18,7 @@ public class Humano {
     int yAnterior;
 
     int nrHumanos = 0;
-    ArrayList<Equipamento> equipamentos;
+    ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
     public Humano() {
     }

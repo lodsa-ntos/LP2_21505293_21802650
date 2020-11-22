@@ -44,6 +44,8 @@ public class TWDGameManager {
 
         humanos = new ArrayList<>();
         zombies = new ArrayList<>();
+        numLinha = 0;
+        numColuna = 0;
 
         try {
 
@@ -309,6 +311,30 @@ public class TWDGameManager {
     }
 
     public boolean hasEquipment(int creatureId, int equipmentTypeId) {
+
+        // verifica se o humano tem o equipamento
+        for (Humano humano: humanos) {
+            if (humano.getId() == creatureId) {
+                for (Equipamento equipamento: humano.equipamentos) {
+                    if (equipamento.idTipo == equipmentTypeId) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        // verifica se o zombie tem o equipamento
+        for (Zombie zombie: zombies) {
+            if (zombie.getId() == creatureId) {
+                for (Equipamento equipamento: zombie.destruidos) {
+                    if (equipamento.idTipo == equipmentTypeId) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        // se nenhum tiver retorna falso
         return false;
     }
 }

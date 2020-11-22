@@ -239,7 +239,14 @@ public class TWDGameManager {
                         //Move uma posicao
                         humano.xAtual = xD;
                         humano.yAtual = yD;
-                        humano.equipamentos.add(eq);
+                        if (humano.equipamentos.size() == 0){
+                            humano.equipamentos.add(eq);
+                            eq.xAnterior = xD;
+                            eq.yAnterior = yD;
+                        } else {
+                            eq.xAtual = eq.xAnterior;
+                            eq.yAtual = eq.yAnterior;
+                        }
                         nrTurno++;
                     }
                 }

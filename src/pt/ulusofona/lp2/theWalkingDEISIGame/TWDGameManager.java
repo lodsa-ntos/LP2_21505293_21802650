@@ -16,10 +16,10 @@ public class TWDGameManager {
     ------------------------------------------------------------------------------------------*/
 
     //Lista de Humanos
-    ArrayList<Humano> humanos = new ArrayList<>();
+    static ArrayList<Humano> humanos = new ArrayList<>();
 
     //Lista de Zombies
-    ArrayList<Zombie> zombies = new ArrayList<>();
+    static ArrayList<Zombie> zombies = new ArrayList<>();
 
     //Lista de Equipamento
     ArrayList<Equipamento> equipamentos = new ArrayList<>();
@@ -41,6 +41,9 @@ public class TWDGameManager {
 
     //Esta função faz a leitura do ficheiro de texto e carrega para a memória a informação relevante.
     public boolean startGame(File ficheiroInicial) {
+
+        humanos = new ArrayList<>();
+        zombies = new ArrayList<>();
 
         try {
 

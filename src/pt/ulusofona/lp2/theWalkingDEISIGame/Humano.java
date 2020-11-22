@@ -89,9 +89,9 @@ public class Humano {
     @Override
     public String toString() {
         if (equipamentos != null){
-            return "Criatura: " + id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos + " @ (" + xAtual + " , " + yAtual + ") ";
+            return "Criatura: " + id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos + " @ (" + xAtual + "," + yAtual + ") ";
         } else {
-            return "Criatura: " + id + " | " + tipo + " | " + equipa + " | " + nome + " sem equipamento " + " @ (" + xAtual + " , " + yAtual + ") ";
+            return "Criatura: " + id + " | " + tipo + " | " + equipa + " | " + nome + " sem equipamento " + " @ (" + xAtual + "," + yAtual + ") ";
         }
     }
 }

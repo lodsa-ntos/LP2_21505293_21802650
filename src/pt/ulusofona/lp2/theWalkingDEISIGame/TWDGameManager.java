@@ -334,7 +334,7 @@ public class TWDGameManager {
             }
         }
 
-        // se nenhum tiver retorna falso
+        ////se nenhum tiver retorna falso
         return false;
     }
 }

@@ -89,7 +89,7 @@ public class Humano {
     @Override
     public String toString() {
         if (equipamentos != null){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos + " @ (" + xAtual + ", " + yAtual + ")";
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos.size() + " @ (" + xAtual + ", " + yAtual + ")";
         } else {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " sem equipamento " + " @ (" + xAtual + ", " + yAtual + ")";
         }

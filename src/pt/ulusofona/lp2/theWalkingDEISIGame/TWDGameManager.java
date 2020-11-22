@@ -203,22 +203,13 @@ public class TWDGameManager {
         //if (xO < 0|| xO > numLinha || yO < 0 || yO > numColuna) {
            // return false;
       //  }
-        //VALIDAÇÕES PARA COORDENADAS DE ORIGEM FORA DO MAPA
-        if (xO < 0 && xO > numLinha){
+        //VALIDAÇÕES PARA COORDENADAS DE DESTINO FORA DO MAPA
+        if (xD < 0 || xD > numLinha){
             valido = false; // estão fora do mapa
         }
 
-        else if (yO < 0 && yO > numColuna){
+        else if (yD < 0 || yD > numColuna){
             valido = false; // estão fora do mapa
-        }
-
-        // VALIDAÇÕES PARA COORDENADAS DE DESTINO FORA DO MAPA
-        else if (xD < 0 && xD > numLinha){
-            valido = false; //sai fora do mapa
-        }
-
-        else if (yD < 0 && yD > numColuna){
-            valido = false; // sai fora do mapa
         }
 
         // xD - 1 != xO && xD + 1 != xO && yD - 1 != yO && yD + 1 != yO
@@ -239,13 +230,21 @@ public class TWDGameManager {
                         //Move uma posicao
                         humano.xAtual = xD;
                         humano.yAtual = yD;
+                        // verificar se o humano tem equipamentos
                         if (humano.equipamentos.size() == 0){
                             humano.equipamentos.add(eq);
+                            // guarda como referencia a posicao original
                             eq.xAnterior = xD;
                             eq.yAnterior = yD;
                         } else {
-                            eq.xAtual = eq.xAnterior;
-                            eq.yAtual = eq.yAnterior;
+                            // guardamos o equipamento existente na lista de equipamentos
+                            Equipamento eqAntigo = humano.equipamentos.get(0);
+                            // removemos esse equipamento e devolvemos na posicao original
+                            humano.equipamentos.remove(0);
+                            eqAntigo.xAtual = eqAntigo.xAnterior;
+                            eqAntigo.yAtual = eqAntigo.yAnterior;
+                            // depois de removido adiciona o novo
+                            humano.equipamentos.add(eq);
                         }
                         nrTurno++;
                     }

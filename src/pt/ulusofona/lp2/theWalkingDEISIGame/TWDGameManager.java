@@ -7,12 +7,18 @@ import java.util.*;
 public class TWDGameManager {
 
     /*-----------------------------------------------------------------------------------------
+    Listas:
+        - humanos > representa a quantidade de humanos existentes no mapa
+        - zombies > representa a quantidade de zombies existentes no mapa
+        - equipamentos > representa a quantidade de equipamentos existentes no mapa
+
     linhaAtual - Indica o inicio da linha do ficheiro a comecar a ser lida
     (numLinha/numColuna) - Correspondem ao número de linhas e ao número de colunas do mapa
     idEquipaAtual - Indica qual é o ID da equipa que começa o jogo
     nC - Indica o número de criaturas em jogo.
     nE - Indica o número de equipamentos em jogo.
-    nrHumanosLidos - Indica o numero de humanos que irao ser lidos no mapa
+    nrTurno - Indica os turnos de jogadas do jogo e alteracao do dia para a noite
+    valido - Indica os movimentos validos das criaturas no jogo
     ------------------------------------------------------------------------------------------*/
 
     //Lista de Humanos
@@ -31,8 +37,6 @@ public class TWDGameManager {
     int nrTurno;
     int nC;
     int nE;
-    Humano criaturaAJogar = null;
-    Zombie criaturaAJogar2 = null;
 
     boolean valido = true;
 
@@ -60,16 +64,17 @@ public class TWDGameManager {
 
             // Primeira linha que indica as linhas e as colunas do mapa.
             // ler uma linha do ficheiro
-            // vai quebrando a string em varias substrings a partir do espaço vazio
             linha = leitor.nextLine();
 
+            // vai quebrando a string em varias substrings a partir do espaco vazio
             String[] mapa = linha.split(" ");
+
             // verifica se o ficheiro cumpre com as regras
             if(mapa.length > 2) {
                 return false;
             }
             numLinha = Integer.parseInt(mapa[0].trim()); // guarda na primeira posicao do array o numLinha
-            numColuna = Integer.parseInt(mapa[1].trim()); // guarda na primeira posicao do array o numColuna
+            numColuna = Integer.parseInt(mapa[1].trim()); // guarda na segunda posicao do array o numColuna
 
             // Segunda linha que indica qual é o ID da equipa que começa o jogo.
             // ler uma linha do ficheiro
@@ -111,15 +116,15 @@ public class TWDGameManager {
                         zombies.add(zombie); // adiciona zombie
                         zombie.contarZombies(1); // incrementa se houver mais um
                         zombie.getTipo(); // chama o tipo de criatura e diz-me se é zombie ou humano
-                        zombie.getEquipa();
-                        System.out.println(zombie.toString());
+                        zombie.getEquipa(); // iz-me se pertence aos "Os Vivos" ou aos "Os Outros"
+                        System.out.println(zombie.toString()); // imprime zombie
                     } else if (idTipo == 1) {
                         Humano humano = new Humano(id, idTipo, nome, posX, posY);
                         humanos.add(humano); // adiciona humano
                         humano.contarHumanos(1); // incrementa se houver mais um
                         humano.getTipo(); // chama o tipo de criatura e diz-me se é zombie ou humano
-                        humano.getEquipa();
-                        System.out.println(humano.toString());
+                        humano.getEquipa(); // diz-me se pertence aos "Os Vivos" ou aos "Os Outros"
+                        System.out.println(humano.toString()); // imprime humanos
                     }
 
                     linhaAtual++;
@@ -198,22 +203,22 @@ public class TWDGameManager {
         //if (xO < 0|| xO > numLinha || yO < 0 || yO > numColuna) {
            // return false;
       //  }
-        //VALIDAÇÕES PARA COORDENADAS DE ORIGEM FORA DO TABULEIRO
+        //VALIDAÇÕES PARA COORDENADAS DE ORIGEM FORA DO MAPA
         if (xO < 0 && xO > numLinha){
-            valido = false; // estão fora do tabuleiro
+            valido = false; // estão fora do mapa
         }
 
         else if (yO < 0 && yO > numColuna){
-            valido = false; // estão fora do tabuleiro
+            valido = false; // estão fora do mapa
         }
 
-        // VALIDAÇÕES PARA COORDENADAS DE DESTINO FORA DO TABULEIRO
+        // VALIDAÇÕES PARA COORDENADAS DE DESTINO FORA DO MAPA
         else if (xD < 0 && xD > numLinha){
-            valido = false; //sai fora do tabuleiro
+            valido = false; //sai fora do mapa
         }
 
         else if (yD < 0 && yD > numColuna){
-            valido = false; // sai fora do tabuleiro
+            valido = false; // sai fora do mapa
         }
 
         else if (xD - 1 != xO && xD + 1 != xO && yD - 1 != yO && yD + 1 != yO){
@@ -224,7 +229,7 @@ public class TWDGameManager {
            return false;
         }
 
-        //percorre a lista... verifica o conjunto de humanos existenteste e pega a posicao do mapa
+        //percorre a lista... verifica o conjunto de humanos existentes e pega a posicao do mapa
         for (Humano humano : humanos) {
             if (humano.xAtual==xO && humano.yAtual == yO ){
                 //Move uma posicao

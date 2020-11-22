@@ -55,11 +55,11 @@ public class Humano {
         this.nrHumanos += nrHumanos;
     }
 
-    public String getTipo(){
+    public void getTipo(){
         if(this.idTipo == 0){
-            return tipo = "Zombie";
+            tipo = "Zombie";
         } else {
-            return tipo = "Humano";
+            tipo = "Humano";
         }
     }
 
@@ -69,29 +69,24 @@ public class Humano {
     }
 
     // Metodo onde <Equipa> corresponde aos nomes (p.e. “Os Vivos” ou “Os Outros”).
-    public String getEquipa() {
+    public void getEquipa() {
         if(this.idEquipa == 0){
-            return equipa = "Os Vivos";
+            equipa = "Os Vivos";
         } else {
-            return equipa = "Os Outros";
+            equipa = "Os Outros";
         }
-    }
-
-    public void mudarCoordenadas (int novoX, int novoY){
-        this.xAtual = novoX;
-        this.yAtual = novoY;
     }
 
     public String getImagePNG() {
         return new String("hum.png");
     }
 
-    @Override
-    public String toString() {
+        @Override
+        public String toString() {
         if (equipamentos != null){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos.size() + " @ (" + xAtual + ", " + yAtual + ")";
         } else {
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " sem equipamento " + " @ (" + xAtual + ", " + yAtual + ")";
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
         }
     }
 }

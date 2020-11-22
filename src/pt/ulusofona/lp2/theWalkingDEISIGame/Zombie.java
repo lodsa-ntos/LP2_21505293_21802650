@@ -85,12 +85,13 @@ public class Zombie {
         return new String("zomb.png");
     }
 
+
     @Override
     public String toString() {
         if (destruidos != null){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + destruidos.size() + " @ (" + xAtual + ", " + yAtual + ")";
         } else {
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " sem equipamento destruido " + "@ (" + xAtual + ", " + yAtual + ")";
+            return id + " | " + tipo + " | " + equipa + " | " + nome + "@ (" + xAtual + ", " + yAtual + ")";
         }
     }
 }

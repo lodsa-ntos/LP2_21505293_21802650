@@ -33,7 +33,7 @@ public class TWDGameManager {
     int linhaAtual = 0;
     static int numLinha;
     static int numColuna;
-    int idEquipaAtual = 0;
+    int idEquipaAtual;
     int nrTurno = 0;
     int nC;
     int nE;
@@ -225,10 +225,10 @@ public class TWDGameManager {
 
         //percorre a lista... verifica o conjunto de humanos existentes e pega a posicao do mapa
         for (Humano humano : humanos) {
-            if (humano.getXAtual() == xO && humano.getYAtual() == yO ) {
+            if (humano.getIdEquipa() == idEquipaAtual && humano.getXAtual() == xO && humano.getYAtual() == yO) {
 
                 for (Zombie zombie: zombies) {
-                    if (zombie.getXAtual() == xD && zombie.getYAtual() == yD) {
+                    if (zombie.getIdEquipa() == idEquipaAtual && zombie.getXAtual() == xD && zombie.getYAtual() == yD) {
                         return false;
                     }
                 }
@@ -299,7 +299,7 @@ public class TWDGameManager {
     }
 
     public int getCurrentTeamId() {
-        return idEquipaAtiva;
+        return idEquipaAtual;
     }
 
     public int getElementId(int x, int y) {

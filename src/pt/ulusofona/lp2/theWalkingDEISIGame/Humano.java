@@ -35,6 +35,10 @@ public class Humano {
         return id;
     }
 
+    public int getIdEquipa() {
+        return idEquipa;
+    }
+
     public String getNome() {
         return nome;
     }

@@ -34,6 +34,10 @@ public class Zombie {
         return id;
     }
 
+    public int getIdEquipa() {
+        return idEquipa;
+    }
+
     public String getNome() {
         return nome;
     }

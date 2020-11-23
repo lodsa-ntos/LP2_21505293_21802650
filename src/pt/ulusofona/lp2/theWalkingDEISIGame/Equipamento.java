@@ -1,6 +1,7 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 public class Equipamento {
+
     int id;
     int idTipo;
     String titulo;

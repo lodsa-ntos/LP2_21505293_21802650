@@ -4,21 +4,21 @@ import java.util.ArrayList;
 
 public class Humano {
 
-    private int id;
-    private int idTipo;
-    private int idEquipa = 0;
-    private String nome;
+    int id;
+    int idTipo;
+    int idEquipa = 0;
+    String nome;
 
-    private String tipo;
-    private String equipa;
+    String tipo;
+    String equipa;
 
-    private int xAtual;
-    private int yAtual;
-    private int xAnterior;
-    private int yAnterior;
+    int xAtual;
+    int yAtual;
+    int xAnterior;
+    int yAnterior;
 
-    private int nrHumanos = 0;
-    private ArrayList<Equipamento> equipamentos = new ArrayList<>();
+    int nrHumanos = 0;
+    ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
     public Humano() {
     }
@@ -70,7 +70,6 @@ public class Humano {
     public ArrayList<Equipamento> getEquipamentos() {
         return equipamentos;
     }
-
 
     public void contarHumanos(int nrHumanos) {
         this.nrHumanos += nrHumanos;

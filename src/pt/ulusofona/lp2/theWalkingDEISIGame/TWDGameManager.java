@@ -38,8 +38,8 @@ public class TWDGameManager {
     int nC;
     int nE;
 
-    int nrDias = 3;
-    int nrNoites = 3;
+    int nrDias = 6;
+    int nrNoites = 6;
     int count;
 
     boolean diurno = true;
@@ -190,7 +190,7 @@ public class TWDGameManager {
 
     public int getInitialTeam() {
         if (nrTurno % 2 == 0) {
-            return idEquipaAtual = 0;
+            return idEquipaAtual;
         } else {
             return idEquipaAtual = 1;
         }
@@ -215,7 +215,6 @@ public class TWDGameManager {
             valido = false; // estão fora do mapa
         }
 
-        // xD - 1 != xO && xD + 1 != xO && yD - 1 != yO && yD + 1 != yO
         // verifica horizontalmente, verticalmente e diagonalmente
         else if ( Math.abs(xD - xO) >= 2 || Math.abs(yD - yO) >= 2){
             valido = false;
@@ -231,12 +230,6 @@ public class TWDGameManager {
 
                 for (Zombie zombie: zombies) {
                     if (zombie.xAtual == xD && zombie.yAtual == yD) {
-                        return false;
-                    }
-                }
-
-                for (Humano humano2: humanos) {
-                    if (humano2.getXAtual() == xD && humano2.getYAtual() == yD) {
                         return false;
                     }
                 }
@@ -288,7 +281,7 @@ public class TWDGameManager {
     }
 
     public boolean gameIsOver() {
-        return nrTurno >= nrDias || nrTurno >= nrNoites;
+        return (nrTurno/2)  >= nrDias || (nrTurno/2) >= nrNoites;
     }
 
     public List<String> getAuthors() {

@@ -40,10 +40,8 @@ public class TWDGameManager {
 
     int nrDias = 6;
     int nrNoites = 6;
-    int count;
 
     boolean diurno = true;
-
     boolean valido = true;
 
     public TWDGameManager() {
@@ -164,7 +162,7 @@ public class TWDGameManager {
                         if (idTipo == 0 || idTipo == 1) {
                             Equipamento eq = new Equipamento(id, idTipo, posX, posY);
                             equipamentos.add(eq); // adiciona equipamento
-                            eq.setNrEquipamentos(1); // incrementa se houver mais um
+                            eq.contarEquipamentos(1); // incrementa se houver mais um
                             eq.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
                             System.out.println(eq.toString());
                         }
@@ -190,7 +188,7 @@ public class TWDGameManager {
 
     public int getInitialTeam() {
         if (nrTurno % 2 == 0) {
-            return idEquipaAtual;
+            return idEquipaAtual = 0;
         } else {
             return idEquipaAtual = 1;
         }
@@ -229,13 +227,13 @@ public class TWDGameManager {
             if (humano.getXAtual() == xO && humano.getYAtual() == yO ) {
 
                 for (Zombie zombie: zombies) {
-                    if (zombie.xAtual == xD && zombie.yAtual == yD) {
+                    if (zombie.getXAtual() == xD && zombie.getYAtual() == yD) {
                         return false;
                     }
                 }
 
                 for (Equipamento eq: equipamentos) {
-                    if (eq.xAtual == xD && eq.yAtual == yD){
+                    if (eq.getXAtual() == xD && eq.getYAtual() == yD){
                         //Move uma posicao
                         humano.setxAtual(xD);
                         humano.setyAtual(yD);
@@ -275,7 +273,6 @@ public class TWDGameManager {
                 nrTurno++;
                 return true;
             }
-
         }
         return false;
     }
@@ -296,7 +293,6 @@ public class TWDGameManager {
     }
 
     public int getElementId(int x, int y) {
-        System.out.println("X: "+ x + "\nY: " + y);
         for (Humano h : humanos){
             if (h.getXAtual() == x && h.getYAtual() == y) {
                 return h.getId();
@@ -304,36 +300,45 @@ public class TWDGameManager {
         }
 
         for (Zombie z : zombies){
-            if (z.xAtual == x && z.yAtual == y) {
+            if (z.getXAtual() == x && z.getYAtual() == y) {
                 return z.getId();
             }
         }
 
         for (Equipamento e : equipamentos){
-            if (e.xAtual == x && e.yAtual == y){
+            if (e.getXAtual() == x && e.getYAtual() == y){
                 return e.getiD();
             }
         }
-
         return 0;
     }
 
     public List<String> getSurvivors() {
+        int countHumano = 0;
+        int countZombie = 0;
 
         List<String> resultados = new ArrayList<>();
 
         resultados.add("Nr. de turnos terminados: ");
         resultados.add("Turnos: " + nrTurno + "\n");
 
-        Humano quantHumanos = new Humano();
-        resultados.add("\n");
-        resultados.add("OS VIVOS");
-        resultados.add(quantHumanos.getId() + " | " + quantHumanos.getNome());
+        for (Humano humano : humanos) {
+            if (humano.getId() >= 1 || humano.getId() >= 2) {
+                countHumano++;
+                resultados.add("\n");
+                resultados.add("OS VIVOS");
+                resultados.add(humano.getId() + " | " + humano.getNome());
+            }
+        }
 
-        Zombie quantidadeZ = new Zombie();
-        resultados.add("\n");
-        resultados.add(" OS OUTROS ");
-        resultados.add(quantidadeZ.getId() + " | " + quantidadeZ.getNome()+"");
+        for (Zombie zombie : zombies) {
+            if (zombie.getId() >= 3) {
+                countZombie++;
+                resultados.add("\n");
+                resultados.add(" OS OUTROS ");
+                resultados.add(zombie.getId() + " | " + zombie.getNome() + "");
+            }
+        }
 
         return resultados;
     }

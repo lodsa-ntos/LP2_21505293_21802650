@@ -12,12 +12,9 @@ public class Zombie {
 
     String tipo;
     String equipa;
-    int turnos;
 
     int xAtual;
     int yAtual;
-    int xAnterior;
-    int yAnterior;
 
     int nrZombies = 0;
 
@@ -62,11 +59,6 @@ public class Zombie {
         }
     }
 
-    // Devolve o id da Equipa da criatura.
-    public int getIdEquipa() {
-        return this.idEquipa;
-    }
-
     // Metodo onde <Equipa> corresponde aos nomes (p.e. “Os Vivos” ou “Os Outros”).
     public String getEquipa() {
         if(this.idEquipa == 0){
@@ -76,15 +68,10 @@ public class Zombie {
         }
     }
 
-    public int getNrTurnos() {
-        return turnos;
-    }
-
     // Metodo que devolve o nome do ficheiro de imagem (formato PNG) que representa a criatura.
     public String getImagePNG() {
         return new String("zomb.png");
     }
-
 
     @Override
     public String toString() {

@@ -59,14 +59,6 @@ public class Humano {
         this.yAtual = yAtual;
     }
 
-    public int getxAnterior() {
-        return xAnterior;
-    }
-
-    public int getyAnterior() {
-        return yAnterior;
-    }
-
     public ArrayList<Equipamento> getEquipamentos() {
         return equipamentos;
     }
@@ -81,11 +73,6 @@ public class Humano {
         } else {
             tipo = "Humano";
         }
-    }
-
-    // Devolve o id da Equipa da criatura.
-    public int getIdEquipa() {
-        return idEquipa;
     }
 
     // Metodo onde <Equipa> corresponde aos nomes (p.e. “Os Vivos” ou “Os Outros”).

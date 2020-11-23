@@ -5,7 +5,6 @@ public class Equipamento {
     int id;
     int idTipo;
     String titulo;
-    String descricao;
 
     int xAtual;
     int yAtual;
@@ -13,7 +12,6 @@ public class Equipamento {
     int yAnterior;
 
     int nrEquipamentos = 0;
-    String erro;
 
     public Equipamento() {
     }
@@ -28,6 +26,7 @@ public class Equipamento {
     public int getiD() {
         return id;
     }
+
     public int getIdTipo() {
         return idTipo;
     }
@@ -44,11 +43,7 @@ public class Equipamento {
         return titulo;
     }
 
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setNrEquipamentos(int nrEquipamentos) {
+    public void contarEquipamentos(int nrEquipamentos) {
         this.nrEquipamentos += nrEquipamentos;
     }
 

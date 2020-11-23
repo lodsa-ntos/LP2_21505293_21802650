@@ -37,6 +37,7 @@ public class TWDGameManager {
     int nrTurno = 0;
     int nC;
     int nE;
+    int idEquipaAtiva = 1;
 
     int nrDias = 6;
     int nrNoites = 6;
@@ -253,6 +254,15 @@ public class TWDGameManager {
                             // depois de removido adiciona o novo
                             humano.getEquipamentos().add(eq);
                         }
+                        // aumenta o numero de turnos
+                        if (nrTurno % 2 == 0) {
+                            idEquipaAtual = 0;
+                            diurno = true;
+                        } else {
+                            idEquipaAtual = 1;
+                            diurno = false;
+                        }
+                        nrTurno++;
                         return true;
                     }
                 }
@@ -289,7 +299,7 @@ public class TWDGameManager {
     }
 
     public int getCurrentTeamId() {
-        return idEquipaAtual;
+        return idEquipaAtiva;
     }
 
     public int getElementId(int x, int y) {

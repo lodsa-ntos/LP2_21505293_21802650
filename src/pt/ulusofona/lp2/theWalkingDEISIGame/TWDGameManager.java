@@ -37,8 +37,12 @@ public class TWDGameManager {
     int nrTurno = 0;
     int nC;
     int nE;
-    boolean diurno = true;
 
+    int nrDias = 3;
+    int nrNoites = 3;
+    int count;
+
+    boolean diurno = true;
 
     boolean valido = true;
 
@@ -258,16 +262,6 @@ public class TWDGameManager {
                             // depois de removido adiciona o novo
                             humano.getEquipamentos().add(eq);
                         }
-
-                        if (nrTurno % 2 == 0) {
-                            idEquipaAtual = 0;
-                            diurno = true;
-                        } else {
-                            idEquipaAtual = 1;
-                            diurno = false;
-                        }
-                        // aumenta o nmr de turnos
-                        nrTurno++;
                         return true;
                     }
                 }
@@ -277,7 +271,7 @@ public class TWDGameManager {
                 humano.setxAtual(xD);
                 humano.setyAtual(yD);
 
-                // aumenta o nmr de turnos
+                // aumenta o numero de turnos
                 if (nrTurno % 2 == 0) {
                     idEquipaAtual = 0;
                     diurno = true;
@@ -287,8 +281,6 @@ public class TWDGameManager {
                 }
                 nrTurno++;
                 return true;
-            } else {
-
             }
 
         }
@@ -296,7 +288,7 @@ public class TWDGameManager {
     }
 
     public boolean gameIsOver() {
-        return nrTurno == 12;
+        return nrTurno >= nrDias || nrTurno >= nrNoites;
     }
 
     public List<String> getAuthors() {
@@ -363,7 +355,7 @@ public class TWDGameManager {
         for (Humano humano: humanos) {
             if (humano.getId() == creatureId) {
                 for (Equipamento equipamento : humano.getEquipamentos()) {
-                    if (equipamento.idTipo == equipmentTypeId) {
+                    if (equipamento.getIdTipo() == equipmentTypeId) {
                         return true;
                     }
                 }

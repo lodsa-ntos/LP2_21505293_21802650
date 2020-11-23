@@ -225,7 +225,7 @@ public class TWDGameManager {
         //percorre a lista... verifica o conjunto de humanos existentes e pega a posicao do mapa
         for (Humano humano : humanos) {
             if (humano.xAtual==xO && humano.yAtual == yO ) {
-                for (Equipamento eq: equipamentos){
+                for (Equipamento eq: equipamentos) {
                     if (eq.xAtual == xD && eq.yAtual == yD){
                         //Move uma posicao
                         humano.xAtual = xD;
@@ -246,19 +246,44 @@ public class TWDGameManager {
                             // depois de removido adiciona o novo
                             humano.equipamentos.add(eq);
                         }
+                        // aumenta o nmr de turnos
                         nrTurno++;
+                        if (nrTurno % 2 == 0) {
+                            idEquipaAtual = 0;
+                        } else {
+                            idEquipaAtual = 1;
+                        }
+                        return true;
                     }
                 }
+                for (Zombie zombie: zombies) {
+                    if (zombie.xAtual == xD && zombie.yAtual == yD) {
+                        return false;
+                    }
+                }
+
+                for (Humano humano2: humanos) {
+                    if (humano2.xAtual == xD && humano2.yAtual == yD) {
+                        return false;
+                    }
+                }
+
+                // caso nao haja nenhum equipamento ou zombie nessa posicao
+                //Move uma posicao
+                humano.xAtual = xD;
+                humano.yAtual = yD;
+                nrTurno++;
+                // aumenta o nmr de turnos
+                nrTurno++;
+                if (nrTurno % 2 == 0) {
+                    idEquipaAtual = 0;
+                } else {
+                    idEquipaAtual = 1;
+                }
+                return true;
             }
-
         }
-
-        if (nrTurno % 2 == 0) {
-            idEquipaAtual = 0;
-        } else {
-            idEquipaAtual = 1;
-        }
-        return true;
+        return false;
     }
 
     public boolean gameIsOver() {

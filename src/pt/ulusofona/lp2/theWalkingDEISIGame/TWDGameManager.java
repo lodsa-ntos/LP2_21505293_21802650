@@ -34,12 +34,11 @@ public class TWDGameManager {
     static int numLinha;
     static int numColuna;
     int idEquipaAtual = 0;
-    int nrTurno;
+    int nrTurno = 0;
     int nC;
     int nE;
     boolean diurno = true;
-    int countDia = 0;
-    int countNoite = 0;
+
 
     boolean valido = true;
 
@@ -227,7 +226,7 @@ public class TWDGameManager {
 
         //percorre a lista... verifica o conjunto de humanos existentes e pega a posicao do mapa
         for (Humano humano : humanos) {
-            if (humano.xAtual==xO && humano.yAtual == yO ) {
+            if (humano.getXAtual() == xO && humano.getYAtual() == yO ) {
 
                 for (Zombie zombie: zombies) {
                     if (zombie.xAtual == xD && zombie.yAtual == yD) {
@@ -236,7 +235,7 @@ public class TWDGameManager {
                 }
 
                 for (Humano humano2: humanos) {
-                    if (humano2.xAtual == xD && humano2.yAtual == yD) {
+                    if (humano2.getXAtual() == xD && humano2.getYAtual() == yD) {
                         return false;
                     }
                 }
@@ -244,26 +243,25 @@ public class TWDGameManager {
                 for (Equipamento eq: equipamentos) {
                     if (eq.xAtual == xD && eq.yAtual == yD){
                         //Move uma posicao
-                        humano.xAtual = xD;
-                        humano.yAtual = yD;
+                        humano.setxAtual(xD);
+                        humano.setyAtual(yD);
                         // verificar se o humano tem equipamentos
-                        if (humano.equipamentos.size() == 0){
-                            humano.equipamentos.add(eq);
+                        if (humano.getEquipamentos().size() == 0){
+                            humano.getEquipamentos().add(eq);
                             // guarda como referencia a posicao original
                             eq.xAnterior = xD;
                             eq.yAnterior = yD;
                         } else {
                             // guardamos o equipamento existente na lista de equipamentos
-                            Equipamento eqAntigo = humano.equipamentos.get(0);
+                            Equipamento eqAntigo = humano.getEquipamentos().get(0);
                             // removemos esse equipamento e devolvemos na posicao original
-                            humano.equipamentos.remove(0);
+                            humano.getEquipamentos().remove(0);
                             eqAntigo.xAtual = eqAntigo.xAnterior;
                             eqAntigo.yAtual = eqAntigo.yAnterior;
                             // depois de removido adiciona o novo
-                            humano.equipamentos.add(eq);
+                            humano.getEquipamentos().add(eq);
                         }
-                        // aumenta o nmr de turnos
-                        nrTurno++;
+
                         if (nrTurno % 2 == 0) {
                             idEquipaAtual = 0;
                             diurno = true;
@@ -271,33 +269,34 @@ public class TWDGameManager {
                             idEquipaAtual = 1;
                             diurno = false;
                         }
+                        // aumenta o nmr de turnos
+                        nrTurno++;
                         return true;
                     }
                 }
 
                 // caso nao haja nenhum equipamento, zombie ou humano nessa posicao
                 //Move uma posicao
-                humano.xAtual = xD;
-                humano.yAtual = yD;
+                humano.setxAtual(xD);
+                humano.setyAtual(yD);
                 // aumenta o nmr de turnos
-                nrTurno++;
+
                 if (nrTurno % 2 == 0) {
                     idEquipaAtual = 0;
                     diurno = true;
-                    countDia++;
                 } else {
                     idEquipaAtual = 1;
                     diurno = false;
-                    countNoite++;
                 }
-                return true;
+                nrTurno++;
             }
         }
-        return false;
+        return true;
     }
 
     public boolean gameIsOver() {
-        return countDia == 3 || countNoite == 3;
+        System.out.println("GAME OVER");
+        return nrTurno == 12;
     }
 
     public List<String> getAuthors() {
@@ -314,7 +313,7 @@ public class TWDGameManager {
     public int getElementId(int x, int y) {
         System.out.println("X: "+ x + "\nY: " + y);
         for (Humano h : humanos){
-            if (h.xAtual == x && h.yAtual == y) {
+            if (h.getXAtual() == x && h.getYAtual() == y) {
                 return h.getId();
             }
         }
@@ -363,7 +362,7 @@ public class TWDGameManager {
         // verifica se o humano tem o equipamento
         for (Humano humano: humanos) {
             if (humano.getId() == creatureId) {
-                for (Equipamento equipamento : humano.equipamentos) {
+                for (Equipamento equipamento : humano.getEquipamentos()) {
                     if (equipamento.idTipo == equipmentTypeId) {
                         return true;
                     }

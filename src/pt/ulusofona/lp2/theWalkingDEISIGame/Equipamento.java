@@ -27,7 +27,6 @@ public class Equipamento {
     public int getiD() {
         return id;
     }
-
     public int getIdTipo() {
         return idTipo;
     }

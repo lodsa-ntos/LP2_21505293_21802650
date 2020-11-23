@@ -202,10 +202,6 @@ public class TWDGameManager {
 
     public boolean move(int xO, int yO, int xD, int yD) {
 
-        // Devolve falso se o movimento for incompativel com o tipo de movimentação ou coordenadas estão fora do Mapa
-        //if (xO < 0|| xO > numLinha || yO < 0 || yO > numColuna) {
-           // return false;
-      //  }
         //VALIDAÇÕES PARA COORDENADAS DE DESTINO FORA DO MAPA
         if (xD < 0 || xD > numLinha){
             valido = false; // estão fora do mapa
@@ -280,8 +276,8 @@ public class TWDGameManager {
                 //Move uma posicao
                 humano.setxAtual(xD);
                 humano.setyAtual(yD);
-                // aumenta o nmr de turnos
 
+                // aumenta o nmr de turnos
                 if (nrTurno % 2 == 0) {
                     idEquipaAtual = 0;
                     diurno = true;
@@ -290,7 +286,11 @@ public class TWDGameManager {
                     diurno = false;
                 }
                 nrTurno++;
+                return true;
+            } else {
+
             }
+
         }
         return false;
     }

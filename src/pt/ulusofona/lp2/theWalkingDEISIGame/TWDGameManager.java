@@ -52,6 +52,7 @@ public class TWDGameManager {
         zombies = new ArrayList<>();
         numLinha = 0;
         numColuna = 0;
+        nrTurno = 0;
 
         try {
 
@@ -291,11 +292,10 @@ public class TWDGameManager {
                 nrTurno++;
             }
         }
-        return true;
+        return false;
     }
 
     public boolean gameIsOver() {
-        System.out.println("GAME OVER");
         return nrTurno == 12;
     }
 

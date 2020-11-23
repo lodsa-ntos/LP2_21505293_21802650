@@ -37,6 +37,9 @@ public class TWDGameManager {
     int nrTurno;
     int nC;
     int nE;
+    boolean diurno = true;
+    int countDia = 0;
+    int countNoite = 0;
 
     boolean valido = true;
 
@@ -225,6 +228,19 @@ public class TWDGameManager {
         //percorre a lista... verifica o conjunto de humanos existentes e pega a posicao do mapa
         for (Humano humano : humanos) {
             if (humano.xAtual==xO && humano.yAtual == yO ) {
+
+                for (Zombie zombie: zombies) {
+                    if (zombie.xAtual == xD && zombie.yAtual == yD) {
+                        return false;
+                    }
+                }
+
+                for (Humano humano2: humanos) {
+                    if (humano2.xAtual == xD && humano2.yAtual == yD) {
+                        return false;
+                    }
+                }
+
                 for (Equipamento eq: equipamentos) {
                     if (eq.xAtual == xD && eq.yAtual == yD){
                         //Move uma posicao
@@ -250,35 +266,29 @@ public class TWDGameManager {
                         nrTurno++;
                         if (nrTurno % 2 == 0) {
                             idEquipaAtual = 0;
+                            diurno = true;
                         } else {
                             idEquipaAtual = 1;
+                            diurno = false;
                         }
                         return true;
                     }
                 }
-                for (Zombie zombie: zombies) {
-                    if (zombie.xAtual == xD && zombie.yAtual == yD) {
-                        return false;
-                    }
-                }
 
-                for (Humano humano2: humanos) {
-                    if (humano2.xAtual == xD && humano2.yAtual == yD) {
-                        return false;
-                    }
-                }
-
-                // caso nao haja nenhum equipamento ou zombie nessa posicao
+                // caso nao haja nenhum equipamento, zombie ou humano nessa posicao
                 //Move uma posicao
                 humano.xAtual = xD;
                 humano.yAtual = yD;
-                nrTurno++;
                 // aumenta o nmr de turnos
                 nrTurno++;
                 if (nrTurno % 2 == 0) {
                     idEquipaAtual = 0;
+                    diurno = true;
+                    countDia++;
                 } else {
                     idEquipaAtual = 1;
+                    diurno = false;
+                    countNoite++;
                 }
                 return true;
             }
@@ -287,7 +297,7 @@ public class TWDGameManager {
     }
 
     public boolean gameIsOver() {
-        return false;
+        return countDia == 3 || countNoite == 3;
     }
 
     public List<String> getAuthors() {
@@ -316,9 +326,7 @@ public class TWDGameManager {
         }
 
         for (Equipamento e : equipamentos){
-            System.out.println("E.X: "+e.xAtual + "\nE.Y: "+e.yAtual);
             if (e.xAtual == x && e.yAtual == y){
-                System.out.println("entrou");
                 return e.getiD();
             }
         }
@@ -347,7 +355,7 @@ public class TWDGameManager {
     }
 
     public boolean isDay() {
-        return nrTurno != 2;
+        return diurno;
     }
 
     public boolean hasEquipment(int creatureId, int equipmentTypeId) {

@@ -183,7 +183,7 @@ public class TWDGameManager {
 
     public int getInitialTeam() {
         if (nrTurno % 2 == 0) {
-            return idEquipaAtual;
+            return idEquipaAtual = 0;
         } else {
             return idEquipaAtual = 1;
         }

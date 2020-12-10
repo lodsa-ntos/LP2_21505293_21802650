@@ -9,14 +9,14 @@ public class TestHumano {
     public TestHumano () {
     }
 
-    @Test
+    /*@Test
     public void test01GetImagePNG() {
         Humano humano = new Humano();
         String imageEsperada = "hum.png";
         String imageObtida = humano.getImagePNG();
         assertEquals (imageEsperada, imageObtida);
 
-    }
+    }*/
 
     @Test
     public void test02GetIdEquipa() {

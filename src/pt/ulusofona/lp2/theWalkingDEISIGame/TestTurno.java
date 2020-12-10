@@ -8,12 +8,12 @@ public class TestTurno {
     public TestTurno () {
     }
 
-    @Test
+   /* @Test
     public void test01TurnoJogar() {
         Zombie zombie = new Zombie();
         int idEsperado = 0;
         int idObtido = zombie.getXAtual();
         assertEquals(idEsperado, idObtido);
 
-    }
+    }*/
 }

@@ -21,11 +21,8 @@ public class TWDGameManager {
     valido - Indica os movimentos validos das criaturas no jogo
     ------------------------------------------------------------------------------------------*/
 
-    //Lista de Humanos
-    static ArrayList<Humano> humanos = new ArrayList<>();
-
-    //Lista de Zombies
-    static ArrayList<Zombie> zombies = new ArrayList<>();
+    //Lista de Creatures
+    static ArrayList<Creature> creatures = new ArrayList<>();
 
     //Lista de Equipamento
     ArrayList<Equipamento> equipamentos = new ArrayList<>();
@@ -37,7 +34,6 @@ public class TWDGameManager {
     int nrTurno = 0;
     int nC;
     int nE;
-    int idEquipaAtiva = 1;
 
     int nrDias = 6;
     int nrNoites = 6;
@@ -51,16 +47,12 @@ public class TWDGameManager {
     //Esta função faz a leitura do ficheiro de texto e carrega para a memória a informação relevante.
     public boolean startGame(File ficheiroInicial) {
 
-        humanos = new ArrayList<>();
-        zombies = new ArrayList<>();
+        creatures = new ArrayList<>();
         numLinha = 0;
         numColuna = 0;
         nrTurno = 0;
 
         try {
-
-            //String nomeFicheiro = "mapa.txt";
-            //File ficheiroDados = new File(nomeFicheiro);
 
             Scanner leitor;
 
@@ -118,19 +110,11 @@ public class TWDGameManager {
 
                     //Verificar se o idTipo é zombie ou humano e adiciona na respetiva lista
                     if (idTipo == 0) {
-                        Zombie zombie = new Zombie(id, idTipo, nome, posX, posY);
-                        zombies.add(zombie); // adiciona zombie
-                        zombie.contarZombies(1); // incrementa se houver mais um
-                        zombie.getTipo(); // chama o tipo de criatura e diz-me se é zombie ou humano
-                        zombie.getEquipa(); // iz-me se pertence aos "Os Vivos" ou aos "Os Outros"
-                        System.out.println(zombie.toString()); // imprime zombie
+                        creatures.add(new Zombie(id, idTipo, nome, posX, posY)); // adiciona zombie
+                        System.out.println(creatures.toString()); // imprime zombie
                     } else if (idTipo == 1) {
-                        Humano humano = new Humano(id, idTipo, nome, posX, posY);
-                        humanos.add(humano); // adiciona humano
-                        humano.contarHumanos(1); // incrementa se houver mais um
-                        humano.getTipo(); // chama o tipo de criatura e diz-me se é zombie ou humano
-                        humano.getEquipa(); // diz-me se pertence aos "Os Vivos" ou aos "Os Outros"
-                        System.out.println(humano.toString()); // imprime humanos
+                        creatures.add(new Humano(id, idTipo, nome, posX, posY)); // adiciona humano
+                        //System.out.println(creatures.toString()); // imprime humanos
                     }
 
                     linhaAtual++;
@@ -195,12 +179,8 @@ public class TWDGameManager {
         }
     }
 
-    public List<Humano> getHumans() {
-        return humanos;
-    }
-
-    public List<Zombie> getZombies() {
-        return zombies;
+    public List<Creature> getCreatures(){
+        return creatures;
     }
 
     public boolean move(int xO, int yO, int xD, int yD) {
@@ -224,11 +204,11 @@ public class TWDGameManager {
         }
 
         //percorre a lista... verifica o conjunto de humanos existentes e pega a posicao do mapa
-        for (Humano humano : humanos) {
-            if (humano.getIdEquipa() == idEquipaAtual && humano.getXAtual() == xO && humano.getYAtual() == yO && !(xO == xD && yO == yD)) {
+        for (Creature humano : creatures) {
+            if ( humano.getXAtual() == xO && humano.getYAtual() == yO && !(xO == xD && yO == yD)) {
 
-                for (Zombie zombie: zombies) {
-                    if (zombie.getIdEquipa() == idEquipaAtual && zombie.getXAtual() == xD && zombie.getYAtual() == yD) {
+                for (Creature zombie: creatures) {
+                    if (zombie.getXAtual() == xD && zombie.getYAtual() == yD) {
                         return false;
                     }
                 }
@@ -273,7 +253,7 @@ public class TWDGameManager {
                 humano.setyAtual(yD);
 
                 // aumenta o numero de turnos
-                if (nrTurno % 2 == 0) {
+                if (nrTurno == 0) {
                     idEquipaAtual = 0;
                     diurno = true;
                 } else {
@@ -282,8 +262,6 @@ public class TWDGameManager {
                 }
                 nrTurno++;
                 return true;
-            } else {
-
             }
         }
         return false;
@@ -301,7 +279,7 @@ public class TWDGameManager {
     }
 
     public int getCurrentTeamId() {
-        if (nrTurno % 2 == 0) {
+        if (diurno){
             return idEquipaAtual = 0;
         } else {
             return idEquipaAtual = 1;
@@ -309,15 +287,9 @@ public class TWDGameManager {
     }
 
     public int getElementId(int x, int y) {
-        for (Humano h : humanos){
-            if (h.getXAtual() == x && h.getYAtual() == y) {
-                return h.getId();
-            }
-        }
-
-        for (Zombie z : zombies){
-            if (z.getXAtual() == x && z.getYAtual() == y) {
-                return z.getId();
+        for (Creature c: creatures){
+            if (c.getXAtual() == x && c.getYAtual() == y) {
+                return c.getId;
             }
         }
 
@@ -338,7 +310,7 @@ public class TWDGameManager {
         resultados.add("Nr. de turnos terminados: ");
         resultados.add("Turnos: " + nrTurno + "\n");
 
-        for (Humano humano : humanos) {
+       /*for (Humano humano : humanos) {
             if (humano.getId() >= 1 || humano.getId() >= 2) {
                 countHumano++;
                 resultados.add("\n");
@@ -354,29 +326,12 @@ public class TWDGameManager {
                 resultados.add(" OS OUTROS ");
                 resultados.add(zombie.getId() + " | " + zombie.getNome() + "");
             }
-        }
+        }*/
 
         return resultados;
     }
 
     public boolean isDay() {
         return diurno;
-    }
-
-    public boolean hasEquipment(int creatureId, int equipmentTypeId) {
-
-        // verifica se o humano tem o equipamento
-        for (Humano humano: humanos) {
-            if (humano.getId() == creatureId) {
-                for (Equipamento equipamento : humano.getEquipamentos()) {
-                    if (equipamento.getIdTipo() == equipmentTypeId) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        ////se nenhum tiver retorna falso
-        return false;
     }
 }

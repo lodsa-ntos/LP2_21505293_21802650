@@ -2,33 +2,11 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.util.ArrayList;
 
-public class Humano {
-
-    int id;
-    int idTipo;
-    int idEquipa = 0;
-    String nome;
-
-    String tipo;
-    String equipa;
-
-    int xAtual;
-    int yAtual;
-    int xAnterior;
-    int yAnterior;
-
-    int nrHumanos = 0;
-    ArrayList<Equipamento> equipamentos = new ArrayList<>();
-
-    public Humano() {
-    }
+public class Humano extends Creature{
 
     public Humano(int id, int idTipo, String nome, int xAtual, int yAtual) {
-        this.id = id;
-        this.idTipo = idTipo;
-        this.nome = nome;
-        this.xAtual = xAtual;
-        this.yAtual = yAtual;
+        super(id, idTipo, nome, xAtual, yAtual);
+
     }
 
     public int getId() {
@@ -47,12 +25,12 @@ public class Humano {
         return idTipo;
     }
 
-    public int getXAtual() {
-        return xAtual;
-    }
-
     public void setxAtual(int xAtual) {
         this.xAtual = xAtual;
+    }
+
+    public int getXAtual() {
+        return xAtual;
     }
 
     public int getYAtual() {
@@ -92,8 +70,8 @@ public class Humano {
         return new String("hum.png");
     }
 
-        @Override
-        public String toString() {
+    @Override
+    public String toString() {
         if (equipamentos != null){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos.size() + " @ (" + xAtual + ", " + yAtual + ")";
         } else {

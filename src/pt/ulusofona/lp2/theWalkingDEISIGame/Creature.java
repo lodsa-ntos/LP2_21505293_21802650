@@ -71,10 +71,6 @@ public abstract class Creature {
             equipa = "Os Vivos";
         }
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
     public void getEquipaZ(){
         if (this.idEquipaZombie == 20){
             equipa = "Os Outros";
@@ -111,8 +107,5 @@ public abstract class Creature {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
         }
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
 }

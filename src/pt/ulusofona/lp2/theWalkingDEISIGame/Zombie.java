@@ -8,15 +8,17 @@ public class Zombie extends Creature {
         super(id, idTipo, nome, xAtual, yAtual);
     }
 
-    // Devolve o ID da criatura.
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public int getIdEquipa() {
-        return idEquipa;
+        return idEquipaZombie = 20;
     }
 
+    @Override
     public String getNome() {
         return nome;
     }
@@ -26,10 +28,12 @@ public class Zombie extends Creature {
         return idTipo;
     }
 
+    @Override
     public int getXAtual() {
         return xAtual;
     }
 
+    @Override
     public int getYAtual() {
         return yAtual;
     }
@@ -41,38 +45,5 @@ public class Zombie extends Creature {
 
     public void contarZombies (int nrZombies) {
         this.nrZombies += nrZombies;
-    }
-
-    // Metodo onde <Tipo> corresponde aos nomes (p.e. “Humano” ou “Zombie”).
-    public void getTipo(){
-        if(this.idTipo == 0){
-            tipo = "Zombie";
-        } else {
-            tipo = "Humano";
-        }
-    }
-
-    // Metodo onde <Equipa> corresponde aos nomes (p.e. “Os Vivos” ou “Os Outros”).
-    public void getEquipa() {
-        if(this.idEquipa == 0){
-            equipa = "Os Vivos";
-        } else {
-            equipa = "Os Outros";
-        }
-    }
-
-    // Metodo que devolve o nome do ficheiro de imagem (formato PNG) que representa a criatura.
-    @Override
-    public String getImagePNG() {
-        return new String("zomb.png");
-    }
-
-    @Override
-    public String toString() {
-        if (destruidos != null){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + destruidos.size() + " @ (" + xAtual + ", " + yAtual + ")";
-        } else {
-            return id + " | " + tipo + " | " + equipa + " | " + nome + "@ (" + xAtual + ", " + yAtual + ")";
-        }
     }
 }

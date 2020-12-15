@@ -403,7 +403,15 @@ public class TWDGameManager {
     }
 
     public List<Integer> getIdsInSafeHaven() {
-        return null;
+
+        ArrayList<Integer> safe = new ArrayList<>();
+
+        for (Creature creature : creatures){
+            if (creature.getXAtual() == xPortas && creature.getYAtual() == yPortas){
+                safe.add(creature.getId());
+            }
+        }
+        return safe;
     }
 
     public boolean isDoorToSafeHaven(int x, int y) {

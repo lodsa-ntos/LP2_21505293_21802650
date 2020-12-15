@@ -15,7 +15,7 @@ public class Zombie extends Creature {
 
     @Override
     public int getIdEquipa() {
-        return idEquipa;
+        return idEquipaZombie = 20;
     }
 
     @Override
@@ -43,32 +43,7 @@ public class Zombie extends Creature {
         return destruidos;
     }
 
-    @Override
-    public String toString() {
-        if (destruidos != null){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + destruidos.size() + " @ (" + xAtual + ", " + yAtual + ")";
-        } else {
-            return id + " | " + tipo + " | " + equipa + " | " + nome + "@ (" + xAtual + ", " + yAtual + ")";
-        }
-    }
-
     public void contarZombies (int nrZombies) {
         this.nrZombies += nrZombies;
-    }
-
-    public void getTipo(){
-        if(this.idTipo == 0){
-            tipo = "Zombie";
-        } else {
-            tipo = "Humano";
-        }
-    }
-
-    public void getEquipa() {
-        if(this.idEquipa == 0){
-            equipa = "Os Vivos";
-        } else {
-            equipa = "Os Outros";
-        }
     }
 }

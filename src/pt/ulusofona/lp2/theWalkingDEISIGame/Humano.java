@@ -16,7 +16,7 @@ public class Humano extends Creature{
 
     @Override
     public int getIdEquipa() {
-        return idEquipa;
+        return idEquipa = 10;
     }
 
     @Override
@@ -44,32 +44,7 @@ public class Humano extends Creature{
         return equipamentos;
     }
 
-    @Override
-    public String toString() {
-        if (equipamentos != null){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos.size() + " @ (" + xAtual + ", " + yAtual + ")";
-        } else {
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
-        }
-    }
-
     public void contarHumanos(int nrHumanos) {
         this.nrHumanos += nrHumanos;
-    }
-
-    public void getTipo(){
-        if(this.idTipo == 0){
-            tipo = "Zombie";
-        } else {
-            tipo = "Humano";
-        }
-    }
-
-    public void getEquipa() {
-        if(this.idEquipa == 0){
-            equipa = "Os Vivos";
-        } else {
-            equipa = "Os Outros";
-        }
     }
 }

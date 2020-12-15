@@ -122,14 +122,20 @@ public class TWDGameManager {
                     if (idTipo == 1) {
                         Creature zombie = new Zombie(id, idTipo, nome, posX, posY);
                         creatures.add(zombie); // adiciona zombie
+                        zombie.getTipo();
+                        zombie.getEquipaZ();
                         System.out.println(zombie.toString()); // imprime zombie
                     } else if (idTipo == 6) {
                         Creature humano = new Humano(id, idTipo, nome, posX, posY);
-                        creatures.add(humano); // adiciona zombie
+                        creatures.add(humano); // adiciona humano
+                        humano.getTipo();
+                        humano.getEquipa();
                         System.out.println(humano.toString()); // imprime humano
                     } else if (idTipo == 9) {
                         Creature cao = new Cao(id, idTipo, nome, posX, posY);
                         creatures.add(cao); // adiciona cao
+                        cao.getTipo();
+                        cao.getEquipa();
                         System.out.println(cao.toString()); // imprime cao
                     }
 

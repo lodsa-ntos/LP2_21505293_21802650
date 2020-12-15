@@ -2,9 +2,9 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.util.ArrayList;
 
-public class Zombie extends Creature {
+public class Cao extends Creature {
 
-    public Zombie(int id, int idTipo, String nome, int xAtual, int yAtual) {
+    public Cao(int id, int idTipo, String nome, int xAtual, int yAtual) {
         super(id, idTipo, nome, xAtual, yAtual);
     }
 
@@ -15,7 +15,7 @@ public class Zombie extends Creature {
 
     @Override
     public int getIdEquipa() {
-        return idEquipaZombie;
+        return idEquipa;
     }
 
     @Override
@@ -40,10 +40,6 @@ public class Zombie extends Creature {
 
     @Override
     public ArrayList<Equipamento> getEquipamentos() {
-        return destruidos;
-    }
-
-    public void contarZombies (int nrZombies) {
-        this.nrZombies += nrZombies;
+        return null;
     }
 }

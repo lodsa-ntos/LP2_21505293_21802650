@@ -55,6 +55,10 @@ public class Equipamento {
         }
     }
 
+    public String getImagePNG() {
+        return null;
+    }
+
     @Override
     public String toString() {
         return id + " | " + titulo + " @ (" + xAtual + ", " + yAtual + ") ";

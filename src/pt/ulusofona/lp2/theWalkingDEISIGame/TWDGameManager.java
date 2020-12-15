@@ -1,5 +1,8 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
+import pt.ulusofona.lp2.theWalkingDEISIGame.Creature;
+import pt.ulusofona.lp2.theWalkingDEISIGame.Equipamento;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -11,7 +14,6 @@ public class TWDGameManager {
         - humanos > representa a quantidade de humanos existentes no mapa
         - zombies > representa a quantidade de zombies existentes no mapa
         - equipamentos > representa a quantidade de equipamentos existentes no mapa
-
     linhaAtual - Indica o inicio da linha do ficheiro a comecar a ser lida
     (numLinha/numColuna) - Correspondem ao número de linhas e ao número de colunas do mapa
     idEquipaAtual - Indica qual é o ID da equipa que começa o jogo
@@ -30,10 +32,13 @@ public class TWDGameManager {
     int linhaAtual = 0;
     static int numLinha;
     static int numColuna;
-    int idEquipaAtual = 0;
+    int idEquipaAtual = 10;
     int nrTurno = 0;
     int nC;
     int nE;
+    int nP;
+    static int xPortas;
+    static int yPortas;
 
     int nrDias = 6;
     int nrNoites = 6;
@@ -48,8 +53,11 @@ public class TWDGameManager {
     public boolean startGame(File ficheiroInicial) {
 
         creatures = new ArrayList<>();
+
         numLinha = 0;
         numColuna = 0;
+        xPortas = 0;
+        yPortas = 0;
         nrTurno = 0;
 
         try {
@@ -89,16 +97,13 @@ public class TWDGameManager {
 
             // enquanto o ficheiro tiver linhas não-lidas
             while (leitor.hasNextLine()) {
-                // linhaAtual != nLinhas
+
                 if (linhaAtual < nLinhas) {
                     // lê uma linha do ficheiro até achar uma quebra de linha
                     linha = leitor.nextLine();
 
                     // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
                     String[] dados = linha.split(":");
-
-                    // Imprime as linhas com criaturas
-                    // System.out.println(linha);
 
                     // Converte as Strings lidas para os tipos esperados
                     // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
@@ -109,12 +114,25 @@ public class TWDGameManager {
                     int posY = Integer.parseInt(dados[4].trim());
 
                     //Verificar se o idTipo é zombie ou humano e adiciona na respetiva lista
-                    if (idTipo == 0) {
-                        creatures.add(new Zombie(id, idTipo, nome, posX, posY)); // adiciona zombie
-                        System.out.println(creatures.toString()); // imprime zombie
-                    } else if (idTipo == 1) {
-                        creatures.add(new Humano(id, idTipo, nome, posX, posY)); // adiciona humano
-                        //System.out.println(creatures.toString()); // imprime humanos
+                    if (idTipo == 1) {
+                        Creature zombie = new Zombie(id, idTipo, nome, posX, posY);
+
+                        creatures.add(zombie); // adiciona zombie
+                        zombie.getTipo();
+                        zombie.getEquipaZ();
+                        System.out.println(zombie.toString()); // imprime zombie
+                    } else if (idTipo == 6) {
+                        Creature humano = new Humano(id, idTipo, nome, posX, posY);
+                        creatures.add(humano); // adiciona humano
+                        humano.getTipo();
+                        humano.getEquipa();
+                        System.out.println(humano.toString()); // imprime humano
+                    } else if (idTipo == 9) {
+                        Creature cao = new Cao(id, idTipo, nome, posX, posY);
+                        creatures.add(cao); // adiciona cao
+                        cao.getTipo();
+                        cao.getEquipa();
+                        System.out.println(cao.toString()); // imprime cao
                     }
 
                     linhaAtual++;
@@ -124,35 +142,60 @@ public class TWDGameManager {
                     // ler uma linha do ficheiro
                     linha = leitor.nextLine();
                     nE = Integer.parseInt(linha);
+                    System.out.println(nE);
 
+                    int linhaPorta;
+                    linhaPorta = nE;
+                    linhaPorta += nLinhas;
+
+                    // enquanto o ficheiro tiver linhas não-lidas depois da anterior, lê
                     while (leitor.hasNextLine()) {
 
-                        // lê uma linha do ficheiro até achar uma quebra de linha
-                        linha = leitor.nextLine();
+                        if (linhaAtual < linhaPorta) {
+                            // lê uma linha do ficheiro até achar uma quebra de linha
+                            linha = leitor.nextLine();
 
-                        // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
-                        String[] novaFila = linha.split(":");
+                            // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
+                            String[] novaFila = linha.split(":");
 
-                        // Imprime linhas com os equipamentos
-                        // System.out.println(linha);
+                            // Converte as Strings lidas para os tipos esperados
+                            // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
+                            int id = Integer.parseInt(novaFila[0].trim());
+                            int idTipo = Integer.parseInt(novaFila[1].trim());
+                            int posX = Integer.parseInt(novaFila[2].trim());
+                            int posY = Integer.parseInt(novaFila[3].trim());
 
-                        // Converte as Strings lidas para os tipos esperados
-                        // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
-                        int id = Integer.parseInt(novaFila[0].trim());
-                        int idTipo = Integer.parseInt(novaFila[1].trim());
-                        int posX = Integer.parseInt(novaFila[2].trim());
-                        int posY = Integer.parseInt(novaFila[3].trim());
+                            //Verificar se o idTipo é Escudo ou Espada e adiciona na respetiva lista
+                            if (idTipo == 0 || idTipo == 1) {
+                                Equipamento eq = new Equipamento(id, idTipo, posX, posY);
+                                equipamentos.add(eq); // adiciona equipamento
+                                eq.contarEquipamentos(1); // incrementa se houver mais um
+                                eq.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(eq.toString());
+                            }
 
-                        //Verificar se o idTipo é Escudo ou Espada e adiciona na respetiva lista
-                        if (idTipo == 0 || idTipo == 1) {
-                            Equipamento eq = new Equipamento(id, idTipo, posX, posY);
-                            equipamentos.add(eq); // adiciona equipamento
-                            eq.contarEquipamentos(1); // incrementa se houver mais um
-                            eq.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
-                            System.out.println(eq.toString());
+                            linhaAtual++;
+
+                        }  else if (linhaAtual == linhaPorta) {
+
+                            linha = leitor.nextLine();
+                            nP = Integer.parseInt(linha);
+
+                            while (leitor.hasNextLine()) {
+                                // lê uma linha do ficheiro até achar uma quebra de linha
+                                linha = leitor.nextLine();
+
+                                // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
+                                String[] porta = linha.split(":");
+
+                                // Converte as Strings lidas para os tipos esperados
+                                // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
+                                xPortas = Integer.parseInt(porta[0].trim()); // guarda na primeira posicao do array o x
+                                yPortas = Integer.parseInt(porta[1].trim()); // guarda na segunda posicao do array o y
+                            }
                         }
                     }
-                }// else
+                }
             }
 
             leitor.close();
@@ -173,9 +216,9 @@ public class TWDGameManager {
 
     public int getInitialTeam() {
         if (nrTurno % 2 == 0) {
-            return idEquipaAtual = 0;
+            return idEquipaAtual = 10;
         } else {
-            return idEquipaAtual = 1;
+            return idEquipaAtual = 20;
         }
     }
 
@@ -200,7 +243,7 @@ public class TWDGameManager {
         }
 
         if (!valido){
-           return false;
+            return false;
         }
 
         //percorre a lista... verifica o conjunto de humanos existentes e pega a posicao do mapa
@@ -280,16 +323,16 @@ public class TWDGameManager {
 
     public int getCurrentTeamId() {
         if (diurno){
-            return idEquipaAtual = 0;
+            return idEquipaAtual = 10;
         } else {
-            return idEquipaAtual = 1;
+            return idEquipaAtual = 20;
         }
     }
 
     public int getElementId(int x, int y) {
         for (Creature c: creatures){
             if (c.getXAtual() == x && c.getYAtual() == y) {
-                return c.getId;
+                return c.getId();
             }
         }
 
@@ -298,10 +341,11 @@ public class TWDGameManager {
                 return e.getiD();
             }
         }
+
         return 0;
     }
 
-    public List<String> getSurvivors() {
+    public List<String> getGameResults() {
         int countHumano = 0;
         int countZombie = 0;
 
@@ -318,7 +362,6 @@ public class TWDGameManager {
                 resultados.add(humano.getId() + " | " + humano.getNome());
             }
         }
-
         for (Zombie zombie : zombies) {
             if (zombie.getId() >= 3) {
                 countZombie++;
@@ -333,5 +376,65 @@ public class TWDGameManager {
 
     public boolean isDay() {
         return diurno;
+    }
+
+    public int getEquipmentId(int creatureId) {
+        return 0;
+    }
+
+    public List<Integer> getIdsInSafeHaven() {
+        return null;
+    }
+
+    public boolean isDoorToSafeHaven(int x, int y) {
+        return false;
+    }
+
+    public int getEquipmentTypeId(int equipmentId){
+        return equipmentId;
+    }
+
+    public String getEquipmentInfo(int equipmentId) {
+        return null;
+    }
+
+    public boolean saveGame(File fich) {
+        return false;
+    }
+
+    public boolean loadGame(File fich) {
+        return false;
+    }
+
+    public String[] popCultureExtravaganza() {
+        return new String[0];
+    }
+
+    public List<Zombie> getZombies() {
+        return null;
+    }
+
+    public List<Humano> getHumans() {
+        return null;
+    }
+
+    public boolean hasEquipment(int creatureId, int equipmentTypeId) {
+        // verifica se o humano tem o equipamento
+        for (Creature humano: creatures) {
+            if (humano.getId() == creatureId) {
+                for (Equipamento equipamento : humano.getEquipamentos()) {
+                    if (equipamento.getIdTipo() == equipmentTypeId) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        ////se nenhum tiver retorna falso
+        return false;
+    }
+
+    public List<String> getSurvivors() {
+        return null;
     }
 }

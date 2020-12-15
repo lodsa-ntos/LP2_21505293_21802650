@@ -430,4 +430,7 @@ public class TWDGameManager {
     public boolean hasEquipment(int creatureId, int equipmentTypeId){
         return false;
     }
+    public List<String> getSurvivors(){
+        return null;
+    }
 }

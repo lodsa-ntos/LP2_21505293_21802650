@@ -16,7 +16,7 @@ public class Humano extends Creature{
 
     @Override
     public int getIdEquipa() {
-        return idEquipa;
+        return idEquipa = 10;
     }
 
     @Override

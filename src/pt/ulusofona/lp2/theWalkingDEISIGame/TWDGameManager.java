@@ -24,6 +24,9 @@ public class TWDGameManager {
     //Lista de Creatures
     static ArrayList<Creature> creatures = new ArrayList<>();
 
+    //Lista de Creatures
+
+
     //Lista de Equipamento
     ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
@@ -34,6 +37,9 @@ public class TWDGameManager {
     int nrTurno = 0;
     int nC;
     int nE;
+    int nP;
+    static int xPortas;
+    static int yPortas;
 
     int nrDias = 6;
     int nrNoites = 6;
@@ -48,8 +54,11 @@ public class TWDGameManager {
     public boolean startGame(File ficheiroInicial) {
 
         creatures = new ArrayList<>();
+
         numLinha = 0;
         numColuna = 0;
+        xPortas = 0;
+        yPortas = 0;
         nrTurno = 0;
 
         try {
@@ -73,11 +82,13 @@ public class TWDGameManager {
             }
             numLinha = Integer.parseInt(mapa[0].trim()); // guarda na primeira posicao do array o numLinha
             numColuna = Integer.parseInt(mapa[1].trim()); // guarda na segunda posicao do array o numColuna
+            System.out.println(mapa[0] +" "+ mapa[1]);
 
             // Segunda linha que indica qual é o ID da equipa que começa o jogo.
             // ler uma linha do ficheiro
             linha = leitor.nextLine();
             idEquipaAtual = Integer.parseInt(linha);
+            System.out.println(idEquipaAtual);
 
             // Terceira linha que indica o número de criaturas em jogo.
             // ler uma linha do ficheiro
@@ -87,18 +98,17 @@ public class TWDGameManager {
             int nLinhas;
             nLinhas = nC;
 
+            System.out.println(nC);
+
             // enquanto o ficheiro tiver linhas não-lidas
             while (leitor.hasNextLine()) {
-                // linhaAtual != nLinhas
+
                 if (linhaAtual < nLinhas) {
                     // lê uma linha do ficheiro até achar uma quebra de linha
                     linha = leitor.nextLine();
 
                     // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
                     String[] dados = linha.split(":");
-
-                    // Imprime as linhas com criaturas
-                    // System.out.println(linha);
 
                     // Converte as Strings lidas para os tipos esperados
                     // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
@@ -109,12 +119,18 @@ public class TWDGameManager {
                     int posY = Integer.parseInt(dados[4].trim());
 
                     //Verificar se o idTipo é zombie ou humano e adiciona na respetiva lista
-                    if (idTipo == 0) {
-                        creatures.add(new Zombie(id, idTipo, nome, posX, posY)); // adiciona zombie
-                        System.out.println(creatures.toString()); // imprime zombie
-                    } else if (idTipo == 1) {
-                        creatures.add(new Humano(id, idTipo, nome, posX, posY)); // adiciona humano
-                        //System.out.println(creatures.toString()); // imprime humanos
+                    if (idTipo == 1) {
+                        Creature zombie = new Zombie(id, idTipo, nome, posX, posY);
+                        creatures.add(zombie); // adiciona zombie
+                        System.out.println(zombie.toString()); // imprime zombie
+                    } else if (idTipo == 6) {
+                        Creature humano = new Humano(id, idTipo, nome, posX, posY);
+                        creatures.add(humano); // adiciona zombie
+                        System.out.println(humano.toString()); // imprime humano
+                    } else if (idTipo == 9) {
+                        Creature cao = new Cao(id, idTipo, nome, posX, posY);
+                        creatures.add(cao); // adiciona cao
+                        System.out.println(cao.toString()); // imprime cao
                     }
 
                     linhaAtual++;
@@ -124,35 +140,61 @@ public class TWDGameManager {
                     // ler uma linha do ficheiro
                     linha = leitor.nextLine();
                     nE = Integer.parseInt(linha);
+                    System.out.println(nE);
 
+                    int linhaPorta;
+                    linhaPorta = nE;
+                    linhaPorta += nLinhas;
+
+                    // enquanto o ficheiro tiver linhas não-lidas depois da anterior, lê
                     while (leitor.hasNextLine()) {
 
-                        // lê uma linha do ficheiro até achar uma quebra de linha
-                        linha = leitor.nextLine();
+                        if (linhaAtual < linhaPorta) {
+                            // lê uma linha do ficheiro até achar uma quebra de linha
+                            linha = leitor.nextLine();
 
-                        // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
-                        String[] novaFila = linha.split(":");
+                            // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
+                            String[] novaFila = linha.split(":");
 
-                        // Imprime linhas com os equipamentos
-                        // System.out.println(linha);
+                            // Converte as Strings lidas para os tipos esperados
+                            // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
+                            int id = Integer.parseInt(novaFila[0].trim());
+                            int idTipo = Integer.parseInt(novaFila[1].trim());
+                            int posX = Integer.parseInt(novaFila[2].trim());
+                            int posY = Integer.parseInt(novaFila[3].trim());
 
-                        // Converte as Strings lidas para os tipos esperados
-                        // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
-                        int id = Integer.parseInt(novaFila[0].trim());
-                        int idTipo = Integer.parseInt(novaFila[1].trim());
-                        int posX = Integer.parseInt(novaFila[2].trim());
-                        int posY = Integer.parseInt(novaFila[3].trim());
+                            //Verificar se o idTipo é Escudo ou Espada e adiciona na respetiva lista
+                            if (idTipo == 0 || idTipo == 1) {
+                                Equipamento eq = new Equipamento(id, idTipo, posX, posY);
+                                equipamentos.add(eq); // adiciona equipamento
+                                eq.contarEquipamentos(1); // incrementa se houver mais um
+                                eq.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(eq.toString());
+                            }
 
-                        //Verificar se o idTipo é Escudo ou Espada e adiciona na respetiva lista
-                        if (idTipo == 0 || idTipo == 1) {
-                            Equipamento eq = new Equipamento(id, idTipo, posX, posY);
-                            equipamentos.add(eq); // adiciona equipamento
-                            eq.contarEquipamentos(1); // incrementa se houver mais um
-                            eq.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
-                            System.out.println(eq.toString());
+                            linhaAtual++;
+
+                        }  else if (linhaAtual == linhaPorta) {
+                            linha = leitor.nextLine();
+                            nP = Integer.parseInt(linha);
+                            System.out.println(nP);
+
+                            while (leitor.hasNextLine()) {
+                                // lê uma linha do ficheiro até achar uma quebra de linha
+                                linha = leitor.nextLine();
+
+                                // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
+                                String[] porta = linha.split(":");
+
+                                // Converte as Strings lidas para os tipos esperados
+                                // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
+                                xPortas = Integer.parseInt(porta[0].trim()); // guarda na primeira posicao do array o x
+                                yPortas = Integer.parseInt(porta[1].trim()); // guarda na segunda posicao do array o y
+                                System.out.println(porta[0] +":"+ porta[1]);
+                            }
                         }
                     }
-                }// else
+                }
             }
 
             leitor.close();
@@ -200,7 +242,7 @@ public class TWDGameManager {
         }
 
         if (!valido){
-           return false;
+            return false;
         }
 
         //percorre a lista... verifica o conjunto de humanos existentes e pega a posicao do mapa
@@ -289,7 +331,7 @@ public class TWDGameManager {
     public int getElementId(int x, int y) {
         for (Creature c: creatures){
             if (c.getXAtual() == x && c.getYAtual() == y) {
-                return c.getId;
+                return c.getId();
             }
         }
 
@@ -298,10 +340,11 @@ public class TWDGameManager {
                 return e.getiD();
             }
         }
+
         return 0;
     }
 
-    public List<String> getSurvivors() {
+    public List<String> getGameResults() {
         int countHumano = 0;
         int countZombie = 0;
 
@@ -333,5 +376,42 @@ public class TWDGameManager {
 
     public boolean isDay() {
         return diurno;
+    }
+
+    public int getEquipmentId(int creatureId) {
+        return 0;
+    }
+
+    public List<Integer> getIdsInSafeHaven() {
+
+        return null;
+    }
+
+    public boolean isDoorToSafeHaven(int x, int y) {
+        return true;
+    }
+
+    public int getEquipmentTypeId(int equipmentId){
+        return equipmentId;
+    }
+
+    public String getEquipmentInfo(int equipmentId) {
+
+        return null;
+    }
+
+    public boolean saveGame(File fich) {
+
+        return false;
+    }
+
+    public boolean loadGame(File fich) {
+
+        return false;
+    }
+
+    public String[] popCultureExtravaganza() {
+
+        return new String[0];
     }
 }

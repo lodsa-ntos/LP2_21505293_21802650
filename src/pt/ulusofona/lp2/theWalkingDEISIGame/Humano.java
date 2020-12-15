@@ -9,40 +9,48 @@ public class Humano extends Creature{
 
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public int getIdEquipa() {
         return idEquipa;
     }
 
+    @Override
     public String getNome() {
         return nome;
     }
 
+    @Override
     public int getIdTipo() {
         return idTipo;
     }
 
-    public void setxAtual(int xAtual) {
-        this.xAtual = xAtual;
-    }
-
+    @Override
     public int getXAtual() {
         return xAtual;
     }
 
+    @Override
     public int getYAtual() {
         return yAtual;
     }
 
-    public void setyAtual(int yAtual) {
-        this.yAtual = yAtual;
-    }
-
+    @Override
     public ArrayList<Equipamento> getEquipamentos() {
         return equipamentos;
+    }
+
+    @Override
+    public String toString() {
+        if (equipamentos != null){
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos.size() + " @ (" + xAtual + ", " + yAtual + ")";
+        } else {
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
+        }
     }
 
     public void contarHumanos(int nrHumanos) {
@@ -57,25 +65,11 @@ public class Humano extends Creature{
         }
     }
 
-    // Metodo onde <Equipa> corresponde aos nomes (p.e. “Os Vivos” ou “Os Outros”).
     public void getEquipa() {
         if(this.idEquipa == 0){
             equipa = "Os Vivos";
         } else {
             equipa = "Os Outros";
-        }
-    }
-
-    public String getImagePNG() {
-        return new String("hum.png");
-    }
-
-    @Override
-    public String toString() {
-        if (equipamentos != null){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos.size() + " @ (" + xAtual + ", " + yAtual + ")";
-        } else {
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
         }
     }
 }

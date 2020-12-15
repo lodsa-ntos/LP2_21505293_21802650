@@ -55,6 +55,16 @@ public class Equipamento {
         }
     }
 
+    public String getImagePNG() {
+        if (this.id == 1) {
+            return new String("equipment.png");
+        } else if (this.id == 2) {
+            return new String("steak.png");
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public String toString() {
         return id + " | " + titulo + " @ (" + xAtual + ", " + yAtual + ") ";

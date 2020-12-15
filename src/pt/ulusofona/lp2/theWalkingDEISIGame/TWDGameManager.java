@@ -2,6 +2,8 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class TWDGameManager {
@@ -81,13 +83,11 @@ public class TWDGameManager {
             }
             numLinha = Integer.parseInt(mapa[0].trim()); // guarda na primeira posicao do array o numLinha
             numColuna = Integer.parseInt(mapa[1].trim()); // guarda na segunda posicao do array o numColuna
-            System.out.println(mapa[0] +" "+ mapa[1]);
 
             // Segunda linha que indica qual é o ID da equipa que começa o jogo.
             // ler uma linha do ficheiro
             linha = leitor.nextLine();
             idEquipaAtual = Integer.parseInt(linha);
-            System.out.println(idEquipaAtual);
 
             // Terceira linha que indica o número de criaturas em jogo.
             // ler uma linha do ficheiro
@@ -96,8 +96,6 @@ public class TWDGameManager {
 
             int nLinhas;
             nLinhas = nC;
-
-            System.out.println(nC);
 
             // enquanto o ficheiro tiver linhas não-lidas
             while (leitor.hasNextLine()) {
@@ -183,7 +181,6 @@ public class TWDGameManager {
                         }  else if (linhaAtual == linhaPorta) {
                             linha = leitor.nextLine();
                             nP = Integer.parseInt(linha);
-                            System.out.println(nP);
 
                             while (leitor.hasNextLine()) {
                                 // lê uma linha do ficheiro até achar uma quebra de linha
@@ -196,7 +193,6 @@ public class TWDGameManager {
                                 // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
                                 xPortas = Integer.parseInt(porta[0].trim()); // guarda na primeira posicao do array o x
                                 yPortas = Integer.parseInt(porta[1].trim()); // guarda na segunda posicao do array o y
-                                System.out.println(porta[0] +":"+ porta[1]);
                             }
                         }
                     }
@@ -247,13 +243,21 @@ public class TWDGameManager {
             valido = false;
         }
 
+        if (xD < 0 || yD < 0 || xD > numLinha - 1 || yD > numColuna - 1) {
+            return false;
+        }
+
+        if (xD == xO && yD == yO) {
+            valido = false;
+        }
+
         if (!valido){
             return false;
         }
 
         //percorre a lista... verifica o conjunto de humanos existentes e pega a posicao do mapa
         for (Creature humano : creatures) {
-            if ( humano.getXAtual() == xO && humano.getYAtual() == yO && !(xO == xD && yO == yD)) {
+            if (humano.getXAtual() == xO && humano.getYAtual() == yO) {
 
                 for (Creature zombie: creatures) {
                     if (zombie.getXAtual() == xD && zombie.getYAtual() == yD) {
@@ -328,7 +332,7 @@ public class TWDGameManager {
 
     public int getCurrentTeamId() {
         if (diurno){
-            return idEquipaAtual = 10;
+            return idEquipaAtual;
         } else {
             return idEquipaAtual = 20;
         }
@@ -384,16 +388,26 @@ public class TWDGameManager {
     }
 
     public int getEquipmentId(int creatureId) {
+        // verifica se o criatura tem o equipamento
+        for (Creature creature: creatures) {
+            if (creature.getId() == creatureId) {
+                for (Equipamento equipamento : creature.getEquipamentos()) {
+                    if (equipamento.getIdTipo() == 0 || equipamento.getIdTipo() == 1) {
+                        return equipamento.getiD();
+                    }
+                }
+            }
+        }
+        // se nenhum tiver retorna 0
         return 0;
     }
 
     public List<Integer> getIdsInSafeHaven() {
-
         return null;
     }
 
     public boolean isDoorToSafeHaven(int x, int y) {
-        return false;
+        return xPortas == x && yPortas == y;
     }
 
     public int getEquipmentTypeId(int equipmentId){
@@ -401,22 +415,42 @@ public class TWDGameManager {
     }
 
     public String getEquipmentInfo(int equipmentId) {
-
         return null;
     }
 
     public boolean saveGame(File fich) {
 
+        // retorna o separador de linha, ou seja será a quebra de linha quando chegar a final de uma linha lida
+        String nextLine = System.lineSeparator();
+
+        try {
+            FileWriter salvarFich = new FileWriter(fich);
+
+            salvarFich.write(numLinha + "" + numColuna);
+            salvarFich.write(nextLine);
+            salvarFich.write(idEquipaAtual);
+            salvarFich.write(nextLine);
+            salvarFich.write(nC);
+            salvarFich.write(nextLine);
+
+            for(Creature criatura : creatures) {
+                salvarFich.write(criatura.getId() + ":" + criatura.getIdTipo()+ ":" + criatura.getNome() + ":"
+                        + criatura.getXAtual() + ":" + criatura.getYAtual());
+
+                salvarFich.write(nextLine);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
         return false;
     }
 
     public boolean loadGame(File fich) {
-
         return false;
     }
 
     public String[] popCultureExtravaganza() {
-
         return new String[0];
     }
 

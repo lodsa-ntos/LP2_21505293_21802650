@@ -71,6 +71,7 @@ public abstract class Creature {
             equipa = "Os Vivos";
         }
     }
+
     public void getEquipaZ(){
         if (this.idEquipaZombie == 20){
             equipa = "Os Outros";

@@ -40,6 +40,6 @@ public class Cao extends Creature {
 
     @Override
     public ArrayList<Equipamento> getEquipamentos() {
-        return null;
+        return equipamentos;
     }
 }

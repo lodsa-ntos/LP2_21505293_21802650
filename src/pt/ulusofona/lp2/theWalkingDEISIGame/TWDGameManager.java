@@ -121,6 +121,7 @@ public class TWDGameManager {
                     //Verificar se o idTipo é zombie ou humano e adiciona na respetiva lista
                     if (idTipo == 1) {
                         Creature zombie = new Zombie(id, idTipo, nome, posX, posY);
+
                         creatures.add(zombie); // adiciona zombie
                         zombie.getTipo();
                         zombie.getEquipaZ();
@@ -419,5 +420,14 @@ public class TWDGameManager {
     public String[] popCultureExtravaganza() {
 
         return new String[0];
+    }
+    public List<Zombie> getZombies(){
+        return null;
+    }
+    public List<Humano> getHumans(){
+        return null;
+    }
+    public boolean hasEquipment(int creatureId, int equipmentTypeId){
+        return false;
     }
 }

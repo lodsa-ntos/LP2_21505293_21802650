@@ -20,8 +20,8 @@ public abstract class Creature {
 
     int nrHumanos = 0;
     int nrZombies = 0;
-    ArrayList<Equipamento> equipamentos = new ArrayList<>();
-    ArrayList<Equipamento> destruidos = new ArrayList<>();
+    protected ArrayList<Equipamento> equipamentos = new ArrayList<>();
+    protected ArrayList<Equipamento> destruidos = new ArrayList<>();
 
     public Creature(int id, int idTipo, String nome, int xAtual, int yAtual) {
         this.id = id;
@@ -44,7 +44,7 @@ public abstract class Creature {
 
     public abstract int getYAtual();
 
-    public abstract ArrayList<Equipamento> getEquipamentos();
+    protected abstract ArrayList<Equipamento> getEquipamentos();
 
     public void setxAtual(int xAtual) {}
 
@@ -64,6 +64,7 @@ public abstract class Creature {
             tipo = "Cão";
         }
     }
+
     // Metodo onde <Equipa> corresponde aos nomes (p.e. “Os Vivos” ou “Os Outros”).
     public void getEquipa() {
         if(this.idEquipa == 10){

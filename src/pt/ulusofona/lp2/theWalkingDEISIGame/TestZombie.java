@@ -18,6 +18,7 @@ public class TestZombie {
 
     }*/
 
+    /*
     @Test
     public void test02GetIdEquipa() {
         Zombie zombie = new Zombie(3, 0, "Paciente Zero", 4, 4);
@@ -25,6 +26,8 @@ public class TestZombie {
         int idObtido = zombie.getId();
         assertEquals(idEsperado, idObtido);
     }
+
+     */
 
    /* @Test
     public void test03GetIdTipo() {

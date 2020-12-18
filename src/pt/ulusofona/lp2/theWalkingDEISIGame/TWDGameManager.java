@@ -116,13 +116,20 @@ public class TWDGameManager {
                     int posY = Integer.parseInt(dados[4].trim());
 
                     //Verificar se o idTipo é zombie ou humano e adiciona na respetiva lista
-                    if (idTipo == 1) {
-                        Creature zombie = new Zombie(id, idTipo, nome, posX, posY);
+                    switch(idTipo) {
+                        case 0:
+                            Crianca zombie = new Crianca(id, idTipo, nome, posX, posY);
 
-                        creatures.add(zombie); // adiciona zombie
-                        zombie.getTipo();
-                        zombie.getEquipaZ();
-                        System.out.println(zombie.toString()); // imprime zombie
+                            creatures.add(zombie); // adiciona zombie
+                            zombie.getTipo();
+                            zombie.getEquipaZ();
+                            System.out.println(zombie.toString()); // imprime zombie
+                            break;
+                        case 1:
+                            /*INCOMPLETO*/
+                    }
+                    if (idTipo == 0) {
+
                     } else if (idTipo == 6) {
                         Creature humano = new Humano(id, idTipo, nome, posX, posY);
                         creatures.add(humano); // adiciona humano
@@ -257,7 +264,8 @@ public class TWDGameManager {
 
         //percorre a lista... verifica o conjunto de humanos existentes e pega a posicao do mapa
         for (Creature humano : creatures) {
-            if (humano.getXAtual() == xO && humano.getYAtual() == yO) {
+            if (humano.getIdEquipa() == idEquipaAtual &&
+                    humano.getXAtual() == xO && humano.getYAtual() == yO) {
 
                 for (Creature zombie: creatures) {
                     if (zombie.getXAtual() == xD && zombie.getYAtual() == yD) {
@@ -423,6 +431,24 @@ public class TWDGameManager {
     }
 
     public String getEquipmentInfo(int equipmentId) {
+        String nomeTipo;
+        String info;
+        switch (equipmentId) {
+            // PARA AS 3 SEGUINTES TEMOS QUE DAR O NOME + INFO
+            case 0:
+                nomeTipo = "Espada de Madeira";
+                info = "";
+                break;
+            case 5:
+                nomeTipo = "Pistola";
+                break;
+            case 7:
+                nomeTipo = "Garrafa lixivia";
+                break;
+
+
+        }
+
         return null;
     }
 
@@ -434,19 +460,22 @@ public class TWDGameManager {
         try {
             FileWriter salvarFich = new FileWriter(fich);
 
-            salvarFich.write(numLinha + "" + numColuna);
+            salvarFich.write(numLinha + " " + numColuna);
             salvarFich.write(nextLine);
             salvarFich.write(idEquipaAtual);
             salvarFich.write(nextLine);
             salvarFich.write(nC);
             salvarFich.write(nextLine);
 
+
             for(Creature criatura : creatures) {
-                salvarFich.write(criatura.getId() + ":" + criatura.getIdTipo()+ ":" + criatura.getNome() + ":"
-                        + criatura.getXAtual() + ":" + criatura.getYAtual());
+                salvarFich.write(criatura.getId() + " : " + criatura.getIdTipo()+ " : " + criatura.getNome() + " : "
+                        + criatura.getXAtual() + " : " + criatura.getYAtual());
 
                 salvarFich.write(nextLine);
             }
+
+            salvarFich.close();
 
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());

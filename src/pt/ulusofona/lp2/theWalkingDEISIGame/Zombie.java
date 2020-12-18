@@ -2,13 +2,13 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.util.ArrayList;
 
-public class Zombie extends Creature {
+public abstract class Zombie extends Creature {
 
     public Zombie(int id, int idTipo, String nome, int xAtual, int yAtual) {
         super(id, idTipo, nome, xAtual, yAtual);
     }
 
-    @Override
+        @Override
     public int getId() {
         return id;
     }

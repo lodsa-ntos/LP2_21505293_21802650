@@ -31,7 +31,11 @@ public abstract class Creature {
         this.yAtual = yAtual;
     }
 
-    // Devolve o ID da criatura.
+    public boolean move(int xO, int yO, int xD, int yD) {
+        return false;
+    }
+
+        // Devolve o ID da criatura.
     public abstract int getId();
 
     public abstract int getIdEquipa();

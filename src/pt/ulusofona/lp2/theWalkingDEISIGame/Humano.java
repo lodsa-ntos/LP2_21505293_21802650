@@ -10,6 +10,7 @@ public class Humano extends Creature{
 
     }
 
+
     @Override
     public int getId() {
         return id;

@@ -2,10 +2,15 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.util.ArrayList;
 
-public class Cao extends Creature {
+public class ZombieVampiro extends Creature{
 
-    public Cao(int id, int idTipo, String nome, int xAtual, int yAtual) {
+    public ZombieVampiro(int id, int idTipo, String nome, int xAtual, int yAtual) {
         super(id, idTipo, nome, xAtual, yAtual);
+    }
+
+    @Override
+    public boolean move(int xO, int yO, int xD, int yD) {
+        return false;
     }
 
     @Override
@@ -36,5 +41,9 @@ public class Cao extends Creature {
     @Override
     public int getYAtual() {
         return yAtual;
+    }
+
+    protected ArrayList<Equipamento> getEquipamentos() {
+        return destruidos;
     }
 }

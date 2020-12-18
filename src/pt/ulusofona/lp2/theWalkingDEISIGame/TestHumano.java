@@ -18,11 +18,11 @@ public class TestHumano {
 
     }*/
 
-    @Test
+    /*@Test
     public void test02GetIdEquipa() {
         Humano humano = new Humano(2, 1, "Freddy M.", 3, 4);
         int idEsperado = 2;
         int idObtido = humano.getId();
         assertEquals(idEsperado, idObtido);
-    }
+    }*/
 }

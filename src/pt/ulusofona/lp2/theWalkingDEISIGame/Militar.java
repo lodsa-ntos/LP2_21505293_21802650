@@ -1,15 +1,20 @@
-
 package pt.ulusofona.lp2.theWalkingDEISIGame;
+
+import pt.ulusofona.lp2.theWalkingDEISIGame.Creature;
+import pt.ulusofona.lp2.theWalkingDEISIGame.Equipamento;
 
 import java.util.ArrayList;
 
-public class Humano extends Creature{
+public class Militar extends Creature {
 
-    public Humano(int id, int idTipo, String nome, int xAtual, int yAtual) {
+    public Militar(int id, int idTipo, String nome, int xAtual, int yAtual) {
         super(id, idTipo, nome, xAtual, yAtual);
-
     }
 
+    @Override
+    public boolean move(int xO, int yO, int xD, int yD) {
+        return false;
+    }
 
     @Override
     public int getId() {
@@ -18,7 +23,7 @@ public class Humano extends Creature{
 
     @Override
     public int getIdEquipa() {
-        return idEquipa = 10;
+        return idEquipa;
     }
 
     @Override
@@ -39,14 +44,5 @@ public class Humano extends Creature{
     @Override
     public int getYAtual() {
         return yAtual;
-    }
-
-    @Override
-    public ArrayList<Equipamento> getEquipamentos() {
-        return equipamentos;
-    }
-
-    public void contarHumanos(int nrHumanos) {
-        this.nrHumanos += nrHumanos;
     }
 }

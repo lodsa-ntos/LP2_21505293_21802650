@@ -56,7 +56,7 @@ public class Equipamento {
     }
 
     @Override
-    public String toString() {
+    public String toString () {
         return id + " | " + titulo + " @ (" + xAtual + ", " + yAtual + ") ";
     }
 }

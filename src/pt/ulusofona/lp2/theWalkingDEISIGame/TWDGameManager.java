@@ -25,22 +25,21 @@ public class TWDGameManager {
     //Lista de Creatures
     static ArrayList<Creature> creatures = new ArrayList<>();
 
-    //Lista de Creatures
-
-
     //Lista de Equipamento
     ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
-    int linhaAtual = 0;
     static int numLinha;
     static int numColuna;
-    int idEquipaAtual = 10;
+    static int xPortas;
+    static int yPortas;
+
+    int linhaAtual = 0;
     int nrTurno = 0;
+    int idEquipaAtual = 10;
+
     int nC;
     int nE;
     int nP;
-    static int xPortas;
-    static int yPortas;
 
     int nrDias = 6;
     int nrNoites = 6;
@@ -115,33 +114,87 @@ public class TWDGameManager {
                     int posX = Integer.parseInt(dados[3].trim());
                     int posY = Integer.parseInt(dados[4].trim());
 
-                    //Verificar se o idTipo é zombie ou humano e adiciona na respetiva lista
+                    //Verificar se o idTipo é zombie ou humano e adiciona na lista de criaturas
                     switch(idTipo) {
                         case 0:
-                            Crianca zombie = new Crianca(id, idTipo, nome, posX, posY);
-
-                            creatures.add(zombie); // adiciona zombie
-                            zombie.getTipo();
-                            zombie.getEquipaZ();
-                            System.out.println(zombie.toString()); // imprime zombie
+                            Creature criancaZombie = new Crianca(id, idTipo, nome, posX, posY);
+                            creatures.add(criancaZombie); // adiciona zombie
+                            criancaZombie.getTipo();
+                            criancaZombie.getEquipaZombie();
+                            System.out.println(criancaZombie.toString()); // imprime zombie
                             break;
-                        case 1:
-                            /*INCOMPLETO*/
-                    }
-                    if (idTipo == 0) {
 
-                    } else if (idTipo == 6) {
-                        Creature humano = new Humano(id, idTipo, nome, posX, posY);
-                        creatures.add(humano); // adiciona humano
-                        humano.getTipo();
-                        humano.getEquipa();
-                        System.out.println(humano.toString()); // imprime humano
-                    } else if (idTipo == 9) {
-                        Creature cao = new Cao(id, idTipo, nome, posX, posY);
-                        creatures.add(cao); // adiciona cao
-                        cao.getTipo();
-                        cao.getEquipa();
-                        System.out.println(cao.toString()); // imprime cao
+                        case 1:
+                            Creature adultoZombie = new Adulto(id, idTipo, nome, posX, posY);
+                            creatures.add(adultoZombie); // adiciona zombie
+                            adultoZombie.getTipo();
+                            adultoZombie.getEquipaZombie();
+                            System.out.println(adultoZombie.toString()); // imprime zombie
+                            break;
+
+                        case 2:
+                            Creature militarZombie = new Militar(id, idTipo, nome, posX, posY);
+                            creatures.add(militarZombie); // adiciona zombie
+                            militarZombie.getTipo();
+                            militarZombie.getEquipaZombie();
+                            System.out.println(militarZombie.toString()); // imprime zombie
+                            break;
+
+                        case 3:
+                            Creature idosoZombie = new Idoso(id, idTipo, nome, posX, posY);
+                            creatures.add(idosoZombie); // adiciona zombie
+                            idosoZombie.getTipo();
+                            idosoZombie.getEquipaZombie();
+                            System.out.println(idosoZombie.toString()); // imprime zombie
+                            break;
+
+                        case 4:
+                            Creature zombieVamp = new ZombieVampiro(id, idTipo, nome, posX, posY);
+                            creatures.add(zombieVamp); // adiciona zombie
+                            zombieVamp.getTipo();
+                            zombieVamp.getEquipaZombie();
+                            System.out.println(zombieVamp.toString()); // imprime zombie
+                            break;
+
+                        case 5:
+                            Creature criancaVivo = new Crianca(id, idTipo, nome, posX, posY);
+                            creatures.add(criancaVivo); // adiciona humano
+                            criancaVivo.getTipo();
+                            criancaVivo.getEquipaVivos();
+                            System.out.println(criancaVivo.toString()); // imprime humano
+                            break;
+
+                        case 6:
+                            Creature adultoVivo = new Adulto(id, idTipo, nome, posX, posY);
+                            creatures.add(adultoVivo); // adiciona humano
+                            adultoVivo.getTipo();
+                            adultoVivo.getEquipaVivos();
+                            System.out.println(adultoVivo.toString()); // imprime humano
+                            break;
+
+                        case 7:
+                            Creature militarVivo = new Militar(id, idTipo, nome, posX, posY);
+                            creatures.add(militarVivo); // adiciona humano
+                            militarVivo.getTipo();
+                            militarVivo.getEquipaVivos();
+                            System.out.println(militarVivo.toString()); // imprime humano
+                            break;
+
+                        case 8:
+                            Creature idosoVivo = new Idoso(id, idTipo, nome, posX, posY);
+                            creatures.add(idosoVivo); // adiciona humano
+                            idosoVivo.getTipo();
+                            idosoVivo.getEquipaVivos();
+                            System.out.println(idosoVivo.toString()); // imprime humano
+                            break;
+
+                        case 9:
+                            Creature cao = new Cao(id, idTipo, nome, posX, posY);
+                            creatures.add(cao); // adiciona humano
+                            cao.getTipo();
+                            cao.getEquipaVivos();
+                            System.out.println(cao.toString()); // imprime humano
+                            break;
                     }
 
                     linhaAtual++;
@@ -175,12 +228,13 @@ public class TWDGameManager {
                             int posY = Integer.parseInt(novaFila[3].trim());
 
                             //Verificar se o idTipo é Escudo ou Espada e adiciona na respetiva lista
-                            if (idTipo == 0 || idTipo == 1) {
-                                Equipamento eq = new Equipamento(id, idTipo, posX, posY);
-                                equipamentos.add(eq); // adiciona equipamento
-                                eq.contarEquipamentos(1); // incrementa se houver mais um
-                                eq.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
-                                System.out.println(eq.toString());
+                            switch (idTipo){
+                                case 0:
+                                case 1:
+                                    Equipamento eq = new Equipamento(id, idTipo, posX, posY);
+                                    equipamentos.add(eq); // adiciona equipamento
+                                    eq.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                    System.out.println(eq.toString());
                             }
 
                             linhaAtual++;
@@ -251,7 +305,7 @@ public class TWDGameManager {
         }
 
         if (xD < 0 || yD < 0 || xD > numLinha - 1 || yD > numColuna - 1) {
-            return false;
+            valido = false;
         }
 
         if (xD == xO && yD == yO) {
@@ -262,10 +316,11 @@ public class TWDGameManager {
             return false;
         }
 
+
         //percorre a lista... verifica o conjunto de humanos existentes e pega a posicao do mapa
-        for (Creature humano : creatures) {
-            if (humano.getIdEquipa() == idEquipaAtual &&
-                    humano.getXAtual() == xO && humano.getYAtual() == yO) {
+        for (Creature vivo1: creatures) {
+            if (vivo1.getIdEquipa() == idEquipaAtual &&
+                    vivo1.getXAtual() == xO && vivo1.getYAtual() == yO) {
 
                 for (Creature zombie: creatures) {
                     if (zombie.getXAtual() == xD && zombie.getYAtual() == yD) {
@@ -273,7 +328,7 @@ public class TWDGameManager {
                     }
                 }
 
-                for (Equipamento eq: equipamentos) {
+                /*for (Equipamento eq: equipamentos) {
                     if (eq.getXAtual() == xD && eq.getYAtual() == yD){
                         //Move uma posicao
                         humano.setxAtual(xD);
@@ -305,19 +360,19 @@ public class TWDGameManager {
                         nrTurno++;
                         return true;
                     }
-                }
+                }*/
 
                 // caso nao haja nenhum equipamento, zombie ou humano nessa posicao
                 //Move uma posicao
-                humano.setxAtual(xD);
-                humano.setyAtual(yD);
+                vivo1.setxAtual(xD);
+                vivo1.setyAtual(yD);
 
                 // aumenta o numero de turnos
                 if (nrTurno == 0) {
-                    idEquipaAtual = 0;
+                    idEquipaAtual = 10;
                     diurno = true;
                 } else {
-                    idEquipaAtual = 1;
+                    idEquipaAtual = 20;
                     diurno = false;
                 }
                 nrTurno++;
@@ -399,8 +454,8 @@ public class TWDGameManager {
         // verifica se o criatura tem o equipamento
         for (Creature creature: creatures) {
             if (creature.getId() == creatureId) {
-                for (Equipamento equipamento : creature.getEquipamentos()) {
-                    if (equipamento.getIdTipo() == 0 || equipamento.getIdTipo() == 1) {
+                for (Equipamento equipamento : creature.getEquipamentosVivos()) {
+                    if (equipamento.getIdTipo() == getEquipmentTypeId(0) || equipamento.getiD() == getEquipmentTypeId(1)) {
                         return equipamento.getiD();
                     }
                 }
@@ -431,25 +486,58 @@ public class TWDGameManager {
     }
 
     public String getEquipmentInfo(int equipmentId) {
+
         String nomeTipo;
-        String info;
+        int info;
+
         switch (equipmentId) {
             // PARA AS 3 SEGUINTES TEMOS QUE DAR O NOME + INFO
             case 0:
-                nomeTipo = "Espada de Madeira";
-                info = "";
-                break;
+                nomeTipo = "Escudo de Madeira";
+                info = 0;
+                return nomeTipo + " | " + info;
+
+            case 1:
+                nomeTipo = "Espada Hattori Hanzo";
+                return nomeTipo;
+
+            case 2:
+                nomeTipo = "Pistola Walther PPK";
+                info = 3;
+                return nomeTipo + " | " + info;
+
+            case 3:
+                nomeTipo = "Escudo Tático";
+                return nomeTipo;
+
+            case 4:
+                nomeTipo = "Revista Maria";
+                return nomeTipo;
+
             case 5:
-                nomeTipo = "Pistola";
-                break;
+                nomeTipo = "Cabeça de alho";
+                return nomeTipo;
+
+            case 6:
+                nomeTipo = "Estaca de Madeira";
+                return nomeTipo;
+
             case 7:
-                nomeTipo = "Garrafa lixivia";
-                break;
+                nomeTipo = "Garrafa de lixívia";
+                info = 0;
+                return nomeTipo + " | " + info;
 
+            case 8:
+                nomeTipo = "Veneno";
+                return nomeTipo;
 
+            case 9:
+                nomeTipo = "Antídoto";
+                return nomeTipo;
+
+            default:
+                return "Erro: equipamento " + equipmentId + " não encontrado.";
         }
-
-        return null;
     }
 
     public boolean saveGame(File fich) {
@@ -462,11 +550,10 @@ public class TWDGameManager {
 
             salvarFich.write(numLinha + " " + numColuna);
             salvarFich.write(nextLine);
-            salvarFich.write(idEquipaAtual);
+            salvarFich.write(idEquipaAtual + "");
             salvarFich.write(nextLine);
-            salvarFich.write(nC);
+            salvarFich.write(nC + "");
             salvarFich.write(nextLine);
-
 
             for(Creature criatura : creatures) {
                 salvarFich.write(criatura.getId() + " : " + criatura.getIdTipo()+ " : " + criatura.getNome() + " : "
@@ -475,12 +562,29 @@ public class TWDGameManager {
                 salvarFich.write(nextLine);
             }
 
+            salvarFich.write(nE + "");
+            salvarFich.write(nextLine);
+
+            for(Equipamento objeto : equipamentos) {
+                salvarFich.write(objeto.getiD() + " : " + objeto.getIdTipo()+ " : " + objeto.getXAtual() + " : " + objeto.getYAtual());
+
+                salvarFich.write(nextLine);
+            }
+
+            salvarFich.write(nP + "");
+            salvarFich.write(nextLine);
+            salvarFich.write(xPortas + " : " + yPortas);
+
+            /* IMCOMPLETO */
+
             salvarFich.close();
+
+            return true;
 
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
+            return false;
         }
-        return false;
     }
 
     public boolean loadGame(File fich) {
@@ -489,14 +593,6 @@ public class TWDGameManager {
 
     public String[] popCultureExtravaganza() {
         return new String[0];
-    }
-
-    public List<Zombie> getZombies(){
-        return null;
-    }
-
-    public List<Humano> getHumans(){
-        return null;
     }
 
     public boolean hasEquipment(int creatureId, int equipmentTypeId){

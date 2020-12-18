@@ -18,8 +18,6 @@ public abstract class Creature {
     int xAnterior;
     int yAnterior;
 
-    int nrHumanos = 0;
-    int nrZombies = 0;
     protected ArrayList<Equipamento> equipamentos = new ArrayList<>();
     protected ArrayList<Equipamento> destruidos = new ArrayList<>();
 
@@ -35,7 +33,7 @@ public abstract class Creature {
         return false;
     }
 
-        // Devolve o ID da criatura.
+    // Devolve o ID da criatura.
     public abstract int getId();
 
     public abstract int getIdEquipa();
@@ -48,57 +46,73 @@ public abstract class Creature {
 
     public abstract int getYAtual();
 
-    protected abstract ArrayList<Equipamento> getEquipamentos();
-
     public void setxAtual(int xAtual) {}
 
     public void setyAtual(int yAtual) {}
 
-    public void contarHumanos(int nrHumanos) {}
+    protected ArrayList<Equipamento> getEquipamentosVivos(){
+        return equipamentos;
+    }
 
-    public void contarZombies (int nrZombies) {}
+    protected ArrayList<Equipamento> getEquipamentosZombies(){
+        return destruidos;
+    }
 
     // Metodo onde <Tipo> corresponde aos nomes (p.e. “Humano” ou “Zombie”).
-    public void getTipo(){
-        if(this.idTipo == 1){
+    protected void getTipo(){
+        if(this.idTipo == 0){
+            tipo = "Criança (Zombie)";
+        } else if (this.idTipo == 1) {
             tipo = "Adulto (Zombie)";
-        } else if(this.idTipo == 6) {
+        } else if (this.idTipo == 2) {
+            tipo = "Militar (Zombie)";
+        } else if (this.idTipo == 3) {
+            tipo = "Idoso (Zombie)";
+        } else if (this.idTipo == 4) {
+            tipo = "Zombie Vampiro";
+        } else if (this.idTipo == 5) {
+            tipo = "Criança (Vivo)";
+        } else if (this.idTipo == 6) {
             tipo = "Adulto (Vivo)";
-        } else {
+        } else if (this.idTipo == 7) {
+            tipo = "Militar (Vivo)";
+        } else if (this.idTipo == 8) {
+            tipo = "Idoso (Vivo)";
+        } else if (this.idTipo == 9) {
             tipo = "Cão";
         }
     }
 
     // Metodo onde <Equipa> corresponde aos nomes (p.e. “Os Vivos” ou “Os Outros”).
-    public void getEquipa() {
+    public void getEquipaVivos() {
         if(this.idEquipa == 10){
             equipa = "Os Vivos";
         }
     }
 
-    public void getEquipaZ(){
+    public void getEquipaZombie(){
         if (this.idEquipaZombie == 20){
             equipa = "Os Outros";
         }
     }
 
-
     // Metodo que devolve o nome do ficheiro de imagem (formato PNG) que representa a criatura.
     public String getImagePNG() {
-        if(this.id == 1){
-            return new String("idoso.png");
-        } else if(this.id == 2) {
-            return new String("jackie.png");
-        } else if(this.id == 3) {
-            return new String("alice.png");
-        } else if(this.id == 4) {
-            return new String("ash.png");
-        } else if(this.id == 5) {
-            return new String("dog.png");
-        } else if(this.id == 6) {
-            return new String("zomb.png");
-        } else {
-            return null;
+        switch (id){
+            case 1:
+                return new String("idoso.png");
+            case 2:
+                return new String("jackie.png");
+            case 3:
+                return new String("alice.png");
+            case 4:
+                return new String("ash.png");
+            case 5:
+                return new String("dog.png");
+            case 6:
+                return new String("zomb.png");
+            default:
+                return null;
         }
     }
 

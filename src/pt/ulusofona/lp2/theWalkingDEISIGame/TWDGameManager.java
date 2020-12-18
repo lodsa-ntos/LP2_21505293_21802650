@@ -599,6 +599,14 @@ public class TWDGameManager {
         return false;
     }
 
+    public List<Zombie> getZombies(){
+        return null;
+    }
+
+    public List<Humano> getHumans(){
+        return null;
+    }
+
     public List<String> getSurvivors(){
         return null;
     }

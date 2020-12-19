@@ -9,7 +9,7 @@ public class TestEquipamento {
     public TestEquipamento () {
     }
 
-    @Test
+    /*@Test
     public void test02GetIdEquipa() {
         Equipamento equipamento = new Equipamento(2, 0, 0, 3);
         int idEsperado = 2;
@@ -24,5 +24,5 @@ public class TestEquipamento {
         String tipoEsperado = "Espada samurai";
         String tipoObtido = equipamento.getTitulo();
         assertEquals(tipoEsperado, tipoObtido);
-    }
+    }*/
 }

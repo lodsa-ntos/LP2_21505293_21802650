@@ -1,6 +1,6 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
-public class Equipamento {
+public abstract class Equipamento {
 
     int id;
     int idTipo;
@@ -11,11 +11,6 @@ public class Equipamento {
     int xAnterior;
     int yAnterior;
 
-    int nrEquipamentos = 0;
-
-    public Equipamento() {
-    }
-
     public Equipamento(int id, int idTipo, int xAtual, int yAtual) {
         this.id = id;
         this.idTipo = idTipo;
@@ -23,29 +18,15 @@ public class Equipamento {
         this.yAtual = yAtual;
     }
 
-    public int getiD() {
-        return id;
-    }
+    protected abstract int getiD();
 
-    public int getIdTipo() {
-        return idTipo;
-    }
+    protected abstract int getIdTipo();
 
-    public int getXAtual() {
-        return xAtual;
-    }
+    protected abstract int getXAtual();
 
-    public int getYAtual() {
-        return yAtual;
-    }
+    protected abstract int getYAtual();
 
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void contarEquipamentos(int nrEquipamentos) {
-        this.nrEquipamentos += nrEquipamentos;
-    }
+    protected abstract String getTitulo();
 
     public void setIdTipo(int idTipo) {
         if(idTipo == 0){

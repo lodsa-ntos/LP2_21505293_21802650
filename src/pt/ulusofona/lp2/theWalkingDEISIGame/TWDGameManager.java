@@ -53,13 +53,13 @@ public class TWDGameManager {
     //Esta função faz a leitura do ficheiro de texto e carrega para a memória a informação relevante.
     public boolean startGame(File ficheiroInicial) {
 
-        creatures = new ArrayList<>();
+        creatures = new ArrayList<>(); // resent da lista de creatures.
 
-        numLinha = 0;
-        numColuna = 0;
-        xPortas = 0;
-        yPortas = 0;
-        nrTurno = 0;
+        numLinha = 0; // resent variavel numLinha.
+        numColuna = 0; // resent variavel numColuna.
+        xPortas = 0; // resent variavel xPortas.
+        yPortas = 0; // resent variavel yPortas.
+        nrTurno = 0; // resent variavel turnos.
 
         try {
 
@@ -228,13 +228,61 @@ public class TWDGameManager {
                             int posY = Integer.parseInt(novaFila[3].trim());
 
                             //Verificar se o idTipo é Escudo ou Espada e adiciona na respetiva lista
-                            switch (idTipo){
-                                case 0:
-                                case 1:
-                                    Equipamento eq = new Equipamento(id, idTipo, posX, posY);
-                                    equipamentos.add(eq); // adiciona equipamento
-                                    eq.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
-                                    System.out.println(eq.toString());
+                            if (idTipo == 0) {
+                                Equipamento escudo = new EscudoMadeira(id, idTipo, posX, posY);
+                                equipamentos.add(escudo); // adiciona equipamento
+                                escudo.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(escudo.toString());
+                            } else if (idTipo == 1) {
+                                Equipamento espada = new EspadaHanzo(id, idTipo, posX, posY);
+                                equipamentos.add(espada); // adiciona equipamento
+                                espada.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(espada.toString());
+                            } else if (idTipo == 2) {
+                                Equipamento pistola = new Pistola(id, idTipo, posX, posY);
+                                equipamentos.add(pistola); // adiciona equipamento
+                                pistola.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(pistola.toString());
+                            } else if (idTipo == 3) {
+                                Equipamento escTatico = new EscudoTatico(id, idTipo, posX, posY);
+                                equipamentos.add(escTatico); // adiciona equipamento
+                                escTatico.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(escTatico.toString());
+                            } else if (idTipo == 4) {
+                                Equipamento revista = new RevistaMaria(id, idTipo, posX, posY);
+                                equipamentos.add(revista); // adiciona equipamento
+                                revista.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(revista.toString());
+                            } else if (idTipo == 5) {
+                                Equipamento cabecaAlho = new Alho(id, idTipo, posX, posY);
+                                equipamentos.add(cabecaAlho); // adiciona equipamento
+                                cabecaAlho.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(cabecaAlho.toString());
+                            } else if (idTipo == 6) {
+                                Equipamento estaca = new EstacaMadeira(id, idTipo, posX, posY);
+                                equipamentos.add(estaca); // adiciona equipamento
+                                estaca.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(estaca.toString());
+                            } else if (idTipo == 7) {
+                                Equipamento garrafaLixivia = new Lixivia(id, idTipo, posX, posY);
+                                equipamentos.add(garrafaLixivia); // adiciona equipamento
+                                garrafaLixivia.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(garrafaLixivia.toString());
+                            } else if (idTipo == 8) {
+                                Equipamento veneno = new Veneno(id, idTipo, posX, posY);
+                                equipamentos.add(veneno); // adiciona equipamento
+                                veneno.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(veneno.toString());
+                            } else if (idTipo == 9) {
+                                Equipamento antidoto = new Antidoto(id, idTipo, posX, posY);
+                                equipamentos.add(antidoto); // adiciona equipamento
+                                antidoto.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(antidoto.toString());
+                            } else if (idTipo == 10) {
+                                Equipamento capacete = new BeskarHelmet(id, idTipo, posX, posY);
+                                equipamentos.add(capacete); // adiciona equipamento
+                                capacete.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(capacete.toString());
                             }
 
                             linhaAtual++;
@@ -291,94 +339,151 @@ public class TWDGameManager {
     public boolean move(int xO, int yO, int xD, int yD) {
 
         //VALIDAÇÕES PARA COORDENADAS DE DESTINO FORA DO MAPA
-        if (xD < 0 || xD > numLinha){
+        if (xD < 0 || xD > numLinha) {
             valido = false; // estão fora do mapa
-        }
-
-        else if (yD < 0 || yD > numColuna){
+        } else if (yD < 0 || yD > numColuna) {
             valido = false; // estão fora do mapa
         }
 
         // verifica horizontalmente, verticalmente e diagonalmente
-        else if ( Math.abs(xD - xO) >= 2 || Math.abs(yD - yO) >= 2){
+        else if (Math.abs(xD - xO) >= 2 || Math.abs(yD - yO) >= 2) {
             valido = false;
         }
 
-        if (xD < 0 || yD < 0 || xD > numLinha - 1 || yD > numColuna - 1) {
+        /*if (xD < 0 || yD < 0 || xD > numLinha - 1 || yD > numColuna - 1) {
             valido = false;
         }
 
         if (xD == xO && yD == yO) {
             valido = false;
-        }
+        }*/
 
-        if (!valido){
+        if (!valido) {
             return false;
         }
 
+        // CRIANÇA - VIVO
+        for (Creature criancaVivo : creatures) {
+                if (criancaVivo.getIdEquipa() == idEquipaAtual && criancaVivo.getIdTipo() == 5
+                        && criancaVivo.getXAtual() == xO && criancaVivo.getYAtual() == yO) {
 
-        //percorre a lista... verifica o conjunto de humanos existentes e pega a posicao do mapa
-        for (Creature vivo1: creatures) {
-            if (vivo1.getIdEquipa() == idEquipaAtual &&
-                    vivo1.getXAtual() == xO && vivo1.getYAtual() == yO) {
-
-                for (Creature zombie: creatures) {
-                    if (zombie.getXAtual() == xD && zombie.getYAtual() == yD) {
-                        return false;
-                    }
-                }
-
-                /*for (Equipamento eq: equipamentos) {
-                    if (eq.getXAtual() == xD && eq.getYAtual() == yD){
-                        //Move uma posicao
-                        humano.setxAtual(xD);
-                        humano.setyAtual(yD);
-                        // verificar se o humano tem equipamentos
-                        if (humano.getEquipamentos().size() == 0){
-                            humano.getEquipamentos().add(eq);
-                            // guarda como referencia a posicao original
-                            eq.xAnterior = xD;
-                            eq.yAnterior = yD;
-                        } else {
-                            // guardamos o equipamento existente na lista de equipamentos
-                            Equipamento eqAntigo = humano.getEquipamentos().get(0);
-                            // removemos esse equipamento e devolvemos na posicao original
-                            humano.getEquipamentos().remove(0);
-                            eqAntigo.xAtual = eqAntigo.xAnterior;
-                            eqAntigo.yAtual = eqAntigo.yAnterior;
-                            // depois de removido adiciona o novo
-                            humano.getEquipamentos().add(eq);
+                    for (Equipamento eq : equipamentos) {
+                        if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                            //Move uma posicao
+                            criancaVivo.setxAtual(xD);
+                            criancaVivo.setyAtual(yD);
+                            // verificar se o humano tem equipamentos
+                            if (criancaVivo.getEquipamentosVivos().size() == 0) {
+                                criancaVivo.getEquipamentosVivos().add(eq);
+                                // guarda como referencia a posicao original
+                                eq.xAnterior = xD;
+                                eq.yAnterior = yD;
+                            } else {
+                                // guardamos o equipamento existente na lista de equipamentos
+                                Equipamento eqAntigo = criancaVivo.getEquipamentosVivos().get(0);
+                                // removemos esse equipamento e devolvemos na posicao original
+                                criancaVivo.getEquipamentosVivos().remove(0);
+                                eqAntigo.xAtual = eqAntigo.xAnterior;
+                                eqAntigo.yAtual = eqAntigo.yAnterior;
+                                // depois de removido adiciona o novo
+                                criancaVivo.getEquipamentosVivos().add(eq);
+                            }
                         }
-                        // aumenta o numero de turnos
-                        if (nrTurno % 2 == 0) {
-                            idEquipaAtual = 0;
-                            diurno = true;
-                        } else {
-                            idEquipaAtual = 1;
-                            diurno = false;
-                        }
-                        nrTurno++;
-                        return true;
                     }
-                }*/
-
-                // caso nao haja nenhum equipamento, zombie ou humano nessa posicao
-                //Move uma posicao
-                vivo1.setxAtual(xD);
-                vivo1.setyAtual(yD);
-
-                // aumenta o numero de turnos
-                if (nrTurno == 0) {
-                    idEquipaAtual = 10;
-                    diurno = true;
-                } else {
-                    idEquipaAtual = 20;
-                    diurno = false;
+                    //Move uma posicao
+                    criancaVivo.setxAtual(xD);
+                    criancaVivo.setyAtual(yD);
+                    return true;
                 }
-                nrTurno++;
-                return true;
+            }
+
+        // ADULTO - VIVO
+        for (Creature adultoVivo : creatures) {
+            switch (adultoVivo.getId()){
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                if (adultoVivo.getIdEquipa() == idEquipaAtual && adultoVivo.getIdTipo() == 6
+                        && adultoVivo.getXAtual() == xO && adultoVivo.getYAtual() == yO ) {
+
+                    for (Equipamento eq : equipamentos) {
+                        if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                            //Move uma posicao
+                            adultoVivo.setxAtual(xD);
+                            adultoVivo.setyAtual(yD);
+                            // verificar se o humano tem equipamentos
+                            if (adultoVivo.getEquipamentosVivos().size() == 0) {
+                                adultoVivo.getEquipamentosVivos().add(eq);
+                                // guarda como referencia a posicao original
+                                eq.xAnterior = xD;
+                                eq.yAnterior = yD;
+                            } else {
+                                // guardamos o equipamento existente na lista de equipamentos
+                                Equipamento eqAntigo = adultoVivo.getEquipamentosVivos().get(0);
+                                // removemos esse equipamento e devolvemos na posicao original
+                                adultoVivo.getEquipamentosVivos().remove(0);
+                                eqAntigo.xAtual = eqAntigo.xAnterior;
+                                eqAntigo.yAtual = eqAntigo.yAnterior;
+                                // depois de removido adiciona o novo
+                                adultoVivo.getEquipamentosVivos().add(eq);
+                            }
+                        }
+                    }
+                    // caso nao haja nenhum equipamento, nessa posicao
+                    //Move uma posicao // INCOMPLETO SAO DOIS MOVIMENTOS
+                    adultoVivo.setxAtual(xD);
+                    adultoVivo.setyAtual(yD);
+                    nrTurno++;
+
+                    if (nrTurno == 0) {
+                        idEquipaAtual = 10;
+                        diurno = true;
+                    } else if (nrTurno == 1){
+                        idEquipaAtual = 10;
+                        diurno = true;
+                    } else if (nrTurno == 2){
+                        idEquipaAtual = 20;
+                        diurno = false;
+                    } else if (nrTurno == 3){
+                        idEquipaAtual = 20;
+                        diurno = false;
+                    } else if (nrTurno == 4){
+                        idEquipaAtual = 10;
+                        diurno = true;
+                    } else if (nrTurno == 5){
+                        idEquipaAtual = 10;
+                        diurno = true;
+                    } else if (nrTurno == 6) {
+                        idEquipaAtual = 20;
+                        diurno = false;
+                    } else if (nrTurno == 7) {
+                        idEquipaAtual = 20;
+                        diurno = false;
+                    } else if (nrTurno == 8){
+                        idEquipaAtual = 10;
+                        diurno = true;
+                    } else if (nrTurno == 9){
+                        idEquipaAtual = 10;
+                        diurno = true;
+                    } else if (nrTurno == 10) {
+                        idEquipaAtual = 20;
+                        diurno = false;
+                    } else if (nrTurno == 11) {
+                        idEquipaAtual = 20;
+                        diurno = false;
+                    } else if (nrTurno == 12){
+                        idEquipaAtual = 10;
+                        diurno = true;
+                    } else if (nrTurno == 13){
+                        idEquipaAtual = 10;
+                        diurno = true;
+                    }
+                    return true;
+                }
             }
         }
+
         return false;
     }
 
@@ -482,62 +587,66 @@ public class TWDGameManager {
     }
 
     public int getEquipmentTypeId(int equipmentId){
-        return equipmentId;
+        for (Equipamento equipamento: equipamentos){
+            if (equipamento.getiD() == equipmentId){
+                return equipmentId;
+            }
+        }
+        return 0;
     }
 
     public String getEquipmentInfo(int equipmentId) {
 
         String nomeTipo;
         int info;
+        double infoLixivia;
 
-        switch (equipmentId) {
-            // PARA AS 3 SEGUINTES TEMOS QUE DAR O NOME + INFO
-            case 0:
-                nomeTipo = "Escudo de Madeira";
-                info = 0;
-                return nomeTipo + " | " + info;
+            switch (equipmentId) {
+                // PARA 3 EQUIPAENTOS TEMOS QUE DAR O NOME + INFO
+                case -1:
+                    nomeTipo = "Escudo de Madeira";
+                    info = 1;
+                    return nomeTipo + " | " + info;
 
-            case 1:
-                nomeTipo = "Espada Hattori Hanzo";
-                return nomeTipo;
+                case -2:
+                    nomeTipo = "Espada Hattori Hanzo";
+                    return nomeTipo;
 
-            case 2:
-                nomeTipo = "Pistola Walther PPK";
-                info = 3;
-                return nomeTipo + " | " + info;
+                case -3:
+                    nomeTipo = "Pistola Walther PPK";
+                    info = 3;
+                    return nomeTipo + " | " + info;
 
-            case 3:
-                nomeTipo = "Escudo Tático";
-                return nomeTipo;
+                case -4:
+                    nomeTipo = "Escudo Tático";
+                    return nomeTipo;
 
-            case 4:
-                nomeTipo = "Revista Maria";
-                return nomeTipo;
+                case -5:
+                    nomeTipo = "Revista Maria";
+                    return nomeTipo;
 
-            case 5:
-                nomeTipo = "Cabeça de alho";
-                return nomeTipo;
+                case -6:
+                    nomeTipo = "Cabeça de alho";
+                    return nomeTipo;
 
-            case 6:
-                nomeTipo = "Estaca de Madeira";
-                return nomeTipo;
+                case -7:
+                    nomeTipo = "Estaca de Madeira";
+                    return nomeTipo;
 
-            case 7:
-                nomeTipo = "Garrafa de lixívia";
-                info = 0;
-                return nomeTipo + " | " + info;
+                case -8:
+                    nomeTipo = "Garrafa de lixívia";
+                    infoLixivia = 0.3;
+                    return nomeTipo + " | " + infoLixivia;
 
-            case 8:
-                nomeTipo = "Veneno";
-                return nomeTipo;
+                case -9:
+                    nomeTipo = "Veneno";
+                    return nomeTipo;
 
-            case 9:
-                nomeTipo = "Antídoto";
-                return nomeTipo;
-
-            default:
-                return "Erro: equipamento " + equipmentId + " não encontrado.";
-        }
+                case -10:
+                    nomeTipo = "Antídoto";
+                    return nomeTipo;
+            }
+        return null;
     }
 
     public boolean saveGame(File fich) {

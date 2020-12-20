@@ -2,6 +2,8 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 public class Humano extends Creature {
 
+
+
     public Humano(int id, int idTipo, String nome, int xAtual, int yAtual) {
         super(id, idTipo, nome, xAtual, yAtual);
     }

@@ -13,30 +13,36 @@ public class Zombie extends Creature {
 
     @Override
     public int getIdEquipa() {
+
         return idEquipa;
     }
 
     @Override
     public String getNome() {
+
         return nome;
     }
 
     @Override
     public int getIdTipo() {
+
         return idTipo;
     }
 
     @Override
     public int getXAtual() {
+
         return xAtual;
     }
 
     @Override
     public int getYAtual() {
+
         return yAtual;
     }
 
     public String getImagePNG(){
+
         return null;
     }
 }

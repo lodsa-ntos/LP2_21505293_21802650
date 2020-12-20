@@ -3,20 +3,19 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 import java.util.ArrayList;
 
 public abstract class Creature {
-    int id;
-    int idTipo;
-    int idEquipa = 10;
-    int idEquipaZombie = 20;
-    String nome;
+    protected int id;
+    protected int idTipo;
+    protected int idEquipa = 10;
+    protected int idEquipaZombie = 20;
+    protected String nome;
 
-    String tipo;
-    String equipa;
-    boolean isAlive;
+    private String tipo;
+    private String equipa;
 
-    int xAtual;
-    int yAtual;
-    int xAnterior;
-    int yAnterior;
+    protected int xAtual;
+    protected int yAtual;
+    protected int xAnterior;
+    protected int yAnterior;
 
     protected ArrayList<Equipamento> equipamentos = new ArrayList<>();
     protected ArrayList<Equipamento> destruidos = new ArrayList<>();
@@ -29,32 +28,42 @@ public abstract class Creature {
         this.yAtual = yAtual;
     }
 
-    public boolean move(int xO, int yO, int xD, int yD) {
-        return false;
-    }
+    public abstract boolean move(int xO, int yO, int xD, int yD);
 
     // Devolve o ID da criatura.
-    public abstract int getId();
+    public int getId() {
+        return id;
+    }
 
-    public abstract int getIdEquipa();
+    public int getIdEquipa() {
+        return idEquipa;
+    }
 
-    public abstract String getNome();
+    public String getNome() {
+        return nome;
+    }
 
-    public abstract int getIdTipo();
+    public int getIdTipo() {
+        return idTipo;
+    }
 
-    public abstract int getXAtual();
+    public int getXAtual() {
+        return xAtual;
+    }
 
-    public abstract int getYAtual();
+    public int getYAtual() {
+        return yAtual;
+    }
 
     public void setxAtual(int xAtual) {}
 
     public void setyAtual(int yAtual) {}
 
-    protected ArrayList<Equipamento> getEquipamentosVivos(){
+    public ArrayList<Equipamento> getEquipamentosVivos(){
         return equipamentos;
     }
 
-    protected ArrayList<Equipamento> getEquipamentosZombies(){
+    public ArrayList<Equipamento> getEquipamentosZombies(){
         return destruidos;
     }
 
@@ -83,13 +92,14 @@ public abstract class Creature {
         }
     }
 
-    // Metodo onde <Equipa> corresponde aos nomes (p.e. “Os Vivos” ou “Os Outros”).
+    // Metodo onde <Equipa Vivos> corresponde ao nome (p.e. “Os Vivos”).
     public void getEquipaVivos() {
         if(this.idEquipa == 10){
             equipa = "Os Vivos";
         }
     }
 
+    // Metodo onde <Equipa Zombie> corresponde ao nome (p.e. “Os Outros”).
     public void getEquipaZombie(){
         if (this.idEquipaZombie == 20){
             equipa = "Os Outros";
@@ -97,23 +107,30 @@ public abstract class Creature {
     }
 
     // Metodo que devolve o nome do ficheiro de imagem (formato PNG) que representa a criatura.
-    public String getImagePNG() {
-        switch (id){
+    public String getImagePNG(){
+        switch (idTipo){
+            case 0:
+                return "zombieCrianca.png";
             case 1:
-                return new String("idoso.png");
+                return "zombieAdulto.png";
             case 2:
-                return new String("jackie.png");
+                return "zombieMilitar.png";
             case 3:
-                return new String("alice.png");
+                return "zomb.png";
             case 4:
-                return new String("ash.png");
+                return "zombieVampiro.png";
             case 5:
-                return new String("dog.png");
+                return "crianca.png";
             case 6:
-                return new String("zomb.png");
-            default:
-                return null;
+                return "adulto.png";
+            case 7:
+                return "militar.png";
+            case 8:
+                return "idoso.png";
+            case 9:
+                return "dog.png";
         }
+        return null;
     }
 
     @Override

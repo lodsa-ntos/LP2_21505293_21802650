@@ -13,37 +13,7 @@ public class ZombieVampiro extends Creature{
         return false;
     }
 
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public int getIdEquipa() {
-        return idEquipa;
-    }
-
-    @Override
-    public String getNome() {
-        return nome;
-    }
-
-    @Override
-    public int getIdTipo() {
-        return idTipo;
-    }
-
-    @Override
-    public int getXAtual() {
-        return xAtual;
-    }
-
-    @Override
-    public int getYAtual() {
-        return yAtual;
-    }
-
-    protected ArrayList<Equipamento> getEquipamentos() {
+    private ArrayList<Equipamento> getEquipamentos() {
         return destruidos;
     }
 }

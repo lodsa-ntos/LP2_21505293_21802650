@@ -1,7 +1,5 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
-import java.util.ArrayList;
-
 public class Cao extends Creature {
 
     public Cao(int id, int idTipo, String nome, int xAtual, int yAtual) {
@@ -9,32 +7,8 @@ public class Cao extends Creature {
     }
 
     @Override
-    public int getId() {
-        return id;
+    public boolean move(int xO, int yO, int xD, int yD) {
+        return false;
     }
 
-    @Override
-    public int getIdEquipa() {
-        return idEquipa;
-    }
-
-    @Override
-    public String getNome() {
-        return nome;
-    }
-
-    @Override
-    public int getIdTipo() {
-        return idTipo;
-    }
-
-    @Override
-    public int getXAtual() {
-        return xAtual;
-    }
-
-    @Override
-    public int getYAtual() {
-        return yAtual;
-    }
 }

@@ -30,4 +30,5 @@ public class EscudoMadeira extends Equipamento{
     public String getTitulo() {
         return titulo;
     }
+
 }

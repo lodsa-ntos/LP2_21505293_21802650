@@ -2,32 +2,29 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 public class Pistola extends Equipamento{
 
+
     public Pistola(int id, int idTipo, int xAtual, int yAtual) {
         super(id, idTipo, xAtual, yAtual);
     }
 
-    @Override
     public int getiD() {
-        return id;
+        return id = -3;
     }
 
-    @Override
     public int getIdTipo() {
-        return idTipo;
+        return idTipo = 2;
     }
 
-    @Override
     public int getXAtual() {
         return xAtual;
     }
 
-    @Override
     public int getYAtual() {
         return yAtual;
     }
 
-    @Override
     public String getTitulo() {
-        return titulo;
+        return titulo = "Pistola Walther PPK";
     }
+
 }

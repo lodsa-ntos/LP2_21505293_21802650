@@ -8,12 +8,12 @@ public class Antidoto extends Equipamento{
 
     @Override
     public int getiD() {
-        return id;
+        return id = -10;
     }
 
     @Override
     public int getIdTipo() {
-        return idTipo;
+        return idTipo = 9;
     }
 
     @Override
@@ -28,6 +28,6 @@ public class Antidoto extends Equipamento{
 
     @Override
     public String getTitulo() {
-        return titulo;
+        return titulo = "Antídoto";
     }
 }

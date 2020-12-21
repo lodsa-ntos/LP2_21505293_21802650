@@ -18,21 +18,39 @@ public abstract class Equipamento {
         this.yAtual = yAtual;
     }
 
-    protected abstract int getiD();
+    public abstract int getiD();
 
-    protected abstract int getIdTipo();
+    public abstract int getIdTipo();
 
-    protected abstract int getXAtual();
+    public abstract int getXAtual();
 
-    protected abstract int getYAtual();
+    public abstract int getYAtual();
 
-    protected abstract String getTitulo();
+    public abstract String getTitulo();
 
     public void setIdTipo(int idTipo) {
-        if(idTipo == 0){
+        if(idTipo == 0) {
             titulo = "Escudo de madeira";
-        } else if (idTipo == 1){
-            titulo = "Espada samurai";
+        } else if (idTipo == 1) {
+            titulo = "Espada Hattori Hanzo";
+        } else if (idTipo == 2) {
+            titulo = "Pistola Walther PPK";
+        } else if (idTipo == 3) {
+            titulo = "Escudo Tático";
+        } else if (idTipo == 4) {
+            titulo = "Revista Maria";
+        } else if (idTipo == 5) {
+            titulo = "Cabeça de Alho";
+        } else if (idTipo == 6) {
+            titulo = "Estaca de Madeira";
+        } else if (idTipo == 7) {
+            titulo = "Garrafa de Lixívia (1 litro)";
+        } else if (idTipo == 8) {
+            titulo = "Veneno";
+        } else if (idTipo == 9) {
+            titulo = "Antídoto";
+        } else if (idTipo == 10) {
+            titulo = "Beskar Helmet";
         }
     }
 

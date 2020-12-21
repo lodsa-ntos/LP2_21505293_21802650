@@ -611,29 +611,56 @@ public class TWDGameManager {
 
         String nomeTipo;
         int info;
-        double infoLixivia;
 
-            switch (equipmentId) {
-                // PARA 3 EQUIPAENTOS TEMOS QUE DAR O NOME + INFO
-                case -1:
-                    nomeTipo = "Escudo de Madeira";
-                    info = 1;
-                    return nomeTipo + " | " + info;
+        switch (equipmentId) {
+            // PARA 3 EQUIPAMENTOS TEMOS QUE DAR O NOME + INFO
+            case -1:
+                nomeTipo = "Escudo de Madeira";
+                info = 1;
+                return nomeTipo + " | " + info;
 
-                case -2:
-                    nomeTipo = "Espada Hattori Hanzo";
-                    return nomeTipo;
+            case -2:
+                nomeTipo = "Espada Hattori Hanzo";
+                return nomeTipo;
 
-                case -3:
-                    nomeTipo = "Pistola Walther PPK";
-                    info = 3;
-                    return nomeTipo + " | " + info;
+            case -3:
+                nomeTipo = "Pistola Walther PPK";
+                info = 1;
+                return nomeTipo + " | " + info;
 
-                case -4:
-                    nomeTipo = "Garrafa de lixívia";
-                    infoLixivia = 0.3;
-                    return nomeTipo + " | " + infoLixivia;
-            }
+            case -4:
+                nomeTipo = "Escudo Tático";
+                return nomeTipo;
+
+            case -5:
+                nomeTipo = "Revista Maria";
+                return nomeTipo;
+
+            case -6:
+                nomeTipo = "Cabeça de Alho";
+                return nomeTipo;
+
+            case -7:
+                nomeTipo = "Estaca de Madeira";
+                return nomeTipo;
+
+            case -8:
+                nomeTipo = "Garrafa de Lixívia (1 litro)";
+                info = 1;
+                return nomeTipo + " | " + info;
+
+            case -9:
+                nomeTipo = "Veneno";
+                return nomeTipo;
+
+            case -10:
+                nomeTipo = "Antídoto";
+                return nomeTipo;
+
+            case -11:
+                nomeTipo = "Beskar Helmet";
+                return nomeTipo;
+        }
         return null;
     }
 

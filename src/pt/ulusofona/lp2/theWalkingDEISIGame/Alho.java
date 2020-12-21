@@ -8,12 +8,12 @@ public class Alho extends Equipamento{
 
     @Override
     public int getiD() {
-        return id;
+        return id = -6;
     }
 
     @Override
     public int getIdTipo() {
-        return idTipo;
+        return idTipo = 5;
     }
 
     @Override
@@ -28,6 +28,6 @@ public class Alho extends Equipamento{
 
     @Override
     public String getTitulo() {
-        return titulo;
+        return titulo = "Cabeça de Alho";
     }
 }

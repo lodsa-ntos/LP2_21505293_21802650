@@ -11,6 +11,9 @@ public abstract class Equipamento {
     int xAnterior;
     int yAnterior;
 
+    public Equipamento() {
+    }
+
     public Equipamento(int id, int idTipo, int xAtual, int yAtual) {
         this.id = id;
         this.idTipo = idTipo;

@@ -20,10 +20,10 @@ public class TestEquipamento {
 
     @Test
     public void test02GetIdTipo() {
-        EscudoMadeira escudoMadeira = new EscudoMadeira(1,0,0,3);
-        escudoMadeira.setIdTipo(1);
-        String tipoEsperado = "Espada samurai";
-        String tipoObtido = escudoMadeira.getTitulo();
+        EspadaHanzo espada = new EspadaHanzo();
+        espada.setIdTipo(1);
+        String tipoEsperado = "Espada Hattori Hanzo";
+        String tipoObtido = espada.getTitulo();
         assertEquals(tipoEsperado, tipoObtido);
     }
 }

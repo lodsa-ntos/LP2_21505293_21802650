@@ -8,12 +8,12 @@ public class BeskarHelmet extends Equipamento{
 
     @Override
     public int getiD() {
-        return id = -11;
+        return id;
     }
 
     @Override
     public int getIdTipo() {
-        return idTipo = 10;
+        return idTipo;
     }
 
     @Override
@@ -28,6 +28,6 @@ public class BeskarHelmet extends Equipamento{
 
     @Override
     public String getTitulo() {
-        return titulo = "Beskar Helmet";
+        return titulo ;
     }
 }

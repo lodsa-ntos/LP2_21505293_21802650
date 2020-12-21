@@ -8,12 +8,12 @@ public class Lixivia extends Equipamento{
 
     @Override
     public int getiD() {
-        return id = -8;
+        return id;
     }
 
     @Override
     public int getIdTipo() {
-        return idTipo = 7;
+        return idTipo;
     }
 
     @Override
@@ -28,6 +28,6 @@ public class Lixivia extends Equipamento{
 
     @Override
     public String getTitulo() {
-        return titulo = "Garrafa de Lixívia (1 litro)";
+        return titulo;
     }
 }

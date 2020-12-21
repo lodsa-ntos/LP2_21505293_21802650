@@ -6,6 +6,10 @@ public class EspadaHanzo extends Equipamento{
         super(id, idTipo, xAtual, yAtual);
     }
 
+    public EspadaHanzo() {
+
+    }
+
     @Override
     public int getiD() {
         return id;

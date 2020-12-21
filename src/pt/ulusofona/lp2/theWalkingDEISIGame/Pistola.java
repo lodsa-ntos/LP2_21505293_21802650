@@ -8,11 +8,11 @@ public class Pistola extends Equipamento{
     }
 
     public int getiD() {
-        return id = -3;
+        return id;
     }
 
     public int getIdTipo() {
-        return idTipo = 2;
+        return idTipo;
     }
 
     public int getXAtual() {
@@ -24,7 +24,7 @@ public class Pistola extends Equipamento{
     }
 
     public String getTitulo() {
-        return titulo = "Pistola Walther PPK";
+        return titulo;
     }
 
 }

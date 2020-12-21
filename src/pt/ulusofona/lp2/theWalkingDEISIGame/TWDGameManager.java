@@ -716,7 +716,24 @@ public class TWDGameManager {
     }
 
     public String[] popCultureExtravaganza() {
-        return new String[0];
+
+        String[] resposta = new String[14];
+        resposta[0] = "Resident Evil";
+        resposta[1] = "...";
+        resposta[2] = "...";
+        resposta[3] = "...";
+        resposta[4] = "...";
+        resposta[5] = "...";
+        resposta[6] = "The Mandalorian";
+        resposta[7] = "1972";
+        resposta[8] = "Kill Bill";
+        resposta[9] = "1978";
+        resposta[10] = "James Bond";
+        resposta[11] = "...";
+        resposta[12] = "Cabeça de alho chocho";
+        resposta[13] = "Farrokn Bulsara";
+
+        return resposta;
     }
 
 

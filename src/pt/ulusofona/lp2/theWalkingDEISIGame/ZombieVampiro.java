@@ -9,7 +9,8 @@ public class ZombieVampiro extends Creature{
     }
 
     @Override
-    public boolean move(int xO, int yO, int xD, int yD) {
+    public boolean move(int xO, int yO, int xD, int yD,
+                        Creature creature, ArrayList<Creature> creatures) {
         return false;
     }
 

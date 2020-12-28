@@ -14,7 +14,7 @@ public class TestEquipamento {
         //Equipamento equipamento = new Equipamento(2, 0, 0, 3);
         EscudoMadeira escudoMadeira = new EscudoMadeira(2,0,0,3);
         int idEsperado = 2;
-        int idObtido = escudoMadeira.getiD();
+        int idObtido = escudoMadeira.getID();
         assertEquals(idEsperado, idObtido);
     }
 

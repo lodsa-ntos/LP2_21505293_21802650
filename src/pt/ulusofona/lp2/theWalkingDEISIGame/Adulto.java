@@ -1,5 +1,7 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
+import java.util.ArrayList;
+
 public class Adulto extends Creature {
 
     public Adulto(int id, int idTipo, String nome, int xAtual, int yAtual) {
@@ -7,7 +9,8 @@ public class Adulto extends Creature {
     }
 
     @Override
-    public boolean move(int xO, int yO, int xD, int yD) {
+    public boolean move(int xO, int yO, int xD, int yD,
+                        Creature creature, ArrayList<Creature> creatures) {
 
         //percorre a lista... verifica o conjunto de humanos existentes e pega a posicao do mapa
         /*for (Creature vivo1: creatures) {

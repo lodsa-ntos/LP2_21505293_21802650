@@ -7,7 +7,7 @@ public class Alho extends Equipamento{
     }
 
     @Override
-    public int getiD() {
+    public int getID() {
         return id;
     }
 

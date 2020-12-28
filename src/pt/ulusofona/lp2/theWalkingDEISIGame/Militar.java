@@ -1,5 +1,7 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
+import java.util.ArrayList;
+
 public class Militar extends Creature {
 
     public Militar(int id, int idTipo, String nome, int xAtual, int yAtual) {
@@ -7,7 +9,8 @@ public class Militar extends Creature {
     }
 
     @Override
-    public boolean move(int xO, int yO, int xD, int yD) {
+    public boolean move(int xO, int yO, int xD, int yD,
+                        Creature creature, ArrayList<Creature> creatures) {
         return false;
     }
 }

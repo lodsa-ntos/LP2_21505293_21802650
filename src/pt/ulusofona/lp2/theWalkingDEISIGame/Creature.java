@@ -20,6 +20,8 @@ public abstract class Creature {
     protected ArrayList<Equipamento> equipamentos = new ArrayList<>();
     protected ArrayList<Equipamento> destruidos = new ArrayList<>();
 
+   // public Creature(){}
+
     public Creature(int id, int idTipo, String nome, int xAtual, int yAtual) {
         this.id = id;
         this.idTipo = idTipo;
@@ -28,7 +30,10 @@ public abstract class Creature {
         this.yAtual = yAtual;
     }
 
-    public abstract boolean move(int xO, int yO, int xD, int yD);
+    public abstract boolean move(int xO, int yO, int xD, int yD,
+                                 Creature creature, ArrayList<Creature> creatures);
+
+
 
     // Devolve o ID da criatura.
     public int getId() {
@@ -45,6 +50,14 @@ public abstract class Creature {
 
     public int getIdTipo() {
         return idTipo;
+    }
+
+    public void setIdTipo(int idTipo) {
+        this.idTipo = idTipo;
+    }
+
+    public void setIdEquipa(int idEquipa) {
+        this.idEquipa = idEquipa;
     }
 
     public int getXAtual() {

@@ -375,53 +375,38 @@ public class TWDGameManager {
             valido = false; // estão fora do mapa
         }
 
-        // verifica horizontalmente, verticalmente e diagonalmente
-        else if (Math.abs(xD - xO) >= 2 || Math.abs(yD - yO) >= 2) {
-            valido = false;
-        }
 
         if (!valido) {
             return false;
         }
 
         // VIVOS
-        for (Creature creature : creatures) {
-            if (creature.getIdEquipa() == idEquipaAtual &&
-                    creature.getXAtual() == xO && creature.getYAtual() == yO) {
+        //Idoso i = new Idoso();
+        //i.move(xO,yO,xD,yO);
+        for (Creature creatureOrigem : creatures) {
+            if (creatureOrigem.getIdEquipa() == idEquipaAtual &&
+                    creatureOrigem.getXAtual() == xO && creatureOrigem.getYAtual() == yO) {
 
-                if (creature.getIdEquipa() == 20) {
-                    if (creature.getXAtual() == xD && creature.getYAtual() == yD) {
-                        return false;
-                    }
-                }
 
-                for (Equipamento eq : equipamentos) {
-                    if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
-                        //Move uma posicao
-                        creature.setxAtual(xD);
-                        creature.setyAtual(yD);
-                        // verificar se o humano tem equipamentos
-                        if (creature.getEquipamentosVivos().size() == 0) {
-                            creature.getEquipamentosVivos().add(eq);
-                            // guarda como referencia a posicao original
-                            eq.xAnterior = xD;
-                            eq.yAnterior = yD;
-                        } else {
-                            // guardamos o equipamento existente na lista de equipamentos
-                            Equipamento eqAntigo = creature.getEquipamentosVivos().get(0);
-                            // removemos esse equipamento e devolvemos na posicao original
-                            creature.getEquipamentosVivos().remove(0);
-                            eqAntigo.xAtual = eqAntigo.xAnterior;
-                            eqAntigo.yAtual = eqAntigo.yAnterior;
-                            // depois de removido adiciona o novo
-                            creature.getEquipamentosVivos().add(eq);
+                for (Creature creatureDestino: creatures) {
+                    // Se o elemento de uma equipa cair em cima de um outro da mesma equipa
+                    // retorna falso
+                    if (creatureDestino.getIdEquipa() == idEquipaAtual) {
+                        if (creatureDestino.getXAtual() == xD && creatureDestino.getYAtual() == yD) {
+                            return false;
                         }
+                    } else {
+                        boolean movimentoValido = creatureOrigem.move(xO, xD, yO, yD, creatureDestino,
+                                creatures);
+                        if (!movimentoValido) return false;
                     }
                 }
+
+
                 // caso nao haja nenhum equipamento, nessa posicao
                 //Move uma posicao // INCOMPLETO SAO DOIS MOVIMENTOS
-                creature.setxAtual(xD);
-                creature.setyAtual(yD);
+                creatureOrigem.setxAtual(xD);
+                creatureOrigem.setyAtual(yD);
                 nrTurno++;
 
                 if (nrTurno == 0) {
@@ -501,7 +486,7 @@ public class TWDGameManager {
 
         for (Equipamento e : equipamentos){
             if (e.getXAtual() == x && e.getYAtual() == y){
-                return e.getiD();
+                return e.getID();
             }
         }
 
@@ -575,7 +560,7 @@ public class TWDGameManager {
             if (creature.getId() == creatureId) {
                 for (Equipamento equipamento : creature.getEquipamentosVivos()) {
                     if (equipamento.getIdTipo() == 0 || equipamento.getIdTipo() == 1) {
-                        return equipamento.getiD();
+                        return equipamento.getID();
                     }
                 }
             }
@@ -600,7 +585,7 @@ public class TWDGameManager {
 
     public int getEquipmentTypeId(int equipmentId){
         for (Equipamento equipamento: equipamentos){
-            if (equipmentId == equipamento.getiD()){
+            if (equipmentId == equipamento.getID()){
                 return equipmentId;
             }
         }
@@ -611,56 +596,24 @@ public class TWDGameManager {
 
         String nomeTipo;
         int info;
+        //TODO erro no drop não reconhece outros equipamentos
 
-        switch (equipmentId) {
-            // PARA 3 EQUIPAMENTOS TEMOS QUE DAR O NOME + INFO
-            case -1:
-                nomeTipo = "Escudo de Madeira";
-                info = 1;
-                return nomeTipo + " | " + info;
-
-            case -2:
-                nomeTipo = "Espada Hattori Hanzo";
-                return nomeTipo;
-
-            case -3:
-                nomeTipo = "Pistola Walther PPK";
-                info = 1;
-                return nomeTipo + " | " + info;
-
-            case -4:
-                nomeTipo = "Escudo Tático";
-                return nomeTipo;
-
-            case -5:
-                nomeTipo = "Revista Maria";
-                return nomeTipo;
-
-            case -6:
-                nomeTipo = "Cabeça de Alho";
-                return nomeTipo;
-
-            case -7:
-                nomeTipo = "Estaca de Madeira";
-                return nomeTipo;
-
-            case -8:
-                nomeTipo = "Garrafa de Lixívia (1 litro)";
-                info = 1;
-                return nomeTipo + " | " + info;
-
-            case -9:
-                nomeTipo = "Veneno";
-                return nomeTipo;
-
-            case -10:
-                nomeTipo = "Antídoto";
-                return nomeTipo;
-
-            case -11:
-                nomeTipo = "Beskar Helmet";
-                return nomeTipo;
+        for (Equipamento equipamento: equipamentos) {
+            if (equipamento.getID() == equipmentId) {
+                // Se os equipamentos forem escudo de madeira, pistola ou lixivia
+                // <Nome Tipo> | <Info>
+                if (equipamento.getIdTipo() == 0 || equipamento.getIdTipo() == 2) {
+                    return equipamento.getTitulo() + " " + (int) equipamento.getCountUsos();
+                } else if (equipamento.getIdTipo() == 7) {
+                    return equipamento.getTitulo() + " " + equipamento.getCountUsos();
+                }
+                // Caso nao for
+                // <Nome Tipo>
+                return equipamento.getTitulo();
+            }
         }
+
+
         return null;
     }
 
@@ -690,7 +643,7 @@ public class TWDGameManager {
             salvarFich.write(nextLine);
 
             for(Equipamento objeto : equipamentos) {
-                salvarFich.write(objeto.getiD() + " : " + objeto.getIdTipo()+ " : " + objeto.getXAtual() + " : " + objeto.getYAtual());
+                salvarFich.write(objeto.getID() + " : " + objeto.getIdTipo()+ " : " + objeto.getXAtual() + " : " + objeto.getYAtual());
 
                 salvarFich.write(nextLine);
             }
@@ -719,17 +672,17 @@ public class TWDGameManager {
 
         String[] resposta = new String[14];
         resposta[0] = "Resident Evil";
-        resposta[1] = "...";
-        resposta[2] = "...";
-        resposta[3] = "...";
-        resposta[4] = "...";
-        resposta[5] = "...";
+        resposta[1] = "Evil Dead";
+        resposta[2] = "A Noite Devorou o Mundo";
+        resposta[3] = "Invasão Zumbi";
+        resposta[4] = "..";
+        resposta[5] = "Resident Evil 2";
         resposta[6] = "The Mandalorian";
         resposta[7] = "1972";
         resposta[8] = "Kill Bill";
         resposta[9] = "1978";
         resposta[10] = "James Bond";
-        resposta[11] = "...";
+        resposta[11] = "..";
         resposta[12] = "Cabeça de alho chocho";
         resposta[13] = "Farrokn Bulsara";
 
@@ -772,14 +725,6 @@ public class TWDGameManager {
         }
         // se nenhum tiver retorna falso
         return false;
-    }
-
-    public List<Zombie> getZombies(){
-        return null;
-    }
-
-    public List<Humano> getHumans(){
-        return null;
     }
 
     public List<String> getSurvivors(){

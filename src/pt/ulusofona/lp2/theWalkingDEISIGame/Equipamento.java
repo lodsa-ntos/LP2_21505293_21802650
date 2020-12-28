@@ -11,6 +11,8 @@ public abstract class Equipamento {
     int xAnterior;
     int yAnterior;
 
+    double countUsos;
+
     public Equipamento() {
     }
 
@@ -19,9 +21,10 @@ public abstract class Equipamento {
         this.idTipo = idTipo;
         this.xAtual = xAtual;
         this.yAtual = yAtual;
+        countUsos = 0;
     }
 
-    public abstract int getiD();
+    public abstract int getID();
 
     public abstract int getIdTipo();
 
@@ -30,6 +33,10 @@ public abstract class Equipamento {
     public abstract int getYAtual();
 
     public abstract String getTitulo();
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
 
     public void setIdTipo(int idTipo) {
         if(idTipo == 0) {
@@ -55,6 +62,14 @@ public abstract class Equipamento {
         } else if (idTipo == 10) {
             titulo = "Beskar Helmet";
         }
+    }
+
+    public double getCountUsos() {
+        return countUsos;
+    }
+
+    public void diminuiCountUsos() {
+        this.countUsos -= 1;
     }
 
     @Override

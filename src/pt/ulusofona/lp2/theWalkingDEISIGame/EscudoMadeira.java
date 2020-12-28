@@ -4,10 +4,11 @@ public class EscudoMadeira extends Equipamento{
 
     public EscudoMadeira(int id, int idTipo, int xAtual, int yAtual) {
         super(id, idTipo, xAtual, yAtual);
+        this.countUsos = 3;
     }
 
     @Override
-    public int getiD() {
+    public int getID() {
         return id;
     }
 
@@ -30,5 +31,6 @@ public class EscudoMadeira extends Equipamento{
     public String getTitulo() {
         return titulo;
     }
+
 
 }

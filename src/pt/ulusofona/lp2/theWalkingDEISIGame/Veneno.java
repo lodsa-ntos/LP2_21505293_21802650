@@ -7,7 +7,7 @@ public class Veneno extends Equipamento{
     }
 
     @Override
-    public int getiD() {
+    public int getID() {
         return id;
     }
 

@@ -33,7 +33,55 @@ public abstract class Creature {
     public abstract boolean move(int xO, int yO, int xD, int yD,
                                  Creature creature, ArrayList<Creature> creatures);
 
+    public boolean processaEquipamentos(int xD, int yD, ArrayList<Equipamento> equipamentoArrayList) {
 
+        // Se for da equipa dos vivos com excecao do Idoso
+        if (this.getIdEquipa() == 10) {
+            for (Equipamento eq : equipamentoArrayList) {
+                if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                    //Move uma posicao
+                    this.setxAtual(xD);
+                    this.setyAtual(yD);
+                    // verificar se o humano tem equipamentos
+                    if (this.getEquipamentosVivos().size() == 0) {
+                        this.getEquipamentosVivos().add(eq);
+                        // guarda como referencia a posicao original
+                        eq.xAnterior = xD;
+                        eq.yAnterior = yD;
+                    } else {
+                        // guardamos o equipamento existente na lista de equipamentos
+                        Equipamento eqAntigo = this.getEquipamentosVivos().get(0);
+                        // removemos esse equipamento e devolvemos na posicao original
+                        this.getEquipamentosVivos().remove(0);
+                        eqAntigo.xAtual = eqAntigo.xAnterior;
+                        eqAntigo.yAtual = eqAntigo.yAnterior;
+                        // depois de removido adiciona o novo
+                        this.getEquipamentosVivos().add(eq);
+                    }
+                    return true;
+                }
+            }
+        } else {
+            // se for da equpa dos zombies
+            for (Equipamento eq : equipamentoArrayList) {
+                if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                    // se for zombie vamp vs alho retorna falso
+                    if (this.getIdTipo() == 4 && eq.getIdTipo() == 5) {
+                        return false;
+                    }
+                    // Adiciona nos equipamentos destruidos
+                    // Destroi os equipamento
+                    //Move uma posicao
+                    this.destruidos.add(eq);
+                    equipamentoArrayList.remove(eq); // problema?
+                    this.setxAtual(xD);
+                    this.setyAtual(yD);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     // Devolve o ID da criatura.
     public int getId() {

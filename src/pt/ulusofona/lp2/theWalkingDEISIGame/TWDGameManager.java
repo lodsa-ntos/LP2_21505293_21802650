@@ -375,19 +375,16 @@ public class TWDGameManager {
             valido = false; // estão fora do mapa
         }
 
-
         if (!valido) {
             return false;
         }
 
-        // VIVOS
-        //Idoso i = new Idoso();
-        //i.move(xO,yO,xD,yO);
         for (Creature creatureOrigem : creatures) {
             if (creatureOrigem.getIdEquipa() == idEquipaAtual &&
                     creatureOrigem.getXAtual() == xO && creatureOrigem.getYAtual() == yO) {
 
 
+                // Quando contra outra criatura
                 for (Creature creatureDestino: creatures) {
                     // Se o elemento de uma equipa cair em cima de um outro da mesma equipa
                     // retorna falso
@@ -396,11 +393,16 @@ public class TWDGameManager {
                             return false;
                         }
                     } else {
-                        boolean movimentoValido = creatureOrigem.move(xO, xD, yO, yD, creatureDestino,
+                        // processa o combate
+                        boolean movimentoValido = creatureOrigem.move(xO, yO, xD, yD, creatureDestino,
                                 creatures);
                         if (!movimentoValido) return false;
                     }
                 }
+
+                // Quando um equipamento
+                boolean processaEquipValido = creatureOrigem.processaEquipamentos(xD, yD, equipamentos);
+                if (!processaEquipValido) return false;
 
 
                 // caso nao haja nenhum equipamento, nessa posicao

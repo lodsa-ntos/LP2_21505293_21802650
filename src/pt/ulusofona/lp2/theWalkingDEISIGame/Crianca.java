@@ -95,10 +95,55 @@ public class Crianca extends Creature {
                             return false;
                     }
                 } else {
-
+                    switch (creatureDestino.equipamentos.get(0).getIdTipo()) {
+                        case 0:
+                            // Escudo
+                            creatureDestino.equipamentos.get(0).diminuiCountUsos();
+                            // Caso o numero de usos for nulo então deixa de ter equipamento
+                            if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
+                                creatureDestino.equipamentos.remove(0);
+                            }
+                            return true;
+                        case 3:
+                            // Escudo Tatico
+                        case 10:
+                            // Beskar helmet
+                            return false;
+                        case 4:
+                            // Revista
+                        case 5:
+                            // cabeca de alho
+                            destroiEConverte(creatureDestino);
+                            return true;
+                        case 7:
+                            //lixivia
+                            if (creatureDestino.equipamentos.get(0).getCountUsos() < 0.3) {
+                                destroiEConverte(creatureDestino);
+                                return true;
+                            }
+                            return false;
+                        case 8:
+                            // veneno
+                            /*
+                            IMCOMPLETO
+                             */
+                        case 9:
+                            //antidoto
+                             /*
+                            IMCOMPLETO
+                             */
+                    }
                 }
             }
         }
         return false;
+    }
+
+    private void destroiEConverte(Creature creatureDestino) {
+        creatureDestino.equipamentos.remove(0);
+        if (creatureDestino.getIdTipo() == 5 || creatureDestino.getIdTipo() == 6 ||
+                creatureDestino.getIdTipo() == 7 || creatureDestino.getIdTipo() == 8)
+            creatureDestino.setIdTipo(creatureDestino.getIdTipo() - 5);
+        creatureDestino.setIdEquipa(20);
     }
 }

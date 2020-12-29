@@ -16,7 +16,7 @@ public class TestZombie {
         String imageObtida = zombie.getImagePNG();
         assertEquals (imageEsperada, imageObtida);
 
-    }*/
+    }
 
 
     @Test

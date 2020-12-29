@@ -25,7 +25,9 @@ public class Militar extends Creature {
 
             // Caso for vivo ATAQUE
             if (this.idTipo == 7) {
-                if (this.equipamentos.size() == 0) return false;
+                if (this.equipamentos.size() == 0) {
+                    return false;
+                }
 
                 // verificar se o vivo tem um equipamento
                 switch (equipamentos.get(0).getIdTipo()) {

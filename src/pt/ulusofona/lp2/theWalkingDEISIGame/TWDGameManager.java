@@ -396,13 +396,17 @@ public class TWDGameManager {
                         // processa o combate
                         boolean movimentoValido = creatureOrigem.move(xO, yO, xD, yD, creatureDestino,
                                 creatures);
-                        if (!movimentoValido) return false;
+                        if (!movimentoValido) {
+                            return false;
+                        }
                     }
                 }
 
                 // Quando um equipamento
                 boolean processaEquipValido = creatureOrigem.processaEquipamentos(xD, yD, equipamentos);
-                if (!processaEquipValido) return false;
+                if (!processaEquipValido) {
+                    return false;
+                }
 
 
                 // caso nao haja nenhum equipamento, nessa posicao

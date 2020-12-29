@@ -16,7 +16,7 @@ public class TestHumano {
         String imageObtida = humano.getImagePNG();
         assertEquals (imageEsperada, imageObtida);
 
-    }*/
+    }
 
     @Test
     public void test02GetIdEquipa() {
@@ -25,4 +25,6 @@ public class TestHumano {
         int idObtido = humano.getId();
         assertEquals(idEsperado, idObtido);
     }
+
+    */
 }

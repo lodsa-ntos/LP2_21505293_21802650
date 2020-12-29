@@ -177,9 +177,10 @@ public abstract class Creature {
     protected void destroiEConverte(Creature creatureDestino) {
         creatureDestino.equipamentos.remove(0);
         if (creatureDestino.getIdTipo() == 5 || creatureDestino.getIdTipo() == 6 ||
-                creatureDestino.getIdTipo() == 7 || creatureDestino.getIdTipo() == 8)
+                creatureDestino.getIdTipo() == 7 || creatureDestino.getIdTipo() == 8) {
             creatureDestino.setIdTipo(creatureDestino.getIdTipo() - 5);
-        creatureDestino.setIdEquipa(20);
+            creatureDestino.setIdEquipa(20);
+        }
     }
 
     // Metodo que devolve o nome do ficheiro de imagem (formato PNG) que representa a criatura.

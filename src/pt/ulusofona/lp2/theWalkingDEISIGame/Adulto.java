@@ -25,7 +25,9 @@ public class Adulto extends Creature {
 
             // Caso for vivo
             if (this.idTipo == 6) {
-                if (this.equipamentos.size() == 0) return false;
+                if (this.equipamentos.size() == 0) {
+                    return false;
+                }
 
                 // verificar se o vivo tem um equipamento
                 switch (equipamentos.get(0).getIdTipo()) {

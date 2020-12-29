@@ -30,7 +30,9 @@ public class Crianca extends Creature {
             // Caso for vivo
             if (this.idTipo == 5) {
                 // se o vivo atacar sem equip nao é valido
-                if (this.equipamentos.size() == 0) return false;
+                if (this.equipamentos.size() == 0) {
+                    return false;
+                }
 
                 // verificar se o vivo tem um equipamento
                 switch (equipamentos.get(0).getIdTipo()) {

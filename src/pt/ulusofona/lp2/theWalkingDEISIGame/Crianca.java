@@ -29,6 +29,7 @@ public class Crianca extends Creature {
 
             // Caso for vivo
             if (this.idTipo == 5) {
+                // se o vivo atacar sem equip nao é valido
                 if (this.equipamentos.size() == 0) return false;
 
                 // verificar se o vivo tem um equipamento
@@ -50,9 +51,12 @@ public class Crianca extends Creature {
                     // Pistola
                     case 2: {
                         // A pistola não tem efeito contra Zombies Vampiros
-                        if (creatureDestino.idTipo != 4) {
+                        if (creatureDestino.getIdTipo() != 4) {
                             // diminui uma bala
                             this.equipamentos.get(0).diminuiCountUsos();
+                            if (this.equipamentos.get(0).getCountUsos() == 0) {
+                                this.equipamentos.remove(0);
+                            }
                             creatures.remove(creatureDestino);
                             this.setxAtual(creatureDestino.xAtual);
                             this.setyAtual(creatureDestino.yAtual);
@@ -78,6 +82,7 @@ public class Crianca extends Creature {
                 // caso for zombie
                 // verifica se o vivo tem equipamentos
                 if (creatureDestino.equipamentos.size() == 0) {
+                    // caso sem equip
                     switch (creatureDestino.getIdTipo()) {
                         // crianca viva tranforma-se (->) em zombie crianca
                         case 5:
@@ -95,9 +100,14 @@ public class Crianca extends Creature {
                             return false;
                     }
                 } else {
+                    // caso com equip defensivo
                     switch (creatureDestino.equipamentos.get(0).getIdTipo()) {
                         case 0:
                             // Escudo
+                            // Quando militar defende, alteramos os estado de uso do escudo
+                            if (creatureDestino.getIdTipo() == 7) {
+                                creatureDestino.equipamentos.get(0).escudoFoiUsado();
+                            }
                             creatureDestino.equipamentos.get(0).diminuiCountUsos();
                             // Caso o numero de usos for nulo então deixa de ter equipamento
                             if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
@@ -128,22 +138,18 @@ public class Crianca extends Creature {
                             IMCOMPLETO
                              */
                         case 9:
-                            //antidoto
+                        //antidoto
                              /*
                             IMCOMPLETO
                              */
+                            return false;
                     }
+                    // caso com equip ofensivo
+                    destroiEConverte(creatureDestino);
                 }
             }
         }
         return false;
     }
 
-    private void destroiEConverte(Creature creatureDestino) {
-        creatureDestino.equipamentos.remove(0);
-        if (creatureDestino.getIdTipo() == 5 || creatureDestino.getIdTipo() == 6 ||
-                creatureDestino.getIdTipo() == 7 || creatureDestino.getIdTipo() == 8)
-            creatureDestino.setIdTipo(creatureDestino.getIdTipo() - 5);
-        creatureDestino.setIdEquipa(20);
-    }
 }

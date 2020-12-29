@@ -12,6 +12,7 @@ public abstract class Equipamento {
     int yAnterior;
 
     double countUsos;
+    protected boolean escudoUsado;
 
     public Equipamento() {
     }
@@ -68,8 +69,20 @@ public abstract class Equipamento {
         return countUsos;
     }
 
+    public void aumentaCountUsos() {
+        this.countUsos += 1;
+    }
+
     public void diminuiCountUsos() {
         this.countUsos -= 1;
+    }
+
+    public boolean isEscudoUsado() {
+        return escudoUsado;
+    }
+
+    public void escudoFoiUsado() {
+        this.escudoUsado = true;
     }
 
     @Override

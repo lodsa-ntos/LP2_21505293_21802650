@@ -44,6 +44,13 @@ public abstract class Creature {
                     this.setyAtual(yD);
                     // verificar se o humano tem equipamentos
                     if (this.getEquipamentosVivos().size() == 0) {
+                        // se for militar e escudo de madeira entao a protecao aumenta
+                        if (this.getIdTipo() == 7 && eq.getIdTipo() == 0) {
+                            // verifica se foi a primeira vez usado
+                            if (!eq.isEscudoUsado()) {
+                                eq.aumentaCountUsos();
+                            }
+                        }
                         this.getEquipamentosVivos().add(eq);
                         // guarda como referencia a posicao original
                         eq.xAnterior = xD;
@@ -165,6 +172,14 @@ public abstract class Creature {
         if (this.idEquipaZombie == 20){
             equipa = "Os Outros";
         }
+    }
+
+    protected void destroiEConverte(Creature creatureDestino) {
+        creatureDestino.equipamentos.remove(0);
+        if (creatureDestino.getIdTipo() == 5 || creatureDestino.getIdTipo() == 6 ||
+                creatureDestino.getIdTipo() == 7 || creatureDestino.getIdTipo() == 8)
+            creatureDestino.setIdTipo(creatureDestino.getIdTipo() - 5);
+        creatureDestino.setIdEquipa(20);
     }
 
     // Metodo que devolve o nome do ficheiro de imagem (formato PNG) que representa a criatura.

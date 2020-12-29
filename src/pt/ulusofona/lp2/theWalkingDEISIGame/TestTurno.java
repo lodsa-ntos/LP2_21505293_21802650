@@ -12,6 +12,7 @@ public class TestTurno {
    // }
 
 
+    /*
     @Test
     public void test01TurnoJogar() {
         Zombie zombie = new Zombie(3, 0, "Paciente Zero", 0, 4);
@@ -20,4 +21,6 @@ public class TestTurno {
         assertEquals(idEsperado, idObtido);
 
     }
+
+     */
 }

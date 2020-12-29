@@ -37,27 +37,35 @@ public class Militar extends Creature {
                     case 6:
                         // Beskar Helmet
                     case 10: {
-                        creatures.remove(creatureDestino);
-                        this.setxAtual(creatureDestino.xAtual);
-                        this.setyAtual(creatureDestino.yAtual);
-                        return true;
-                    }
-                    // Pistola
-                    case 2: {
-                        // A pistola não tem efeito contra Zombies Vampiros
-                        if (creatureDestino.idTipo != 4) {
-                            // diminui uma bala
-                            this.equipamentos.get(0).diminuiCountUsos();
-                            if (this.equipamentos.get(0).getCountUsos() == 0) {
-                                this.equipamentos.remove(0);
-                            }
+                        if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
+
                             creatures.remove(creatureDestino);
                             this.setxAtual(creatureDestino.xAtual);
                             this.setyAtual(creatureDestino.yAtual);
                             return true;
-                        } else {
-                            return false;
                         }
+                        return false;
+                    }
+                    // Pistola
+                    case 2: {
+                        if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
+
+                            // A pistola não tem efeito contra Zombies Vampiros
+                            if (creatureDestino.idTipo != 4) {
+                                // diminui uma bala
+                                this.equipamentos.get(0).diminuiCountUsos();
+                                if (this.equipamentos.get(0).getCountUsos() == 0) {
+                                    this.equipamentos.remove(0);
+                                }
+                                creatures.remove(creatureDestino);
+                                this.setxAtual(creatureDestino.xAtual);
+                                this.setyAtual(creatureDestino.yAtual);
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                        return false;
                     }
                     default:
                         return false;
@@ -76,9 +84,12 @@ public class Militar extends Creature {
                         case 7:
                             // idoso viva tranforma-se (->) em zombie idoso
                         case 8:
-                            creatureDestino.setIdTipo(creatureDestino.getIdTipo() - 5);
-                            creatureDestino.setIdEquipa(20);
-                            return true;
+                            if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
+                                creatureDestino.setIdTipo(creatureDestino.getIdTipo() - 5);
+                                creatureDestino.setIdEquipa(20);
+                                return true;
+                            }
+                            return false;
                         // o cao nao se transforma
                         case 9:
                             return false;
@@ -87,17 +98,21 @@ public class Militar extends Creature {
                     switch (creatureDestino.equipamentos.get(0).getIdTipo()) {
                         case 0:
                             // Escudo
-                            // Quando militar defende, alteramos os estado de uso do escudo
-                            if (creatureDestino.getIdTipo() == 7) {
-                                creatureDestino.equipamentos.get(0).escudoFoiUsado();
-                            }
+                            if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
 
-                            creatureDestino.equipamentos.get(0).diminuiCountUsos();
-                            // Caso o numero de usos for nulo então deixa de ter equipamento
-                            if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
-                                creatureDestino.equipamentos.remove(0);
+                                // Quando militar defende, alteramos os estado de uso do escudo
+                                if (creatureDestino.getIdTipo() == 7) {
+                                    creatureDestino.equipamentos.get(0).escudoFoiUsado();
+                                }
+
+                                creatureDestino.equipamentos.get(0).diminuiCountUsos();
+                                // Caso o numero de usos for nulo então deixa de ter equipamento
+                                if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
+                                    creatureDestino.equipamentos.remove(0);
+                                }
+                                return true;
                             }
-                            return true;
+                            return false;
                         case 3:
                             // Escudo Tatico
                         case 10:
@@ -107,13 +122,18 @@ public class Militar extends Creature {
                             // Revista
                         case 5:
                             // cabeca de alho
-                            destroiEConverte(creatureDestino);
-                            return true;
-                        case 7:
-                            //lixivia
-                            if (creatureDestino.equipamentos.get(0).getCountUsos() < 0.3) {
+                            if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
                                 destroiEConverte(creatureDestino);
                                 return true;
+                            }
+                        return false;
+                        case 7:
+                            //lixivia
+                            if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
+                                if (creatureDestino.equipamentos.get(0).getCountUsos() < 0.3) {
+                                    destroiEConverte(creatureDestino);
+                                    return true;
+                                }
                             }
                             return false;
                         case 8:
@@ -130,6 +150,34 @@ public class Militar extends Creature {
                     }
                     destroiEConverte(creatureDestino);
                 }
+            }
+        }
+        return false;
+    }
+
+    private boolean saltouPorCima(int xO, int yO, int xD, int yD, ArrayList<Creature> creatures ) {
+        // verifica direcao
+        String direcao = this.qualDirecao(xO, xD, yO, yD);
+        int diff = 0;
+        // se for horizontal significa que a diferenca do Y é o meio
+        if (direcao.equals("horizontal")) {
+            diff = Math.abs(yD - yO);
+        } else if (direcao.equals("vertical")) {
+            diff = Math.abs(xD - xO);
+        } else if (direcao.equals("diagonal")) {
+            diff = Math.abs(xD - xO);
+        }
+
+        // verifica se uma creatura ou equipamento esta naquela posicao
+        for (Creature creature : creatures) {
+            if (creature.getXAtual() == xO && creature.getYAtual() == diff) {
+                return true;
+            }
+        }
+
+        for (Equipamento equipamento : equipamentos) {
+            if (equipamento.getXAtual() == xO && equipamento.getYAtual() == diff) {
+                return true;
             }
         }
         return false;

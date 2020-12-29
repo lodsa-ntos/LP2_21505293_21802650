@@ -590,9 +590,10 @@ public class TWDGameManager {
     }
 
     public int getEquipmentTypeId(int equipmentId){
+
         for (Equipamento equipamento: equipamentos){
             if (equipmentId == equipamento.getID()){
-                return equipmentId;
+                return equipamento.getIdTipo();
             }
         }
         return 0;
@@ -609,9 +610,9 @@ public class TWDGameManager {
                 // Se os equipamentos forem escudo de madeira, pistola ou lixivia
                 // <Nome Tipo> | <Info>
                 if (equipamento.getIdTipo() == 0 || equipamento.getIdTipo() == 2) {
-                    return equipamento.getTitulo() + " " + (int) equipamento.getCountUsos();
+                    return equipamento.getTitulo() + " | " + (int) equipamento.getCountUsos();
                 } else if (equipamento.getIdTipo() == 7) {
-                    return equipamento.getTitulo() + " " + equipamento.getCountUsos();
+                    return equipamento.getTitulo() + " | " + equipamento.getCountUsos();
                 }
                 // Caso nao for
                 // <Nome Tipo>

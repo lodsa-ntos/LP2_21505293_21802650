@@ -41,7 +41,7 @@ public abstract class Equipamento {
 
     public void setIdTipo(int idTipo) {
         if(idTipo == 0) {
-            titulo = "Escudo de madeira";
+            titulo = "Escudo de Madeira";
         } else if (idTipo == 1) {
             titulo = "Espada Hattori Hanzo";
         } else if (idTipo == 2) {

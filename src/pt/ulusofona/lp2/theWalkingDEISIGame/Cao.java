@@ -37,28 +37,64 @@ public class Cao extends Creature {
                 case 6:
                     // Beskar Helmet
                 case 10: {
-                    creatures.remove(creatureDestino);
-                    this.setxAtual(creatureDestino.xAtual);
-                    this.setyAtual(creatureDestino.yAtual);
-                    return true;
-                }
-                // Pistola
-                case 2: {
-                    // A pistola não tem efeito contra Zombies Vampiros
-                    if (creatureDestino.idTipo != 4) {
-                        // diminui uma bala
-                        this.equipamentos.get(0).diminuiCountUsos();
-                        if (this.equipamentos.get(0).getCountUsos() == 0) {
-                            this.equipamentos.remove(0);
-                        }
+                    if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
+
                         creatures.remove(creatureDestino);
                         this.setxAtual(creatureDestino.xAtual);
                         this.setyAtual(creatureDestino.yAtual);
                         return true;
-                    } else {
-                        return false;
                     }
+                    return false;
                 }
+                // Pistola
+                case 2: {
+                    if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
+
+                        // A pistola não tem efeito contra Zombies Vampiros
+                        if (creatureDestino.idTipo != 4) {
+                            // diminui uma bala
+                            this.equipamentos.get(0).diminuiCountUsos();
+                            if (this.equipamentos.get(0).getCountUsos() == 0) {
+                                this.equipamentos.remove(0);
+                            }
+                            creatures.remove(creatureDestino);
+                            this.setxAtual(creatureDestino.xAtual);
+                            this.setyAtual(creatureDestino.yAtual);
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean saltouPorCima(int xO, int yO, int xD, int yD, ArrayList<Creature> creatures ) {
+        // verifica direcao
+        String direcao = this.qualDirecao(xO, xD, yO, yD);
+        int diff = 0;
+        // se for horizontal significa que a diferenca do Y é o meio
+        if (direcao.equals("horizontal")) {
+            diff = Math.abs(yD - yO);
+        } else if (direcao.equals("vertical")) {
+            diff = Math.abs(xD - xO);
+        } else if (direcao.equals("diagonal")) {
+            diff = Math.abs(xD - xO);
+        }
+
+        // verifica se uma creatura ou equipamento esta naquela posicao
+        for (Creature creature : creatures) {
+            if (creature.getXAtual() == xO && creature.getYAtual() == diff) {
+                return true;
+            }
+        }
+
+        for (Equipamento equipamento : equipamentos) {
+            if (equipamento.getXAtual() == xO && equipamento.getYAtual() == diff) {
+                return true;
             }
         }
         return false;

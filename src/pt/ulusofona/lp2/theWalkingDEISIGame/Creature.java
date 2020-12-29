@@ -183,6 +183,17 @@ public abstract class Creature {
         }
     }
 
+    protected String qualDirecao(int xO, int xD, int yO, int yD) {
+        if (Math.abs(xD - xO) != 0 && Math.abs(yD - yO) == 0 ) {
+            return "horizontal";
+        } else if (Math.abs(xD - xO) == 0 && Math.abs(yD - yO) != 0 ) {
+            return "vertical";
+        } else if (Math.abs(xD - xO) == Math.abs(yD - yO)) {
+            return "diagonal";
+        }
+        return "";
+    }
+
     // Metodo que devolve o nome do ficheiro de imagem (formato PNG) que representa a criatura.
     public String getImagePNG(){
         switch (idTipo){

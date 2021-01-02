@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class Idoso extends Creature {
 
+    boolean eDia;
     public Idoso(int id, int idTipo, String nome, int xAtual, int yAtual) {
         super(id, idTipo, nome, xAtual, yAtual);
     }
@@ -27,7 +28,7 @@ public class Idoso extends Creature {
                 Math.abs(xD - xO) == 0 && Math.abs(yD - yO) == 1) {
 
             // Caso for vivo
-            if (this.idTipo == 8) {
+            if (this.idTipo == 8 && !this.eDia) {
                 if (this.equipamentos.size() == 0) {
                     return false;
                 }
@@ -62,18 +63,18 @@ public class Idoso extends Creature {
                         return false;
                 }
 
-            } else if (this.idTipo == 3) {
+            } else if (this.idTipo == 3 && this.eDia) {
                 // caso for zombie DEFESA
                 // verifica se o vivo tem equipamentos
                 if (creatureDestino.equipamentos.size() == 0) {
                     switch (creatureDestino.getIdTipo()) {
-                        // crianca viva tranforma-se (->) em zombie crianca
+                        // crianca vivo tranforma-se (->) em zombie crianca
                         case 5:
-                            // adulto viva tranforma-se (->) em zombie adulto
+                            // adulto vivo tranforma-se (->) em zombie adulto
                         case 6:
-                            // militar viva tranforma-se (->) em zombie militar
+                            // militar vivo tranforma-se (->) em zombie militar
                         case 7:
-                            // idoso viva tranforma-se (->) em zombie idoso
+                            // idoso vivo tranforma-se (->) em zombie idoso
                         case 8:
                             creatureDestino.setIdTipo(creatureDestino.getIdTipo() - 5);
                             creatureDestino.setIdEquipa(20);
@@ -113,18 +114,25 @@ public class Idoso extends Creature {
                             if (creatureDestino.equipamentos.get(0).getCountUsos() < 0.3) {
                                 destroiEConverte(creatureDestino);
                                 return true;
+                            } else {
+                                return false;
                             }
-                            return false;
                         case 8:
                             // veneno
-                            /*
-                            IMCOMPLETO
-                             */
+                            if (TWDGameManager.nrTurno == 3 && !envenenado){
+                                destroiEConverte(creatureDestino);
+                                return true;
+                            } else {
+                                return false;
+                            }
                         case 9:
                             //antidoto
-                             /*
-                            IMCOMPLETO
-                             */
+                            if (!envenenado) {
+                                processaEquipamentos(xD,yD,equipamentos);
+                                return true;
+                            } else {
+                                return false;
+                            }
                     }
                     destroiEConverte(creatureDestino);
                 }

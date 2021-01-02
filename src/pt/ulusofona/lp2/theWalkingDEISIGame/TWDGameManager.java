@@ -26,7 +26,7 @@ public class TWDGameManager {
     static ArrayList<Creature> creatures = new ArrayList<>();
 
     //Lista de Equipamento
-    ArrayList<Equipamento> equipamentos = new ArrayList<>();
+    static ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
     //Lista para o safeHaven
     static ArrayList<Integer> safe = new ArrayList<>();
@@ -35,20 +35,20 @@ public class TWDGameManager {
     static int numColuna;
     static int xPortas;
     static int yPortas;
+    static int nrTurno = 0;
 
-    int linhaAtual = 0;
-    int nrTurno = 0;
-    int idEquipaAtual = 10;
+    private int linhaAtual = 0;
+    private int idEquipaAtual = 10;
 
-    int nC;
-    int nE;
-    int nP;
+    private int nC;
+    private int nE;
+    private int nP;
 
-    int nrDias = 6;
-    int nrNoites = 6;
+    public static int nrDias = 6;
+    public static int nrNoites = 6;
 
-    boolean diurno = true;
-    boolean valido = true;
+    private boolean diurno = true;
+    private boolean valido = true;
 
     public TWDGameManager() {
     }
@@ -57,12 +57,13 @@ public class TWDGameManager {
     public boolean startGame(File ficheiroInicial) {
 
         creatures = new ArrayList<>(); // resent da lista de creatures.
-        safe = new ArrayList<>();
-        numLinha = 0; // resent variavel numLinha.
-        numColuna = 0; // resent variavel numColuna.
-        xPortas = 0; // resent variavel xPortas.
-        yPortas = 0; // resent variavel yPortas.
-        nrTurno = 0; // resent variavel turnos.
+        equipamentos = new ArrayList<>(); // reset da lista de equipamentos
+        safe = new ArrayList<>(); // reset para a lista safeHaven
+        numLinha = 0; // reset variavel numLinha.
+        numColuna = 0; // reset variavel numColuna.
+        xPortas = 0; // reset variavel xPortas.
+        yPortas = 0; // reset variavel yPortas.
+        nrTurno = 0; // reset variavel turnos.
 
         try {
 
@@ -198,6 +199,10 @@ public class TWDGameManager {
                             cao.getEquipaVivos();
                             System.out.println(cao.toString()); // imprime humano
                             break;
+
+                        default:
+                            System.out.println("Erro! Criatura não adicionada!");
+                            break;
                     }
 
                     linhaAtual++;
@@ -328,37 +333,50 @@ public class TWDGameManager {
     }
 
     public int getInitialTeam() {
+
+        // Os Vivos
         if (nrTurno == 0) {
             return idEquipaAtual = 10;
         } else if (nrTurno == 1) {
             return idEquipaAtual = 10;
-        } else if (nrTurno == 2) {
+        }
+
+        // Os Outros
+        else if (nrTurno == 2) {
             return idEquipaAtual = 20;
         } else if (nrTurno == 3) {
             return idEquipaAtual = 20;
-        } else if (nrTurno == 4) {
+        }
+
+        // Os Vivos
+        else if (nrTurno == 4) {
             return idEquipaAtual = 10;
         } else if (nrTurno == 5) {
             return idEquipaAtual = 10;
-        } else if (nrTurno == 6) {
+        }
+
+        // Os Outros
+        else if (nrTurno == 6) {
             return idEquipaAtual = 20;
         } else if (nrTurno == 7) {
             return idEquipaAtual = 20;
-        } else if (nrTurno == 8) {
+        }
+
+        //Os Vivos
+        else if (nrTurno == 8) {
             return idEquipaAtual = 10;
         } else if (nrTurno == 9) {
             return idEquipaAtual = 10;
-        } else if (nrTurno == 10) {
+        }
+
+        // Os Outros
+        else if (nrTurno == 10) {
             return idEquipaAtual = 20;
         } else if (nrTurno == 11) {
             return idEquipaAtual = 20;
-        } else if (nrTurno == 12) {
-            return idEquipaAtual = 10;
-        } else if (nrTurno == 13) {
-            return idEquipaAtual = 10;
-        } else {
-            return 0;
         }
+
+        return 0;
     }
 
     public List<Creature> getCreatures(){
@@ -383,80 +401,90 @@ public class TWDGameManager {
             if (creatureOrigem.getIdEquipa() == idEquipaAtual &&
                     creatureOrigem.getXAtual() == xO && creatureOrigem.getYAtual() == yO) {
 
-
-                // Quando contra outra criatura
+                // Quando vai contra outra criatura
                 for (Creature creatureDestino: creatures) {
                     // Se o elemento de uma equipa cair em cima de um outro da mesma equipa
                     // retorna falso
-                    if (creatureDestino.getIdEquipa() == idEquipaAtual) {
-                        if (creatureDestino.getXAtual() == xD && creatureDestino.getYAtual() == yD) {
-                            return false;
-                        }
-                    } else {
-                        // processa o combate
-                        boolean movimentoValido = creatureOrigem.move(xO, yO, xD, yD, creatureDestino,
-                                creatures);
-                        if (!movimentoValido) {
-                            return false;
+                    if (creatureDestino != null) {
+                        if (creatureDestino.getIdEquipa() == idEquipaAtual) {
+                            if (creatureDestino.getXAtual() == xD && creatureDestino.getYAtual() == yD) {
+                                return false;
+                            }
+                        } else {
+                            // processa o combate
+                            boolean movimentoValido = creatureOrigem.move(xO, yO, xD, yD, creatureDestino,
+                                    creatures);
+                            if (!movimentoValido) {
+                                return false;
+                            }
                         }
                     }
                 }
 
-                // Quando um equipamento
+                // Quando vai contra um equipamento
                 boolean processaEquipValido = creatureOrigem.processaEquipamentos(xD, yD, equipamentos);
                 if (!processaEquipValido) {
                     return false;
                 }
 
-
-                // caso nao haja nenhum equipamento, nessa posicao
-                //Move uma posicao // INCOMPLETO SAO DOIS MOVIMENTOS
+                // Caso nao haja nenhum equipamento, nessa posicao
+                // Move uma posicao
                 creatureOrigem.setxAtual(xD);
                 creatureOrigem.setyAtual(yD);
                 nrTurno++;
 
+                // Dia
                 if (nrTurno == 0) {
                     idEquipaAtual = 10;
                     diurno = true;
                 } else if (nrTurno == 1) {
                     idEquipaAtual = 10;
                     diurno = true;
-                } else if (nrTurno == 2) {
+                }
+
+                // Noite
+                else if (nrTurno == 2) {
                     idEquipaAtual = 20;
                     diurno = false;
                 } else if (nrTurno == 3) {
-                    idEquipaAtual = 20;
+                    idEquipaAtual = 10;
                     diurno = false;
-                } else if (nrTurno == 4) {
+                }
+
+                // Dia
+                else if (nrTurno == 4) {
                     idEquipaAtual = 10;
                     diurno = true;
                 } else if (nrTurno == 5) {
                     idEquipaAtual = 10;
                     diurno = true;
-                } else if (nrTurno == 6) {
+                }
+
+                //Noite
+                else if (nrTurno == 6) {
                     idEquipaAtual = 20;
                     diurno = false;
                 } else if (nrTurno == 7) {
                     idEquipaAtual = 20;
                     diurno = false;
-                } else if (nrTurno == 8) {
+                }
+
+                // Dia
+                else if (nrTurno == 8) {
                     idEquipaAtual = 10;
                     diurno = true;
                 } else if (nrTurno == 9) {
                     idEquipaAtual = 10;
                     diurno = true;
-                } else if (nrTurno == 10) {
+                }
+
+                // Noite
+                else if (nrTurno == 10) {
                     idEquipaAtual = 20;
                     diurno = false;
                 } else if (nrTurno == 11) {
                     idEquipaAtual = 20;
                     diurno = false;
-                } else if (nrTurno == 12) {
-                    idEquipaAtual = 10;
-                    diurno = true;
-                } else if (nrTurno == 13) {
-                    idEquipaAtual = 10;
-                    diurno = true;
                 }
                 return true;
             }
@@ -476,10 +504,10 @@ public class TWDGameManager {
     }
 
     public int getCurrentTeamId() {
-        if (diurno){
-            return idEquipaAtual;
-        } else {
+        if (!diurno){
             return idEquipaAtual = 20;
+        } else {
+            return idEquipaAtual = 10;
         }
     }
 
@@ -601,10 +629,6 @@ public class TWDGameManager {
 
     public String getEquipmentInfo(int equipmentId) {
 
-        String nomeTipo;
-        int info;
-        //TODO erro no drop não reconhece outros equipamentos
-
         for (Equipamento equipamento: equipamentos) {
             if (equipamento.getID() == equipmentId) {
                 // Se os equipamentos forem escudo de madeira, pistola ou lixivia
@@ -614,13 +638,10 @@ public class TWDGameManager {
                 } else if (equipamento.getIdTipo() == 7) {
                     return equipamento.getTitulo() + " | " + equipamento.getCountUsos();
                 }
-                // Caso nao for
-                // <Nome Tipo>
+                // Caso nao for, retorna apenas <Nome Tipo>
                 return equipamento.getTitulo();
             }
         }
-
-
         return null;
     }
 

@@ -16,11 +16,11 @@ public abstract class Creature {
     protected int yAtual;
     protected int xAnterior;
     protected int yAnterior;
+    protected boolean envenenado;
 
     protected ArrayList<Equipamento> equipamentos = new ArrayList<>();
     protected ArrayList<Equipamento> destruidos = new ArrayList<>();
-
-   // public Creature(){}
+    protected ArrayList<Creature> envenenados = new ArrayList<>();
 
     public Creature(int id, int idTipo, String nome, int xAtual, int yAtual) {
         this.id = id;
@@ -69,7 +69,7 @@ public abstract class Creature {
                 }
             }
         } else {
-            // se for da equpa dos zombies
+            // se for da equipa dos zombies
             for (Equipamento eq : equipamentoArrayList) {
                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
                     // se for zombie vamp vs alho retorna falso
@@ -210,11 +210,9 @@ public abstract class Creature {
             case 5:
                 return "crianca.png";
             case 6:
-                return "adulto.png";
             case 7:
-                return "militar.png";
             case 8:
-                return "idoso.png";
+                return "human.png";
             case 9:
                 return "dog.png";
         }

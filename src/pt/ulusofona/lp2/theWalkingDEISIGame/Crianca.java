@@ -18,18 +18,19 @@ public class Crianca extends Creature {
         super(id, idTipo, nome, xAtual, yAtual);
     }
 
+    int count = 3;
+
     @Override
     public boolean move(int xO, int yO, int xD, int yD,
                         Creature creatureDestino, ArrayList<Creature> creatures) {
 
-        // verifica horizontalmente
-        // verifica verticalmente
+        // verifica horizontalmente e verticalmente
         if (Math.abs(xD - xO) == 1 && Math.abs(yD - yO) == 0 ||
                 Math.abs(xD - xO) == 0 && Math.abs(yD - yO) == 1) {
 
             // Caso for vivo
             if (this.idTipo == 5) {
-                // se o vivo atacar sem equip nao é valido
+                // se o vivo atacar sem equipamento nao é valido
                 if (this.equipamentos.size() == 0) {
                     return false;
                 }
@@ -40,7 +41,7 @@ public class Crianca extends Creature {
                     case 1: {
                         // Se selecionar uma criança viva com uma espada e atacar um outro zombie nao crianca
                         // retorna falso
-                        if (creatureDestino.idTipo == 0) {
+                        if (creatureDestino.getIdTipo() == 0) {
                             // vamos destruir o zombie crianca e posicionar a crianca naquela posicao
                             creatures.remove(creatureDestino);
                             this.setxAtual(creatureDestino.xAtual);
@@ -80,19 +81,20 @@ public class Crianca extends Creature {
                         return false;
                 }
 
+            // CRIANÇA ZOMBIE
             } else if (this.idTipo == 0) {
                 // caso for zombie
                 // verifica se o vivo tem equipamentos
                 if (creatureDestino.equipamentos.size() == 0) {
-                    // caso sem equip
+                    // caso sem equipamento
                     switch (creatureDestino.getIdTipo()) {
-                        // crianca viva tranforma-se (->) em zombie crianca
+                        // crianca vivo tranforma-se (->) em zombie crianca
                         case 5:
-                            // adulto viva tranforma-se (->) em zombie adulto
+                            // adulto vivo tranforma-se (->) em zombie adulto
                         case 6:
-                            // militar viva tranforma-se (->) em zombie militar
+                            // militar vivo tranforma-se (->) em zombie militar
                         case 7:
-                            // idoso viva tranforma-se (->) em zombie idoso
+                            // idoso vivo tranforma-se (->) em zombie idoso
                         case 8:
                             creatureDestino.setIdTipo(creatureDestino.getIdTipo() - 5);
                             creatureDestino.setIdEquipa(20);
@@ -102,7 +104,7 @@ public class Crianca extends Creature {
                             return false;
                     }
                 } else {
-                    // caso com equip defensivo
+                    // caso com equipamentos defensivos
                     switch (creatureDestino.equipamentos.get(0).getIdTipo()) {
                         case 0:
                             // Escudo
@@ -132,19 +134,25 @@ public class Crianca extends Creature {
                             if (creatureDestino.equipamentos.get(0).getCountUsos() < 0.3) {
                                 destroiEConverte(creatureDestino);
                                 return true;
+                            } else {
+                                return false;
                             }
-                            return false;
                         case 8:
                             // veneno
-                            /*
-                            IMCOMPLETO
-                             */
+                            if (TWDGameManager.nrTurno == 3 && !envenenado){
+                                destroiEConverte(creatureDestino);
+                                return true;
+                            } else {
+                                return false;
+                            }
                         case 9:
                         //antidoto
-                             /*
-                            IMCOMPLETO
-                             */
-                            return false;
+                            if (!envenenado) {
+                                processaEquipamentos(xD,yD,equipamentos);
+                                return true;
+                            } else {
+                                return false;
+                            }
                     }
                     // caso com equip ofensivo
                     destroiEConverte(creatureDestino);

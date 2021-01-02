@@ -37,7 +37,7 @@ public class Cao extends Creature {
                 case 6:
                     // Beskar Helmet
                 case 10: {
-                    if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
+                    if (saltouPorCima(xO, yO, xD, yD, creatures)) {
 
                         creatures.remove(creatureDestino);
                         this.setxAtual(creatureDestino.xAtual);
@@ -48,7 +48,7 @@ public class Cao extends Creature {
                 }
                 // Pistola
                 case 2: {
-                    if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
+                    if (saltouPorCima(xO, yO, xD, yD, creatures)) {
 
                         // A pistola não tem efeito contra Zombies Vampiros
                         if (creatureDestino.idTipo != 4) {
@@ -77,26 +77,28 @@ public class Cao extends Creature {
         String direcao = this.qualDirecao(xO, xD, yO, yD);
         int diff = 0;
         // se for horizontal significa que a diferenca do Y é o meio
-        if (direcao.equals("horizontal")) {
-            diff = Math.abs(yD - yO);
-        } else if (direcao.equals("vertical")) {
-            diff = Math.abs(xD - xO);
-        } else if (direcao.equals("diagonal")) {
-            diff = Math.abs(xD - xO);
+        switch (direcao) {
+            case "horizontal":
+                diff = Math.abs(yD - yO);
+                break;
+            case "vertical":
+            case "diagonal":
+                diff = Math.abs(xD - xO);
+                break;
         }
 
         // verifica se uma creatura ou equipamento esta naquela posicao
         for (Creature creature : creatures) {
             if (creature.getXAtual() == xO && creature.getYAtual() == diff) {
-                return true;
+                return false;
             }
         }
 
         for (Equipamento equipamento : equipamentos) {
             if (equipamento.getXAtual() == xO && equipamento.getYAtual() == diff) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 }

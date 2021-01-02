@@ -139,20 +139,10 @@ public class Crianca extends Creature {
                             }
                         case 8:
                             // veneno
-                            if (TWDGameManager.nrTurno == 3 && !envenenado){
-                                destroiEConverte(creatureDestino);
-                                return true;
-                            } else {
-                                return false;
-                            }
+                            return false;
                         case 9:
                         //antidoto
-                            if (!envenenado) {
-                                processaEquipamentos(xD,yD,equipamentos);
-                                return true;
-                            } else {
-                                return false;
-                            }
+                            return false;
                     }
                     // caso com equip ofensivo
                     destroiEConverte(creatureDestino);
@@ -162,4 +152,9 @@ public class Crianca extends Creature {
         return false;
     }
 
+    @Override
+    public boolean move(int xO, int yO, int xD, int yD) {
+        return Math.abs(xD - xO) == 1 && Math.abs(yD - yO) == 0 ||
+                Math.abs(xD - xO) == 0 && Math.abs(yD - yO) == 1;
+    }
 }

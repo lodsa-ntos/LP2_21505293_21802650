@@ -72,6 +72,13 @@ public class Cao extends Creature {
         return false;
     }
 
+    @Override
+    public boolean move(int xO, int yO, int xD, int yD) {
+        int diffX = Math.abs(xD - xO);
+        int diffY = Math.abs(yD - yO);
+        return diffX == diffY && diffX <= 2;
+    }
+
     private boolean saltouPorCima(int xO, int yO, int xD, int yD, ArrayList<Creature> creatures ) {
         // verifica direcao
         String direcao = this.qualDirecao(xO, xD, yO, yD);

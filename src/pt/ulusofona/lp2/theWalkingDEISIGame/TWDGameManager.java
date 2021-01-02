@@ -367,6 +367,8 @@ public class TWDGameManager {
             return false; // estão fora do mapa
         }
 
+        boolean encontrouCriatura = false;
+        boolean encontrouEquip = false;
         for (Creature creatureOrigem : creatures) {
 
             if (creatureOrigem.getIdEquipa() == idEquipaAtual &&
@@ -377,37 +379,90 @@ public class TWDGameManager {
                 if (isDoorToSafeHaven(xD, yD)) {
                     creatures.remove(creatureOrigem);
                     safe.add(creatureOrigem);
-                    return true;
                 }
 
                 // Quando vai contra outra criatura
                 for (Creature creatureDestino: creatures) {
                     // Se o elemento de uma equipa cair em cima de um outro da mesma equipa
                     // retorna falso
-                    if (creatureDestino.getIdEquipa() == idEquipaAtual) {
-                        if (creatureDestino.getXAtual() == xD && creatureDestino.getYAtual() == yD) {
+                    if (creatureDestino.getXAtual() == xD && creatureDestino.getYAtual() == yD) {
+                        if (creatureDestino.getIdEquipa() == idEquipaAtual) {
                             return false;
-                        }
-                    } else {
-                        // processa o combate
-                        boolean movimentoValido = creatureOrigem.move(xO, yO, xD, yD, creatureDestino,
-                                creatures);
-                        if (!movimentoValido) {
-                            return false;
+                        } else {
+                            // processa o combate
+                            boolean movimentoValido = creatureOrigem.move(xO, yO, xD, yD, creatureDestino,
+                                    creatures);
+                            if (!movimentoValido) {
+                                return false;
+                            } else {
+                                encontrouCriatura = true;
+                            }
                         }
                     }
                 }
 
-                // Quando vai contra um equipamento
-                boolean processaEquipValido = creatureOrigem.processaEquipamentos(xD, yD, equipamentos);
-                if (!processaEquipValido) {
-                    return false;
+                // caso na posicao destino nao tiver uma criatura
+                // verifica se é um equipamento
+                if (creatureOrigem.getIdEquipa() == 10) {
+                    for (Equipamento eq : equipamentos) {
+                        if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                            // verificar se o humano tem equipamentos
+                            if (creatureOrigem.getEquipamentosVivos().size() == 0) {
+                                // se for militar e escudo de madeira entao a protecao aumenta
+                                if (creatureOrigem.getIdTipo() == 7 && eq.getIdTipo() == 0) {
+                                    // verifica se foi a primeira vez usado
+                                    if (!eq.isEscudoUsado()) {
+                                        eq.aumentaCountUsos();
+                                    }
+                                }
+                                creatureOrigem.getEquipamentosVivos().add(eq);
+                                // guarda como referencia a posicao original
+                                eq.xAnterior = xD;
+                                eq.yAnterior = yD;
+
+                                //Move uma posicao
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+
+                            } else {
+                                // guardamos o equipamento existente na lista de equipamentos
+                                Equipamento eqAntigo = creatureOrigem.getEquipamentosVivos().get(0);
+                                // removemos esse equipamento e devolvemos na posicao original
+                                creatureOrigem.getEquipamentosVivos().remove(0);
+                                eqAntigo.xAtual = eqAntigo.xAnterior;
+                                eqAntigo.yAtual = eqAntigo.yAnterior;
+                                // depois de removido adiciona o novo
+                                creatureOrigem.getEquipamentosVivos().add(eq);
+                            }
+                            encontrouEquip = true;
+                        }
+                    }
+                } else if (creatureOrigem.getIdEquipa() == 20) {
+                    // se for da equipa dos zombies
+                    for (Equipamento eq : equipamentos) {
+                        if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                            // se for zombie vamp vs alho retorna falso
+                            if (creatureOrigem.getIdTipo() == 4 && eq.getIdTipo() == 5) {
+                                return false;
+                            }
+                            // Adiciona nos equipamentos destruidos
+                            // Destroi os equipamento
+                            //Move uma posicao
+                            creatureOrigem.destruidos.add(eq);
+                            equipamentos.remove(eq); // problema?
+                            creatureOrigem.setxAtual(xD);
+                            creatureOrigem.setyAtual(yD);
+
+                            encontrouEquip = true;
+                        }
+                    }
                 }
 
-                // Caso nao haja nenhum equipamento, nessa posicao
-                // Move uma posicao
-                creatureOrigem.setxAtual(xD);
-                creatureOrigem.setyAtual(yD);
+                // Caso nao encontar nenhuma criatura, equipamento ou safeheaven
+                if (!encontrouCriatura && !encontrouEquip) {
+                    creatureOrigem.move(xO, yO, xD, yD);
+                }
+
                 nrTurno++;
 
                 // Dia

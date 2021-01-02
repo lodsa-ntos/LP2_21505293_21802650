@@ -127,18 +127,20 @@ public class Idoso extends Creature {
                             }
                         case 9:
                             //antidoto
-                            if (!envenenado) {
-                                processaEquipamentos(xD,yD,equipamentos);
-                                return true;
-                            } else {
-                                return false;
-                            }
+                            return false;
+
                     }
                     destroiEConverte(creatureDestino);
                 }
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean move(int xO, int yO, int xD, int yD) {
+        return Math.abs(xD - xO) == 1 && Math.abs(yD - yO) == 0 ||
+                Math.abs(xD - xO) == 0 && Math.abs(yD - yO) == 1;
     }
 
     private void largaEquipamento(Creature creatureDestino, ArrayList<Creature> creatures) {

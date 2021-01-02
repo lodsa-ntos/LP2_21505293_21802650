@@ -148,18 +148,18 @@ public class Adulto extends Creature {
                             }
                         case 9:
                             //antidoto
-                            if (!envenenado) {
-                                processaEquipamentos(xD,yD,equipamentos);
-                                return true;
-                            } else {
-                                return false;
-                            }
+                            return false;
+
                     }
                     destroiEConverte(creatureDestino);
                 }
             }
         }
         return false;
+    }
+
+    public boolean move(int xO, int yO, int xD, int yD) {
+        return Math.abs(xD - xO) <= 2 || Math.abs(yD - yO) <= 2;
     }
 
     private boolean saltouPorCima(int xO, int yO, int xD, int yD, ArrayList<Creature> creatures ) {

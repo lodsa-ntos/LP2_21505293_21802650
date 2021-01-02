@@ -5,8 +5,7 @@ import java.util.ArrayList;
 public abstract class Creature {
     protected int id;
     protected int idTipo;
-    protected int idEquipa = 10;
-    protected int idEquipaZombie = 20;
+    protected int idEquipa;
     protected String nome;
 
     private String tipo;
@@ -136,41 +135,68 @@ public abstract class Creature {
     }
 
     // Metodo onde <Tipo> corresponde aos nomes (p.e. “Humano” ou “Zombie”).
-    protected void getTipo(){
-        if(this.idTipo == 0){
-            tipo = "Criança (Zombie)";
-        } else if (this.idTipo == 1) {
-            tipo = "Adulto (Zombie)";
-        } else if (this.idTipo == 2) {
-            tipo = "Militar (Zombie)";
-        } else if (this.idTipo == 3) {
-            tipo = "Idoso (Zombie)";
-        } else if (this.idTipo == 4) {
-            tipo = "Zombie Vampiro";
-        } else if (this.idTipo == 5) {
-            tipo = "Criança (Vivo)";
-        } else if (this.idTipo == 6) {
-            tipo = "Adulto (Vivo)";
-        } else if (this.idTipo == 7) {
-            tipo = "Militar (Vivo)";
-        } else if (this.idTipo == 8) {
-            tipo = "Idoso (Vivo)";
-        } else if (this.idTipo == 9) {
-            tipo = "Cão";
+    protected void setTipo(int idTipo){
+        switch (idTipo) {
+            case 0:
+                tipo = "Criança (Zombie)";
+                break;
+            case 1:
+                tipo = "Adulto (Zombie)";
+                break;
+            case 2:
+                tipo = "Militar (Zombie)";
+                break;
+            case 3:
+                tipo = "Idoso (Zombie)";
+                break;
+            case 4:
+                tipo = "Zombie Vampiro";
+                break;
+            case 5:
+                tipo = "Criança (Vivo)";
+                break;
+            case 6:
+                tipo = "Adulto (Vivo)";
+                break;
+            case 7:
+                tipo = "Militar (Vivo)";
+                break;
+            case 8:
+                tipo = "Idoso (Vivo)";
+                break;
+            case 9:
+                tipo = "Cão";
+                break;
+            default:
+                tipo = "";
+                break;
         }
     }
 
     // Metodo onde <Equipa Vivos> corresponde ao nome (p.e. “Os Vivos”).
-    public void getEquipaVivos() {
-        if(this.idEquipa == 10){
-            equipa = "Os Vivos";
-        }
-    }
-
     // Metodo onde <Equipa Zombie> corresponde ao nome (p.e. “Os Outros”).
-    public void getEquipaZombie(){
-        if (this.idEquipaZombie == 20){
-            equipa = "Os Outros";
+    public void setEquipa(int idTipo) {
+        switch (idTipo) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                equipa = "Os Outros";
+                idEquipa = 20;
+                break;
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                equipa = "Os Vivos";
+                idEquipa = 10;
+                break;
+            default:
+                equipa = "";
+                idEquipa= -1;
+                break;
         }
     }
 

@@ -377,8 +377,11 @@ public class TWDGameManager {
                 // Verifica se vai para uma safe heaven
                 // caso for, remove no mapa, guarda a criatura e retorna true
                 if (isDoorToSafeHaven(xD, yD)) {
-                    creatures.remove(creatureOrigem);
-                    safe.add(creatureOrigem);
+                    if (creatureOrigem.getIdEquipa() == 10) {
+                        safe.add(creatureOrigem);
+                    } else {
+                        return false;
+                    }
                 }
 
                 // Quando vai contra outra criatura
@@ -518,6 +521,7 @@ public class TWDGameManager {
                     idEquipaAtual = 20;
                     diurno = false;
                 }
+                System.out.println(safe);
                 return true;
             }
         }

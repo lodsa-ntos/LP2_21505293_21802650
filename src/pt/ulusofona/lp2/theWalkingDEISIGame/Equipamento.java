@@ -2,16 +2,16 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 public abstract class Equipamento {
 
-    int id;
-    int idTipo;
-    String titulo;
+    protected int id;
+    protected int idTipo;
+    protected String titulo;
 
-    int xAtual;
-    int yAtual;
-    int xAnterior;
-    int yAnterior;
+    protected int xAtual;
+    protected int yAtual;
+    protected int xAnterior;
+    protected int yAnterior;
 
-    double countUsos;
+    protected double countUsos;
     protected boolean escudoUsado;
 
     public Equipamento() {

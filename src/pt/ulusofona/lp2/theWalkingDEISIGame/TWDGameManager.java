@@ -48,7 +48,6 @@ public class TWDGameManager {
     public static int nrNoites = 6;
 
     private boolean diurno = true;
-    private boolean valido = true;
 
     public TWDGameManager() {
     }
@@ -58,11 +57,12 @@ public class TWDGameManager {
 
         creatures = new ArrayList<>(); // resent da lista de creatures.
         equipamentos = new ArrayList<>(); // reset da lista de equipamentos
-        safe = new ArrayList<>(); // reset para a lista safeHaven
+        safe = new ArrayList<>(); // reset da lista safeHaven
+
         numLinha = 0; // reset variavel numLinha.
         numColuna = 0; // reset variavel numColuna.
-        xPortas = 0; // reset variavel xPortas.
-        yPortas = 0; // reset variavel yPortas.
+        xPortas = 0; // reset variavel xPortas safeHaven.
+        yPortas = 0; // reset variavel yPortas safeHaven.
         nrTurno = 0; // reset variavel turnos.
 
         try {

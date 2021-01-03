@@ -422,7 +422,6 @@ public class TWDGameManager {
                                     }
                                 }
                                 creatureOrigem.getEquipamentosVivos().add(eq);
-                                //equipamentos.remove(eq);
                                 // guarda como referencia a posicao original
                                 eq.xAnterior = xD;
                                 eq.yAnterior = yD;
@@ -430,7 +429,6 @@ public class TWDGameManager {
                                 //Move uma posicao
                                 creatureOrigem.setxAtual(xD);
                                 creatureOrigem.setyAtual(yD);
-                                equipamentos.remove(eq);
 
                             } else {
                                 // guardamos o equipamento existente na lista de equipamentos

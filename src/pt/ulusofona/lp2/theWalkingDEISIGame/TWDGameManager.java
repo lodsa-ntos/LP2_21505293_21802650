@@ -307,29 +307,23 @@ public class TWDGameManager {
     }
 
     public int getInitialTeam() {
-        if(nrTurno==0||nrTurno==1 || nrTurno==4 ||nrTurno==5  || nrTurno == 8 || nrTurno == 9){
-            return idEquipaAtual= 10;
-        }else {
-            return idEquipaAtual=20;
-        }
 
         // Os Vivos
-       /* if (nrTurno == 0) {
+        if (nrTurno == 0) {
             return idEquipaAtual = 10;
         } else if (nrTurno == 1) {
             return idEquipaAtual = 10;
         }
 
         // Os Outros
-
-      //  else if (nrTurno == 2) {
+        else if (nrTurno == 2) {
             return idEquipaAtual = 20;
         } else if (nrTurno == 3) {
             return idEquipaAtual = 20;
         }
 
         // Os Vivos
-       else if (nrTurno == 4) {
+        else if (nrTurno == 4) {
             return idEquipaAtual = 10;
         } else if (nrTurno == 5) {
             return idEquipaAtual = 10;
@@ -355,8 +349,8 @@ public class TWDGameManager {
         } else if (nrTurno == 11) {
             return idEquipaAtual = 20;
         }
-*/
-        //return 0;
+
+        return 0;
     }
 
     public List<Creature> getCreatures(){

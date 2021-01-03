@@ -399,6 +399,7 @@ public class TWDGameManager {
                                 return false;
                             } else {
                                 encontrouCriatura = true;
+                                break;
                             }
                         }
                     }
@@ -419,6 +420,7 @@ public class TWDGameManager {
                                     }
                                 }
                                 creatureOrigem.getEquipamentosVivos().add(eq);
+                                equipamentos.remove(eq);
                                 // guarda como referencia a posicao original
                                 eq.xAnterior = xD;
                                 eq.yAnterior = yD;
@@ -430,6 +432,7 @@ public class TWDGameManager {
                             } else {
                                 // guardamos o equipamento existente na lista de equipamentos
                                 Equipamento eqAntigo = creatureOrigem.getEquipamentosVivos().get(0);
+                                equipamentos.add(eqAntigo);
                                 // removemos esse equipamento e devolvemos na posicao original
                                 creatureOrigem.getEquipamentosVivos().remove(0);
                                 eqAntigo.xAtual = eqAntigo.xAnterior;
@@ -438,6 +441,7 @@ public class TWDGameManager {
                                 creatureOrigem.getEquipamentosVivos().add(eq);
                             }
                             encontrouEquip = true;
+                            break;
                         }
                     }
                 } else if (creatureOrigem.getIdEquipa() == 20) {
@@ -521,8 +525,8 @@ public class TWDGameManager {
                     idEquipaAtual = 20;
                     diurno = false;
                 }
-                System.out.println(safe);
-                return true;
+                System.out.println(creatures);
+                 return true;
             }
         }
         return false;
@@ -540,10 +544,11 @@ public class TWDGameManager {
     }
 
     public int getCurrentTeamId() {
-        if (!diurno){
-            return idEquipaAtual = 20;
-        } else {
+
+        if (diurno){
             return idEquipaAtual = 10;
+        } else {
+            return idEquipaAtual = 20;
         }
     }
 

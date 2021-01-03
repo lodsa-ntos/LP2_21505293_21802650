@@ -67,9 +67,13 @@ public abstract class Creature {
         return yAtual;
     }
 
-    public void setxAtual(int xAtual) {}
+    public void setxAtual(int xAtual) {
+        this.xAtual = xAtual;
+    }
 
-    public void setyAtual(int yAtual) {}
+    public void setyAtual(int yAtual) {
+        this.yAtual = yAtual;
+    }
 
     public ArrayList<Equipamento> getEquipamentosVivos(){
         return equipamentos;

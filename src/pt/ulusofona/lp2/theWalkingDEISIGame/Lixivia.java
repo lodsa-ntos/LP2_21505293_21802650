@@ -34,6 +34,6 @@ public class Lixivia extends Equipamento{
 
     @Override
     public void diminuiCountUsos() {
-        countUsos -= 0.3;
+        countUsos -= 3;
     }
 }

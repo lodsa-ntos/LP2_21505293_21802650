@@ -11,7 +11,7 @@ public abstract class Equipamento {
     protected int xAnterior;
     protected int yAnterior;
 
-    protected double countUsos;
+    protected int countUsos;
     protected boolean escudoUsado;
 
     public Equipamento() {
@@ -83,7 +83,7 @@ public abstract class Equipamento {
         }
     }
 
-    public double getCountUsos() {
+    public int getCountUsos() {
         return countUsos;
     }
 

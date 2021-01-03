@@ -34,6 +34,70 @@ public abstract class Creature {
 
     public abstract boolean move(int xO, int yO, int xD, int yD);
 
+    protected boolean saltouPorCima(int xO, int yO, int xD, int yD, ArrayList<Creature> creatures) {
+        // verifica direcao
+        String direcao = this.qualDirecao(xO, xD, yO, yD);
+        int diffX = 0;
+        int diffY = 0;
+
+        int meioX = 0;
+        int meioY = 0;
+        // se for horizontal significa que a diferenca do Y é o meio
+        switch (direcao) {
+            case "horizontal":
+                diffX = Math.abs(xD - xO);
+                meioY = yO;
+                if (xD < xO) {
+                    meioX = xD + (diffX / 2);
+                } else {
+                    meioX = xO + (diffX / 2);
+                }
+
+                break;
+            case "vertical":
+                diffY = Math.abs(yD - yO);
+                meioX = xO;
+
+                if (yD < yO) {
+                    meioY = yD + (diffY / 2);
+                } else {
+                    meioY = yO + (diffY / 2);
+                }
+                break;
+            case "diagonal":
+                diffX = Math.abs(xD - xO);
+                diffY = Math.abs(yD - yO);
+
+                if (xD < xO) {
+                    meioX = xD + (diffX / 2);
+                } else {
+                    meioX = xO + (diffX / 2);
+                }
+
+                if (yD < yO) {
+                    meioY = yD + (diffY / 2);
+                } else {
+                    meioY = yO + (diffY / 2);
+                }
+
+                break;
+        }
+
+        // verifica se uma creatura ou equipamento esta naquela posicao
+        for (Creature creature : creatures) {
+            if (creature.getXAtual() == meioX && creature.getYAtual() == meioY) {
+                return true;
+            }
+        }
+
+        for (Equipamento equipamento : TWDGameManager.equipamentos) {
+            if (equipamento.getxAtual() == meioX && equipamento.getyAtual() == meioY) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Devolve o ID da criatura.
     public int getId() {
         return id;

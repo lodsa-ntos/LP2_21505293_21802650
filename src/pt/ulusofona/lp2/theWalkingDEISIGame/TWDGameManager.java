@@ -23,19 +23,19 @@ public class TWDGameManager {
     ------------------------------------------------------------------------------------------*/
 
     //Lista de Creatures
-    static ArrayList<Creature> creatures = new ArrayList<>();
+    private static ArrayList<Creature> creatures = new ArrayList<>();
 
     //Lista de Equipamento
     static ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
     //Lista para o safeHaven
-    static ArrayList<Creature> safe = new ArrayList<>();
+    private static ArrayList<Creature> safe = new ArrayList<>();
 
-    static int numLinha;
-    static int numColuna;
-    static int xPortas;
-    static int yPortas;
-    static int nrTurno = 0;
+    private static int numLinha;
+    private static int numColuna;
+    private static int xPortas;
+    private static int yPortas;
+    private static int nrTurno = 0;
 
     private int linhaAtual = 0;
     private int idEquipaAtual = 10;
@@ -44,10 +44,10 @@ public class TWDGameManager {
     private int nE;
     private int nP;
 
-    public static int nrDias = 6;
-    public static int nrNoites = 6;
+    private static int nrDias = 6;
+    private static int nrNoites = 6;
 
-    private boolean diurno = true;
+    private static boolean diurno = true;
 
     public TWDGameManager() {
     }
@@ -379,6 +379,7 @@ public class TWDGameManager {
                 if (isDoorToSafeHaven(xD, yD)) {
                     if (creatureOrigem.getIdEquipa() == 10) {
                         safe.add(creatureOrigem);
+                        creatures.remove(creatureOrigem);
                     } else {
                         return false;
                     }
@@ -439,7 +440,6 @@ public class TWDGameManager {
                                 eqAntigo.yAtual = eqAntigo.yAnterior;
                                 // depois de removido adiciona o novo
                                 creatureOrigem.getEquipamentosVivos().add(eq);
-
                                 creatureOrigem.setxAtual(xD);
                                 creatureOrigem.setyAtual(yD);
                             }
@@ -471,67 +471,54 @@ public class TWDGameManager {
 
                 // Caso nao encontar nenhuma criatura, equipamento ou safeheaven
                 if (!encontrouCriatura && !encontrouEquip) {
-                    creatureOrigem.move(xO, yO, xD, yD);
-                    creatureOrigem.setxAtual(xD);
-                    creatureOrigem.setyAtual(yD);
+                    if (!creatureOrigem.saltouPorCima(xO, yO, xD, yD, creatures)) {
+                        creatureOrigem.move(xO, yO, xD, yD);
+                        creatureOrigem.setxAtual(xD);
+                        creatureOrigem.setyAtual(yD);
+                    } else {
+                        return false;
+                    }
                 }
 
                 nrTurno++;
 
                 // Dia
-                if (nrTurno == 0) {
-                    idEquipaAtual = 10;
-                    diurno = true;
-                } else if (nrTurno == 1) {
+                if (nrTurno == 0 || nrTurno == 1) {
                     idEquipaAtual = 10;
                     diurno = true;
                 }
 
                 // Noite
-                else if (nrTurno == 2) {
+                else if (nrTurno == 2 || nrTurno == 3) {
                     idEquipaAtual = 20;
-                    diurno = false;
-                } else if (nrTurno == 3) {
-                    idEquipaAtual = 10;
                     diurno = false;
                 }
 
                 // Dia
-                else if (nrTurno == 4) {
-                    idEquipaAtual = 10;
-                    diurno = true;
-                } else if (nrTurno == 5) {
+                else if (nrTurno == 4 || nrTurno == 5) {
                     idEquipaAtual = 10;
                     diurno = true;
                 }
 
                 //Noite
-                else if (nrTurno == 6) {
-                    idEquipaAtual = 20;
-                    diurno = false;
-                } else if (nrTurno == 7) {
+                else if (nrTurno == 6 || nrTurno == 7) {
                     idEquipaAtual = 20;
                     diurno = false;
                 }
 
                 // Dia
-                else if (nrTurno == 8) {
-                    idEquipaAtual = 10;
-                    diurno = true;
-                } else if (nrTurno == 9) {
+                else if (nrTurno == 8 || nrTurno == 9) {
                     idEquipaAtual = 10;
                     diurno = true;
                 }
 
                 // Noite
-                else if (nrTurno == 10) {
-                    idEquipaAtual = 20;
-                    diurno = false;
-                } else if (nrTurno == 11) {
+                else if (nrTurno == 10 || nrTurno == 11) {
                     idEquipaAtual = 20;
                     diurno = false;
                 }
-                System.out.println(creatures);
+
+               // System.out.println(creatures);
                  return true;
             }
         }

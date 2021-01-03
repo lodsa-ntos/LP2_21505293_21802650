@@ -37,7 +37,7 @@ public class Militar extends Creature {
                     case 6:
                         // Beskar Helmet
                     case 10: {
-                        if (saltouPorCima(xO, yO, xD, yD, creatures)) {
+                        if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
 
                             creatures.remove(creatureDestino);
                             this.setxAtual(creatureDestino.xAtual);
@@ -48,7 +48,7 @@ public class Militar extends Creature {
                     }
                     // Pistola
                     case 2: {
-                        if (saltouPorCima(xO, yO, xD, yD, creatures)) {
+                        if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
 
                             // A pistola não tem efeito contra Zombies Vampiros
                             if (creatureDestino.idTipo != 4) {
@@ -84,7 +84,7 @@ public class Militar extends Creature {
                         case 7:
                             // idoso vivo tranforma-se (->) em zombie idoso
                         case 8:
-                            if (saltouPorCima(xO, yO, xD, yD, creatures)) {
+                            if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
                                 creatureDestino.setIdTipo(creatureDestino.getIdTipo() - 5);
                                 creatureDestino.setIdEquipa(20);
                                 return true;
@@ -99,7 +99,7 @@ public class Militar extends Creature {
                     switch (creatureDestino.equipamentos.get(0).getIdTipo()) {
                         case 0:
                             // Escudo
-                            if (saltouPorCima(xO, yO, xD, yD, creatures)) {
+                            if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
 
                                 // Quando militar defende, alteramos os estado de uso do escudo
                                 if (creatureDestino.getIdTipo() == 7) {
@@ -124,7 +124,7 @@ public class Militar extends Creature {
                             // Revista
                         case 5:
                             // cabeca de alho
-                            if (saltouPorCima(xO, yO, xD, yD, creatures)) {
+                            if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
                                 destroiEConverte(creatureDestino);
                                 return true;
                             } else {
@@ -132,7 +132,7 @@ public class Militar extends Creature {
                             }
                         case 7:
                             //lixivia
-                            if (saltouPorCima(xO, yO, xD, yD, creatures)) {
+                            if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
                                 if (creatureDestino.equipamentos.get(0).getCountUsos() < 0.3) {
                                     destroiEConverte(creatureDestino);
                                     return true;
@@ -142,12 +142,7 @@ public class Militar extends Creature {
                             }
                         case 8:
                             // veneno
-                            if (TWDGameManager.nrTurno == 3 && !envenenado){
-                                destroiEConverte(creatureDestino);
-                                return true;
-                            } else {
-                                return false;
-                            }
+                            return false;
                         case 9:
                             //antidoto
                             return false;
@@ -165,33 +160,5 @@ public class Militar extends Creature {
         return Math.abs(xD - xO) <= 3 || Math.abs(yD - yO) <= 3;
     }
 
-    private boolean saltouPorCima(int xO, int yO, int xD, int yD, ArrayList<Creature> creatures ) {
-        // verifica direcao
-        String direcao = this.qualDirecao(xO, xD, yO, yD);
-        int diff = 0;
-        // se for horizontal significa que a diferenca do Y é o meio
-        switch (direcao) {
-            case "horizontal":
-                diff = Math.abs(yD - yO);
-                break;
-            case "vertical":
-            case "diagonal":
-                diff = Math.abs(xD - xO);
-                break;
-        }
 
-        // verifica se uma creatura ou equipamento esta naquela posicao
-        for (Creature creature : creatures) {
-            if (creature.getXAtual() == xO && creature.getYAtual() == diff) {
-                return false;
-            }
-        }
-
-        for (Equipamento equipamento : equipamentos) {
-            if (equipamento.getxAtual() == xO && equipamento.getyAtual() == diff) {
-                return false;
-            }
-        }
-        return true;
-    }
 }

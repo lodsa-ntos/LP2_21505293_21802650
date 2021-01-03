@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class Idoso extends Creature {
 
-    boolean eDia;
     public Idoso(int id, int idTipo, String nome, int xAtual, int yAtual) {
         super(id, idTipo, nome, xAtual, yAtual);
     }
@@ -28,7 +27,7 @@ public class Idoso extends Creature {
                 Math.abs(xD - xO) == 0 && Math.abs(yD - yO) == 1) {
 
             // Caso for vivo
-            if (this.idTipo == 8 && !this.eDia) {
+            if (this.idTipo == 8) {
                 if (this.equipamentos.size() == 0) {
                     return false;
                 }
@@ -63,7 +62,7 @@ public class Idoso extends Creature {
                         return false;
                 }
 
-            } else if (this.idTipo == 3 && this.eDia) {
+            } else if (this.idTipo == 3) {
                 // caso for zombie DEFESA
                 // verifica se o vivo tem equipamentos
                 if (creatureDestino.equipamentos.size() == 0) {
@@ -119,12 +118,7 @@ public class Idoso extends Creature {
                             }
                         case 8:
                             // veneno
-                            if (TWDGameManager.nrTurno == 3 && !envenenado){
-                                destroiEConverte(creatureDestino);
-                                return true;
-                            } else {
-                                return false;
-                            }
+                            return false;
                         case 9:
                             //antidoto
                             return false;
@@ -150,5 +144,6 @@ public class Idoso extends Creature {
         this.setyAtual(creatureDestino.yAtual);
         this.equipamentos.remove(0);
     }
+
 }
 

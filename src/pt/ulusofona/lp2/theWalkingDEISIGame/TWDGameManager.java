@@ -537,12 +537,7 @@ public class TWDGameManager {
     }
 
     public int getCurrentTeamId() {
-
-        if (diurno){
-            return idEquipaAtual = 10;
-        } else {
-            return idEquipaAtual = 20;
-        }
+        return idEquipaAtual;
     }
 
     public int getElementId(int x, int y) {
@@ -646,6 +641,7 @@ public class TWDGameManager {
     }
 
     public boolean isDoorToSafeHaven(int x, int y) {
+
         return xPortas == x && yPortas == y;
     }
 

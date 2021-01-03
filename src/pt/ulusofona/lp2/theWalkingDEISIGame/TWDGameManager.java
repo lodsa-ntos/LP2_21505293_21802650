@@ -472,6 +472,8 @@ public class TWDGameManager {
                 // Caso nao encontar nenhuma criatura, equipamento ou safeheaven
                 if (!encontrouCriatura && !encontrouEquip) {
                     creatureOrigem.move(xO, yO, xD, yD);
+                    creatureOrigem.setxAtual(xD);
+                    creatureOrigem.setyAtual(yD);
                 }
 
                 nrTurno++;

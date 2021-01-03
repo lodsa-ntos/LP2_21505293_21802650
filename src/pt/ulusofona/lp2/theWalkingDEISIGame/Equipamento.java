@@ -25,15 +25,33 @@ public abstract class Equipamento {
         countUsos = 0;
     }
 
-    public abstract int getID();
+    public int getId() {
+        return id;
+    }
 
-    public abstract int getIdTipo();
+    public int getIdTipo() {
+        return idTipo;
+    }
 
-    public abstract int getXAtual();
+    public String getTitulo() {
+        return titulo;
+    }
 
-    public abstract int getYAtual();
+    public int getxAtual() {
+        return xAtual;
+    }
 
-    public abstract String getTitulo();
+    public int getyAtual() {
+        return yAtual;
+    }
+
+    public int getxAnterior() {
+        return xAnterior;
+    }
+
+    public int getyAnterior() {
+        return yAnterior;
+    }
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;

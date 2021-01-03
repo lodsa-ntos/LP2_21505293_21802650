@@ -409,7 +409,7 @@ public class TWDGameManager {
                 // verifica se é um equipamento
                 if (creatureOrigem.getIdEquipa() == 10) {
                     for (Equipamento eq : equipamentos) {
-                        if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                        if (eq.getxAtual() == xD && eq.getyAtual() == yD) {
                             // verificar se o humano tem equipamentos
                             if (creatureOrigem.getEquipamentosVivos().size() == 0) {
                                 // se for militar e escudo de madeira entao a protecao aumenta
@@ -450,7 +450,7 @@ public class TWDGameManager {
                 } else if (creatureOrigem.getIdEquipa() == 20) {
                     // se for da equipa dos zombies
                     for (Equipamento eq : equipamentos) {
-                        if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                        if (eq.getxAtual() == xD && eq.getyAtual() == yD) {
                             // se for zombie vamp vs alho retorna falso
                             if (creatureOrigem.getIdTipo() == 4 && eq.getIdTipo() == 5) {
                                 return false;
@@ -564,8 +564,8 @@ public class TWDGameManager {
         }
 
         for (Equipamento e : equipamentos){
-            if (e.getXAtual() == x && e.getYAtual() == y){
-                return e.getID();
+            if (e.getxAtual() == x && e.getyAtual() == y){
+                return e.getId();
             }
         }
 
@@ -638,7 +638,7 @@ public class TWDGameManager {
         for (Creature creature: creatures) {
             if (creature.getId() == creatureId) {
                 if (creature.getEquipamentosVivos().size() !=0) {
-                    return creature.getEquipamentosVivos().get(0).getID();
+                    return creature.getEquipamentosVivos().get(0).getId();
                 }
             }
         }
@@ -662,7 +662,7 @@ public class TWDGameManager {
     public int getEquipmentTypeId(int equipmentId){
 
         for (Equipamento equipamento: equipamentos){
-            if (equipmentId == equipamento.getID()){
+            if (equipmentId == equipamento.getId()){
                 return equipamento.getIdTipo();
             }
         }
@@ -672,7 +672,7 @@ public class TWDGameManager {
     public String getEquipmentInfo(int equipmentId) {
 
         for (Equipamento equipamento: equipamentos) {
-            if (equipamento.getID() == equipmentId) {
+            if (equipamento.getId() == equipmentId) {
                 // Se os equipamentos forem escudo de madeira, pistola ou lixivia
                 // <Nome Tipo> | <Info>
                 if (equipamento.getIdTipo() == 0 || equipamento.getIdTipo() == 2) {
@@ -713,7 +713,7 @@ public class TWDGameManager {
             salvarFich.write(nextLine);
 
             for(Equipamento objeto : equipamentos) {
-                salvarFich.write(objeto.getID() + " : " + objeto.getIdTipo()+ " : " + objeto.getXAtual() + " : " + objeto.getYAtual());
+                salvarFich.write(objeto.getId() + " : " + objeto.getIdTipo()+ " : " + objeto.getxAtual() + " : " + objeto.getyAtual());
 
                 salvarFich.write(nextLine);
             }

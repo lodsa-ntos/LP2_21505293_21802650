@@ -111,7 +111,7 @@ public class Idoso extends Creature {
                             return true;
                         case 7:
                             //lixivia
-                            if (creatureDestino.equipamentos.get(0).getCountUsos() < 0.3) {
+                            if (creatureDestino.equipamentos.get(0).getCountUsos() < 3) {
                                 destroiEConverte(creatureDestino);
                                 return true;
                             } else {

@@ -7,24 +7,4 @@ public class Pistola extends Equipamento{
         countUsos = 3;
     }
 
-    public int getID() {
-        return id;
-    }
-
-    public int getIdTipo() {
-        return idTipo;
-    }
-
-    public int getXAtual() {
-        return xAtual;
-    }
-
-    public int getYAtual() {
-        return yAtual;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
 }

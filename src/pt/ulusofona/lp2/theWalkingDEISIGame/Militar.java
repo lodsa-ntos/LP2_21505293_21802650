@@ -188,7 +188,7 @@ public class Militar extends Creature {
         }
 
         for (Equipamento equipamento : equipamentos) {
-            if (equipamento.getXAtual() == xO && equipamento.getYAtual() == diff) {
+            if (equipamento.getxAtual() == xO && equipamento.getyAtual() == diff) {
                 return false;
             }
         }

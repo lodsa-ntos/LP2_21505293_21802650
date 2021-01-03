@@ -132,7 +132,7 @@ public class Adulto extends Creature {
                             //lixivia
                             if (saltouPorCima(xO, yO, xD, yD, creatures)) {
 
-                                if (creatureDestino.equipamentos.get(0).getCountUsos() < 0.3) {
+                                if (creatureDestino.equipamentos.get(0).getCountUsos() < 3) {
                                     destroiEConverte(creatureDestino);
                                     return true;
                                 }
@@ -185,7 +185,7 @@ public class Adulto extends Creature {
         }
 
         for (Equipamento equipamento : equipamentos) {
-            if (equipamento.getXAtual() == xO && equipamento.getYAtual() == diff) {
+            if (equipamento.getxAtual() == xO && equipamento.getyAtual() == diff) {
                 return false;
             }
         }

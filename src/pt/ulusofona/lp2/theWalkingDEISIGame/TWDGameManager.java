@@ -420,7 +420,7 @@ public class TWDGameManager {
                                     }
                                 }
                                 creatureOrigem.getEquipamentosVivos().add(eq);
-                                equipamentos.remove(eq);
+                                //equipamentos.remove(eq);
                                 // guarda como referencia a posicao original
                                 eq.xAnterior = xD;
                                 eq.yAnterior = yD;
@@ -439,6 +439,9 @@ public class TWDGameManager {
                                 eqAntigo.yAtual = eqAntigo.yAnterior;
                                 // depois de removido adiciona o novo
                                 creatureOrigem.getEquipamentosVivos().add(eq);
+
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
                             }
                             encontrouEquip = true;
                             break;
@@ -457,6 +460,7 @@ public class TWDGameManager {
                             //Move uma posicao
                             creatureOrigem.destruidos.add(eq);
                             equipamentos.remove(eq); // problema?
+
                             creatureOrigem.setxAtual(xD);
                             creatureOrigem.setyAtual(yD);
 
@@ -633,10 +637,8 @@ public class TWDGameManager {
         // verifica se o criatura tem o equipamento
         for (Creature creature: creatures) {
             if (creature.getId() == creatureId) {
-                for (Equipamento equipamento : creature.getEquipamentosVivos()) {
-                    if (equipamento.getIdTipo() == 0 || equipamento.getIdTipo() == 1) {
-                        return equipamento.getID();
-                    }
+                if (creature.getEquipamentosVivos().size() !=0) {
+                    return creature.getEquipamentosVivos().get(0).getID();
                 }
             }
         }

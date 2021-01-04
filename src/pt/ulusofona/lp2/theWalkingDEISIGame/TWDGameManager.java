@@ -309,44 +309,32 @@ public class TWDGameManager {
     public int getInitialTeam() {
 
         // Os Vivos
-        if (nrTurno == 0) {
-            return idEquipaAtual = 10;
-        } else if (nrTurno == 1) {
+        if (nrTurno == 0 || nrTurno == 1) {
             return idEquipaAtual = 10;
         }
 
         // Os Outros
-        else if (nrTurno == 2) {
-            return idEquipaAtual = 20;
-        } else if (nrTurno == 3) {
+        else if (nrTurno == 2 || nrTurno == 3) {
             return idEquipaAtual = 20;
         }
 
         // Os Vivos
-        else if (nrTurno == 4) {
-            return idEquipaAtual = 10;
-        } else if (nrTurno == 5) {
+        else if (nrTurno == 4 || nrTurno == 5) {
             return idEquipaAtual = 10;
         }
 
         // Os Outros
-        else if (nrTurno == 6) {
-            return idEquipaAtual = 20;
-        } else if (nrTurno == 7) {
+        else if (nrTurno == 6 || nrTurno == 7) {
             return idEquipaAtual = 20;
         }
 
         //Os Vivos
-        else if (nrTurno == 8) {
-            return idEquipaAtual = 10;
-        } else if (nrTurno == 9) {
+        else if (nrTurno == 8 || nrTurno == 9) {
             return idEquipaAtual = 10;
         }
 
         // Os Outros
-        else if (nrTurno == 10) {
-            return idEquipaAtual = 20;
-        } else if (nrTurno == 11) {
+        else if (nrTurno == 10 || nrTurno == 11) {
             return idEquipaAtual = 20;
         }
 
@@ -472,13 +460,13 @@ public class TWDGameManager {
 
                 // Caso nao encontar nenhuma criatura, equipamento ou safeheaven
                 if (!encontrouCriatura && !encontrouEquip) {
-                    if (!creatureOrigem.saltouPorCima(xO, yO, xD, yD, creatures)) {
+                    //if (!creatureOrigem.saltouPorCima(xO, yO, xD, yD, creatures)) {
                         creatureOrigem.move(xO, yO, xD, yD);
                         creatureOrigem.setxAtual(xD);
                         creatureOrigem.setyAtual(yD);
-                    } else {
-                        return false;
-                    }
+                   // } else {
+                       // return false;
+                    //}
                 }
 
                 nrTurno++;
@@ -739,9 +727,9 @@ public class TWDGameManager {
         resposta[7] = "1972";
         resposta[8] = "Kill Bill";
         resposta[9] = "1978";
-        resposta[10] = "James Bond";
+        resposta[10] = "Bond, James Bond";
         resposta[11] = "Lost";
-        resposta[12] = "Cabeça de alho chocho";
+        resposta[12] = "Chocho";
         resposta[13] = "Farrokn Bulsara";
 
         return resposta;

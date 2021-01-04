@@ -519,8 +519,8 @@ public class TWDGameManager {
                     diurno = false;
                 }
 
-               // System.out.println(creatures);
-                 return true;
+                // System.out.println(creatures);
+                return true;
             }
         }
         return false;

@@ -146,4 +146,3 @@ public class Idoso extends Creature {
     }
 
 }
-

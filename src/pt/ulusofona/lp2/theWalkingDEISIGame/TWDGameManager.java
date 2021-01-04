@@ -379,7 +379,7 @@ public class TWDGameManager {
                 if (isDoorToSafeHaven(xD, yD)) {
                     if (creatureOrigem.getIdEquipa() == 10) {
                         safe.add(creatureOrigem);
-                        creatures.remove(creatureOrigem);
+                        creatureOrigem.id = 0;
                     } else {
                         return false;
                     }
@@ -465,6 +465,7 @@ public class TWDGameManager {
                             creatureOrigem.setyAtual(yD);
 
                             encontrouEquip = true;
+                            break;
                         }
                     }
                 }
@@ -727,18 +728,19 @@ public class TWDGameManager {
     public String[] popCultureExtravaganza() {
 
         String[] resposta = new String[14];
+
         resposta[0] = "Resident Evil";
         resposta[1] = "Evil Dead";
-        resposta[2] = "A Noite Devorou o Mundo";
-        resposta[3] = "Invasão Zumbi";
-        resposta[4] = "..";
-        resposta[5] = "Resident Evil 2";
-        resposta[6] = "The Mandalorian";
+        resposta[2] = "I Am Legend";
+        resposta[3] = "I Am Legend";
+        resposta[4] = "Dragon Ball";
+        resposta[5] = "World War Z";
+        resposta[6] = "Mandalorians";
         resposta[7] = "1972";
         resposta[8] = "Kill Bill";
         resposta[9] = "1978";
         resposta[10] = "James Bond";
-        resposta[11] = "..";
+        resposta[11] = "Lost";
         resposta[12] = "Cabeça de alho chocho";
         resposta[13] = "Farrokn Bulsara";
 

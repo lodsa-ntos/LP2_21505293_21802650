@@ -379,6 +379,7 @@ public class TWDGameManager {
                 if (isDoorToSafeHaven(xD, yD)) {
                     if (creatureOrigem.getIdEquipa() == 10) {
                         safe.add(creatureOrigem);
+                        //creatureOrigem.id = 0;
                     } else {
                         return false;
                     }

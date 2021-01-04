@@ -379,7 +379,6 @@ public class TWDGameManager {
                 if (isDoorToSafeHaven(xD, yD)) {
                     if (creatureOrigem.getIdEquipa() == 10) {
                         safe.add(creatureOrigem);
-                        creatureOrigem.id = 0;
                     } else {
                         return false;
                     }
@@ -472,13 +471,13 @@ public class TWDGameManager {
 
                 // Caso nao encontar nenhuma criatura, equipamento ou safeheaven
                 if (!encontrouCriatura && !encontrouEquip) {
-                    //if (!creatureOrigem.saltouPorCima(xO, yO, xD, yD, creatures)) {
+                    if (!creatureOrigem.saltouPorCima(xO, yO, xD, yD, creatures)) {
                         creatureOrigem.move(xO, yO, xD, yD);
                         creatureOrigem.setxAtual(xD);
                         creatureOrigem.setyAtual(yD);
-                   // } else {
-                       // return false;
-                    //}
+                    } else {
+                        return false;
+                    }
                 }
 
                 nrTurno++;
@@ -742,7 +741,7 @@ public class TWDGameManager {
         resposta[10] = "Bond, James Bond.";
         resposta[11] = "Lost";
         resposta[12] = "Chocho";
-        resposta[13] = "Farrokn Bulsara";
+        resposta[13] = "Farrokh Bulsara";
 
         return resposta;
     }

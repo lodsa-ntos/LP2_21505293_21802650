@@ -29,10 +29,10 @@ public abstract class Creature {
         this.yAtual = yAtual;
     }
 
-    public abstract boolean move(int xO, int yO, int xD, int yD,
+    protected abstract boolean move(int xO, int yO, int xD, int yD,
                                  Creature creature, ArrayList<Creature> creatures);
 
-    public abstract boolean move(int xO, int yO, int xD, int yD);
+    protected abstract boolean move(int xO, int yO, int xD, int yD);
 
     protected boolean saltouPorCima(int xO, int yO, int xD, int yD, ArrayList<Creature> creatures) {
         // verifica direcao

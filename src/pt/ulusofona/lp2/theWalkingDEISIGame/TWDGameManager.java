@@ -471,13 +471,13 @@ public class TWDGameManager {
 
                 // Caso nao encontar nenhuma criatura, equipamento ou safeheaven
                 if (!encontrouCriatura && !encontrouEquip) {
-                    if (!creatureOrigem.saltouPorCima(xO, yO, xD, yD, creatures)) {
+                    //if (!creatureOrigem.saltouPorCima(xO, yO, xD, yD, creatures)) {
                         creatureOrigem.move(xO, yO, xD, yD);
                         creatureOrigem.setxAtual(xD);
                         creatureOrigem.setyAtual(yD);
-                    } else {
-                        return false;
-                    }
+                    //} else {
+                    //    return false;
+                    //}
                 }
 
                 nrTurno++;

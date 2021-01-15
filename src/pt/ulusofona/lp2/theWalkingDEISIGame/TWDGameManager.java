@@ -52,8 +52,9 @@ public class TWDGameManager {
     public TWDGameManager() {
     }
 
+
     //Esta função faz a leitura do ficheiro de texto e carrega para a memória a informação relevante.
-    public boolean startGame(File ficheiroInicial) {
+    public boolean startGame(File ficheiroInicial) throws InvalidTWDInitialFileException {
 
         creatures = new ArrayList<>(); // resent da lista de creatures.
         equipamentos = new ArrayList<>(); // reset da lista de equipamentos
@@ -81,9 +82,10 @@ public class TWDGameManager {
             String[] mapa = linha.split(" ");
 
             // verifica se o ficheiro cumpre com as regras
-            if(mapa.length > 2) {
-                return false;
+            if (mapa.length != 2) {
+                throw new Exception("Numero erraodo de componentes: " + mapa.length);
             }
+
             numLinha = Integer.parseInt(mapa[0].trim()); // guarda na primeira posicao do array o numLinha
             numColuna = Integer.parseInt(mapa[1].trim()); // guarda na segunda posicao do array o numColuna
 
@@ -97,6 +99,10 @@ public class TWDGameManager {
             linha = leitor.nextLine();
             nC = Integer.parseInt(linha);
 
+            if (nC < 2) {
+                throw new InvalidTWDInitialFileException(false);
+            }
+
             int nLinhas;
             nLinhas = nC;
 
@@ -109,6 +115,10 @@ public class TWDGameManager {
 
                     // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
                     String[] dados = linha.split(":");
+
+                    if (dados.length != 5) {
+                        throw new InvalidTWDInitialFileException(dados);
+                    }
 
                     // Converte as Strings lidas para os tipos esperados
                     // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
@@ -294,7 +304,8 @@ public class TWDGameManager {
 
         } catch (FileNotFoundException exception) {
             System.out.println("Erro no " + exception.getMessage());
-            return false;
+        } catch (Exception e) {
+            System.out.println("Mapa: Numero errado de componentes");
         }
         return true;
     }
@@ -788,4 +799,6 @@ public class TWDGameManager {
     public List<String> getSurvivors(){
         return null;
     }
+
+
 }

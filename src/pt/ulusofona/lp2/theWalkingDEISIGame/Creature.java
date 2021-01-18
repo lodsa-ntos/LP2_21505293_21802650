@@ -21,6 +21,8 @@ public abstract class Creature {
     protected ArrayList<Equipamento> destruidos = new ArrayList<>();
     protected ArrayList<Creature> envenenados = new ArrayList<>();
 
+    protected ArrayList<Creature> creaturesNoBolso = new ArrayList<>();
+
     public Creature(int id, int idTipo, String nome, int xAtual, int yAtual) {
         this.id = id;
         this.idTipo = idTipo;
@@ -258,6 +260,10 @@ public abstract class Creature {
         return null;
     }
 
+    public ArrayList<Creature> getCreaturesNoBolso() {
+        return creaturesNoBolso;
+    }
+
     @Override
     public String toString() {
         if (equipa.equals("Os Vivos")){
@@ -269,4 +275,7 @@ public abstract class Creature {
         }
     }
 
+    public String statsToString() {
+        return id + ":" + nome + ":" + creaturesNoBolso.size() + "\n";
+    }
 }

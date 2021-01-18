@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TWDGameManager {
 
@@ -52,8 +53,9 @@ public class TWDGameManager {
     public TWDGameManager() {
     }
 
+
     //Esta função faz a leitura do ficheiro de texto e carrega para a memória a informação relevante.
-    public boolean startGame(File ficheiroInicial) {
+    public boolean startGame(File ficheiroInicial) throws InvalidTWDInitialFileException {
 
         creatures = new ArrayList<>(); // resent da lista de creatures.
         equipamentos = new ArrayList<>(); // reset da lista de equipamentos
@@ -81,9 +83,10 @@ public class TWDGameManager {
             String[] mapa = linha.split(" ");
 
             // verifica se o ficheiro cumpre com as regras
-            if(mapa.length > 2) {
-                return false;
+            if (mapa.length != 2) {
+                throw new Exception("Numero erraodo de componentes: " + mapa.length);
             }
+
             numLinha = Integer.parseInt(mapa[0].trim()); // guarda na primeira posicao do array o numLinha
             numColuna = Integer.parseInt(mapa[1].trim()); // guarda na segunda posicao do array o numColuna
 
@@ -97,6 +100,10 @@ public class TWDGameManager {
             linha = leitor.nextLine();
             nC = Integer.parseInt(linha);
 
+            if (nC < 2) {
+                throw new InvalidTWDInitialFileException(false);
+            }
+
             int nLinhas;
             nLinhas = nC;
 
@@ -109,6 +116,10 @@ public class TWDGameManager {
 
                     // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
                     String[] dados = linha.split(":");
+
+                    if (dados.length != 5) {
+                        throw new InvalidTWDInitialFileException(dados);
+                    }
 
                     // Converte as Strings lidas para os tipos esperados
                     // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
@@ -294,7 +305,8 @@ public class TWDGameManager {
 
         } catch (FileNotFoundException exception) {
             System.out.println("Erro no " + exception.getMessage());
-            return false;
+        } catch (Exception e) {
+            System.out.println("Mapa: Numero errado de componentes");
         }
         return true;
     }
@@ -747,7 +759,92 @@ public class TWDGameManager {
         return resposta;
     }
 
+    public Map<String, List<String>> getGameStatistics() {
+        HashMap<String, List<String>> a = new HashMap<>();
 
+        a.put("os3ZombiesMaisTramados", zombiesTramado());
+        a.put("os3VivosMaisDuros", vivosDuros());
+        a.put("tiposDeEquipamentoMaisUteis", equipamentosUteis());
+        a.put("tiposDeZombiesESeusEquipamentosDestruidos", equipamentosDestruidosTiposZombies());
+        a.put("criaturasMaisEquipadas", criaturasMaisEquipadas());
+
+        return a;
+    }
+
+    // Quais os 3 zombies que mais vivos transformaram?
+    // Caso não existir, display todos que tenham pelo menos 1
+    // <IDCriatura>:<Nome>:<NrTransformações>
+    // Ordem nao relevante
+    private List<String> zombiesTramado() {
+
+        List<String> resultado = creatures.stream()
+                .filter((zombie) -> zombie.getIdTipo() >= 0 && zombie.getIdTipo() <= 4)
+                .filter((transformacoes) -> transformacoes.getCreaturesNoBolso().size() > 0)
+                .sorted ((z1, z2) -> z2.getCreaturesNoBolso().size() - z1.getCreaturesNoBolso().size())
+                .limit(3)
+                .map(Creature::statsToString)
+                .collect(Collectors.toList());
+
+        return resultado;
+    }
+
+    // Quais os 3 vivos que mais zombies destruiram
+    // <IDCriatura>:<Nome>:<NrDestruicoes>
+    // Ordenado DESC pelo numero de destruicoes
+    private List<String> vivosDuros() {
+
+        List<String> resultado = creatures.stream()
+                .filter((vivos) -> vivos.getIdTipo() >= 5 && vivos.getIdTipo() <= 9)
+                .filter((destruidos) -> destruidos.getCreaturesNoBolso().size() > 0)
+                .sorted ((v1, v2) -> v2.getCreaturesNoBolso().size() - v1.getCreaturesNoBolso().size())
+                .limit(3)
+                .map(Creature::statsToString)
+                .collect(Collectors.toList());
+
+        return resultado;
+    }
+
+    //Quais os equips que mais safaram os vivos (of/def)?
+    // <IDtipo>:<NrSalvacoes>
+    // Ordenado ASC
+    private List<String> equipamentosUteis() { return null; }
+
+    // Qual o total de equips destruidos por cada tipo de zombie?
+    // <Nome do Tipo>:<NrCriaturas do tipo>:<NrEquips>\n
+    // Ordenado DESC
+    private List<String> equipamentosDestruidosTiposZombies() {
+
+        List<Creature> zombies = creatures.stream()
+                .filter((zombie) -> zombie.getIdTipo() >= 0 && zombie.getIdTipo() <= 4)
+                .filter((equip) -> equip.getEquipamentosZombies().size() > 0)
+                .collect(Collectors.toList());
+
+        HashMap<String, Integer> a = new HashMap<>();
+
+        for (Creature zombie: zombies) {
+            switch (zombie.getNome()) {
+                case "Crianca Zombie":
+                case "Adulto Zombie":
+                case "Idoso Zombie":
+                case "Militar Zombie":
+                case "Zombie Vampiro": {
+                    String nomeTipoZombie = zombie.getNome();
+                    if (a.containsKey(nomeTipoZombie)) {
+                        int count = a.get(nomeTipoZombie);
+                        a.put(nomeTipoZombie, zombie.getEquipamentosZombies().size() + count);
+                    } else {
+                        a.put(nomeTipoZombie, zombie.getEquipamentosZombies().size());
+                    }
+                }
+            }
+            // INCOMPLETO
+        }
+    return null;
+    }
+
+    // Quais as 5 criaturas que mais equipamenrtos apanharam/destruitam
+    // que ainda estão em jogo
+    private List<String> criaturasMaisEquipadas() { return null; }
 
 
     /* FUNCOES PRIMEIRA PARTE */
@@ -788,4 +885,6 @@ public class TWDGameManager {
     public List<String> getSurvivors(){
         return null;
     }
+
+
 }

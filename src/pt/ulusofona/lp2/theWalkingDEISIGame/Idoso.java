@@ -62,7 +62,9 @@ public class Idoso extends Creature {
                         return false;
                 }
 
-            } else if (this.idTipo == 3) {
+            }
+            /*
+            else if (this.idTipo == 3) {
                 // caso for zombie DEFESA
                 // verifica se o vivo tem equipamentos
                 if (creatureDestino.equipamentos.size() == 0) {
@@ -127,6 +129,7 @@ public class Idoso extends Creature {
                     destroiEConverte(creatureDestino);
                 }
             }
+            */
         }
         return false;
     }
@@ -140,6 +143,10 @@ public class Idoso extends Creature {
     private void largaEquipamento(Creature creatureDestino, ArrayList<Creature> creatures) {
         // vamos destruir o zombie, posicionar e largar o equipamento
         creatures.remove(creatureDestino);
+        // incrementa o numero de zombies destruidos
+        this.zombiesDestruidos++;
+        // incrementa o numero de salvacao feita pelo equipamento
+        this.equipamentos.get(0).incrementaNrSalvacoes();
         this.setxAtual(creatureDestino.xAtual);
         this.setyAtual(creatureDestino.yAtual);
         this.equipamentos.remove(0);

@@ -44,6 +44,10 @@ public class Crianca extends Creature {
                         if (creatureDestino.getIdTipo() == 0) {
                             // vamos destruir o zombie crianca e posicionar a crianca naquela posicao
                             creatures.remove(creatureDestino);
+                            // incrementa o numero de zombies destruidos
+                            this.zombiesDestruidos++;
+                            // incrementa o numero de salvacao feita pelo equipamento
+                            this.equipamentos.get(0).incrementaNrSalvacoes();
                             this.setxAtual(creatureDestino.xAtual);
                             this.setyAtual(creatureDestino.yAtual);
                             return true;
@@ -61,6 +65,10 @@ public class Crianca extends Creature {
                                 this.equipamentos.remove(0);
                             }
                             creatures.remove(creatureDestino);
+                            // incrementa o numero de zombies destruidos
+                            this.zombiesDestruidos++;
+                            // incrementa o numero de salvacao feita pelo equipamento
+                            this.equipamentos.get(0).incrementaNrSalvacoes();
                             this.setxAtual(creatureDestino.xAtual);
                             this.setyAtual(creatureDestino.yAtual);
                             return true;
@@ -73,6 +81,10 @@ public class Crianca extends Creature {
                         // Beskar Helmet
                     case 10: {
                         creatures.remove(creatureDestino);
+                        // incrementa o numero de zombies destruidos
+                        this.zombiesDestruidos++;
+                        // incrementa o numero de salvacao feita pelo equipamento
+                        this.equipamentos.get(0).incrementaNrSalvacoes();
                         this.setxAtual(creatureDestino.xAtual);
                         this.setyAtual(creatureDestino.yAtual);
                         return true;
@@ -117,6 +129,8 @@ public class Crianca extends Creature {
                             if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
                                 creatureDestino.equipamentos.remove(0);
                             }
+                            // incrementa o numero de salvacao feita pelo equipamento
+                            creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
                             return true;
                         case 3:
                             // Escudo Tatico

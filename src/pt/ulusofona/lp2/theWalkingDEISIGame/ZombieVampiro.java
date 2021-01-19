@@ -54,6 +54,8 @@ public class ZombieVampiro extends Creature{
                             if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
                                 creatureDestino.equipamentos.remove(0);
                             }
+                            // incrementa o numero de salvacao feita pelo equipamento
+                            this.equipamentos.get(0).incrementaNrSalvacoes();
                             return true;
                         } else {
                             return false;

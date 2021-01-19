@@ -32,11 +32,7 @@ public class InvalidTWDInitialFileException extends Exception {
     // Este método deve devolver a primeira linha que descreve uma criatura que tenha dados a
     //menos ou a mais
     public String getErroneousLine() {
-        if (dados.length < 5){
-            return "Os dados estão a menos.: " + Arrays.toString(dados);
-        } else {
-            return "Os dados estão a mais.: " + Arrays.toString(dados);
-        }
+        return Arrays.toString(dados);
     }
 
 }

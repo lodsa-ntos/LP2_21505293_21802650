@@ -21,7 +21,9 @@ public abstract class Creature {
     protected ArrayList<Equipamento> destruidos = new ArrayList<>();
     protected ArrayList<Creature> envenenados = new ArrayList<>();
 
-    protected ArrayList<Creature> creaturesNoBolso = new ArrayList<>();
+    protected int creaturesNoBolso = 0;
+    protected int equipamentosNoBolso = 0;
+    protected int zombiesDestruidos = 0;
 
     public Creature(int id, int idTipo, String nome, int xAtual, int yAtual) {
         this.id = id;
@@ -260,9 +262,31 @@ public abstract class Creature {
         return null;
     }
 
-    public ArrayList<Creature> getCreaturesNoBolso() {
+    public int getCreaturesNoBolso() {
         return creaturesNoBolso;
     }
+
+    public int getEquipamentosNoBolso() {
+        return equipamentosNoBolso;
+    }
+
+    public int getZombiesDestruidos() {
+        return zombiesDestruidos;
+    }
+
+    public void incrementaCreaturesNoBolso() {
+        this.creaturesNoBolso++;
+    }
+
+    public void incrementaEquipamentosNoBolso() {
+        this.equipamentosNoBolso++;
+    }
+
+    public void incrementaZombiesDestruidos() {
+        this.zombiesDestruidos++;
+    }
+
+
 
     @Override
     public String toString() {
@@ -275,7 +299,4 @@ public abstract class Creature {
         }
     }
 
-    public String statsToString() {
-        return id + ":" + nome + ":" + creaturesNoBolso.size() + "\n";
-    }
 }

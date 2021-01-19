@@ -430,7 +430,11 @@ public class TWDGameManager {
                                         eq.aumentaCountUsos();
                                     }
                                 }
+
                                 creatureOrigem.getEquipamentosVivos().add(eq);
+                                // Acrescenta o equipamento no bolso
+                                creatureOrigem.incrementaEquipamentosNoBolso();
+
                                 //equipamentos.remove(eq);
                                 // guarda como referencia a posicao original
                                 eq.xAnterior = xD;
@@ -450,6 +454,8 @@ public class TWDGameManager {
                                 eqAntigo.yAtual = eqAntigo.yAnterior;
                                 // depois de removido adiciona o novo
                                 creatureOrigem.getEquipamentosVivos().add(eq);
+                                // Acrescenta o equipamento no bolso
+                                creatureOrigem.incrementaEquipamentosNoBolso();
                                 creatureOrigem.setxAtual(xD);
                                 creatureOrigem.setyAtual(yD);
                             }
@@ -469,6 +475,8 @@ public class TWDGameManager {
                             // Destroi os equipamento
                             //Move uma posicao
                             creatureOrigem.destruidos.add(eq);
+                            // Acrescenta o equipamento no bolso
+                            creatureOrigem.incrementaEquipamentosNoBolso();
                             equipamentos.remove(eq); // problema?
 
                             creatureOrigem.setxAtual(xD);
@@ -778,13 +786,21 @@ public class TWDGameManager {
         List<String> resultado;
 
            resultado = creatures.stream()
+                   // filtrar a lista de creaturas para obter apenas os zombies
                     .filter((zombie) -> zombie.getIdTipo() >= 0 && zombie.getIdTipo() <= 4)
-                    .filter((transformacoes) -> transformacoes.getCreaturesNoBolso().size() > 0)
-                    .sorted ((z1, z2) -> z2.getCreaturesNoBolso().size() - z1.getCreaturesNoBolso().size())
+                   // filtrar os zombies que têm pelo menos uma captura
+                    .filter((transformacoes) -> transformacoes.getCreaturesNoBolso() > 0)
+                   // ordena por ordem decrescente
+                    .sorted ((z1, z2) -> z2.getCreaturesNoBolso() - z1.getCreaturesNoBolso())
+                   // top 3
                     .limit(3)
-                    .map(Creature::statsToString)
+                   // transforma os elementos em string
+                    .map( (c) -> c.getId() + ":" + c.getNome() + ":" + c.getCreaturesNoBolso() + "\n")
+                   // transforma o resultado final em lista
                     .collect(Collectors.toList());
 
+        // obter o ultimo elemento e remover o "\n"
+        resultado.get(resultado.size()-1).substring(0, resultado.size()-1);
         return resultado;
     }
 
@@ -795,44 +811,50 @@ public class TWDGameManager {
         List<String> resultado;
 
         resultado = creatures.stream()
+                // filtrar a lista de creaturas para obter apenas os vivos
                 .filter((vivos) -> vivos.getIdTipo() >= 5 && vivos.getIdTipo() <= 9)
-                .filter((destruidos) -> destruidos.getCreaturesNoBolso().size() > 0)
-                .sorted ((v1, v2) -> v2.getCreaturesNoBolso().size() - v1.getCreaturesNoBolso().size())
+                .filter((destruidos) -> destruidos.getZombiesDestruidos() > 0)
+                // ordena por ordem descendente
+                .sorted ((v1, v2) -> v2.getZombiesDestruidos() - v1.getZombiesDestruidos())
                 .limit(3)
-                .map(Creature::statsToString)
+                .map( (c) -> c.getId() + ":" + c.getNome() + ":" + c.getZombiesDestruidos() + "\n")
                 .collect(Collectors.toList());
 
+        // obter o ultimo elemento e remover o "\n"
+        resultado.get(resultado.size()-1).substring(0, resultado.size()-1);
         return resultado;
     }
 
-    //Quais os equips que mais safaram os vivos (of/def)?
+    //Quais os equipamentos que mais safaram os vivos (of/def)?
     // <IDtipo>:<NrSalvacoes>
     // Ordenado ASC
     private List<String> equipamentosUteis() {
-        List<String> equipVivos;
+        List<String> resultado;
 
-        equipVivos = equipamentos.stream()
-                .filter((eq) -> eq.getIdTipo() >= 0 && eq.getIdTipo() <= 10)
-                .filter((eq) -> eq.getEquipamentosSafos().size() > 0)
-                .sorted (Comparator.comparingInt(eq -> eq.getEquipamentosSafos().size()))
-                .map((eq)-> eq.getIdTipo() +":"+ eq.getNrSalvacoes())
+        resultado = equipamentos.stream()
+                .sorted ((eq1, eq2) -> eq1.getNrSalvacoes() - eq2.getNrSalvacoes())
+                .map((eq)-> eq.getIdTipo() +":"+ eq.getNrSalvacoes() + "\n")
                 .collect(Collectors.toList());
 
-        return equipVivos;
+
+        // obter o ultimo elemento e remover o "\n"
+        resultado.get(resultado.size()-1).substring(0, resultado.size()-1);
+        return resultado;
     }
 
-    // Qual o total de equips destruidos por cada tipo de zombie?
-    // <Nome do Tipo>:<NrCriaturas do tipo>:<NrEquips>\n
-    // Ordenado DESC
+    // Qual o total de equipamentos destruidos por cada tipo de zombie?
+    // <Nome do Tipo>:<NrCriaturas do tipo>:<NrEquipamentoss>\n
+    // Ordenado DESC pelo nr de equipamentos
     private List<String> equipamentosDestruidosTiposZombies() {
 
+        List<String> resultado;
+
+        // filtrar apenas os zombies
         List<Creature> zombies = creatures.stream()
                 .filter((zombie) -> zombie.getIdTipo() >= 0 && zombie.getIdTipo() <= 4)
-                .filter((equip) -> equip.getEquipamentosZombies().size() > 0)
                 .collect(Collectors.toList());
 
         HashMap<String, Integer> a = new HashMap<>();
-
         for (Creature zombie: zombies) {
             switch (zombie.getNome()) {
                 case "Criança (Zombie)":
@@ -849,8 +871,9 @@ public class TWDGameManager {
                     }
                 }
             }
-            // INCOMPLETO
         }
+
+
     return null;
     }
 
@@ -860,14 +883,11 @@ public class TWDGameManager {
     private List<String> criaturasMaisEquipadas() {
         List<String> osEquipadas;
 
-        // falta saber quais apanharam/destruíram
-
         osEquipadas = creatures.stream()
-                .filter((vivos) -> vivos.getIdTipo() >= 5 && vivos.getIdTipo() <= 9)
-                .filter((apanhados) -> apanhados.getEquipamentosVivos().size() > 0)
-                .sorted ((v1, v2) -> v2.getEquipamentosVivos().size() - v1.getEquipamentosVivos().size())
+                .filter((apanhados) -> apanhados.getEquipamentosNoBolso() > 0)
+                .sorted ((v1, v2) -> v2.getEquipamentosNoBolso() - v1.getEquipamentosNoBolso())
                 .limit(5)
-                .map(Creature::statsToString)
+                .map( (c) -> c.getId() + ":" + c.getNome() + ":" + c.getEquipamentosNoBolso() + "\n")
                 .collect(Collectors.toList());
 
         return osEquipadas;

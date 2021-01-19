@@ -20,6 +20,7 @@ public abstract class Equipamento {
 
     protected ArrayList<Equipamento> equipamentosQueSafaram = new ArrayList<>();
 
+
     public Equipamento() {
     }
 
@@ -115,6 +116,10 @@ public abstract class Equipamento {
 
     public int getNrSalvacoes() {
         return nrSalvacoes;
+    }
+
+    public void incrementaNrSalvacoes() {
+        this.nrSalvacoes++;
     }
 
     @Override

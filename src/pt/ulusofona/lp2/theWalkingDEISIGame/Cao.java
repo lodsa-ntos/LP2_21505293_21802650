@@ -40,6 +40,10 @@ public class Cao extends Creature {
                     if (!saltouPorCima(xO, yO, xD, yD, creatures)) {
 
                         creatures.remove(creatureDestino);
+                        // incrementa o numero de zombies destruidos
+                        this.zombiesDestruidos++;
+                        // incrementa o numero de salvacao feita pelo equipamento
+                        this.equipamentos.get(0).incrementaNrSalvacoes();
                         this.setxAtual(creatureDestino.xAtual);
                         this.setyAtual(creatureDestino.yAtual);
                         return true;
@@ -58,6 +62,10 @@ public class Cao extends Creature {
                                 this.equipamentos.remove(0);
                             }
                             creatures.remove(creatureDestino);
+                            // incrementa o numero de zombies destruidos
+                            this.zombiesDestruidos++;
+                            // incrementa o numero de salvacao feita pelo equipamento
+                            this.equipamentos.get(0).incrementaNrSalvacoes();
                             this.setxAtual(creatureDestino.xAtual);
                             this.setyAtual(creatureDestino.yAtual);
                             return true;

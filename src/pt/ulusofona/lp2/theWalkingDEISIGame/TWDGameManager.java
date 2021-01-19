@@ -855,9 +855,22 @@ public class TWDGameManager {
     }
 
     // Quais as 5 criaturas que mais equipamenrtos apanharam/destruitam
+    // <IDCriatura>:<Nome>:<NrEquipamentos>
     // que ainda estão em jogo
     private List<String> criaturasMaisEquipadas() {
-        return null;
+        List<String> osEquipadas;
+
+        // falta saber quais apanharam/destruíram
+
+        osEquipadas = creatures.stream()
+                .filter((vivos) -> vivos.getIdTipo() >= 5 && vivos.getIdTipo() <= 9)
+                .filter((apanhados) -> apanhados.getEquipamentosVivos().size() > 0)
+                .sorted ((v1, v2) -> v2.getEquipamentosVivos().size() - v1.getEquipamentosVivos().size())
+                .limit(5)
+                .map(Creature::statsToString)
+                .collect(Collectors.toList());
+
+        return osEquipadas;
     }
 
 

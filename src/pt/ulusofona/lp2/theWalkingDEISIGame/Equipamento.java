@@ -1,5 +1,8 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public abstract class Equipamento {
 
     protected int id;
@@ -13,6 +16,9 @@ public abstract class Equipamento {
 
     protected int countUsos;
     protected boolean escudoUsado;
+    protected int nrSalvacoes;
+
+    protected ArrayList<Equipamento> equipamentosQueSafaram = new ArrayList<>();
 
     public Equipamento() {
     }
@@ -103,8 +109,17 @@ public abstract class Equipamento {
         this.escudoUsado = true;
     }
 
+    public ArrayList<Equipamento> getEquipamentosSafos() {
+        return equipamentosQueSafaram;
+    }
+
+    public int getNrSalvacoes() {
+        return nrSalvacoes;
+    }
+
     @Override
     public String toString () {
         return id + " | " + titulo + " @ (" + xAtual + ", " + yAtual + ") ";
     }
+
 }

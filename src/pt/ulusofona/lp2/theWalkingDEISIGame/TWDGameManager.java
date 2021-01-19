@@ -13,7 +13,6 @@ public class TWDGameManager {
         - humanos > representa a quantidade de humanos existentes no mapa
         - zombies > representa a quantidade de zombies existentes no mapa
         - equipamentos > representa a quantidade de equipamentos existentes no mapa
-
     linhaAtual - Indica o inicio da linha do ficheiro a comecar a ser lida
     (numLinha/numColuna) - Correspondem ao número de linhas e ao número de colunas do mapa
     idEquipaAtual - Indica qual é o ID da equipa que começa o jogo
@@ -53,9 +52,8 @@ public class TWDGameManager {
     public TWDGameManager() {
     }
 
-
     //Esta função faz a leitura do ficheiro de texto e carrega para a memória a informação relevante.
-    public boolean startGame(File ficheiroInicial) throws InvalidTWDInitialFileException {
+    public void startGame(File ficheiroInicial) throws InvalidTWDInitialFileException, FileNotFoundException {
 
         creatures = new ArrayList<>(); // resent da lista de creatures.
         equipamentos = new ArrayList<>(); // reset da lista de equipamentos
@@ -84,7 +82,7 @@ public class TWDGameManager {
 
             // verifica se o ficheiro cumpre com as regras
             if (mapa.length != 2) {
-                throw new Exception("Numero erraodo de componentes: " + mapa.length);
+                throw new Exception("Numero errado de componentes: " + mapa.length);
             }
 
             numLinha = Integer.parseInt(mapa[0].trim()); // guarda na primeira posicao do array o numLinha
@@ -118,7 +116,7 @@ public class TWDGameManager {
                     String[] dados = linha.split(":");
 
                     if (dados.length != 5) {
-                        throw new InvalidTWDInitialFileException(dados);
+                       throw new InvalidTWDInitialFileException(dados);
                     }
 
                     // Converte as Strings lidas para os tipos esperados
@@ -303,12 +301,12 @@ public class TWDGameManager {
 
             leitor.close();
 
-        } catch (FileNotFoundException exception) {
-            System.out.println("Erro no " + exception.getMessage());
-        } catch (Exception e) {
-            System.out.println("Mapa: Numero errado de componentes");
+        } catch (InvalidTWDInitialFileException exception) {
+            System.out.println("Erro.: " + exception.getErroneousLine());
         }
-        return true;
+        catch (Exception ex) {
+            throw new FileNotFoundException();
+        }
     }
 
     public int[] getWorldSize() {
@@ -484,13 +482,13 @@ public class TWDGameManager {
 
                 // Caso nao encontar nenhuma criatura, equipamento ou safeheaven
                 if (!encontrouCriatura && !encontrouEquip) {
-                    //if (!creatureOrigem.saltouPorCima(xO, yO, xD, yD, creatures)) {
+                    if (!creatureOrigem.saltouPorCima(xO, yO, xD, yD, creatures)) {
                         creatureOrigem.move(xO, yO, xD, yD);
                         creatureOrigem.setxAtual(xD);
                         creatureOrigem.setyAtual(yD);
-                    //} else {
-                    //    return false;
-                    //}
+                    } else {
+                        return false;
+                    }
                 }
 
                 nrTurno++;
@@ -760,6 +758,7 @@ public class TWDGameManager {
     }
 
     public Map<String, List<String>> getGameStatistics() {
+
         HashMap<String, List<String>> a = new HashMap<>();
 
         a.put("os3ZombiesMaisTramados", zombiesTramado());
@@ -776,14 +775,15 @@ public class TWDGameManager {
     // <IDCriatura>:<Nome>:<NrTransformações>
     // Ordem nao relevante
     private List<String> zombiesTramado() {
+        List<String> resultado;
 
-        List<String> resultado = creatures.stream()
-                .filter((zombie) -> zombie.getIdTipo() >= 0 && zombie.getIdTipo() <= 4)
-                .filter((transformacoes) -> transformacoes.getCreaturesNoBolso().size() > 0)
-                .sorted ((z1, z2) -> z2.getCreaturesNoBolso().size() - z1.getCreaturesNoBolso().size())
-                .limit(3)
-                .map(Creature::statsToString)
-                .collect(Collectors.toList());
+           resultado = creatures.stream()
+                    .filter((zombie) -> zombie.getIdTipo() >= 0 && zombie.getIdTipo() <= 4)
+                    .filter((transformacoes) -> transformacoes.getCreaturesNoBolso().size() > 0)
+                    .sorted ((z1, z2) -> z2.getCreaturesNoBolso().size() - z1.getCreaturesNoBolso().size())
+                    .limit(3)
+                    .map(Creature::statsToString)
+                    .collect(Collectors.toList());
 
         return resultado;
     }
@@ -792,8 +792,9 @@ public class TWDGameManager {
     // <IDCriatura>:<Nome>:<NrDestruicoes>
     // Ordenado DESC pelo numero de destruicoes
     private List<String> vivosDuros() {
+        List<String> resultado;
 
-        List<String> resultado = creatures.stream()
+        resultado = creatures.stream()
                 .filter((vivos) -> vivos.getIdTipo() >= 5 && vivos.getIdTipo() <= 9)
                 .filter((destruidos) -> destruidos.getCreaturesNoBolso().size() > 0)
                 .sorted ((v1, v2) -> v2.getCreaturesNoBolso().size() - v1.getCreaturesNoBolso().size())
@@ -807,7 +808,18 @@ public class TWDGameManager {
     //Quais os equips que mais safaram os vivos (of/def)?
     // <IDtipo>:<NrSalvacoes>
     // Ordenado ASC
-    private List<String> equipamentosUteis() { return null; }
+    private List<String> equipamentosUteis() {
+        List<String> equipVivos;
+
+        equipVivos = equipamentos.stream()
+                .filter((eq) -> eq.getIdTipo() >= 0 && eq.getIdTipo() <= 10)
+                .filter((eq) -> eq.getEquipamentosSafos().size() > 0)
+                .sorted (Comparator.comparingInt(eq -> eq.getEquipamentosSafos().size()))
+                .map((eq)-> eq.getIdTipo() +":"+ eq.getNrSalvacoes())
+                .collect(Collectors.toList());
+
+        return equipVivos;
+    }
 
     // Qual o total de equips destruidos por cada tipo de zombie?
     // <Nome do Tipo>:<NrCriaturas do tipo>:<NrEquips>\n
@@ -823,10 +835,10 @@ public class TWDGameManager {
 
         for (Creature zombie: zombies) {
             switch (zombie.getNome()) {
-                case "Crianca Zombie":
-                case "Adulto Zombie":
-                case "Idoso Zombie":
-                case "Militar Zombie":
+                case "Criança (Zombie)":
+                case "Adulto (Zombie)":
+                case "Militar (Zombie)":
+                case "Idoso (Zombie)":
                 case "Zombie Vampiro": {
                     String nomeTipoZombie = zombie.getNome();
                     if (a.containsKey(nomeTipoZombie)) {
@@ -844,7 +856,9 @@ public class TWDGameManager {
 
     // Quais as 5 criaturas que mais equipamenrtos apanharam/destruitam
     // que ainda estão em jogo
-    private List<String> criaturasMaisEquipadas() { return null; }
+    private List<String> criaturasMaisEquipadas() {
+        return null;
+    }
 
 
     /* FUNCOES PRIMEIRA PARTE */
@@ -885,6 +899,4 @@ public class TWDGameManager {
     public List<String> getSurvivors(){
         return null;
     }
-
-
 }

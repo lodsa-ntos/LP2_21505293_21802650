@@ -8,11 +8,11 @@ public class InvalidTWDInitialFileException extends Exception {
     boolean maisQue2Creatures = true;
 
     public InvalidTWDInitialFileException(String[] dados) {
-        super("Numero erraodo de componentes: " + dados.length);
+        System.out.println("Numero errado de componentes: " + dados.length);
     }
 
     public InvalidTWDInitialFileException(boolean validCreature) {
-        super("Erro: ficheiro com menos do que 2 criaturas");
+        System.out.println("Erro: ficheiro com menos do que 2 criaturas");
         maisQue2Creatures = validCreature;
     }
 
@@ -23,8 +23,8 @@ public class InvalidTWDInitialFileException extends Exception {
     }
 
     // Este método deve devolver true se e só
-    // se o ficheiro tiver os dados completos para todas as
-    //criaturas
+    // se o ficheiro os dados completos para todas as
+    // criaturas
     public boolean validCreatureDefinition() {
         return dados.length == 5;
     }
@@ -32,7 +32,11 @@ public class InvalidTWDInitialFileException extends Exception {
     // Este método deve devolver a primeira linha que descreve uma criatura que tenha dados a
     //menos ou a mais
     public String getErroneousLine() {
-        return Arrays.toString(dados);
+        if (dados.length < 5){
+            return "Os dados estão a menos.: " + Arrays.toString(dados);
+        } else {
+            return "Os dados estão a mais.: " + Arrays.toString(dados);
+        }
     }
 
 }

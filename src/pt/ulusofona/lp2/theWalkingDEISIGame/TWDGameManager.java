@@ -789,7 +789,7 @@ public class TWDGameManager {
                    // filtrar a lista de creaturas para obter apenas os zombies
                     .filter((zombie) -> zombie.getIdTipo() >= 0 && zombie.getIdTipo() <= 4)
                    // filtrar os zombies que têm pelo menos uma captura
-                    .filter((transformacoes) -> transformacoes.getCreaturesNoBolso() > 0)
+                   // .filter((transformacoes) -> transformacoes.getCreaturesNoBolso() > 0)
                    // ordena por ordem decrescente
                     .sorted ((z1, z2) -> z2.getCreaturesNoBolso() - z1.getCreaturesNoBolso())
                    // top 3
@@ -799,8 +799,6 @@ public class TWDGameManager {
                    // transforma o resultado final em lista
                     .collect(Collectors.toList());
 
-        // obter o ultimo elemento e remover o "\n"
-        resultado.get(resultado.size()-1).substring(0, resultado.size()-1);
         return resultado;
     }
 
@@ -813,15 +811,16 @@ public class TWDGameManager {
         resultado = creatures.stream()
                 // filtrar a lista de creaturas para obter apenas os vivos
                 .filter((vivos) -> vivos.getIdTipo() >= 5 && vivos.getIdTipo() <= 9)
-                .filter((destruidos) -> destruidos.getZombiesDestruidos() > 0)
+                //.filter((destruidos) -> destruidos.getZombiesDestruidos() > 0)
                 // ordena por ordem descendente
                 .sorted ((v1, v2) -> v2.getZombiesDestruidos() - v1.getZombiesDestruidos())
+                // top 3
                 .limit(3)
+                // transforma os elementos em string
                 .map( (c) -> c.getId() + ":" + c.getNome() + ":" + c.getZombiesDestruidos() + "\n")
+                // transforma o resultado final em lista
                 .collect(Collectors.toList());
 
-        // obter o ultimo elemento e remover o "\n"
-        resultado.get(resultado.size()-1).substring(0, resultado.size()-1);
         return resultado;
     }
 
@@ -832,13 +831,13 @@ public class TWDGameManager {
         List<String> resultado;
 
         resultado = equipamentos.stream()
+                // ordena por ordem ascendente
                 .sorted ((eq1, eq2) -> eq1.getNrSalvacoes() - eq2.getNrSalvacoes())
+                // transforma os elementos em string
                 .map((eq)-> eq.getIdTipo() +":"+ eq.getNrSalvacoes() + "\n")
+                // transforma o resultado final em lista
                 .collect(Collectors.toList());
 
-
-        // obter o ultimo elemento e remover o "\n"
-        resultado.get(resultado.size()-1).substring(0, resultado.size()-1);
         return resultado;
     }
 
@@ -847,11 +846,13 @@ public class TWDGameManager {
     // Ordenado DESC pelo nr de equipamentos
     private List<String> equipamentosDestruidosTiposZombies() {
 
-        List<String> resultado;
+        List<Creature> zombies;
 
         // filtrar apenas os zombies
-        List<Creature> zombies = creatures.stream()
+        zombies = creatures.stream()
+                // filtrar a lista de creaturas para obter apenas os zombies
                 .filter((zombie) -> zombie.getIdTipo() >= 0 && zombie.getIdTipo() <= 4)
+                // transforma o resultado final em lista
                 .collect(Collectors.toList());
 
         HashMap<String, Integer> a = new HashMap<>();

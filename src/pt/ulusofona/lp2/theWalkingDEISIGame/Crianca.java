@@ -130,7 +130,7 @@ public class Crianca extends Creature {
                                 creatureDestino.equipamentos.remove(0);
                             }
                             // incrementa o numero de salvacao feita pelo equipamento
-                            creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
+                            creatureDestino.equipamentos.get(1).incrementaNrSalvacoes();
                             return true;
                         case 3:
                             // Escudo Tatico

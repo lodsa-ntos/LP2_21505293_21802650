@@ -17,6 +17,8 @@ public abstract class Creature {
     protected int yAnterior;
     protected boolean envenenado;
 
+    protected boolean isInSafeHaven;
+
     protected ArrayList<Equipamento> equipamentos = new ArrayList<>();
     protected ArrayList<Equipamento> destruidos = new ArrayList<>();
     protected ArrayList<Creature> envenenados = new ArrayList<>();
@@ -286,7 +288,13 @@ public abstract class Creature {
         this.zombiesDestruidos++;
     }
 
+    public boolean isInSafeHaven() {
+        return isInSafeHaven;
+    }
 
+    public void inSafeHaven(boolean inSafeHaven) {
+        isInSafeHaven = inSafeHaven;
+    }
 
     @Override
     public String toString() {
@@ -298,5 +306,6 @@ public abstract class Creature {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
         }
     }
+
 
 }

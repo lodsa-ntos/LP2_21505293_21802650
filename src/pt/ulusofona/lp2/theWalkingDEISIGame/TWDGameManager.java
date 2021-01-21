@@ -388,6 +388,8 @@ public class TWDGameManager {
                 // caso for, remove no mapa, guarda a criatura e retorna true
                 if (isDoorToSafeHaven(xD, yD)) {
                     if (creatureOrigem.getIdEquipa() == 10) {
+                        creatureOrigem.inSafeHaven(true);
+                        creatures.get(creatures.indexOf(creatureOrigem)).inSafeHaven(true);
                         safe.add(creatureOrigem);
                         //creatureOrigem.id = 0;
                     } else {
@@ -561,7 +563,7 @@ public class TWDGameManager {
 
     public int getElementId(int x, int y) {
         for (Creature c: creatures){
-            if (c.getXAtual() == x && c.getYAtual() == y) {
+            if (c.getXAtual() == x && c.getYAtual() == y && !c.isInSafeHaven()) {
                 return c.getId();
             }
         }
@@ -660,7 +662,6 @@ public class TWDGameManager {
     }
 
     public boolean isDoorToSafeHaven(int x, int y) {
-
         return xPortas == x && yPortas == y;
     }
 

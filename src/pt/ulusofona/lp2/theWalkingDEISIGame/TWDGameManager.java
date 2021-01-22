@@ -65,6 +65,7 @@ public class TWDGameManager {
         yPortas = 0; // reset variavel yPortas safeHaven.
         nrTurno = 0; // reset variavel turnos.
 
+        String erro;
         try {
 
             Scanner leitor;
@@ -80,13 +81,13 @@ public class TWDGameManager {
             // vai quebrando a string em varias substrings a partir do espaco vazio
             String[] mapa = linha.split(" ");
 
+            numLinha = Integer.parseInt(mapa[0].trim()); // guarda na primeira posicao do array o numLinha
+            numColuna = Integer.parseInt(mapa[1].trim()); // guarda na segunda posicao do array o numColuna
+
             // verifica se o ficheiro cumpre com as regras
             if (mapa.length != 2) {
                 throw new Exception("Numero errado de componentes: " + mapa.length);
             }
-
-            numLinha = Integer.parseInt(mapa[0].trim()); // guarda na primeira posicao do array o numLinha
-            numColuna = Integer.parseInt(mapa[1].trim()); // guarda na segunda posicao do array o numColuna
 
             // Segunda linha que indica qual é o ID da equipa que começa o jogo.
             // ler uma linha do ficheiro
@@ -97,10 +98,6 @@ public class TWDGameManager {
             // ler uma linha do ficheiro
             linha = leitor.nextLine();
             nC = Integer.parseInt(linha);
-
-            if (nC < 2) {
-                throw new InvalidTWDInitialFileException(false);
-            }
 
             int nLinhas;
             nLinhas = nC;
@@ -115,8 +112,8 @@ public class TWDGameManager {
                     // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
                     String[] dados = linha.split(":");
 
-                    if (dados.length != 5) {
-                       throw new InvalidTWDInitialFileException(dados);
+                    if(dados.length != 5) {
+                        throw new InvalidTWDInitialFileException(linhaAtual++, 5, dados.length);
                     }
 
                     // Converte as Strings lidas para os tipos esperados
@@ -201,7 +198,7 @@ public class TWDGameManager {
                     linhaPorta = nE;
                     linhaPorta += nLinhas;
 
-                    // enquanto o ficheiro tiver linhas não-lidas depois da anterior, lê
+                    // enquanto o ficheiro tiver linhas não-lidas depois da anterior, lê as linhas com equipamentos
                     while (leitor.hasNextLine()) {
 
                         if (linhaAtual < linhaPorta) {
@@ -301,8 +298,14 @@ public class TWDGameManager {
 
             leitor.close();
 
+            if (nC >= 2) {
+                throw new InvalidTWDInitialFileException(true);
+            } else {
+                throw new InvalidTWDInitialFileException(false);
+            }
+
         } catch (InvalidTWDInitialFileException exception) {
-            System.out.println("Erro.: " + exception.getErroneousLine());
+            System.out.println(exception.getErroneousLine());
         }
         catch (Exception ex) {
             throw new FileNotFoundException();
@@ -790,7 +793,7 @@ public class TWDGameManager {
                    // filtrar a lista de creaturas para obter apenas os zombies
                     .filter((zombie) -> zombie.getIdTipo() >= 0 && zombie.getIdTipo() <= 4)
                    // filtrar os zombies que têm pelo menos uma captura
-                   // .filter((transformacoes) -> transformacoes.getCreaturesNoBolso() > 0)
+                    .filter((transformacoes) -> transformacoes.getCreaturesNoBolso() > 0)
                    // ordena por ordem decrescente
                     .sorted ((z1, z2) -> z2.getCreaturesNoBolso() - z1.getCreaturesNoBolso())
                    // top 3
@@ -812,7 +815,8 @@ public class TWDGameManager {
         resultado = creatures.stream()
                 // filtrar a lista de creaturas para obter apenas os vivos
                 .filter((vivos) -> vivos.getIdTipo() >= 5 && vivos.getIdTipo() <= 9)
-                //.filter((destruidos) -> destruidos.getZombiesDestruidos() > 0)
+                // filtrar os vivos que têm pelo menos um zombie destruidos
+                .filter((destruidos) -> destruidos.getZombiesDestruidos() > 0)
                 // ordena por ordem descendente
                 .sorted ((v1, v2) -> v2.getZombiesDestruidos() - v1.getZombiesDestruidos())
                 // top 3

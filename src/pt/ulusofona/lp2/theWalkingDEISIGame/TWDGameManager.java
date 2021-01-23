@@ -1,5 +1,6 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -85,11 +86,6 @@ public class TWDGameManager {
 
             numLinha = Integer.parseInt(mapa[0].trim()); // guarda na primeira posicao do array o numLinha
             numColuna = Integer.parseInt(mapa[1].trim()); // guarda na segunda posicao do array o numColuna
-
-            // verifica se o ficheiro cumpre com as regras
-            if (mapa.length != 2) {
-                throw new Exception("Numero errado de componentes: " + mapa.length);
-            }
 
             // Segunda linha que indica qual é o ID da equipa que começa o jogo.
             // ler uma linha do ficheiro
@@ -304,17 +300,19 @@ public class TWDGameManager {
 
             leitor.close();
 
-            if (nC >= 2) {
-                throw new InvalidTWDInitialFileException(true);
-            } else {
-                throw new InvalidTWDInitialFileException(false);
+        } catch (InvalidTWDInitialFileException exception) {
+            if (nC < 2) {
+                if (exception.validNrOfCreatures()) {
+                    System.out.println("Número de criaturas inválidas");
+                }
             }
 
-        } catch (InvalidTWDInitialFileException exception) {
-            System.out.println(exception.getErroneousLine());
+            if (!exception.validCreatureDefinition()) {
+                System.out.println("Error.: " + exception.getErroneousLine());
+            }
         }
-        catch (Exception ex) {
-            throw new FileNotFoundException();
+        catch (FileNotFoundException ex) {
+                System.out.println("Erro.: o ficheiro nao foi encontrado.");
         }
     }
 

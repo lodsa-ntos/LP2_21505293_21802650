@@ -38,10 +38,10 @@ public class InvalidTWDInitialFileException extends Exception {
     public String getErroneousLine() {
         if (dados > creatutesDefinition) {
             return "Dados a mais ( esperava criatura com: " + creatutesDefinition + " dados " + "mas obtive " + dados + " dados" +" )."
-                    + " A seguir a "+ linhaCreatures + "ª linha está errado.";
+                    + " A seguir a " + linhaCreatures + "ª linha está errado.";
         } else if (dados < creatutesDefinition){
             return "Dados a menos ( esperava criatura com " + creatutesDefinition + " dados " + "mas obtive " + dados + " dados" +" )."
-                    + " A seguir a "+ linhaCreatures + "ª linha está errado.";
+                    + " A seguir a " + linhaCreatures + "ª linha está errado.";
         } else {
             return "";
         }

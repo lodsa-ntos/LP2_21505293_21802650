@@ -134,6 +134,7 @@ public class TWDGameManager {
                             creatures.add(crianca); // adiciona crianca
                             crianca.setTipo(idTipo);
                             crianca.setEquipa(idTipo);
+                            crianca.getNrCriaturasZombies();
                             System.out.println(crianca.toString()); // imprime crianca
                             break;
 
@@ -145,6 +146,7 @@ public class TWDGameManager {
                             creatures.add(adulto);
                             adulto.setTipo(idTipo);
                             adulto.setEquipa(idTipo);
+                            adulto.getNrCriaturasZombies();
                             System.out.println(adulto.toString());
                             break;
 
@@ -154,6 +156,7 @@ public class TWDGameManager {
                             creatures.add(militar); // adiciona militar
                             militar.setTipo(idTipo);
                             militar.setEquipa(idTipo);
+                            militar.getNrCriaturasZombies();
                             System.out.println(militar.toString()); // imprime militar
                             break;
 
@@ -163,6 +166,7 @@ public class TWDGameManager {
                             creatures.add(idoso); // adiciona idoso
                             idoso.setTipo(idTipo);
                             idoso.setEquipa(idTipo);
+                            idoso.getNrCriaturasZombies();
                             System.out.println(idoso.toString()); // imprime idoso
                             break;
 
@@ -847,40 +851,24 @@ public class TWDGameManager {
     }
 
     // Qual o total de equipamentos destruidos por cada tipo de zombie?
-    // <Nome do Tipo>:<NrCriaturas do tipo>:<NrEquipamentoss>\n
+    // <Nome do Tipo>:<NrCriaturas com o mesmo ID_tipo>:<NrEquipamentos>\n
     // Ordenado DESC pelo nr de equipamentos
     private List<String> equipamentosDestruidosTiposZombies() {
 
-        List<Creature> zombies;
+        List<String> zombies;
 
         // filtrar apenas os zombies
         zombies = creatures.stream()
                 // filtrar a lista de creaturas para obter apenas os zombies
-                .filter((zombie) -> zombie.getIdTipo() >= 0 && zombie.getIdTipo() <= 4)
+                .filter((zombie) -> zombie.getEquipamentosNoBolso() > 0)
+                // ordena por ordem descendente
+                .sorted(Comparator.comparingInt(Creature::getIdTipo))
+                // transforma os elementos em strings
+                .map((z)-> z.getTipo() +":"+ z.getNrCriaturasZombies() +":"+ z.getEquipamentosNoBolso())
                 // transforma o resultado final em lista
                 .collect(toList());
 
-        HashMap<String, Integer> a = new HashMap<>();
-        for (Creature zombie: zombies) {
-            switch (zombie.getNome()) {
-                case "Criança (Zombie)":
-                case "Adulto (Zombie)":
-                case "Militar (Zombie)":
-                case "Idoso (Zombie)":
-                case "Zombie Vampiro": {
-                    String nomeTipoZombie = zombie.getNome();
-                    if (a.containsKey(nomeTipoZombie)) {
-                        int count = a.get(nomeTipoZombie);
-                        a.put(nomeTipoZombie, zombie.getEquipamentosZombies().size() + count);
-                    } else {
-                        a.put(nomeTipoZombie, zombie.getEquipamentosZombies().size());
-                    }
-                }
-            }
-        }
-
-
-    return null;
+    return zombies;
     }
 
     // Quais as 5 criaturas que mais equipamenrtos apanharam/destruitam

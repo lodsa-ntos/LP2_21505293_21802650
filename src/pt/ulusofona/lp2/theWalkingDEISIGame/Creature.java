@@ -21,11 +21,12 @@ public abstract class Creature {
 
     protected ArrayList<Equipamento> equipamentos = new ArrayList<>();
     protected ArrayList<Equipamento> destruidos = new ArrayList<>();
-    protected ArrayList<Creature> envenenados = new ArrayList<>();
 
     protected int creaturesNoBolso = 0;
     protected int equipamentosNoBolso = 0;
     protected int zombiesDestruidos = 0;
+    
+    protected int countZombiesIguais = 0;
 
     public Creature(int id, int idTipo, String nome, int xAtual, int yAtual) {
         this.id = id;
@@ -192,6 +193,10 @@ public abstract class Creature {
         }
     }
 
+    protected String getTipo() {
+        return tipo;
+    }
+
     // Metodo onde <Equipa Vivos> corresponde ao nome (p.e. “Os Vivos”).
     // Metodo onde <Equipa Zombie> corresponde ao nome (p.e. “Os Outros”).
     public void setEquipa(int idTipo) {
@@ -295,7 +300,14 @@ public abstract class Creature {
     public void inSafeHaven(boolean inSafeHaven) {
         isInSafeHaven = inSafeHaven;
     }
+    
+    public int getNrCriaturasZombies() {
+        if (tipo.equals("Criança (Zombie)") || tipo.equals("Adulto (Zombie)") || tipo.equals("Militar (Zombie)")
+                || tipo.equals("Idoso (Zombie)") || tipo.equals("Zombie Vampiro")) countZombiesIguais++;
 
+        return countZombiesIguais;
+    }
+    
     @Override
     public String toString() {
         if (equipa.equals("Os Vivos")){

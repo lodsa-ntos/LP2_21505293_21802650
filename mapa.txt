@@ -3,7 +3,7 @@
 10
 1 : 0 : Paciente Zero : 4 : 4
 2 : 1 : Tridente Squad : 5 : 1
-3 : 2 : Major X : 0 : 1
+3 : 2 : Major X : 1 : 4
 4 : 3 : Jimmy Neutron : 3 : 0
 5 : 4 : Vamp Man : 3 : 6
 6 : 5 : Freddie M. : 3 : 3

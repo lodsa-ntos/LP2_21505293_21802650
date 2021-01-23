@@ -20,7 +20,6 @@ public abstract class Equipamento {
 
     protected ArrayList<Equipamento> equipamentosQueSafaram = new ArrayList<>();
 
-
     public Equipamento() {
     }
 

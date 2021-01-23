@@ -303,7 +303,9 @@ public abstract class Creature {
     
     public int getNrCriaturasZombies() {
         if (tipo.equals("Criança (Zombie)") || tipo.equals("Adulto (Zombie)") || tipo.equals("Militar (Zombie)")
-                || tipo.equals("Idoso (Zombie)") || tipo.equals("Zombie Vampiro")) countZombiesIguais++;
+                || tipo.equals("Idoso (Zombie)") || tipo.equals("Zombie Vampiro")) {
+            countZombiesIguais++;
+        }
 
         return countZombiesIguais;
     }

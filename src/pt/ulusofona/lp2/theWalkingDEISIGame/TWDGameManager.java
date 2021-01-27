@@ -1,16 +1,9 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.nio.CharBuffer;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -72,6 +65,9 @@ public class TWDGameManager {
         xPortas = 0; // reset variavel xPortas safeHaven.
         yPortas = 0; // reset variavel yPortas safeHaven.
         nrTurno = 0; // reset variavel turnos.
+
+        nrDias = 6;
+        nrNoites = 6;
 
         String[] dados = new String[5];
         try {
@@ -324,6 +320,7 @@ public class TWDGameManager {
         } catch (FileNotFoundException ex) {
             if (!ficheiroInicial.isFile()) {
                 System.out.println("Erro.: " + ex.getMessage());
+                throw new FileNotFoundException();
             }
         }
     }

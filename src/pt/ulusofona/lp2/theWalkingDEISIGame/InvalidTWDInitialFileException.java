@@ -11,8 +11,7 @@ public class InvalidTWDInitialFileException extends Exception {
     private int linhaCreatures;
     private int nrCreatures;
 
-    public InvalidTWDInitialFileException(boolean validCreatures, int nrCreatures) {
-        this.conteudoErrado = validCreatures;
+    public InvalidTWDInitialFileException( int nrCreatures) {
         this.nrCreatures = nrCreatures;
     }
 

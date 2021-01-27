@@ -3,7 +3,9 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.CharBuffer;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -101,7 +103,7 @@ public class TWDGameManager {
             nLinhas = nC;
 
             if (nC < 2) {
-                throw new InvalidTWDInitialFileException(false, nC);
+                throw new InvalidTWDInitialFileException(nC);
             }
 
             // enquanto o ficheiro tiver linhas não-lidas
@@ -306,7 +308,7 @@ public class TWDGameManager {
 
         } catch (InvalidTWDInitialFileException exception) {
             if (nC < 2) {
-                throw new InvalidTWDInitialFileException(exception.validNrOfCreatures(), nC);
+                throw new InvalidTWDInitialFileException(nC);
             }
 
             if (dados.length != 5) {
@@ -756,6 +758,20 @@ public class TWDGameManager {
     }
 
     public boolean loadGame(File fich) {
+
+        /*// retorna o separador de linha, ou seja será a quebra de linha quando chegar a final de uma linha lida
+        String nextLine = System.lineSeparator();
+
+        try {
+            FileReader loadFich = new FileReader(fich);
+
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Erro: " + e.getMessage());
+            return false;
+        }*/
         return false;
     }
 

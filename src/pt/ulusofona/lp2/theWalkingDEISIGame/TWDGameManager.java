@@ -101,7 +101,7 @@ public class TWDGameManager {
             nLinhas = nC;
 
             if (nC < 2) {
-                throw new InvalidTWDInitialFileException(linhaAtual, 2, nC);
+                throw new InvalidTWDInitialFileException(false);
             }
 
             // enquanto o ficheiro tiver linhas não-lidas
@@ -306,9 +306,7 @@ public class TWDGameManager {
 
         } catch (InvalidTWDInitialFileException exception) {
             if (nC < 2) {
-                throw new InvalidTWDInitialFileException(linhaAtual);
-            } else {
-                exception.validNrOfCreatures();
+                throw new InvalidTWDInitialFileException(exception.validNrOfCreatures());
             }
 
             if (dados.length != 5) {

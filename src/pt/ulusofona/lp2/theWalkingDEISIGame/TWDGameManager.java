@@ -101,7 +101,7 @@ public class TWDGameManager {
             nLinhas = nC;
 
             if (nC < 2) {
-                throw new InvalidTWDInitialFileException(linhaAtual++, 2, nC);
+                throw new InvalidTWDInitialFileException(linhaAtual, 2, nC);
             }
 
             // enquanto o ficheiro tiver linhas não-lidas
@@ -115,7 +115,7 @@ public class TWDGameManager {
                     dados = linha.split(":");
 
                     if (dados.length != 5) {
-                        throw new InvalidTWDInitialFileException(linhaAtual++, 5, dados.length);
+                        throw new InvalidTWDInitialFileException(linhaAtual, 5, dados.length);
                     }
 
                     // Converte as Strings lidas para os tipos esperados
@@ -305,17 +305,17 @@ public class TWDGameManager {
             leitor.close();
 
         } catch (InvalidTWDInitialFileException exception) {
-            if (nC > 2) {
-                exception.validNrOfCreatures();
+            if (nC < 2) {
+                throw new InvalidTWDInitialFileException(linhaAtual);
             } else {
-                throw new InvalidTWDInitialFileException(false);
+                exception.validNrOfCreatures();
             }
 
-            if (dados.length == 5) {
-                exception.validCreatureDefinition();
-            } else {
+            if (dados.length != 5) {
                 System.out.println("Error.: " + exception.getErroneousLine());
-                throw new InvalidTWDInitialFileException(false);
+                throw new InvalidTWDInitialFileException(linhaAtual, 5, dados.length);
+            } else {
+                exception.validCreatureDefinition();
             }
 
         } catch (FileNotFoundException ex) {

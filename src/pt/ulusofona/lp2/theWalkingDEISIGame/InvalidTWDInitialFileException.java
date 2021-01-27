@@ -20,6 +20,10 @@ public class InvalidTWDInitialFileException extends Exception {
         this.dados = dados;
     }
 
+    public InvalidTWDInitialFileException(int linhaCreatures) {
+        this.linhaCreatures = linhaCreatures;
+    }
+
     // Este método deve devolver true se e só
     // se o ficheiro tiver pelo menos 2 criaturas
     public boolean validNrOfCreatures() {
@@ -38,10 +42,12 @@ public class InvalidTWDInitialFileException extends Exception {
     public String getErroneousLine() {
         if (dados > creatutesDefinition) {
             return "Dados a mais ( esperava criatura com: " + creatutesDefinition + " dados " + "mas obtive " + dados + " dados" +" )."
-                    + " A seguir a " + linhaCreatures + "ª linha está errado.";
+                    + " Na linha " + linhaCreatures + " os dados estam errados.";
         } else if (dados < creatutesDefinition){
             return "Dados a menos ( esperava criatura com " + creatutesDefinition + " dados " + "mas obtive " + dados + " dados" +" )."
-                    + " A seguir a " + linhaCreatures + "ª linha está errado.";
+                    + " Na linha " + linhaCreatures + " os dados estam errados.";
+        } else if (conteudoErrado){
+            return "A linha " + linhaCreatures + " está errada.";
         } else {
             return "";
         }

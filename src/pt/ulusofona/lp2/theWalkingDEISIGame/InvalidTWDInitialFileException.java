@@ -9,9 +9,11 @@ public class InvalidTWDInitialFileException extends Exception {
     private int creatutesDefinition;
     private int dados;
     private int linhaCreatures;
+    private int nrCreatures;
 
-    public InvalidTWDInitialFileException(boolean validCreatures) {
+    public InvalidTWDInitialFileException(boolean validCreatures, int nrCreatures) {
         this.conteudoErrado = validCreatures;
+        this.nrCreatures = nrCreatures;
     }
 
     public InvalidTWDInitialFileException(int linhaCreatures, int creatutesDefinition, int dados) {
@@ -23,7 +25,11 @@ public class InvalidTWDInitialFileException extends Exception {
     // Este método deve devolver true se e só
     // se o ficheiro tiver pelo menos 2 criaturas
     public boolean validNrOfCreatures() {
-        return this.conteudoErrado;
+        if (nrCreatures < 2) {
+            return conteudoErrado = false;
+        } else {
+            return conteudoErrado = true;
+        }
     }
 
     // Este método deve devolver true se e só
@@ -61,5 +67,9 @@ public class InvalidTWDInitialFileException extends Exception {
 
     public boolean isMaisQue2Creatures() {
         return conteudoErrado;
+    }
+
+    public int getNrCreatures() {
+        return nrCreatures;
     }
 }

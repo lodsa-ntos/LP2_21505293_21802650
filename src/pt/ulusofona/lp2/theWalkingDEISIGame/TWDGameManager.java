@@ -6,8 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -752,27 +755,248 @@ public class TWDGameManager {
             return true;
 
         } catch (Exception e) {
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println("Erro.: " + e.getMessage());
             return false;
         }
     }
 
     public boolean loadGame(File fich) {
 
-        /*// retorna o separador de linha, ou seja será a quebra de linha quando chegar a final de uma linha lida
-        String nextLine = System.lineSeparator();
+        String[] dados = new String[5];
 
         try {
-            FileReader loadFich = new FileReader(fich);
 
+            Scanner leitor;
+
+            leitor = new Scanner(fich);
+
+            String linha;
+
+            // Primeira linha que indica as linhas e as colunas do mapa.
+            // ler uma linha do ficheiro
+            linha = leitor.nextLine();
+
+            // vai quebrando a string em varias substrings a partir do espaco vazio
+            String[] mapa = linha.split(" ");
+
+            numLinha = Integer.parseInt(mapa[0].trim()); // guarda na primeira posicao do array o numLinha
+            numColuna = Integer.parseInt(mapa[1].trim()); // guarda na segunda posicao do array o numColuna
+
+            // Segunda linha que indica qual é o ID da equipa que começa o jogo.
+            // ler uma linha do ficheiro
+            linha = leitor.nextLine();
+            idEquipaAtual = Integer.parseInt(linha);
+
+            // Terceira linha que indica o número de criaturas em jogo.
+            // ler uma linha do ficheiro
+            linha = leitor.nextLine();
+            nC = Integer.parseInt(linha);
+
+            int nLinhas;
+            nLinhas = nC;
+
+            // enquanto o ficheiro tiver linhas não-lidas
+            while (leitor.hasNextLine()) {
+
+                if (linhaAtual < nLinhas) {
+                    // lê uma linha do ficheiro até achar uma quebra de linha
+                    linha = leitor.nextLine();
+
+                    // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
+                    dados = linha.split(":");
+
+                    // Converte as Strings lidas para os tipos esperados
+                    // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
+                    int id = Integer.parseInt(dados[0].trim());
+                    int idTipo = Integer.parseInt(dados[1].trim());
+                    String nome = dados[2].trim();
+                    int posX = Integer.parseInt(dados[3].trim());
+                    int posY = Integer.parseInt(dados[4].trim());
+
+                    //Verificar se o idTipo é zombie ou humano e adiciona na lista de criaturas
+                    switch (idTipo) {
+                        case 0:
+                        case 5:
+                            Creature crianca = new Crianca(id, idTipo, nome, posX, posY);
+                            creatures.add(crianca); // adiciona crianca
+                            crianca.setTipo(idTipo);
+                            crianca.setEquipa(idTipo);
+                            crianca.getNrCriaturasZombies();
+                            System.out.println(crianca.toString()); // imprime crianca
+                            break;
+
+                        case 1:
+                        case 6:
+                            // adiciona aduto
+                            // imprime adulto
+                            Creature adulto = new Adulto(id, idTipo, nome, posX, posY);
+                            creatures.add(adulto);
+                            adulto.setTipo(idTipo);
+                            adulto.setEquipa(idTipo);
+                            adulto.getNrCriaturasZombies();
+                            System.out.println(adulto.toString());
+                            break;
+
+                        case 2:
+                        case 7:
+                            Creature militar = new Militar(id, idTipo, nome, posX, posY);
+                            creatures.add(militar); // adiciona militar
+                            militar.setTipo(idTipo);
+                            militar.setEquipa(idTipo);
+                            militar.getNrCriaturasZombies();
+                            System.out.println(militar.toString()); // imprime militar
+                            break;
+
+                        case 3:
+                        case 8:
+                            Creature idoso = new Idoso(id, idTipo, nome, posX, posY);
+                            creatures.add(idoso); // adiciona idoso
+                            idoso.setTipo(idTipo);
+                            idoso.setEquipa(idTipo);
+                            idoso.getNrCriaturasZombies();
+                            System.out.println(idoso.toString()); // imprime idoso
+                            break;
+
+                        case 4:
+                            Creature zombieVamp = new ZombieVampiro(id, idTipo, nome, posX, posY);
+                            creatures.add(zombieVamp); // adiciona zombie
+                            zombieVamp.setTipo(idTipo);
+                            zombieVamp.setEquipa(idTipo);
+                            System.out.println(zombieVamp.toString()); // imprime zombie
+                            break;
+
+                        case 9:
+                            Creature cao = new Cao(id, idTipo, nome, posX, posY);
+                            creatures.add(cao); // adiciona humano
+                            cao.setTipo(idTipo);
+                            cao.setEquipa(idTipo);
+                            System.out.println(cao.toString()); // imprime humano
+                            break;
+
+                        default:
+                            System.out.println("Erro! Criatura não adicionada!");
+                            break;
+                    }
+
+                    linhaAtual++;
+
+                } else if (linhaAtual == nLinhas) { // verifica se as primeiras linhas ja foram lidas
+                    // Setima linha que indica o número de equipamentos em jogo.
+                    // ler uma linha do ficheiro
+                    linha = leitor.nextLine();
+                    nE = Integer.parseInt(linha);
+                    System.out.println(nE);
+
+                    int linhaPorta;
+                    linhaPorta = nE;
+                    linhaPorta += nLinhas;
+
+                    // enquanto o ficheiro tiver linhas não-lidas depois da anterior, lê as linhas com equipamentos
+                    while (leitor.hasNextLine()) {
+
+                        if (linhaAtual < linhaPorta) {
+                            // lê uma linha do ficheiro até achar uma quebra de linha
+                            linha = leitor.nextLine();
+
+                            // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
+                            String[] novaFila = linha.split(":");
+
+                            // Converte as Strings lidas para os tipos esperados
+                            // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
+                            int id = Integer.parseInt(novaFila[0].trim());
+                            int idTipo = Integer.parseInt(novaFila[1].trim());
+                            int posX = Integer.parseInt(novaFila[2].trim());
+                            int posY = Integer.parseInt(novaFila[3].trim());
+
+                            //Verificar se o idTipo é Escudo ou Espada e adiciona na respetiva lista
+                            if (idTipo == 0) {
+                                Equipamento escudo = new EscudoMadeira(id, idTipo, posX, posY);
+                                equipamentos.add(escudo); // adiciona equipamento
+                                escudo.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(escudo.toString());
+                            } else if (idTipo == 1) {
+                                Equipamento espada = new EspadaHanzo(id, idTipo, posX, posY);
+                                equipamentos.add(espada); // adiciona equipamento
+                                espada.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(espada.toString());
+                            } else if (idTipo == 2) {
+                                Equipamento pistola = new Pistola(id, idTipo, posX, posY);
+                                equipamentos.add(pistola); // adiciona equipamento
+                                pistola.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(pistola.toString());
+                            } else if (idTipo == 3) {
+                                Equipamento escTatico = new EscudoTatico(id, idTipo, posX, posY);
+                                equipamentos.add(escTatico); // adiciona equipamento
+                                escTatico.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(escTatico.toString());
+                            } else if (idTipo == 4) {
+                                Equipamento revista = new RevistaMaria(id, idTipo, posX, posY);
+                                equipamentos.add(revista); // adiciona equipamento
+                                revista.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(revista.toString());
+                            } else if (idTipo == 5) {
+                                Equipamento cabecaAlho = new Alho(id, idTipo, posX, posY);
+                                equipamentos.add(cabecaAlho); // adiciona equipamento
+                                cabecaAlho.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(cabecaAlho.toString());
+                            } else if (idTipo == 6) {
+                                Equipamento estaca = new EstacaMadeira(id, idTipo, posX, posY);
+                                equipamentos.add(estaca); // adiciona equipamento
+                                estaca.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(estaca.toString());
+                            } else if (idTipo == 7) {
+                                Equipamento garrafaLixivia = new Lixivia(id, idTipo, posX, posY);
+                                equipamentos.add(garrafaLixivia); // adiciona equipamento
+                                garrafaLixivia.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(garrafaLixivia.toString());
+                            } else if (idTipo == 8) {
+                                Equipamento veneno = new Veneno(id, idTipo, posX, posY);
+                                equipamentos.add(veneno); // adiciona equipamento
+                                veneno.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(veneno.toString());
+                            } else if (idTipo == 9) {
+                                Equipamento antidoto = new Antidoto(id, idTipo, posX, posY);
+                                equipamentos.add(antidoto); // adiciona equipamento
+                                antidoto.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(antidoto.toString());
+                            } else if (idTipo == 10) {
+                                Equipamento capacete = new BeskarHelmet(id, idTipo, posX, posY);
+                                equipamentos.add(capacete); // adiciona equipamento
+                                capacete.setIdTipo(idTipo); // chama o tipo de equipamento e diz-me se é Escudo ou Espada
+                                System.out.println(capacete.toString());
+                            }
+
+                            linhaAtual++;
+
+                        } else if (linhaAtual == linhaPorta) {
+                            linha = leitor.nextLine();
+                            nP = Integer.parseInt(linha);
+
+                            while (leitor.hasNextLine()) {
+                                // lê uma linha do ficheiro até achar uma quebra de linha
+                                linha = leitor.nextLine();
+
+                                // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
+                                String[] porta = linha.split(":");
+
+                                // Converte as Strings lidas para os tipos esperados
+                                // "trim()" --> retira espaços a mais que estejam no inicio e no fim do texto (espaços padrao)
+                                xPortas = Integer.parseInt(porta[0].trim()); // guarda na primeira posicao do array o x
+                                yPortas = Integer.parseInt(porta[1].trim()); // guarda na segunda posicao do array o y
+                            }
+                        }
+                    }
+                }
+            }
+
+            leitor.close();
 
             return true;
 
         } catch (Exception e) {
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println("Erro.: " + e.getMessage());
             return false;
-        }*/
-        return false;
+        }
     }
 
     public String[] popCultureExtravaganza() {

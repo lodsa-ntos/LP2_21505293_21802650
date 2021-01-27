@@ -24,11 +24,7 @@ public class InvalidTWDInitialFileException extends Exception {
     // Este método deve devolver true se e só
     // se o ficheiro tiver pelo menos 2 criaturas
     public boolean validNrOfCreatures() {
-        if (nrCreatures < 2) {
-            return true;
-        } else {
-            return true;
-        }
+        return nrCreatures >= 2;
     }
 
     // Este método deve devolver true se e só

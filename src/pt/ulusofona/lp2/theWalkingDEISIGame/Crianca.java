@@ -18,13 +18,12 @@ public class Crianca extends Creature {
         super(id, idTipo, nome, xAtual, yAtual);
     }
 
-    int count = 3;
-
     @Override
     public boolean move(int xO, int yO, int xD, int yD,
                         Creature creatureDestino, ArrayList<Creature> creatures) {
 
-        // verifica horizontalmente e verticalmente
+        // verifica horizontalmente
+        // verifica verticalmente
         if (Math.abs(xD - xO) == 1 && Math.abs(yD - yO) == 0 ||
                 Math.abs(xD - xO) == 0 && Math.abs(yD - yO) == 1) {
 
@@ -93,7 +92,7 @@ public class Crianca extends Creature {
                         return false;
                 }
 
-            // CRIANÇA ZOMBIE
+                // CRIANÇA ZOMBIE
             } else if (this.idTipo == 0) {
                 // caso for zombie
                 // verifica se o vivo tem equipamentos
@@ -130,7 +129,7 @@ public class Crianca extends Creature {
                                 creatureDestino.equipamentos.remove(0);
                             }
                             // incrementa o numero de salvacao feita pelo equipamento
-                            creatureDestino.equipamentos.get(1).incrementaNrSalvacoes();
+                            //creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
                             return true;
                         case 3:
                             // Escudo Tatico
@@ -155,7 +154,7 @@ public class Crianca extends Creature {
                             // veneno
                             return false;
                         case 9:
-                        //antidoto
+                            //antidoto
                             return false;
                     }
                     // caso com equip ofensivo

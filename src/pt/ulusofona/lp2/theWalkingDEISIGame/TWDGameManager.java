@@ -68,7 +68,7 @@ public class TWDGameManager {
         yPortas = 0; // reset variavel yPortas safeHaven.
         nrTurno = 0; // reset variavel turnos.
 
-        String erro;
+        String[] dados = new String[5];
         try {
 
             Scanner leitor;
@@ -100,6 +100,10 @@ public class TWDGameManager {
             int nLinhas;
             nLinhas = nC;
 
+            if (nC < 2) {
+                throw new InvalidTWDInitialFileException(linhaAtual++, 2, nC);
+            }
+
             // enquanto o ficheiro tiver linhas não-lidas
             while (leitor.hasNextLine()) {
 
@@ -108,9 +112,9 @@ public class TWDGameManager {
                     linha = leitor.nextLine();
 
                     // vai quebrando a string em varias substrings a partir do caracter dois pontos (separador)
-                    String[] dados = linha.split(":");
+                    dados = linha.split(":");
 
-                    if(dados.length != 5) {
+                    if (dados.length != 5) {
                         throw new InvalidTWDInitialFileException(linhaAtual++, 5, dados.length);
                     }
 
@@ -123,7 +127,7 @@ public class TWDGameManager {
                     int posY = Integer.parseInt(dados[4].trim());
 
                     //Verificar se o idTipo é zombie ou humano e adiciona na lista de criaturas
-                    switch(idTipo) {
+                    switch (idTipo) {
                         case 0:
                         case 5:
                             Creature crianca = new Crianca(id, idTipo, nome, posX, posY);
@@ -277,7 +281,7 @@ public class TWDGameManager {
 
                             linhaAtual++;
 
-                        }  else if (linhaAtual == linhaPorta) {
+                        } else if (linhaAtual == linhaPorta) {
                             linha = leitor.nextLine();
                             nP = Integer.parseInt(linha);
 
@@ -301,18 +305,23 @@ public class TWDGameManager {
             leitor.close();
 
         } catch (InvalidTWDInitialFileException exception) {
-            if (nC < 2) {
-                if (exception.validNrOfCreatures()) {
-                    System.out.println("Número de criaturas inválidas");
-                }
+            if (nC > 2) {
+                exception.validNrOfCreatures();
+            } else {
+                throw new InvalidTWDInitialFileException(false);
             }
 
-            if (!exception.validCreatureDefinition()) {
+            if (dados.length == 5) {
+                exception.validCreatureDefinition();
+            } else {
                 System.out.println("Error.: " + exception.getErroneousLine());
+                throw new InvalidTWDInitialFileException(false);
             }
-        }
-        catch (FileNotFoundException ex) {
-                System.out.println("Erro.: o ficheiro nao foi encontrado.");
+
+        } catch (FileNotFoundException ex) {
+            if (!ficheiroInicial.isFile()) {
+                System.out.println("Erro.: " + ex.getMessage());
+            }
         }
     }
 

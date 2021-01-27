@@ -4,11 +4,15 @@ import java.util.Arrays;
 
 public class InvalidTWDInitialFileException extends Exception {
 
-    private boolean maisQue2Creatures;
+    private boolean conteudoErrado;
 
     private int creatutesDefinition;
     private int dados;
     private int linhaCreatures;
+
+    public InvalidTWDInitialFileException(boolean validCreatures) {
+        this.conteudoErrado = validCreatures;
+    }
 
     public InvalidTWDInitialFileException(int linhaCreatures, int creatutesDefinition, int dados) {
         this.linhaCreatures = linhaCreatures;
@@ -16,14 +20,10 @@ public class InvalidTWDInitialFileException extends Exception {
         this.dados = dados;
     }
 
-    public InvalidTWDInitialFileException(boolean validCreatures) {
-        this.maisQue2Creatures = validCreatures;
-    }
-
     // Este método deve devolver true se e só
     // se o ficheiro tiver pelo menos 2 criaturas
     public boolean validNrOfCreatures() {
-        return this.maisQue2Creatures = true;
+        return this.conteudoErrado = true;
     }
 
     // Este método deve devolver true se e só
@@ -60,6 +60,6 @@ public class InvalidTWDInitialFileException extends Exception {
     }
 
     public boolean isMaisQue2Creatures() {
-        return maisQue2Creatures;
+        return conteudoErrado;
     }
 }

@@ -16,7 +16,7 @@ public abstract class Equipamento {
 
     protected int countUsos;
     protected boolean escudoUsado;
-    protected int nrSalvacoes;
+    protected int nrSalvacoes = 0;
 
     protected ArrayList<Equipamento> equipamentosQueSafaram = new ArrayList<>();
 
@@ -118,7 +118,7 @@ public abstract class Equipamento {
     }
 
     public void incrementaNrSalvacoes() {
-        this.nrSalvacoes++;
+        this.nrSalvacoes += 1;
     }
 
     @Override

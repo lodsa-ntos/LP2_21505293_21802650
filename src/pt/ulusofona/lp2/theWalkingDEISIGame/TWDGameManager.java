@@ -440,8 +440,8 @@ public class TWDGameManager {
                                                     if (creatureDestino.getIdTipo() == 5 || creatureDestino.getIdTipo() == 6
                                                             || creatureDestino.getIdTipo() == 7 || creatureDestino.getIdTipo() == 8) {
 
-                                                        if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
-                                                            creatureDestino.equipamentos.get(0).isBroken();
+                                                        if (creatureDestino.equipamentos.get(0).getCountUsos() == -1) {
+                                                            //creatureDestino.equipamentos.get(0).isBroken();
                                                             /* A pistola não tem efeito contra Zombies Vampiros */
                                                             /* vamos transformar o vivo em zombie */
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
@@ -544,10 +544,25 @@ public class TWDGameManager {
                                                     }
 
                                                 case 7:
-                                                    /* Interação com a Lixivia */
+                                                    /* diminuimos a protecao ... */
+                                                    creatureDestino.getEquipamentosVivos().get(0).diminuiCountUsos();
+
                                                     creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
+
+                                                    if (creatureDestino.equipamentos.get(0).getCountUsos() == -1) {
+                                                        /* vamos transformar o vivo em zombie */
+                                                        creatureOrigem.transformaEmZombie(creatureDestino);
+                                                        creatureDestino.setTransformado(true);
+                                                        creatureOrigem.countTransformacoesFeitasPorZombies();
+                                                        /* e destrui-mos o equipamento */
+                                                        creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                        incrementarTurno();
+                                                        return true;
+                                                    }
+
                                                     incrementarTurno();
-                                                    return false;
+                                                    return true;
+
                                                 case 8:
                                                 case 9:
                                                 case 10:
@@ -601,6 +616,7 @@ public class TWDGameManager {
                                             }
                                         }
 
+                                        /* Se idoso tentar apanhar equipamento a noite returna falso */
                                         if (creatureOrigem.getIdTipo() == 8 && isDay() == false) {
                                             return false;
                                         }
@@ -856,37 +872,41 @@ public class TWDGameManager {
                     /* Movimentação a partir do Zombie Vampiro */
                     if (creatureOrigem.getIdEquipa() == 20) {
                         /* Zombie Vampiro só se movem em turnos nocturnos */
-                        if (creatureOrigem.getIdTipo() == 4 && !isDay()) {
-                            if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                creatureOrigem.setxAtual(xD);
-                                creatureOrigem.setyAtual(yD);
-                                for (Equipamento eq : equipamentos) {
-                                    /* caso o zombie vampiro encontre o equipamento deve-o destruir */
-                                    if (!encontrouEquip) {
-                                        if (eq.getxAtual() == xO && eq.getyAtual() == yO) {
-                                            /* Se for zombie vamp vs alho retorna falso */
-                                            if (creatureOrigem.getIdTipo() == 4 && eq.getIdTipo() == 5) {
-                                                return false;
+                        if (creatureOrigem.getIdTipo() == 4) {
+                            if (isDay() == false) {
+                                if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                    creatureOrigem.setxAtual(xD);
+                                    creatureOrigem.setyAtual(yD);
+                                    for (Equipamento eq : equipamentos) {
+                                        /* caso o zombie vampiro encontre o equipamento deve-o destruir */
+                                        if (!encontrouEquip) {
+                                            if (eq.getxAtual() == xO && eq.getyAtual() == yO) {
+                                                /* Se for zombie vamp vs alho retorna falso */
+                                                if (creatureOrigem.getIdTipo() == 4 && eq.getIdTipo() == 5) {
+                                                    return false;
+                                                }
+                                                /* Removemos o equipamento */
+                                                equipamentos.remove(eq);
+                                                /* Adiciona-o nos equipamentos destruidos */
+                                                creatureOrigem.destruidos.add(eq);
+                                                creatureOrigem.setxAtual(xD);
+                                                creatureOrigem.setyAtual(yD);
+                                                incrementarTurno();
+                                                return true;
                                             }
-                                            /* Removemos o equipamento */
-                                            equipamentos.remove(eq);
-                                            /* Adiciona-o nos equipamentos destruidos */
-                                            creatureOrigem.destruidos.add(eq);
-                                            creatureOrigem.setxAtual(xD);
-                                            creatureOrigem.setyAtual(yD);
-                                            incrementarTurno();
-                                            return true;
                                         }
                                     }
+                                    incrementarTurno();
+                                    return true;
                                 }
-                                incrementarTurno();
-                                return true;
+                            } else {
+                                return false;
                             }
 
                             /* Se forem outros zombies */
                         } else if (creatureOrigem.getIdTipo() != 4) {
 
-                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
+                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                 return false;
                             }
 

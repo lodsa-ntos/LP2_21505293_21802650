@@ -43,8 +43,8 @@ public class Militar extends Creature {
 
                 case 2: { /* Interação com a Pistola */
 
-                    if (getEquipamentosVivos().get(0).getCountUsos() == 0) {
-                        getEquipamentosVivos().get(0).isBroken();
+                    if (getEquipamentosVivos().get(0).getCountUsos() == -1) {
+                        //getEquipamentosVivos().get(0).isBroken();
                         return false;
                     }
 

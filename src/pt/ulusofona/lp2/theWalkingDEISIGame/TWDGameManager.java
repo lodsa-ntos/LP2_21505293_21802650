@@ -3,7 +3,6 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -1387,7 +1386,7 @@ public class TWDGameManager {
         estatisticaDoJogo.put("os3ZombiesMaisTramados", zombiesTramado());
         estatisticaDoJogo.put("os3VivosMaisDuros", vivosDuros());
         estatisticaDoJogo.put("tiposDeEquipamentoMaisUteis", equipamentosUteis());
-        estatisticaDoJogo.put("tiposDeZombiesESeusEquipamentosDestruidos", TiposZombiesEEquipamentosDestruidos());
+        estatisticaDoJogo.put("tiposDeZombiesESeusEquipamentosDestruidos", tiposZombiesEEquipamentosDestruidos());
         estatisticaDoJogo.put("criaturasMaisEquipadas", criaturasMaisEquipamentosApanharam());
 
         return estatisticaDoJogo;
@@ -1461,7 +1460,7 @@ public class TWDGameManager {
     /* TODO falta implementar o desempate e o numero de equipamentos */
     /* <Nome do Tipo>:<ID_Zombies>:<NrEquipamentos> */
     /* Qual o total de equipamentos destruidos por cada tipo de zombie? */
-    private List<String> TiposZombiesEEquipamentosDestruidos() {
+    private List<String> tiposZombiesEEquipamentosDestruidos() {
 
         List<String> zombieScore;
 

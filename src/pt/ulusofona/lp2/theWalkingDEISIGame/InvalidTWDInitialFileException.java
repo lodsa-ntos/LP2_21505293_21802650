@@ -1,24 +1,15 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
-import java.util.Arrays;
-
 public class InvalidTWDInitialFileException extends Exception {
 
-    private boolean conteudoErrado;
+    boolean creaturesDefinition;
+    int nrCreatures;
+    String linhaCreatures;
 
-    private int creatutesDefinition;
-    private int dados;
-    private int linhaCreatures;
-    private int nrCreatures;
-
-    public InvalidTWDInitialFileException( int nrCreatures) {
+    public InvalidTWDInitialFileException(int nrCreatures, boolean creaturesDefinition, String linhaCreatures) {
         this.nrCreatures = nrCreatures;
-    }
-
-    public InvalidTWDInitialFileException(int linhaCreatures, int creatutesDefinition, int dados) {
+        this.creaturesDefinition = creaturesDefinition;
         this.linhaCreatures = linhaCreatures;
-        this.creatutesDefinition = creatutesDefinition;
-        this.dados = dados;
     }
 
     // Este método deve devolver true se e só
@@ -31,40 +22,12 @@ public class InvalidTWDInitialFileException extends Exception {
     // se o ficheiro os dados completos para todas as
     // criaturas
     public boolean validCreatureDefinition() {
-        return dados == 5;
+        return creaturesDefinition = true;
     }
 
     // Este método deve devolver a primeira linha que descreve uma criatura que tenha dados a
     //menos ou a mais
     public String getErroneousLine() {
-        if (dados > creatutesDefinition) {
-            return "Dados a mais ( esperava criatura com: " + creatutesDefinition + " dados " + "mas obtive " + dados + " dados" +" )."
-                    + " Na linha " + linhaCreatures + " os dados estam errados.";
-        } else if (dados < creatutesDefinition){
-            return "Dados a menos ( esperava criatura com " + creatutesDefinition + " dados " + "mas obtive " + dados + " dados" +" )."
-                    + " Na linha " + linhaCreatures + " os dados estam errados.";
-        } else {
-            return "";
-        }
-    }
-
-    public int getCreatutesDefinition() {
-        return creatutesDefinition;
-    }
-
-    public int getDados() {
-        return dados;
-    }
-
-    public int getLinhaCreatures() {
         return linhaCreatures;
-    }
-
-    public boolean isMaisQue2Creatures() {
-        return conteudoErrado;
-    }
-
-    public int getNrCreatures() {
-        return nrCreatures;
     }
 }

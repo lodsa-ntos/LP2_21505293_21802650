@@ -3,22 +3,21 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public abstract class Equipamento {
+public class Equipamento {
 
-    protected int id;
-    protected int idTipo;
-    protected String titulo;
+    private int id;
+    private int idTipo;
+    private String titulo;
 
-    protected int xAtual;
-    protected int yAtual;
-    protected int xAnterior;
-    protected int yAnterior;
+    private int xAtual;
+    private int yAtual;
+    private int countUsos;
+    private int nrSalvacoes = 0;
+    private boolean escudoUsado;
+    protected boolean isEquipamento;
+    protected boolean isEquipmentZombie;
 
-    protected int countUsos;
-    protected boolean escudoUsado;
-    protected int nrSalvacoes = 0;
-
-    protected ArrayList<Equipamento> equipamentosQueSafaram = new ArrayList<>();
+    ArrayList<Equipamento> equipamentosQueSafaram = new ArrayList<>();
 
     public Equipamento() {
     }
@@ -28,7 +27,29 @@ public abstract class Equipamento {
         this.idTipo = idTipo;
         this.xAtual = xAtual;
         this.yAtual = yAtual;
-        countUsos = 0;
+        this.escudoUsado = false;
+        if(idTipo == 0) {
+            //Escudo de madeira
+            // Equipamento Defensivo
+            /*Protecao contra 1 ataque zombie*/
+            countUsos = 1;
+        } else if(idTipo == 2) {
+            //Pistola
+            // Equipamento Ofensivo
+            /*Tem 3 balas (permite matar 3 balas)*/
+            countUsos = 3;
+        } else if(idTipo == 7) {
+            //Lixivia
+            // Equipamento Defensivo
+            /*Protecao contra ataques zombies (Necessário 3 litros de lixivia)*/
+            countUsos = 3;
+        } else if(idTipo == 8) {
+            //Veneno
+            // Equipamento Defensivo
+            /*Protecao durante 2 turnos*/
+            /*Se o "Vivo" estiver envenenado durante 3 turnos, morre*/
+            countUsos = 3;
+        }
     }
 
     public int getId() {
@@ -47,16 +68,16 @@ public abstract class Equipamento {
         return xAtual;
     }
 
+    public void setxAtual(int xAtual) {
+        this.xAtual = xAtual;
+    }
+
     public int getyAtual() {
         return yAtual;
     }
 
-    public int getxAnterior() {
-        return xAnterior;
-    }
-
-    public int getyAnterior() {
-        return yAnterior;
+    public void setyAtual(int yAtual) {
+        this.yAtual = yAtual;
     }
 
     public void setTitulo(String titulo) {
@@ -101,6 +122,8 @@ public abstract class Equipamento {
         this.countUsos -= 1;
     }
 
+    public void isBroken() {this.countUsos = 0;}
+
     public boolean isEscudoUsado() {
         return escudoUsado;
     }
@@ -113,12 +136,28 @@ public abstract class Equipamento {
         return equipamentosQueSafaram;
     }
 
+    public void incrementaNrSalvacoes() {
+        this.nrSalvacoes++;
+    }
+
     public int getNrSalvacoes() {
         return nrSalvacoes;
     }
 
-    public void incrementaNrSalvacoes() {
-        this.nrSalvacoes += 1;
+    public boolean encontrouEquipamento() {
+        return isEquipamento;
+    }
+
+    public void encontrouEquipamento(boolean isEquipamento) {
+        this.isEquipamento = isEquipamento;
+    }
+
+    public boolean foundEquipmentZombie() {
+        return isEquipmentZombie;
+    }
+
+    public void foundEquipmentZombie(boolean isEquipmentZombie) {
+        this.isEquipmentZombie = isEquipmentZombie;
     }
 
     @Override

@@ -2,84 +2,20 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.util.ArrayList;
 
-public class Adulto extends Creature {
+public class Coelho extends Creature {
 
-    public Adulto(int id, int idTipo, String nome, int xAtual, int yAtual) {
+    public Coelho(int id, int idTipo, String nome, int xAtual, int yAtual) {
         super(id, idTipo, nome, xAtual, yAtual);
     }
 
     @Override
-    protected boolean processarOCombate(int xO, int yO, int xD, int yD, Creature creature, ArrayList<Creature> creatures) {
-
-        /* ADULTO VIVO A ATACAR */
-        if (this.idTipo == 6) {
-
-            // se o vivo atacar sem equipamento nao é valido
-            if (this.equipamentos.size() == 0) {
-                return false;
-            }
-
-            /* EQUIPAMENTOS OFENSIVOS */
-            switch (this.equipamentos.get(0).getIdTipo()) {
-                case 1: /* Interação com a Espada */
-                case 6: /* Interação com o capacete Beskar Helmet */
-                case 10: { /* Interação com a Estaca de madeira */
-
-                    /* vamos destruir o zombie */
-                    creatures.remove(creature);
-                    TWDGameManager.zombiesDestruidos.add(creature);
-
-                    /* incrementa o numero de zombies destruidos */
-                    countZombiesDestruidos();
-                    creature.setZombieIsDestroyed(true);
-
-                    /* incrementa o numero de salvacao feita pelo equipamento */
-                    this.equipamentos.get(0).incrementaNrSalvacoes();
-
-                    this.setxAtual(creature.xAtual);
-                    this.setyAtual(creature.yAtual);
-                    return true;
-                }
-
-                case 2: { /* Interação com a Pistola */
-
-                    if (getEquipamentosVivos().get(0).getCountUsos() == 0) {
-                        getEquipamentosVivos().get(0).isBroken();
-                        return false;
-                    }
-
-                    if (creature.getIdTipo() != 4) {
-                        this.equipamentos.get(0).diminuiCountUsos();/* ataque VS outros zombies, diminui uma bala*/
-
-                        /* incrementa o numero de salvacao feita pelo equipamento */
-                        this.equipamentos.get(0).incrementaNrSalvacoes();
-
-                        /* vamos destruir o zombie */
-                        creatures.remove(creature);
-                        TWDGameManager.zombiesDestruidos.add(creature);
-
-                        /* incrementa o numero de zombies destruidos */
-                        countZombiesDestruidos();
-                        creature.setZombieIsDestroyed(true);
-
-                        this.setxAtual(creature.xAtual);
-                        this.setyAtual(creature.yAtual);
-                        return true;
-                    } else {
-                        /* A pistola não tem efeito contra Zombies Vampiros */
-                        return false;
-                    }
-                }
-            }
-        }
-
+    protected boolean processarOCombate(int xO, int yO, int xD, int yD, Creature creatureDestino, ArrayList<Creature> creatures) {
         return false;
     }
 
     @Override
     public boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino) {
-
-        return Math.abs(xO - xD) <= 2 && Math.abs(yO - yD) <= 2;
+        return (Math.abs(xD - xO) <= 0 || Math.abs(yD - yO) <= 0) && (Math.abs(xO - xD) > 1 || Math.abs(yO - yD) > 1);
     }
 
     @Override
@@ -118,13 +54,13 @@ public class Adulto extends Creature {
     }
 
     @Override
-    public int getYAtual() {
-        return yAtual;
+    public void setxAtual(int xAtual) {
+        this.xAtual = xAtual;
     }
 
     @Override
-    public void setxAtual(int xAtual) {
-        this.xAtual = xAtual;
+    public int getYAtual() {
+        return yAtual;
     }
 
     @Override
@@ -145,11 +81,11 @@ public class Adulto extends Creature {
     @Override
     public void setTipo(int idTipo) {
         switch (idTipo) {
-            case 1:
-                tipo = "Adulto (Zombie)";
+            case 12:
+                tipo = "Coelho (Vivo)";
                 break;
-            case 6:
-                tipo = "Adulto (Vivo)";
+            case 13:
+                tipo = "Coelho (Zombie)";
                 break;
             default:
                 tipo = "";
@@ -165,6 +101,7 @@ public class Adulto extends Creature {
             case 2:
             case 3:
             case 4:
+            case 13:
                 equipa = "Os Outros";
                 idEquipa = 20;
                 break;
@@ -173,6 +110,7 @@ public class Adulto extends Creature {
             case 7:
             case 8:
             case 9:
+            case 12:
                 equipa = "Os Vivos";
                 idEquipa = 10;
                 break;
@@ -321,10 +259,10 @@ public class Adulto extends Creature {
     @Override
     public String getImagePNG() {
         switch (idTipo){
-            case 1:
-                return "zombieAdulto.png";
-            case 6:
-                return "human.png";
+            case 12:
+                return "coelhoVivo.png";
+            case 13:
+                return "coelhoZombie.png";
         }
         return null;
     }
@@ -333,7 +271,9 @@ public class Adulto extends Creature {
     public String toString() {
         if (isInSafeHaven()){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos.size() + " @ A salvo";
-        } else if (isTransformado() || humanDeadPorEnvenenamento()){
+        } else if (isTransformado()){
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos.size() + " @ (RIP)";
+        } else if (humanDeadPorEnvenenamento()) {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos.size() + " @ (RIP)";
         } else if (zombieIsDestroyed()){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + destruidos.size() + " @ (RIP)";

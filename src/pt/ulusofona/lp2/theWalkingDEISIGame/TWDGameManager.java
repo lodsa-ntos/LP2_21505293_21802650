@@ -382,7 +382,7 @@ public class TWDGameManager {
                                                 case 0:
                                                     /* Interação com o Escudo de madeira */
 
-                                                    /* Quando militar defende, alteramos os estado de uso do escudo de madeira */
+                                                    /* Quando militar defende, alteramos o estado de uso do escudo de madeira */
                                                     if (creatureDestino.getIdTipo() == 7) {
                                                         creatureDestino.getEquipamentosVivos().get(0).escudoFoiUsado();
                                                     }
@@ -392,7 +392,7 @@ public class TWDGameManager {
 
                                                     creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
 
-                                                    if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
+                                                    if (creatureDestino.equipamentos.get(0).getCountUsos() == -1) {
                                                         // destrui-mos o equipamento
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                     }
@@ -543,7 +543,7 @@ public class TWDGameManager {
                                                         return true;
                                                     }
 
-                                                case 7:
+                                                case 7:/* Interação com a Lixivia */
                                                     /* diminuimos a protecao ... */
                                                     creatureDestino.getEquipamentosVivos().get(0).diminuiCountUsos();
 
@@ -616,7 +616,7 @@ public class TWDGameManager {
                                             }
                                         }
 
-                                        /* Se idoso tentar apanhar equipamento a noite returna falso */
+                                        /* Se idoso tentar apanhar equipamento a noite retorna falso */
                                         if (creatureOrigem.getIdTipo() == 8 && isDay() == false) {
                                             return false;
                                         }
@@ -927,6 +927,11 @@ public class TWDGameManager {
                             }
 
                             if (creatureOrigem.getIdTipo() == 13 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            /* Zombies nao se podem mover para o Safe Haven*/
+                            if (isDoorToSafeHaven(xD, yD)) {
                                 return false;
                             }
 

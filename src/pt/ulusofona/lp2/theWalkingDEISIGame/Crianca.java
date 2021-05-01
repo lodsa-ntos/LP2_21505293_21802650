@@ -52,7 +52,7 @@ public class Crianca extends Creature {
                             return false;
                         }
 
-                        if (creature.getIdTipo() != 4 && creature.getIdTipo() == 0) {
+                        if (creature.getIdTipo() != 4) {
                             this.equipamentos.get(0).diminuiCountUsos();/* ataque VS outros zombies, diminui uma bala*/
 
                             /* incrementa o numero de salvacao feita pelo equipamento */
@@ -71,7 +71,6 @@ public class Crianca extends Creature {
                             return true;
                         } else {
                             /* A pistola não tem efeito contra Zombies Vampiros */
-                            /* criança viva com pistola VS zombie que nao sejam crianca == jogada invalida */
                             return false;
                         }
                     }

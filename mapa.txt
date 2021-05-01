@@ -8,7 +8,7 @@
 5 : 5 : Cincinaty kid : 1 : 1
 6 : 4 : Paciente Zero Quando Era Novo : 1 : 0
 3
--1 : 5 : 0 : 1
+-1 : 7 : 0 : 1
 -2 : 1 : 1 : 2
 -3 : 1 : 2 : 2
 1

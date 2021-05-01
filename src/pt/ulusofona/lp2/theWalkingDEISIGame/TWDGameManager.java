@@ -1048,7 +1048,6 @@ public class TWDGameManager {
         int militarEmJogo = 0;
         int caoEmJogo = 0;
         int idosoEmJogo = 0;
-        int countTransformacao = 0;
 
         /* Sem vivos em jogo */
         for (Creature creatureOrigem : creatures) {
@@ -1077,7 +1076,7 @@ public class TWDGameManager {
             }
         }
 
-        /* Apenas idosos vivos em jogo no turno nocturno */
+        /* Apenas idosos vivos em jogo no turno nocturno, jogo termina */
         if (getCurrentTeamId() == 10) {
             if (!isDay()) {
                 return criancaEmJogo == 0 && adultoEmJogo == 0 && militarEmJogo == 0 && caoEmJogo == 0;
@@ -1119,7 +1118,7 @@ public class TWDGameManager {
             }
         }
 
-        /* Apenas Zombie Vampiro em jogo no turno diurno */
+        /* Apenas Zombie Vampiro em jogo no turno diurno , jogo termina*/
         if (getCurrentTeamId() == 20) {
             if (isDay()) {
                 return criancaZombieEmJogo == 0 && adultoZombieEmJogo == 0 && militarZombieEmJogo == 0 && idosoZombieEmJogo == 0;
@@ -1128,7 +1127,7 @@ public class TWDGameManager {
             }
         }
 
-        /* //TODO se houver transformacao o jogo continua ...
+        /* TODO se houver transformacao o jogo continua ...
               se não houver tranformacao o jogo termina no turno 12 */
         for (Creature creatureOrigem : creatures) {
             if (creatureOrigem.getIdEquipa() == 10) {
@@ -1137,7 +1136,6 @@ public class TWDGameManager {
                 }
             }
         }
-
 
         // O jogo termina se tiverem passados 3 dias e 3 noites ou se nao exitirem mais "Vivos" ou 'Zombies' em Jogo
         return ((nrTurno/2) >= nrMaxDiaENoite) || numeroVivosEmJogo == 0 || numeroZombiesEmJogo == 0;
@@ -1164,8 +1162,6 @@ public class TWDGameManager {
         for (Equipamento e : equipamentos){
             if (e.getxAtual() == x && e.getyAtual() == y && !e.encontrouEquipamento()){
                 return e.getId();
-            } else {
-                return -1;
             }
         }
 

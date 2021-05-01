@@ -1164,10 +1164,12 @@ public class TWDGameManager {
         for (Equipamento e : equipamentos){
             if (e.getxAtual() == x && e.getyAtual() == y && !e.encontrouEquipamento()){
                 return e.getId();
+            } else {
+                return -1;
             }
         }
 
-        return -1;
+        return 0;
     }
 
     public List<String> getGameResults() {

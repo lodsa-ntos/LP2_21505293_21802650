@@ -44,7 +44,7 @@ public class Cao extends Creature {
 
                 case 2: { /* Interação com a Pistola */
 
-                    if (this.equipamentos.get(0).getCountUsos() == -1) {
+                    if (this.equipamentos.get(0).getCountUsos() == 0) {
                         //getEquipamentosVivos().get(0).isBroken();
                         //this.getEquipamentosVivos().remove(this.equipamentos.get(0));
                         return false;
@@ -315,15 +315,15 @@ public class Cao extends Creature {
     @Override
     public String toString() {
         if (isInSafeHaven()){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos.size() + " @ A salvo";
-        } else if (humanDeadPorEnvenenamento()) {
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos.size() + " @ (RIP)";
-        } else if (zombieIsDestroyed()){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + destruidos.size() + " @ (RIP)";
-        } else if (equipa.equals("Os Vivos")){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentos.size() + " @ (" + xAtual + ", " + yAtual + ")";
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ A salvo";
+        } else if (isTransformado() || humanDeadPorEnvenenamento()){
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (RIP)";
+        } /*else if (zombieIsDestroyed()){
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + countEquipamentosDestruidos + " @ (RIP)";
+        }*/ else if (equipa.equals("Os Vivos")){
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
         } else if (equipa.equals("Os Outros")){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + destruidos.size() + " @ (" + xAtual + ", " + yAtual + ")";
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + countEquipamentosDestruidos + " @ (" + xAtual + ", " + yAtual + ")";
         } else {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
         }

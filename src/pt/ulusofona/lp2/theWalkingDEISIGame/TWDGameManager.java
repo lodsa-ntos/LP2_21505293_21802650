@@ -230,7 +230,7 @@ public class TWDGameManager {
                                 int posX = Integer.parseInt(novaFila[2].trim());
                                 int posY = Integer.parseInt(novaFila[3].trim());
 
-                                //Verificar o idTipo e adiciona na lista
+                                // Verificar o idTipo e adiciona na lista
                                 if (idTipo == 0 || idTipo == 1 || idTipo == 2 || idTipo == 3 || idTipo == 4 || idTipo == 5
                                         || idTipo == 6 || idTipo == 7 || idTipo == 8 || idTipo == 9 || idTipo == 10) {
                                     Equipamento allEquipments = new Equipamento(id, idTipo, posX, posY);
@@ -392,7 +392,7 @@ public class TWDGameManager {
 
                                                     creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
 
-                                                    if (creatureDestino.equipamentos.get(0).getCountUsos() == -1) {
+                                                    if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
                                                         // destrui-mos o equipamento
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                     }
@@ -440,7 +440,7 @@ public class TWDGameManager {
                                                     if (creatureDestino.getIdTipo() == 5 || creatureDestino.getIdTipo() == 6
                                                             || creatureDestino.getIdTipo() == 7 || creatureDestino.getIdTipo() == 8) {
 
-                                                        if (creatureDestino.equipamentos.get(0).getCountUsos() == -1) {
+                                                        if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
                                                             //creatureDestino.equipamentos.get(0).isBroken();
                                                             /* A pistola não tem efeito contra Zombies Vampiros */
                                                             /* vamos transformar o vivo em zombie */
@@ -480,6 +480,8 @@ public class TWDGameManager {
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                             incrementarTurno();
                                                             return true;
+                                                        } else {
+                                                            return false;
                                                         }
                                                     }
 
@@ -549,7 +551,7 @@ public class TWDGameManager {
 
                                                     creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
 
-                                                    if (creatureDestino.equipamentos.get(0).getCountUsos() == -1) {
+                                                    if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
                                                         /* vamos transformar o vivo em zombie */
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
                                                         creatureDestino.setTransformado(true);
@@ -717,6 +719,11 @@ public class TWDGameManager {
 
                                     if (eq.getIdTipo() == 8) {
                                         /* Veneno não pode ser destruido */
+                                        return false;
+                                    }
+
+                                    if (creatureOrigem.getIdTipo() != 4 && eq.getIdTipo() == 8) {
+                                        /* Zombie Vampiro nao gosta de Veneno, logo não pode ser destruido */
                                         return false;
                                     }
 

@@ -16,6 +16,7 @@ public abstract class Creature {
     protected boolean transformado;
     protected boolean isDestroyed;
     protected boolean deadPorEnvenenamento;
+    protected boolean zombieIsRIP;
     protected int creaturesNoBolso = 0;
     protected int equipamentosNoBolso = 0;
     protected int zombiesDestruidos = 0;
@@ -107,6 +108,10 @@ public abstract class Creature {
     abstract public boolean zombieIsDestroyed();
 
     abstract public void setZombieIsDestroyed(boolean criaturaZombieDestruida);
+
+    abstract public boolean getZombieIsRIP();
+
+    abstract public void setZombieIsRIP(boolean zombieArrivadeci);
 
     abstract public boolean humanDeadPorEnvenenamento();
 

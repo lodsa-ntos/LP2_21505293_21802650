@@ -31,6 +31,7 @@ public class Crianca extends Creature {
                             /* incrementa o numero de zombies destruidos */
                             countZombiesDestruidos();
                             creature.setZombieIsDestroyed(true);
+                            creature.setZombieIsRIP(true);
 
                             /* incrementa o numero de salvacao feita pelo equipamento */
                             this.equipamentos.get(0).incrementaNrSalvacoes();
@@ -65,6 +66,9 @@ public class Crianca extends Creature {
                             /* incrementa o numero de zombies destruidos */
                             countZombiesDestruidos();
                             creature.setZombieIsDestroyed(true);
+                            if (creature.zombieIsDestroyed()) {
+                                System.out.println(creature.toString());
+                            }
 
                             this.setxAtual(creature.xAtual);
                             this.setyAtual(creature.yAtual);
@@ -344,6 +348,16 @@ public class Crianca extends Creature {
     @Override
     public void setZombieIsDestroyed(boolean criaturaZombieDestruida) {
         isDestroyed = criaturaZombieDestruida;
+    }
+
+    @Override
+    public boolean getZombieIsRIP() {
+        return zombieIsRIP;
+    }
+
+    @Override
+    public void setZombieIsRIP(boolean zombieArrivadeci) {
+        zombieIsRIP = zombieArrivadeci;
     }
 
     @Override

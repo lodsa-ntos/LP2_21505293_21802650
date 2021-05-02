@@ -290,6 +290,16 @@ public class Cao extends Creature {
     }
 
     @Override
+    public boolean getZombieIsRIP() {
+        return zombieIsRIP;
+    }
+
+    @Override
+    public void setZombieIsRIP(boolean zombieArrivadeci) {
+        zombieIsRIP = zombieArrivadeci;
+    }
+
+    @Override
     public boolean humanDeadPorEnvenenamento() {
         return deadPorEnvenenamento;
     }
@@ -316,7 +326,7 @@ public class Cao extends Creature {
     public String toString() {
         if (isInSafeHaven()){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ A salvo";
-        } else if (zombieIsDestroyed() || humanDeadPorEnvenenamento()){
+        } else if (/*zombieIsDestroyed() ||*/ humanDeadPorEnvenenamento()){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + 0 + " @ (RIP)";
         } else if (isTransformado()){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + countEquipamentosDestruidos + " @ (" + xAtual + ", " + yAtual + ")";

@@ -417,7 +417,10 @@ public class TWDGameManager {
                                                             zombiesDestruidos.add(creatureOrigem);
                                                             /* incrementa o numero de zombies destruidos */
                                                             creatureDestino.countZombiesDestruidos();
-                                                            creatureDestino.setZombieIsDestroyed(true);
+                                                            creatureOrigem.setZombieIsDestroyed(true);
+                                                            if (creatureOrigem.zombieIsDestroyed()) {
+                                                                System.out.println(creatureOrigem.toString());
+                                                            }
                                                         }
                                                         incrementarTurno();
                                                         return true;
@@ -431,7 +434,10 @@ public class TWDGameManager {
 
                                                         /* incrementa o numero de zombies destruidos */
                                                         creatureDestino.countZombiesDestruidos();
-                                                        creatureDestino.setZombieIsDestroyed(true);
+                                                        creatureOrigem.setZombieIsDestroyed(true);
+                                                        if (creatureOrigem.zombieIsDestroyed()) {
+                                                            System.out.println(creatureOrigem.toString());
+                                                        }
                                                         incrementarTurno();
                                                         return true;
                                                     }
@@ -467,7 +473,10 @@ public class TWDGameManager {
 
                                                             /* incrementa o numero de zombies destruidos */
                                                             creatureDestino.countZombiesDestruidos();
-                                                            creatureDestino.setZombieIsDestroyed(true);
+                                                            creatureOrigem.setZombieIsDestroyed(true);
+                                                            if (creatureOrigem.zombieIsDestroyed()) {
+                                                                System.out.println(creatureOrigem.toString());
+                                                            }
                                                             incrementarTurno();
                                                             return true;
 
@@ -512,19 +521,21 @@ public class TWDGameManager {
 
                                                 case 5:
                                                     /* Interação com a Cabeça de alho */
-                                                    /* Protege contra ataques de zombies Vampiros */
-                                                    if (creatureOrigem.getIdTipo() == 4) {
-                                                        creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
-                                                    } else {
+                                                    /* Se forem outros zombies */
+                                                    if (creatureOrigem.getIdTipo() != 4) {
                                                         /* Não protege de outros zombies */
                                                         /* Vivo tranforma-se (->) em Zombie */
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                        incrementarTurno();
+                                                        return true;
+                                                    } else {
+                                                        /* Protege contra ataques de zombies Vampiros */
+                                                        creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
+                                                        return false;
                                                     }
-                                                    incrementarTurno();
-                                                    return true;
 
                                                 case 6:
                                                     /* Interação com a Estaca de madeira */
@@ -536,7 +547,10 @@ public class TWDGameManager {
 
                                                         /* incrementa o numero de zombies destruidos */
                                                         creatureDestino.countZombiesDestruidos();
-                                                        creatureDestino.setZombieIsDestroyed(true);
+                                                        creatureOrigem.setZombieIsDestroyed(true);
+                                                        if (creatureOrigem.zombieIsDestroyed()) {
+                                                            System.out.println(creatureOrigem.toString());
+                                                        }
 
                                                         /* incrementa o numero de salvacao feita pelo equipamento */
                                                         creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
@@ -713,18 +727,18 @@ public class TWDGameManager {
                         }
                         
                         // se for da equipa dos zombies // e se for para cima do equipamento // vamos destrui-lo
-                    } else if (creatureOrigem.getIdEquipa() == 20 && creatureOrigem.getIdTipo() != 4) {
+                    } else if (creatureOrigem.getIdEquipa() == 20 /*&& creatureOrigem.getIdTipo() != 4*/) {
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                             for (Equipamento eq : equipamentos) {
                                 if (eq.getxAtual() == xD && eq.getyAtual() == yD) {
 
+                                    /* Veneno não pode ser destruido */
                                     if (eq.getIdTipo() == 8) {
-                                        /* Veneno não pode ser destruido */
                                         return false;
                                     }
 
-                                    if (creatureOrigem.getIdTipo() != 4 && eq.getIdTipo() == 8) {
-                                        /* Zombie Vampiro nao gosta de Veneno, logo não pode ser destruido */
+                                    /* Zombie Vampiro nao gosta de alho, logo não pode ser destruido */
+                                    if (creatureOrigem.getIdTipo() == 4 && eq.getIdTipo() == 5) {
                                         return false;
                                     }
 
@@ -880,36 +894,43 @@ public class TWDGameManager {
                     /* Movimentação a partir do Zombie Vampiro */
                     if (creatureOrigem.getIdEquipa() == 20) {
                         /* Zombie Vampiro só se movem em turnos nocturnos */
-                        if (creatureOrigem.getIdTipo() == 4) {
-                            if (isDay() == false) {
-                                if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    creatureOrigem.setxAtual(xD);
-                                    creatureOrigem.setyAtual(yD);
-                                    for (Equipamento eq : equipamentos) {
-                                        /* caso o zombie vampiro encontre o equipamento deve-o destruir */
-                                        if (!encontrouEquip) {
-                                            if (eq.getxAtual() == xO && eq.getyAtual() == yO) {
-                                                /* Se for zombie vamp vs alho retorna falso */
-                                                if (creatureOrigem.getIdTipo() == 4 && eq.getIdTipo() == 5) {
-                                                    return false;
-                                                }
-                                                /* Removemos o equipamento */
-                                                equipamentos.remove(eq);
-                                                /* Adiciona-o nos equipamentos destruidos */
-                                                creatureOrigem.destruidos.add(eq);
-                                                creatureOrigem.setxAtual(xD);
-                                                creatureOrigem.setyAtual(yD);
-                                                incrementarTurno();
-                                                return true;
-                                            }
-                                        }
-                                    }
-                                    incrementarTurno();
-                                    return true;
-                                }
-                            } else {
+                        if (creatureOrigem.getIdTipo() == 4 && !isDay()) {
+
+                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                 return false;
                             }
+
+                            if (!creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            /*for (Equipamento eq : equipamentos) {
+                              *//*caso o zombie vampiro encontre o equipamento deve-o destruir *//*
+                                    if (eq.getxAtual() == xO && eq.getyAtual() == yO) {
+                                         *//*Se for zombie vamp vs alho retorna falso *//*
+                                        if (eq.getIdTipo() == 5) {
+                                            return false;
+                                        }
+
+                                        *//* Removemos o equipamento *//*
+                                        equipamentos.remove(eq);
+
+                                        creatureOrigem.destruidos.add(eq);
+
+                                        *//* Contamos os equipamentos destruidos *//*
+                                        creatureOrigem.countEquipamentosDestruidos++;
+                                        creatureOrigem.setxAtual(xD);
+                                        creatureOrigem.setyAtual(yD);
+                                        incrementarTurno();
+                                        return true;
+
+                                    }
+                                }*/
+
+                            creatureOrigem.setxAtual(xD);
+                            creatureOrigem.setyAtual(yD);
+                            incrementarTurno();
+                            return true;
 
                             /* Se forem outros zombies */
                         } else if (creatureOrigem.getIdTipo() != 4) {
@@ -931,6 +952,10 @@ public class TWDGameManager {
                             }
 
                             if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            if (creatureOrigem.getIdTipo() == 4 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
                             }
 

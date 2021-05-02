@@ -235,6 +235,16 @@ public class ZombieVampiro extends Creature{
     }
 
     @Override
+    public boolean getZombieIsRIP() {
+        return zombieIsRIP;
+    }
+
+    @Override
+    public void setZombieIsRIP(boolean zombieArrivadeci) {
+        zombieIsRIP = zombieArrivadeci;
+    }
+
+    @Override
     public boolean humanDeadPorEnvenenamento() {
         return deadPorEnvenenamento;
     }

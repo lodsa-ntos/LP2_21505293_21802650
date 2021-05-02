@@ -280,6 +280,7 @@ public class TWDGameManager {
 
         } catch (FileNotFoundException ex) {
             System.out.println("\n" + "Erro.: " + ficheiroInicial.getName() + " não encontrado.");
+            throw new FileNotFoundException();
         }
     }
 
@@ -514,7 +515,6 @@ public class TWDGameManager {
                                                     /* Protege contra ataques de zombies Vampiros */
                                                     if (creatureOrigem.getIdTipo() == 4) {
                                                         creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
-                                                        return false;
                                                     } else {
                                                         /* Não protege de outros zombies */
                                                         /* Vivo tranforma-se (->) em Zombie */
@@ -522,9 +522,9 @@ public class TWDGameManager {
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
-                                                        incrementarTurno();
-                                                        return true;
                                                     }
+                                                    incrementarTurno();
+                                                    return true;
 
                                                 case 6:
                                                     /* Interação com a Estaca de madeira */
@@ -546,11 +546,6 @@ public class TWDGameManager {
                                                     }
 
                                                 case 7:/* Interação com a Lixivia */
-                                                    /* diminuimos a protecao ... */
-                                                    creatureDestino.getEquipamentosVivos().get(0).diminuiCountUsos();
-
-                                                    creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
-
                                                     if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
                                                         /* vamos transformar o vivo em zombie */
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
@@ -562,13 +557,19 @@ public class TWDGameManager {
                                                         return true;
                                                     }
 
+                                                    /* diminuimos a protecao ... */
+                                                    creatureDestino.equipamentos.get(0).diminuiCountUsos();
+
+                                                    creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
+
                                                     incrementarTurno();
                                                     return true;
 
                                                 case 8:
+                                                    /* Interação com o veneno */
+                                                    return false;
                                                 case 9:
                                                 case 10:
-                                                    /* Interação com o veneno */
                                                     /* Interação com o antidoto */
                                                     /* Interação com o capacete Beskar Helmet */
                                                     creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();

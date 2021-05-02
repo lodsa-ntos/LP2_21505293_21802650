@@ -333,11 +333,11 @@ public class Adulto extends Creature {
     public String toString() {
         if (isInSafeHaven()){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ A salvo";
-        } else if (isTransformado() || humanDeadPorEnvenenamento()){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (RIP)";
-        } /*else if (zombieIsDestroyed()){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + countEquipamentosDestruidos + " @ (RIP)";
-        }*/ else if (equipa.equals("Os Vivos")){
+        } else if (zombieIsDestroyed() || humanDeadPorEnvenenamento()){
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + 0 + " @ (RIP)";
+        } else if (isTransformado()){
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + countEquipamentosDestruidos + " @ (" + xAtual + ", " + yAtual + ")";
+        } else if (equipa.equals("Os Vivos")){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
         } else if (equipa.equals("Os Outros")){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + countEquipamentosDestruidos + " @ (" + xAtual + ", " + yAtual + ")";

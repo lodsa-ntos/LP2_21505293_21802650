@@ -534,7 +534,8 @@ public class TWDGameManager {
                                                     } else {
                                                         /* Protege contra ataques de zombies Vampiros */
                                                         creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
-                                                        return false;
+                                                        incrementarTurno();
+                                                        return true;
                                                     }
 
                                                 case 6:
@@ -1076,11 +1077,7 @@ public class TWDGameManager {
     public boolean gameIsOver() {
         int nrMaxDiaENoite = 6;
         int numeroVivosEmJogo = 0;
-        int criancaEmJogo = 0;
-        int adultoEmJogo = 0;
-        int militarEmJogo = 0;
-        int caoEmJogo = 0;
-        int idosoEmJogo = 0;
+        int countTodosMenosIdosoEmJogo = 0;
 
         /* Sem vivos em jogo */
         for (Creature creatureOrigem : creatures) {
@@ -1089,41 +1086,35 @@ public class TWDGameManager {
                 if (!creatureOrigem.isInSafeHaven() && !creatureOrigem.isTransformado()
                         && !creatureOrigem.isEnvenenado()) {
                     /* conta os "Vivos" que ainda estão em Jogo*/
+
+                    switch (creatureOrigem.getIdTipo()) {
+                        case 5:
+                        case 6:
+                        case 7:
+                        case 9:
+                            countTodosMenosIdosoEmJogo++;
+                    }
+
                     numeroVivosEmJogo++;
-                    if (creatureOrigem.getIdTipo() == 5){
-                        criancaEmJogo++;
-                    }
-                    if (creatureOrigem.getIdTipo() == 6){
-                        adultoEmJogo++;
-                    }
-                    if (creatureOrigem.getIdTipo() == 7){
-                        militarEmJogo++;
-                    }
-                    if (creatureOrigem.getIdTipo() == 8){
-                        idosoEmJogo++;
-                    }
-                    if (creatureOrigem.getIdTipo() == 9) {
-                        caoEmJogo++;
-                    }
                 }
             }
+        }
+
+        if (numeroVivosEmJogo == 0) {
+            return true;
         }
 
         /* Apenas idosos vivos em jogo no turno nocturno, jogo termina */
         if (getCurrentTeamId() == 10) {
             if (!isDay()) {
-                return criancaEmJogo == 0 && adultoEmJogo == 0 && militarEmJogo == 0 && caoEmJogo == 0;
+                return countTodosMenosIdosoEmJogo == 0;
             } else {
                 return false;
             }
         }
 
         int numeroZombiesEmJogo = 0;
-        int criancaZombieEmJogo = 0;
-        int adultoZombieEmJogo = 0;
-        int militarZombieEmJogo = 0;
-        int idosoZombieEmJogo = 0;
-        int zombieVampEmJogo = 0;
+        int countTodosMenosZombieVampEmJogo = 0;
 
         /* Sem zombies em jogo */
         for (Creature creatureOrigem : creatures) {
@@ -1131,30 +1122,28 @@ public class TWDGameManager {
                 /* Se existirem 'zombies' e ainda não foram destruidos */
                 if (!creatureOrigem.zombieIsDestroyed()) {
                     /* conta os "zombies" que ainda estão em Jogo*/
+
+                    switch (creatureOrigem.getIdTipo()) {
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                            countTodosMenosZombieVampEmJogo++;
+                    }
+
                     numeroZombiesEmJogo++;
-                    if (creatureOrigem.getIdTipo() == 0){
-                        criancaZombieEmJogo++;
-                    }
-                    if (creatureOrigem.getIdTipo() == 1){
-                        adultoZombieEmJogo++;
-                    }
-                    if (creatureOrigem.getIdTipo() == 2){
-                        militarZombieEmJogo++;
-                    }
-                    if (creatureOrigem.getIdTipo() == 3){
-                        idosoZombieEmJogo++;
-                    }
-                    if (creatureOrigem.getIdTipo() == 4) {
-                        zombieVampEmJogo++;
-                    }
                 }
             }
+        }
+
+        if (numeroZombiesEmJogo == 0) {
+            return true;
         }
 
         /* Apenas Zombie Vampiro em jogo no turno diurno , jogo termina*/
         if (getCurrentTeamId() == 20) {
             if (isDay()) {
-                return criancaZombieEmJogo == 0 && adultoZombieEmJogo == 0 && militarZombieEmJogo == 0 && idosoZombieEmJogo == 0;
+                return countTodosMenosZombieVampEmJogo == 0;
             } else {
                 return false;
             }
@@ -1163,7 +1152,7 @@ public class TWDGameManager {
         /* TODO se houver transformacao o jogo continua ...
               se não houver tranformacao o jogo termina no turno 12 */
         for (Creature creatureOrigem : creatures) {
-            if (creatureOrigem.getIdEquipa() == 10) {
+            if (getCurrentTeamId() == 10) {
                 if (creatureOrigem.isTransformado()) {
                     nrTurno--;
                 }
@@ -1171,7 +1160,7 @@ public class TWDGameManager {
         }
 
         // O jogo termina se tiverem passados 3 dias e 3 noites ou se nao exitirem mais "Vivos" ou 'Zombies' em Jogo
-        return ((nrTurno/2) >= nrMaxDiaENoite) || numeroVivosEmJogo == 0 || numeroZombiesEmJogo == 0;
+        return ((nrTurno/2) >= nrMaxDiaENoite);
     }
 
     public List<String> getAuthors() {

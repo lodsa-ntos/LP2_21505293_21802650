@@ -22,7 +22,7 @@ public class InvalidTWDInitialFileException extends Exception {
     // se o ficheiro os dados completos para todas as
     // criaturas
     public boolean validCreatureDefinition() {
-        return creaturesDefinition = true;
+        return creaturesDefinition;
     }
 
     // Este método deve devolver a primeira linha que descreve uma criatura que tenha dados a

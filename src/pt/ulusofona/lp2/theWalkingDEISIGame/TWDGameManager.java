@@ -1200,7 +1200,7 @@ public class TWDGameManager {
         resultados.add(String.valueOf(nrTurno));
         resultados.add("");
 
-        resultados.add("Ainda pelo bairro:");
+        resultados.add("Ainda pelo bairo:");
         resultados.add("");
 
         resultados.add("OS VIVOS");

@@ -531,11 +531,13 @@ public class TWDGameManager {
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                         incrementarTurno();
                                                         return true;
-                                                    } else {
+                                                    } else if (creatureOrigem.getIdTipo() == 4 && !isDay()){
                                                         /* Protege contra ataques de zombies Vampiros */
                                                         creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
                                                         incrementarTurno();
                                                         return true;
+                                                    } else {
+                                                        return false;
                                                     }
 
                                                 case 6:
@@ -1198,7 +1200,7 @@ public class TWDGameManager {
         resultados.add(String.valueOf(nrTurno));
         resultados.add("");
 
-        resultados.add("Ainda pelo bairro: ");
+        resultados.add("Ainda pelo bairro:");
         resultados.add("");
 
         resultados.add("OS VIVOS");

@@ -274,11 +274,11 @@ public class ZombieVampiro extends Creature{
         } else if (zombieIsDestroyed() || humanDeadPorEnvenenamento()){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + 0 + " @ (RIP)";
         } else if (isTransformado()){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + countEquipamentosDestruidos + " @ (" + xAtual + ", " + yAtual + ")";
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
         } else if (equipa.equals("Os Vivos")){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
         } else if (equipa.equals("Os Outros")){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + countEquipamentosDestruidos + " @ (" + xAtual + ", " + yAtual + ")";
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
         } else {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
         }

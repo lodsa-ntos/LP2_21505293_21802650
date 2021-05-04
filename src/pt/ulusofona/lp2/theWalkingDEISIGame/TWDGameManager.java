@@ -312,6 +312,7 @@ public class TWDGameManager {
             }
 
             boolean encontrouEquip = false;
+            boolean encontrouPortaSafeHaven = false;
             boolean nrTurnosImpares = Math.abs(xO - xD) <= 2 && Math.abs(yO - yD) <= 2;
             boolean nrTurnosPares = Math.abs(xO - xD) <= 3 && Math.abs(yO - yD) <= 3;
 
@@ -319,24 +320,40 @@ public class TWDGameManager {
                 if (creatureOrigem.getIdEquipa() == idEquipaAtual &&
                         creatureOrigem.getXAtual() == xO && creatureOrigem.getYAtual() == yO) {
 
-                    /* Verifica se é da equipa dos VIVOS que está a tentar entrar no safeHaven */
+                    /* ENTRADA PARA O SAFEHAVEN */
                     if (creatureOrigem.getIdEquipa() == 10) {
                         if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
                             return false;
                         }
-                        /* Se existir uma porta safeHaven */
-                        if (isDoorToSafeHaven(xD, yD)) {
-                            /* Vamos colocar o vivo lá dentro */
-                            creatureOrigem.inSafeHaven(true);
-                            /* Vamos remove-lo do mapa */
-                            //creatureOrigem.id = 0;
-                            creatures.get(creatures.indexOf(creatureOrigem)).inSafeHaven(true);
-                            /* E adiciona-mos o vivo na lista do safeHaven */
-                            safe.add(creatureOrigem);
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
-                            incrementarTurno();
-                            return true;
+                        if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                            for (Equipamento eq : equipamentos) {
+                                if (eq.getxAtual() == xO && eq.getyAtual() == yO) {
+                                    /* Se existir uma porta safeHaven */
+                                    if (isDoorToSafeHaven(xD, yD)) {
+                                        /* Vamos colocar o vivo lá dentro */
+                                        creatureOrigem.inSafeHaven(true);
+                                        /*  E vamos remove-lo do mapa */
+                                        //creatureOrigem.id = 0;
+                                        creatures.get(creatures.indexOf(creatureOrigem)).inSafeHaven(true);
+                                        /* E adiciona-mos o vivo na lista do safeHaven */
+                                        safe.add(creatureOrigem);
+                                        creatureOrigem.setxAtual(xD);
+                                        creatureOrigem.setyAtual(yD);
+
+                                        /* Se o vivo mover-se para uma porta safeHaven com algum equipamento, vamos remove-lo
+                                        * fazendo com que a porta não seja reconhecida como um equipamento */
+                                        int idTipo = creatureOrigem.getEquipamentosVivos().get(0).getIdTipo();
+                                        if (idTipo == 0 || idTipo == 1 || idTipo == 2 || idTipo == 3 || idTipo == 4 || idTipo == 5
+                                                || idTipo == 6 || idTipo == 7 || idTipo == 8 || idTipo == 9 || idTipo == 10) {
+                                            eq.setyAtual(-1);
+                                            eq.setyAtual(-1);
+                                        }
+
+                                        incrementarTurno();
+                                        return true;
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -396,6 +413,7 @@ public class TWDGameManager {
                                                     if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
                                                         // destrui-mos o equipamento
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                        creatureOrigem.countEquipamentosDestruidos++;
                                                     }
 
                                                     incrementarTurno();
@@ -411,6 +429,7 @@ public class TWDGameManager {
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento */
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                            creatureOrigem.countEquipamentosDestruidos++;
                                                         } else {
                                                             /* vamos destruir o zombie */
                                                             creatures.remove(creatureOrigem);
@@ -456,6 +475,7 @@ public class TWDGameManager {
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento*/
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                            creatureOrigem.countEquipamentosDestruidos++;
                                                             incrementarTurno();
                                                             return true;
                                                         }
@@ -488,6 +508,7 @@ public class TWDGameManager {
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento*/
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                            creatureOrigem.countEquipamentosDestruidos++;
                                                             incrementarTurno();
                                                             return true;
                                                         } else {
@@ -515,6 +536,7 @@ public class TWDGameManager {
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                        creatureOrigem.countEquipamentosDestruidos++;
                                                         incrementarTurno();
                                                         return true;
                                                     }
@@ -529,6 +551,7 @@ public class TWDGameManager {
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                        creatureOrigem.countEquipamentosDestruidos++;
                                                         incrementarTurno();
                                                         return true;
                                                     } else if (creatureOrigem.getIdTipo() == 4 && !isDay()){
@@ -570,6 +593,7 @@ public class TWDGameManager {
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                        creatureOrigem.countEquipamentosDestruidos++;
                                                         incrementarTurno();
                                                         return true;
                                                     }
@@ -584,14 +608,15 @@ public class TWDGameManager {
 
                                                 case 8:
                                                     /* Interação com o veneno */
-                                                    return false;
+                                                    incrementarTurno();
+                                                    return true;
                                                 case 9:
                                                 case 10:
                                                     /* Interação com o antidoto */
                                                     /* Interação com o capacete Beskar Helmet */
                                                     creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
                                                     incrementarTurno();
-                                                    return false;
+                                                    return true;
                                             }
                                         }
                                     }
@@ -651,6 +676,7 @@ public class TWDGameManager {
                                     }
                                     // depois de removido adiciona o novo
                                     creatureOrigem.getEquipamentosVivos().add(eq);
+
                                     // Acrescenta o equipamento no bolso
                                     creatureOrigem.incrementaEquipamentosNoBolso();
 
@@ -662,63 +688,7 @@ public class TWDGameManager {
 
                                     if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 9) {
                                         System.out.println("\n" + creatureOrigem.getTipo() + " conseguiu o antídoto a tempo, " +
-                                                "está curado. Encontre o safeHaven");
-                                    }
-
-                                    /* Se a criatura quiser apanhar outro equipamento */
-                                    switch (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo()) {
-                                        case 0:
-                                        case 1:
-                                        case 2:
-                                        case 3:
-                                        case 4:
-                                        case 5:
-                                        case 6:
-                                        case 7:
-                                        case 9:
-                                        case 10:
-                                            /* Se estiver a carregar um frasco veneno , a criatura tem de largar o frasco vazio */
-                                            if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 8) {
-                                                // guardamos o equipamento existente na lista de equipamentos
-                                                Equipamento eqAntigo = creatureOrigem.getEquipamentosVivos().get(0);
-                                                equipamentos.add(eqAntigo);
-                                                // removemos esse equipamento e devolvemos na posicao original
-                                                creatureOrigem.getEquipamentosVivos().remove(0);
-
-                                                // depois de removido adiciona o novo
-                                                creatureOrigem.getEquipamentosVivos().add(eq);
-                                                // Acrescenta o equipamento no bolso
-                                                creatureOrigem.incrementaEquipamentosNoBolso();
-                                            }
-                                            break;
-                                    }
-
-                                    /* Se a criatura quiser apanhar outro equipamento */
-                                    switch (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo()) {
-                                        case 0:
-                                        case 1:
-                                        case 2:
-                                        case 3:
-                                        case 4:
-                                        case 5:
-                                        case 6:
-                                        case 7:
-                                        case 8:
-                                        case 10:
-                                            /* Se estiver a carregar um frasco antidoto , a criatura tem de largar o frasco vazio */
-                                            if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 9) {
-                                                // guardamos o equipamento existente na lista de equipamentos
-                                                Equipamento eqAntigo = creatureOrigem.getEquipamentosVivos().get(0);
-                                                equipamentos.add(eqAntigo);
-                                                // removemos esse equipamento e devolvemos na posicao original
-                                                creatureOrigem.getEquipamentosVivos().remove(0);
-
-                                                // depois de removido adiciona o novo
-                                                creatureOrigem.getEquipamentosVivos().add(eq);
-                                                // Acrescenta o equipamento no bolso
-                                                creatureOrigem.incrementaEquipamentosNoBolso();
-                                            }
-                                            break;
+                                                "está curado. Encontre o safeHaven e salve-se...");
                                     }
 
                                     encontrouEquip = true;
@@ -778,6 +748,7 @@ public class TWDGameManager {
 
                                         if (nrTurnoDoVeneno > 1) {
                                             if (creatureOrigem.isEnvenenado()) {
+                                                /* Se for idoso e for dia morre envenenado */
                                                 if (creatureOrigem.getIdTipo() == 8) {
                                                     if (isDay() == true) {
                                                         nrTurnoDoVeneno = 0;
@@ -906,29 +877,6 @@ public class TWDGameManager {
                             if (!creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
                             }
-
-                            /*for (Equipamento eq : equipamentos) {
-                              *//*caso o zombie vampiro encontre o equipamento deve-o destruir *//*
-                                    if (eq.getxAtual() == xO && eq.getyAtual() == yO) {
-                                         *//*Se for zombie vamp vs alho retorna falso *//*
-                                        if (eq.getIdTipo() == 5) {
-                                            return false;
-                                        }
-
-                                        *//* Removemos o equipamento *//*
-                                        equipamentos.remove(eq);
-
-                                        creatureOrigem.destruidos.add(eq);
-
-                                        *//* Contamos os equipamentos destruidos *//*
-                                        creatureOrigem.countEquipamentosDestruidos++;
-                                        creatureOrigem.setxAtual(xD);
-                                        creatureOrigem.setyAtual(yD);
-                                        incrementarTurno();
-                                        return true;
-
-                                    }
-                                }*/
 
                             creatureOrigem.setxAtual(xD);
                             creatureOrigem.setyAtual(yD);
@@ -1541,10 +1489,12 @@ public class TWDGameManager {
 
         osEquipados = getCreatures().stream()
                 /* filtrar as criaturas que estão em jogo */
-                .filter((criaturas) -> !criaturas.isInSafeHaven() && !criaturas.isTransformado()
-                && !criaturas.isEnvenenado() && !criaturas.zombieIsDestroyed())
+                .filter((criaturas) -> !criaturas.isInSafeHaven() && !criaturas.isEnvenenado()
+                        && !criaturas.zombieIsDestroyed())
                 /* Ordenar por ordem decrescente do numero de equipamentos */
                 .sorted ((v2, v1) -> v1.getEquipamentosNoBolso() - v2.getEquipamentosNoBolso())
+                /* Ordenar por ordem decrescente do numero de equipamentos */
+                .sorted ((z2, z1) -> z1.getCountEquipamentosDestruidos() - z2.getCountEquipamentosDestruidos())
                 /* Mostrar apenas 5 criaturas que mais equipamentos apanharam/destruiram */
                 .limit(5)
                 /* Transforma o resultado em strings */

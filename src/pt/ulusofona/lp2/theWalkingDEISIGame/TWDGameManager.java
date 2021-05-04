@@ -326,33 +326,19 @@ public class TWDGameManager {
                             return false;
                         }
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                            for (Equipamento eq : equipamentos) {
-                                if (eq.getxAtual() == xO && eq.getyAtual() == yO) {
-                                    /* Se existir uma porta safeHaven */
-                                    if (isDoorToSafeHaven(xD, yD)) {
-                                        /* Vamos colocar o vivo lá dentro */
-                                        creatureOrigem.inSafeHaven(true);
-                                        /*  E vamos remove-lo do mapa */
-                                        //creatureOrigem.id = 0;
-                                        creatures.get(creatures.indexOf(creatureOrigem)).inSafeHaven(true);
-                                        /* E adiciona-mos o vivo na lista do safeHaven */
-                                        safe.add(creatureOrigem);
-                                        creatureOrigem.setxAtual(xD);
-                                        creatureOrigem.setyAtual(yD);
-
-                                        /* Se o vivo mover-se para uma porta safeHaven com algum equipamento, vamos remove-lo
-                                        * fazendo com que a porta não seja reconhecida como um equipamento */
-                                        int idTipo = creatureOrigem.getEquipamentosVivos().get(0).getIdTipo();
-                                        if (idTipo == 0 || idTipo == 1 || idTipo == 2 || idTipo == 3 || idTipo == 4 || idTipo == 5
-                                                || idTipo == 6 || idTipo == 7 || idTipo == 8 || idTipo == 9 || idTipo == 10) {
-                                            eq.setyAtual(-1);
-                                            eq.setyAtual(-1);
-                                        }
-
-                                        incrementarTurno();
-                                        return true;
-                                    }
-                                }
+                            /* Se existir uma porta safeHaven */
+                            if (isDoorToSafeHaven(xD, yD)) {
+                                /* Vamos colocar o vivo lá dentro */
+                                creatureOrigem.inSafeHaven(true);
+                                /*  E vamos remove-lo do mapa */
+                                //creatureOrigem.id = 0;
+                                creatures.get(creatures.indexOf(creatureOrigem)).inSafeHaven(true);
+                                /* E adiciona-mos o vivo na lista do safeHaven */
+                                safe.add(creatureOrigem);
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                incrementarTurno();
+                                return true;
                             }
                         }
                     }
@@ -413,7 +399,6 @@ public class TWDGameManager {
                                                     if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
                                                         // destrui-mos o equipamento
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
-                                                        creatureOrigem.countEquipamentosDestruidos++;
                                                     }
 
                                                     incrementarTurno();
@@ -429,7 +414,6 @@ public class TWDGameManager {
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento */
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
-                                                            creatureOrigem.countEquipamentosDestruidos++;
                                                         } else {
                                                             /* vamos destruir o zombie */
                                                             creatures.remove(creatureOrigem);
@@ -475,7 +459,6 @@ public class TWDGameManager {
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento*/
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
-                                                            creatureOrigem.countEquipamentosDestruidos++;
                                                             incrementarTurno();
                                                             return true;
                                                         }
@@ -508,7 +491,6 @@ public class TWDGameManager {
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento*/
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
-                                                            creatureOrigem.countEquipamentosDestruidos++;
                                                             incrementarTurno();
                                                             return true;
                                                         } else {
@@ -536,7 +518,6 @@ public class TWDGameManager {
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
-                                                        creatureOrigem.countEquipamentosDestruidos++;
                                                         incrementarTurno();
                                                         return true;
                                                     }
@@ -551,7 +532,6 @@ public class TWDGameManager {
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
-                                                        creatureOrigem.countEquipamentosDestruidos++;
                                                         incrementarTurno();
                                                         return true;
                                                     } else if (creatureOrigem.getIdTipo() == 4 && !isDay()){
@@ -593,7 +573,6 @@ public class TWDGameManager {
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
-                                                        creatureOrigem.countEquipamentosDestruidos++;
                                                         incrementarTurno();
                                                         return true;
                                                     }

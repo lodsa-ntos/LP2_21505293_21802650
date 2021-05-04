@@ -792,10 +792,10 @@ public class TWDGameManager {
                                     creatureOrigem.setxAtual(xD);
                                     creatureOrigem.setyAtual(yD);
                                     for (Equipamento eq : equipamentos) {
-                                        /* caso o idoso encontre o equipamento deve-o apanhar */
+                                         /* caso o idoso encontre o equipamento deve-o apanhar */
                                         if (!encontrouEquip) {
-                                            /* quando se mover para fora dessa casa, deve-o largar */
-                                            creatureOrigem.getEquipamentosVivos().remove(0);
+                                             /* quando se mover para fora dessa casa, deve-o largar */
+                                            creatureOrigem.equipamentos.remove(eq);
                                             incrementarTurno();
                                             return true;
                                         }
@@ -914,7 +914,6 @@ public class TWDGameManager {
         return false;
     }
 
-    // TODO falta implementar salto por cima 0,4,3,1
     protected boolean saltarPorCima(int xO, int yO, int xD, int yD) {
         /* verifica direcao em que a critura está a tentar saltar por cima */
         String direcao = moverTodasDirecoes(xO, xD, yO, yD);
@@ -967,21 +966,21 @@ public class TWDGameManager {
                 break;
         }
 
-        /* Verificar o deslocamento da criatura que está a ser movida
+        /* Verificar se o deslocamento da criatura que está a ser movida
         * Verificar se ao mover existe uma criatura ou equipamento no meio */
-        if (xD - xO >= 3 && yO - yD < 1 || xO - xD > 2 && yD - yO > 2 || xD - xO > 2 && yD - yO > 2 || xD - xO > 2 && Math.abs(yD - yO) == 0
+        if (xO - xD > 2 && yD - yO > 2 || xD - xO > 2 && yD - yO > 2 || xD - xO > 2 && Math.abs(yD - yO) == 0
                 || xD - xO > 1 && yO - yD > 1 || xO - xD > 1 && yD - yO > 1 || xO - xD > 1 && yO - yD > 1
                 || xD - xO > 1 && yD - yO > 1 || xD - xO > 1 && Math.abs(yD - yO) == 0 || xO - xD > 1 && Math.abs(yD - yO) == 0
                 || yD - yO > 1 && Math.abs(xD - xO) == 0 || yO - yD > 1 && Math.abs(xD - xO) == 0) {
             // verifica se uma criatura ou equipamento esta naquela posicao
-            for (Creature creature : creatures) {
+            for (Creature creature : getCreatures()) {
                 if (creature.getXAtual() == meioX && creature.getYAtual() == meioY) {
                     return false;
                 }
             }
 
 
-            for (Equipamento equipamento : TWDGameManager.equipamentos) {
+            for (Equipamento equipamento : equipamentos) {
                 if (equipamento.getxAtual() == meioX && equipamento.getyAtual() == meioY) {
                     return false;
                 }
@@ -1033,7 +1032,7 @@ public class TWDGameManager {
             return true;
         }
 
-        /* Apenas idosos vivos em jogo no turno nocturno, jogo termina */
+        /* Apenas idosos vivos em jogo no turno nocturno, o jogo termina */
         if (getCurrentTeamId() == 10) {
             if (!isDay()) {
                 return countTodosMenosIdosoEmJogo == 0;
@@ -1112,6 +1111,7 @@ public class TWDGameManager {
 
         for (Equipamento e : equipamentos){
             if (e.getxAtual() == x && e.getyAtual() == y && !e.encontrouEquipamento()){
+                System.out.println(e.getId());
                 return e.getId();
             }
         }
@@ -1206,6 +1206,7 @@ public class TWDGameManager {
         return diurno;
     }
 
+    // TODO falha no DROPPROJET - esperava -1 mas foi 0
     public int getEquipmentId(int creatureId) {
         /* verifica se o criatura tem o equipamento */
         for (Creature creature: creatures) {

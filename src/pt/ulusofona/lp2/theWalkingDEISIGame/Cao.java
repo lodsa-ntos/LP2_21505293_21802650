@@ -44,9 +44,9 @@ public class Cao extends Creature {
 
                 case 2: { /* Interação com a Pistola */
 
-                    if (this.equipamentos.get(0).getCountUsos() == 0) {
+                    if (this.getEquipamentosVivos().get(0).getCountUsos() == 0) {
                         //getEquipamentosVivos().get(0).isBroken();
-                        //this.getEquipamentosVivos().remove(this.equipamentos.get(0));
+                        creature.getEquipamentosVivos().remove(this.equipamentos.get(0));
                         return false;
                     }
 

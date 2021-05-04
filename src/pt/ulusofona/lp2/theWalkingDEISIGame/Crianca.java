@@ -50,6 +50,7 @@ public class Crianca extends Creature {
 
                         if (getEquipamentosVivos().get(0).getCountUsos() == 0) {
                             //getEquipamentosVivos().get(0).isBroken();
+                            creature.getEquipamentosVivos().remove(this.equipamentos.get(0));
                             return false;
                         }
 

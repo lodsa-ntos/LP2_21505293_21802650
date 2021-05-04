@@ -9,7 +9,7 @@ public class Coelho extends Creature {
     }
 
     @Override
-    protected boolean processarOCombate(int xO, int yO, int xD, int yD, Creature creatureDestino, ArrayList<Creature> creatures) {
+    protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creatureDestino, ArrayList<Creature> creatures) {
         return false;
     }
 

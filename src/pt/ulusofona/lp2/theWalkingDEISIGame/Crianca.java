@@ -9,7 +9,7 @@ public class Crianca extends Creature {
     }
 
     @Override
-    protected boolean processarOCombate(int xO, int yO, int xD, int yD, Creature creature, ArrayList<Creature> creatures) {
+    protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creature, ArrayList<Creature> creatures) {
 
         /* CRIANCA VIVO A ATACAR */
             if (this.idTipo == 5) {

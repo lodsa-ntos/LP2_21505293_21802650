@@ -35,7 +35,7 @@ public abstract class Creature {
         this.yAtual = yAtual;
     }
 
-    abstract protected boolean processarOCombate(int xO, int yO, int xD, int yD, Creature creatureDestino, ArrayList<Creature> creatures);
+    abstract protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creatureDestino, ArrayList<Creature> creatures);
 
     abstract public boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino);
 

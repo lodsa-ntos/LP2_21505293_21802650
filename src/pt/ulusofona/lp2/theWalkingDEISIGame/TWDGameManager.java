@@ -603,7 +603,7 @@ public class TWDGameManager {
 
                                 /* processa o combate com equipamento ofensivo */
                                 /* VIVO vs ZOMBIE */
-                                boolean movimentoValido = creatureOrigem.processarOCombate(xO, yO, xD, yD, creatureDestino,
+                                boolean movimentoValido = creatureOrigem.processarCombateOfensivo(xO, yO, xD, yD, creatureDestino,
                                         creatures);
 
                                 if (!movimentoValido) {
@@ -795,9 +795,7 @@ public class TWDGameManager {
                                         /* caso o idoso encontre o equipamento deve-o apanhar */
                                         if (!encontrouEquip) {
                                             /* quando se mover para fora dessa casa, deve-o largar */
-                                            creatureOrigem.getEquipamentosVivos().remove(eq);
-                                            creatureOrigem.setxAtual(xD);
-                                            creatureOrigem.setyAtual(yD);
+                                            creatureOrigem.getEquipamentosVivos().remove(0);
                                             incrementarTurno();
                                             return true;
                                         }
@@ -916,6 +914,7 @@ public class TWDGameManager {
         return false;
     }
 
+    // TODO falta implementar salto por cima 0,4,3,1
     protected boolean saltarPorCima(int xO, int yO, int xD, int yD) {
         /* verifica direcao em que a critura está a tentar saltar por cima */
         String direcao = moverTodasDirecoes(xO, xD, yO, yD);
@@ -970,7 +969,8 @@ public class TWDGameManager {
 
         /* Verificar o deslocamento da criatura que está a ser movida
         * Verificar se ao mover existe uma criatura ou equipamento no meio */
-        if (xD - xO > 1 && yO - yD > 1 || xO - xD > 1 && yD - yO > 1 || xO - xD > 1 && yO - yD > 1
+        if (xD - xO >= 3 && yO - yD < 1 || xO - xD > 2 && yD - yO > 2 || xD - xO > 2 && yD - yO > 2 || xD - xO > 2 && Math.abs(yD - yO) == 0
+                || xD - xO > 1 && yO - yD > 1 || xO - xD > 1 && yD - yO > 1 || xO - xD > 1 && yO - yD > 1
                 || xD - xO > 1 && yD - yO > 1 || xD - xO > 1 && Math.abs(yD - yO) == 0 || xO - xD > 1 && Math.abs(yD - yO) == 0
                 || yD - yO > 1 && Math.abs(xD - xO) == 0 || yO - yD > 1 && Math.abs(xD - xO) == 0) {
             // verifica se uma criatura ou equipamento esta naquela posicao

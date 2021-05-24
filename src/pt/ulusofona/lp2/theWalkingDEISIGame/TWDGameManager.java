@@ -34,7 +34,7 @@ public class TWDGameManager {
     static ArrayList<Creature> zombiesDestruidos = new ArrayList<>();
     //Lista de Equipamento encontrados no caminho
     static ArrayList<Equipamento> equipamentosEncontrados = new ArrayList<>();
-    //Lista de Equipamento encontrados no caminho
+    //Lista de Portas em Jogo
     private static ArrayList<Porta> portasEmJogo = new ArrayList<>();
 
     private static int numLinha;
@@ -49,7 +49,6 @@ public class TWDGameManager {
     private int nP;
     private int nrTurno = 0;
     private int nrTurnoDoVeneno = 0;
-    private int turnoDeTransformacoes = 0;
     private static boolean diurno = true;
 
     public TWDGameManager() {
@@ -312,7 +311,8 @@ public class TWDGameManager {
             }
 
             boolean encontrouEquip = false;
-            boolean encontrouPortaSafeHaven = false;
+
+            /* TODO Variaveis para a condição de movimento do coelho */
             boolean nrTurnosImpares = Math.abs(xO - xD) <= 2 && Math.abs(yO - yD) <= 2;
             boolean nrTurnosPares = Math.abs(xO - xD) <= 3 && Math.abs(yO - yD) <= 3;
 
@@ -622,9 +622,10 @@ public class TWDGameManager {
                     if (creatureOrigem.getIdEquipa() == 10) {
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                             for (Equipamento eq : equipamentos) {
-                                if (eq.getxAtual() == xD && eq.getyAtual() == yD) {
+                                if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
                                     // verificar se o humano tem equipamentos
                                     if (creatureOrigem.getEquipamentosVivos().size() == 0) {
+
                                         // se for militar e escudo de madeira, entao a protecao aumenta
                                         if (creatureOrigem.getIdTipo() == 7 && eq.getIdTipo() == 0) {
                                             // verifica se foi a primeira vez usado
@@ -645,18 +646,23 @@ public class TWDGameManager {
                                             return false;
                                         }
 
+                                        /* senão, se tiver equipamento vamos removê-lo antes de apanhar o novo */
                                     } else {
                                         // guardamos o equipamento existente na lista de equipamentos
-                                        Equipamento eqAntigo = creatureOrigem.getEquipamentosVivos().get(0);
+                                        Equipamento eqAntigo = creatureOrigem.equipamentos.get(0);
                                         equipamentos.add(eqAntigo);
                                         // removemos esse equipamento e devolvemos na posicao original
-                                        creatureOrigem.getEquipamentosVivos().remove(0);
-
+                                        creatureOrigem.equipamentos.get(0).setXAtual(creatureOrigem.getXAtual());
+                                        creatureOrigem.equipamentos.get(0).setYAtual(creatureOrigem.getYAtual());
+                                        creatureOrigem.getEquipamentosVivos().remove(eqAntigo);
                                     }
-                                    // depois de removido adiciona o novo
-                                    creatureOrigem.getEquipamentosVivos().add(eq);
 
-                                    // Acrescenta o equipamento no bolso
+                                    // depois de removido, o vivo apanha o novo equipamento
+                                    // fica com o equipamento novo na mão
+                                    creatureOrigem.equipamentos.add(eq);
+                                    System.out.println("Novo: " + eq);
+
+                                    // Incrementa o equipamento no bolso
                                     creatureOrigem.incrementaEquipamentosNoBolso();
 
                                     if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 8) {
@@ -677,12 +683,13 @@ public class TWDGameManager {
                         } else {
                             return false;
                         }
-                        
+
+
                         // se for da equipa dos zombies // e se for para cima do equipamento // vamos destrui-lo
                     } else if (creatureOrigem.getIdEquipa() == 20 /*&& creatureOrigem.getIdTipo() != 4*/) {
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                             for (Equipamento eq : equipamentos) {
-                                if (eq.getxAtual() == xD && eq.getyAtual() == yD) {
+                                if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
                                     /* Veneno não pode ser destruido */
                                     if (eq.getIdTipo() == 8) {
@@ -718,7 +725,7 @@ public class TWDGameManager {
                     if (creatureOrigem.getIdEquipa() == 10) {
                         for (Equipamento eq : equipamentos) {
                             if (!encontrouEquip) {
-                                if (eq.getxAtual() == xO && eq.getyAtual() == yO) {
+                                if (eq.getXAtual() == xO && eq.getYAtual() == yO) {
                                     /* Se o vivo apanhar um veneno */
                                     if (eq.getIdTipo() == 8) {
                                         //nrTurnoDoVeneno++;
@@ -762,22 +769,21 @@ public class TWDGameManager {
                             }
                         }
 
-                    // se encontrou equipamento removemos da lista anterior e colocamos
-                    // numa outra lista de forma a que quando o "vivo" saia da posicao que apanhou o equipamento
-                    // o equipamento desapareca do mapa
+                    /* TIRAR EQUIPAMENTO DA ORIGEM */
+                    // se encontrou equipamento removemos esse o equipamento da sua casa original e
+                    // quando o "vivo" sai da posicao que apanhou o equipamento
+                    // o equipamento que estava na origemn antes, desaparece do mapa, para coordenadas que possam
+                    // não existir no jogo (dimensao do mapa)
                     for (Equipamento eq : equipamentos) {
                         if (creatureOrigem.getIdEquipa() == 10 && creatureOrigem.getIdTipo() != 8) {
                             if (!encontrouEquip) {
-                                if (eq.getxAtual() == xO && eq.getyAtual() == yO) {
-                                    eq.encontrouEquipamento(true);
-                                    equipamentos.get(equipamentos.indexOf(eq)).encontrouEquipamento(true);
-                                    equipamentosEncontrados.add(eq);
-                                    eq.setxAtual(-1);
-                                    eq.setyAtual(-1);
-                                    creatureOrigem.setxAtual(xD);
-                                    creatureOrigem.setyAtual(yD);
-                                    incrementarTurno();
-                                    return true;
+                                if (eq.getXAtual() == xO && eq.getYAtual() == yO) {
+                                    if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                        // removemos o equipamento para coordenadas que possam
+                                        // não existir no jogo (dimensao do mapa), para que ele não desapareca do mapa
+                                        eq.setXAtual(xO+30);
+                                        eq.setYAtual(yO+30);
+                                    }
                                 }
                             }
                         }
@@ -981,7 +987,7 @@ public class TWDGameManager {
 
 
             for (Equipamento equipamento : equipamentos) {
-                if (equipamento.getxAtual() == meioX && equipamento.getyAtual() == meioY) {
+                if (equipamento.getXAtual() == meioX && equipamento.getYAtual() == meioY) {
                     return false;
                 }
             }
@@ -1110,8 +1116,8 @@ public class TWDGameManager {
         }
 
         for (Equipamento e : equipamentos){
-            if (e.getxAtual() == x && e.getyAtual() == y && !e.encontrouEquipamento()){
-                System.out.println(e.getId());
+            if (e.getXAtual() == x && e.getYAtual() == y && !e.encontrouEquipamento()){
+                //System.out.println(e.getId());
                 return e.getId();
             }
         }
@@ -1206,12 +1212,11 @@ public class TWDGameManager {
         return diurno;
     }
 
-    // TODO falha no DROPPROJET - esperava -1 mas foi 0
     public int getEquipmentId(int creatureId) {
         /* verifica se o criatura tem o equipamento */
         for (Creature creature: creatures) {
             if (creature.getId() == creatureId) {
-                if (creature.getEquipamentosVivos().size() !=0) {
+                if (creature.getEquipamentosVivos().size() != 0) {
                     return creature.getEquipamentosVivos().get(0).getId();
                 }
             }
@@ -1296,8 +1301,8 @@ public class TWDGameManager {
             salvarFich.write(nextLine);
 
             for(Equipamento objeto : equipamentos) {
-                salvarFich.write(objeto.getId() + " : " + objeto.getIdTipo()+ " : " + objeto.getxAtual() + " : "
-                        + objeto.getyAtual());
+                salvarFich.write(objeto.getId() + " : " + objeto.getIdTipo()+ " : " + objeto.getXAtual() + " : "
+                        + objeto.getYAtual());
 
                 salvarFich.write(nextLine);
             }
@@ -1507,7 +1512,7 @@ public class TWDGameManager {
         criaturasEnvenenadas = new ArrayList<>(); // reset da lista de criaturas envenedadas
         equipamentosEncontrados = new ArrayList<>(); // reset da lista de equipamentos encontrados
         zombiesDestruidos = new ArrayList<>(); // reset da lista de zombies destruidos
-        portasEmJogo = new ArrayList<>();
+        portasEmJogo = new ArrayList<>(); // reset das portas em jogo
 
         numLinha = 0; // reset variavel numLinha.
         numColuna = 0; // reset variavel numColuna.
@@ -1515,6 +1520,5 @@ public class TWDGameManager {
         yPortas = 0; // reset variavel yPortas safeHaven.
         nrTurno = 0; // reset variavel turnos do jogo.
         nrTurnoDoVeneno = 0; // reset variavel de turnos quando o vivo apanha o equipamento veneno
-        turnoDeTransformacoes = 0; // reset para reducao de turnos de forma a dar continuidade ao jogo
     }
 }

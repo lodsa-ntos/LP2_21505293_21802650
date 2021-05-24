@@ -64,19 +64,19 @@ public class Equipamento {
         return titulo;
     }
 
-    public int getxAtual() {
+    public int getXAtual() {
         return xAtual;
     }
 
-    public void setxAtual(int xAtual) {
+    public void setXAtual(int xAtual) {
         this.xAtual = xAtual;
     }
 
-    public int getyAtual() {
+    public int getYAtual() {
         return yAtual;
     }
 
-    public void setyAtual(int yAtual) {
+    public void setYAtual(int yAtual) {
         this.yAtual = yAtual;
     }
 

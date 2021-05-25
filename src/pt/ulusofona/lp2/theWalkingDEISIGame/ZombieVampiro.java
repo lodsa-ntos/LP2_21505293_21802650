@@ -2,7 +2,7 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.util.ArrayList;
 
-public class ZombieVampiro extends Creature{
+public class ZombieVampiro extends Creature {
 
     public ZombieVampiro(int id, int idTipo, String nome, int xAtual, int yAtual) {
         super(id, idTipo, nome, xAtual, yAtual);
@@ -108,7 +108,7 @@ public class ZombieVampiro extends Creature{
                 break;
             default:
                 equipa = "";
-                idEquipa= -1;
+                idEquipa = -1;
                 break;
         }
     }
@@ -269,16 +269,18 @@ public class ZombieVampiro extends Creature{
 
     @Override
     public String toString() {
-        if (isInSafeHaven()){
+        TWDGameManager zombie = new TWDGameManager();
+
+        if (isInSafeHaven()) {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ A salvo";
-        } else if (zombieIsDestroyed() || humanDeadPorEnvenenamento()){
+        } else if (zombieIsDestroyed() || humanDeadPorEnvenenamento()) {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + 0 + " @ (RIP)";
-        } else if (isTransformado()){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + countEquipamentosDestruidos + " @ (" + xAtual + ", " + yAtual + ")";
-        } else if (equipa.equals("Os Vivos")){
+        } else if (zombie.getCurrentTeamId() == 20 && isTransformado()) {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
-        } else if (equipa.equals("Os Outros")){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + countEquipamentosDestruidos + " @ (" + xAtual + ", " + yAtual + ")";
+        } else if (equipa.equals("Os Vivos")) {
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
+        } else if (equipa.equals("Os Outros")) {
+            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
         } else {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
         }

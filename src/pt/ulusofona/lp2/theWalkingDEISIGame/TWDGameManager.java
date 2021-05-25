@@ -394,6 +394,7 @@ public class TWDGameManager {
                                                     /* diminuimos ... */
                                                     creatureDestino.getEquipamentosVivos().get(0).diminuiCountUsos();
 
+                                                    /* incrementa o numero de salvações */
                                                     creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
 
                                                     if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
@@ -501,6 +502,7 @@ public class TWDGameManager {
                                                 case 3:
                                                     /* Interação com o Escudo Tático */
                                                     /* Protecao contra varios ataques */
+                                                    /* incrementa o numero de salvações */
                                                     creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
                                                     incrementarTurno();
                                                     return false;
@@ -509,6 +511,7 @@ public class TWDGameManager {
                                                     /* Interação com a Revista Maria */
                                                     /* Protege contra ataques de zombies idosos */
                                                     if (creatureOrigem.getIdTipo() == 3) {
+                                                        /* incrementa o numero de salvações */
                                                         creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
                                                         return false;
                                                     } else {
@@ -517,6 +520,7 @@ public class TWDGameManager {
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
+                                                        /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                         incrementarTurno();
                                                         return true;
@@ -531,11 +535,13 @@ public class TWDGameManager {
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
+                                                        /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                         incrementarTurno();
                                                         return true;
                                                     } else if (creatureOrigem.getIdTipo() == 4 && !isDay()){
                                                         /* Protege contra ataques de zombies Vampiros */
+                                                        /* incrementa o numero de salvações */
                                                         creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
                                                         incrementarTurno();
                                                         return true;
@@ -560,7 +566,7 @@ public class TWDGameManager {
 
                                                         /* incrementa o numero de salvacao feita pelo equipamento */
                                                         creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
-                                                        /* deixa de ter equipamento */
+
                                                         incrementarTurno();
                                                         return true;
                                                     }
@@ -580,6 +586,7 @@ public class TWDGameManager {
                                                     /* diminuimos a protecao ... */
                                                     creatureDestino.equipamentos.get(0).diminuiCountUsos();
 
+                                                    /* incrementa o numero de salvações */
                                                     creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
 
                                                     incrementarTurno();
@@ -593,6 +600,7 @@ public class TWDGameManager {
                                                 case 10:
                                                     /* Interação com o antidoto */
                                                     /* Interação com o capacete Beskar Helmet */
+                                                    /* incrementa o numero de salvações */
                                                     creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
                                                     incrementarTurno();
                                                     return true;
@@ -709,8 +717,11 @@ public class TWDGameManager {
                                     /* Removemos o equipamento */
                                     equipamentos.remove(eq);
 
+                                    /* Incrementa o equipamento no bolso */
+                                    creatureOrigem.incrementaEquipamentosNoBolso();
+
                                     /* Contamos os equipamentos destruidos */
-                                    creatureOrigem.countEquipamentosDestruidos++;
+                                    //creatureOrigem.countEquipamentosDestruidos++;
 
                                     encontrouEquip = true;
                                     break;
@@ -1019,7 +1030,7 @@ public class TWDGameManager {
                 /* Se existirem "Vivos" e não passaram para o SafeHaven ou não foram transformado em Zombie */
                 if (!creatureOrigem.isInSafeHaven() && !creatureOrigem.isTransformado()
                         && !creatureOrigem.isEnvenenado()) {
-                    /* conta os "Vivos" que ainda estão em Jogo*/
+                    /* Ou não morreram envenenados, conta os "Vivos" que ainda estão em Jogo */
 
                     switch (creatureOrigem.getIdTipo()) {
                         case 5:
@@ -1236,7 +1247,7 @@ public class TWDGameManager {
 
     public boolean isDoorToSafeHaven(int x, int y) {
         /* Todas as portas guardadas na lista ...
-        * se estiverem na posicao (x,y), returnamos true e mostramos as portas */
+        * se estiverem na posicao (x,y), retornamos true e mostramos as portas */
         for (Porta door : portasEmJogo) {
             if (door.getxAtual() == x && door.getyAtual() == y){
                 return true;
@@ -1273,7 +1284,7 @@ public class TWDGameManager {
         return null;
     }
 
-    /* TODO falta implementar como gravar informacao completa do jogo */
+    /* TODO falta implementar como gravar vivo com equipamento */
     public boolean saveGame(File fich) {
 
         /* retorna o separador de linha, ou seja será a quebra de linha quando chegar a final de uma linha lida */
@@ -1478,8 +1489,6 @@ public class TWDGameManager {
                         && !criaturas.zombieIsDestroyed())
                 /* Ordenar por ordem decrescente do numero de equipamentos */
                 .sorted ((v2, v1) -> v1.getEquipamentosNoBolso() - v2.getEquipamentosNoBolso())
-                /* Ordenar por ordem decrescente do numero de equipamentos */
-                .sorted ((z2, z1) -> z1.getCountEquipamentosDestruidos() - z2.getCountEquipamentosDestruidos())
                 /* Mostrar apenas 5 criaturas que mais equipamentos apanharam/destruiram */
                 .limit(5)
                 /* Transforma o resultado em strings */

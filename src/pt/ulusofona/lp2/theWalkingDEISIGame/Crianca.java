@@ -55,7 +55,9 @@ public class Crianca extends Creature {
                         }
 
                         if (creature.getIdTipo() != 4) {
-                            this.equipamentos.get(0).diminuiCountUsos();/* ataque VS outros zombies, diminui uma bala*/
+
+                            /* ataque VS outros zombies, diminui uma bala */
+                            this.equipamentos.get(0).diminuiCountUsos();
 
                             /* incrementa o numero de salvacao feita pelo equipamento */
                             this.equipamentos.get(0).incrementaNrSalvacoes();
@@ -274,6 +276,11 @@ public class Crianca extends Creature {
     @Override
     public void incrementaEquipamentosNoBolso() {
         this.equipamentosNoBolso++;
+    }
+
+    @Override
+    public void incrementaSemEquipamentoDepoisDeTransformado(int vivoTransformadoSemEquipamento) {
+        equipamentosNoBolso = vivoTransformadoSemEquipamento;
     }
 
     @Override

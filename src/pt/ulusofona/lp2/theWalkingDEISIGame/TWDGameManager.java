@@ -452,7 +452,6 @@ public class TWDGameManager {
                                                             || creatureDestino.getIdTipo() == 7 || creatureDestino.getIdTipo() == 8) {
 
                                                         if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
-                                                            //creatureDestino.equipamentos.get(0).isBroken();
                                                             /* A pistola não tem efeito contra Zombies Vampiros */
                                                             /* vamos transformar o vivo em zombie */
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
@@ -460,6 +459,7 @@ public class TWDGameManager {
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento*/
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                            creatureDestino.incrementaSemEquipamentoDepoisDeTransformado(0);
                                                             incrementarTurno();
                                                             return true;
                                                         }
@@ -492,6 +492,7 @@ public class TWDGameManager {
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento*/
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                            creatureDestino.incrementaSemEquipamentoDepoisDeTransformado(0);
                                                             incrementarTurno();
                                                             return true;
                                                         } else {
@@ -537,6 +538,7 @@ public class TWDGameManager {
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                        creatureDestino.incrementaSemEquipamentoDepoisDeTransformado(0);
                                                         incrementarTurno();
                                                         return true;
                                                     } else if (creatureOrigem.getIdTipo() == 4 && !isDay()){
@@ -579,6 +581,7 @@ public class TWDGameManager {
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                        creatureDestino.incrementaSemEquipamentoDepoisDeTransformado(0);
                                                         incrementarTurno();
                                                         return true;
                                                     }

@@ -81,6 +81,8 @@ public abstract class Creature {
 
     abstract public void incrementaEquipamentosNoBolso();
 
+    abstract public void incrementaSemEquipamentoDepoisDeTransformado(int vivoTransformadoSemEquipamento);
+
     abstract public void incrementaZombiesDestruidos();
 
     abstract public boolean isInSafeHaven();

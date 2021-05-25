@@ -190,6 +190,11 @@ public class Idoso extends Creature {
     }
 
     @Override
+    public void incrementaSemEquipamentoDepoisDeTransformado(int vivoTransformadoSemEquipamento) {
+        equipamentosNoBolso = vivoTransformadoSemEquipamento;
+    }
+
+    @Override
     public void incrementaZombiesDestruidos() {
         this.zombiesDestruidos++;
     }

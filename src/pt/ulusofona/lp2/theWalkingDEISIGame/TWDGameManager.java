@@ -460,6 +460,7 @@ public class TWDGameManager {
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento*/
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                            /* e colocamos o numero de equipamentos que tinha antes a zero */
                                                             creatureDestino.incrementaSemEquipamentoDepoisDeTransformado(0);
                                                             incrementarTurno();
                                                             return true;
@@ -493,6 +494,7 @@ public class TWDGameManager {
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento*/
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                            /* e colocamos o numero de equipamentos que tinha antes a zero */
                                                             creatureDestino.incrementaSemEquipamentoDepoisDeTransformado(0);
                                                             incrementarTurno();
                                                             return true;
@@ -523,6 +525,8 @@ public class TWDGameManager {
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                        /* e colocamos o numero de equipamentos que tinha antes a zero */
+                                                        creatureDestino.incrementaSemEquipamentoDepoisDeTransformado(0);
                                                     }
                                                     incrementarTurno();
                                                     return true;
@@ -538,6 +542,7 @@ public class TWDGameManager {
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                        /* e colocamos o numero de equipamentos que tinha antes a zero */
                                                         creatureDestino.incrementaSemEquipamentoDepoisDeTransformado(0);
                                                         incrementarTurno();
                                                         return true;
@@ -581,6 +586,7 @@ public class TWDGameManager {
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                        /* e colocamos o numero de equipamentos que tinha antes a zero */
                                                         creatureDestino.incrementaSemEquipamentoDepoisDeTransformado(0);
                                                         incrementarTurno();
                                                         return true;
@@ -1396,16 +1402,16 @@ public class TWDGameManager {
         List<String> creturesZombies;
 
         creturesZombies = getCreatures().stream()
-                   /* Filtrar apenas os vivos */
+                   /* Filtrar apenas os zombies */
                    .filter((zombiesSemPiedade) -> zombiesSemPiedade.getIdEquipa() == 20)
                    /* Filtrar zombies que tiverem pelo menos 1 ou mais transformacoes */
                    .filter((t) -> t.getNumTransformacoesFeitasPorZombies() >= 1)
                    /* Ordena por ordem decrescente */
                    .sorted ((z2, z1) -> z1.getNumTransformacoesFeitasPorZombies() - z2.getNumTransformacoesFeitasPorZombies())
-                   /* Top 3 */
+                   /* Top 3 zombies*/
                    .limit(3)
                    /* Transforma os elementos em string */
-                   .map( (c) -> c.getId() + ":" + c.getNome() + ":" + c.getNumTransformacoesFeitasPorZombies() + "\n")
+                   .map( (c) -> c.getId() + ":" + c.getNome() + ":" + c.getNumTransformacoesFeitasPorZombies())
                    /* Transforma o resultado final em lista */
                    .collect(toList());
 
@@ -1428,7 +1434,7 @@ public class TWDGameManager {
                 /* Top 3 */
                 .limit(3)
                 /* Transforma os elementos em string */
-                .map( (c) -> c.getId() + ":" + c.getNome() + ":" + c.getZombiesDestruidos() + "\n")
+                .map( (c) -> c.getId() + ":" + c.getNome() + ":" + c.getZombiesDestruidos())
                 /* Transforma o resultado final em lista */
                 .collect(toList());
 

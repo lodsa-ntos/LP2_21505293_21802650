@@ -822,24 +822,10 @@ public class TWDGameManager {
                                     for (Equipamento eq : equipamentos) {
                                          /* caso o idoso encontre o equipamento deve-o apanhar */
                                         if (!encontrouEquip) {
-                                            switch (eq.getIdTipo()) {
-                                                /* se for qualquer um destes */
-                                                case 0:
-                                                case 1:
-                                                case 2:
-                                                case 3:
-                                                case 4:
-                                                case 5:
-                                                case 6:
-                                                case 7:
-                                                case 8:
-                                                case 9:
-                                                case 10:
-                                                    /* quando se mover para fora dessa casa, deve-o largar */
-                                                    creatureOrigem.equipamentos.remove(eq);
-                                                    incrementarTurno();
-                                                    return true;
-                                            }
+                                            /* quando se mover para fora dessa casa, deve-o largar */
+                                            creatureOrigem.equipamentos.remove(0);
+                                            incrementarTurno();
+                                            return true;
                                         }
                                     }
                                     incrementarTurno();

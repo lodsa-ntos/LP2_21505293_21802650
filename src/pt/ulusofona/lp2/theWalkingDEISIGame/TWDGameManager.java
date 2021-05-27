@@ -1,6 +1,7 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.io.*;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -298,7 +299,7 @@ public class TWDGameManager {
         return creatures;
     }
 
-    // TODO falta implementar os movimentos do coelho
+    // TODO falta implementar os movimentos do coelho - erros no DropProjet
     public boolean move(int xO, int yO, int xD, int yD) {
 
         if (!gameIsOver()) {
@@ -506,7 +507,7 @@ public class TWDGameManager {
                                                     /* incrementa o numero de salvações */
                                                     creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
                                                     incrementarTurno();
-                                                    return false;
+                                                    return true;
 
                                                 case 4:
                                                     /* Interação com a Revista Maria */
@@ -514,7 +515,6 @@ public class TWDGameManager {
                                                     if (creatureOrigem.getIdTipo() == 3) {
                                                         /* incrementa o numero de salvações */
                                                         creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
-                                                        return false;
                                                     } else {
                                                         /* Não protege de outros zombies */
                                                         /* Vivo tranforma-se (->) em Zombie */
@@ -523,9 +523,9 @@ public class TWDGameManager {
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
-                                                        incrementarTurno();
-                                                        return true;
                                                     }
+                                                    incrementarTurno();
+                                                    return true;
 
                                                 case 5:
                                                     /* Interação com a Cabeça de alho */
@@ -669,7 +669,7 @@ public class TWDGameManager {
                                     }
 
                                     // depois de removido, o vivo apanha o novo equipamento
-                                    // fica com o equipamento novo na mão
+                                    // e fica com o equipamento novo na mão
                                     creatureOrigem.equipamentos.add(eq);
                                     System.out.println("Novo: " + eq);
 
@@ -1204,6 +1204,7 @@ public class TWDGameManager {
         return resultados;
     }
 
+    // TODO incompleto , falta implementar bem os dias e noites - erros no DropProjet
     public boolean isDay() {
         switch (nrTurno) {
             case 0:
@@ -1287,7 +1288,7 @@ public class TWDGameManager {
         return null;
     }
 
-    /* TODO falta implementar como gravar vivo com equipamento */
+    /* TODO falta implementar como gravar vivo com equipamento e dentro do safeHaven - erros no DropProjet */
     public boolean saveGame(File fich) {
 
         /* retorna o separador de linha, ou seja será a quebra de linha quando chegar a final de uma linha lida */
@@ -1326,6 +1327,8 @@ public class TWDGameManager {
 
             for(Porta p : portasEmJogo) {
                 salvarFich.write(p.getxAtual() + " : " + p.getyAtual());
+
+                salvarFich.write(nextLine);
             }
 
             salvarFich.close();
@@ -1451,7 +1454,7 @@ public class TWDGameManager {
         return equipamentoQueSafaram;
     }
 
-    /* TODO falta implementar o desempate e o numero de equipamentos */
+    /* TODO falta implementar o desempate e o numero de equipamentos - erros no DropProjet */
     /* <Nome do Tipo>:<ID_Zombies>:<NrEquipamentos> */
     /* Qual o total de equipamentos destruidos por cada tipo de zombie? */
     private List<String> tiposZombiesEEquipamentosDestruidos() {

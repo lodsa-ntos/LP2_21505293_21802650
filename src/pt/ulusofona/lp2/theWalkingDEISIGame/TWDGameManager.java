@@ -416,6 +416,8 @@ public class TWDGameManager {
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento */
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
+                                                            /* e colocamos o numero de equipamentos que tinha antes a zero */
+                                                            creatureDestino.incrementaSemEquipamentoDepoisDeTransformado(0);
                                                         } else {
                                                             /* vamos destruir o zombie */
                                                             creatures.remove(creatureOrigem);
@@ -820,10 +822,24 @@ public class TWDGameManager {
                                     for (Equipamento eq : equipamentos) {
                                          /* caso o idoso encontre o equipamento deve-o apanhar */
                                         if (!encontrouEquip) {
-                                             /* quando se mover para fora dessa casa, deve-o largar */
-                                            creatureOrigem.equipamentos.remove(eq);
-                                            incrementarTurno();
-                                            return true;
+                                            switch (eq.getIdTipo()) {
+                                                /* se for qualquer um destes */
+                                                case 0:
+                                                case 1:
+                                                case 2:
+                                                case 3:
+                                                case 4:
+                                                case 5:
+                                                case 6:
+                                                case 7:
+                                                case 8:
+                                                case 9:
+                                                case 10:
+                                                    /* quando se mover para fora dessa casa, deve-o largar */
+                                                    creatureOrigem.equipamentos.remove(eq);
+                                                    incrementarTurno();
+                                                    return true;
+                                            }
                                         }
                                     }
                                     incrementarTurno();
@@ -1233,6 +1249,7 @@ public class TWDGameManager {
         return diurno;
     }
 
+    // TODO idoso está a mover com equipamentos - erro no DropProjet
     public int getEquipmentId(int creatureId) {
         /* verifica se o criatura tem o equipamento */
         for (Creature creature: creatures) {

@@ -23,7 +23,7 @@ public class Crianca extends Creature {
                 switch (this.equipamentos.get(0).getIdTipo()) {
                     case 1: { /* Interação com a Espada */
                         if (creature.getIdTipo() == 0) {
-                            /* crianca viva com espada VS zombie crianca == processa o combate*/
+                            /* crianca viva com espada VS zombie crianca == processa o combate */
                             /* vamos destruir o zombie crianca e posicionar a crianca viva naquela posicao */
                             creatures.remove(creature);
                             TWDGameManager.zombiesDestruidos.add(creature);

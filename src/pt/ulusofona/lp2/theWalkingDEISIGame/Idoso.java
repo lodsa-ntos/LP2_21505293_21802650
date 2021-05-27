@@ -18,7 +18,7 @@ public class Idoso extends Creature {
                 return false;
             }
 
-            /*EQUIPAMENTOS OFENSIVOS*/
+            /* EQUIPAMENTOS OFENSIVOS - O Idoso nao ataca, apenas defende */
             switch (this.equipamentos.get(0).getIdTipo()) {
                 case 1:/* Interação com a Espada */
                 case 2:/* Interação com a Pistola */

@@ -313,7 +313,7 @@ public class TWDGameManager {
 
             boolean encontrouEquip = false;
 
-            /* TODO Variaveis para a condição de movimento do coelho */
+            /* TODO variaveis para a condição de movimento do coelho */
             boolean nrTurnosImpares = Math.abs(xO - xD) <= 2 && Math.abs(yO - yD) <= 2;
             boolean nrTurnosPares = Math.abs(xO - xD) <= 3 && Math.abs(yO - yD) <= 3;
 
@@ -820,13 +820,14 @@ public class TWDGameManager {
                                     creatureOrigem.setxAtual(xD);
                                     creatureOrigem.setyAtual(yD);
                                     for (Equipamento eq : equipamentos) {
-                                         /* caso o idoso encontre o equipamento deve-o apanhar */
-                                        if (!encontrouEquip) {
-                                            /* quando se mover para fora dessa casa, deve-o largar */
-                                            creatureOrigem.equipamentos.remove(0);
-                                            incrementarTurno();
-                                            return true;
-                                        }
+                                        //if (!encontrouEquip) {
+                                            if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                                                /* caso o idoso encontre o equipamento, deve-o apanhar */
+                                                creatureOrigem.equipamentos.add(eq);
+                                            }
+                                        /* quando se mover para fora dessa casa, deve-o largar */
+                                        creatureOrigem.getEquipamentosVivos().remove(eq);
+                                       // }
                                     }
                                     incrementarTurno();
                                     return true;
@@ -932,7 +933,7 @@ public class TWDGameManager {
                         return false;
                     }
 
-                   /* TODO arranjar solução para o deslocamento do coelho */
+                   /* TODO falta implementar o deslocamento do coelho - erros no DropProjet */
 
                     incrementarTurno();
                     return true;

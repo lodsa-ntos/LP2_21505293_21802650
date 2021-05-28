@@ -49,7 +49,8 @@ public class Militar extends Creature {
                     }
 
                     if (creature.getIdTipo() != 4) {
-                        this.equipamentos.get(0).diminuiCountUsos();/* ataque VS outros zombies, diminui uma bala*/
+                        /* ataque VS outros zombies, diminui uma bala */
+                        this.equipamentos.get(0).diminuiCountUsos();
 
                         /* incrementa o numero de salvacao feita pelo equipamento */
                         this.equipamentos.get(0).incrementaNrSalvacoes();

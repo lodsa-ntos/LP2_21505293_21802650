@@ -384,21 +384,23 @@ public class TWDGameManager {
 
                                             /* Zombie VS Vivo com equipamentos defensivos */
                                             switch (creatureDestino.getEquipamentosVivos().get(0).getIdTipo()) {
+
                                                 case 0:
                                                     /* Interação com o Escudo de madeira */
 
                                                     /* Quando militar defende, alteramos o estado de uso do escudo de madeira */
                                                     if (creatureDestino.getIdTipo() == 7) {
                                                         creatureDestino.getEquipamentosVivos().get(0).escudoFoiUsado();
+                                                        //creatureDestino.getEquipamentosVivos().get(0).aumentaProtecaoDoEscudo();
                                                     }
 
                                                     /* diminuimos ... */
-                                                    creatureDestino.getEquipamentosVivos().get(0).diminuiCountUsos();
+                                                    creatureDestino.getEquipamentosVivos().get(0).diminuiProtecaoDoEscudo();
 
                                                     /* incrementa o numero de salvações */
                                                     creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
 
-                                                    if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
+                                                    if (creatureDestino.equipamentos.get(0).getCountProtecaoDoEscudo() == 0) {
                                                         // destrui-mos o equipamento
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                     }
@@ -647,9 +649,9 @@ public class TWDGameManager {
 
                                         // se for militar e escudo de madeira, entao a protecao aumenta
                                         if (creatureOrigem.getIdTipo() == 7 && eq.getIdTipo() == 0) {
-                                            // verifica se foi a primeira vez usado
+                                            // verifica se foi a primeira vez a usar
                                             if (!eq.isEscudoUsado()) {
-                                                eq.aumentaCountUsos();
+                                                eq.aumentaProtecaoDoEscudo();
                                             }
                                         }
 
@@ -667,6 +669,15 @@ public class TWDGameManager {
 
                                         /* senão, se tiver equipamento vamos removê-lo antes de apanhar o novo */
                                     } else {
+
+                                        // se for militar e escudo de madeira, entao a protecao aumenta
+                                        if (creatureOrigem.getIdTipo() == 7 && eq.getIdTipo() == 0) {
+                                            // verifica se foi a primeira vez a usar
+                                            if (!eq.isEscudoUsado()) {
+                                                eq.aumentaProtecaoDoEscudo();
+                                            }
+                                        }
+
                                         // guardamos o equipamento existente na lista de equipamentos
                                         Equipamento eqAntigo = creatureOrigem.equipamentos.get(0);
                                         equipamentos.add(eqAntigo);
@@ -1106,8 +1117,8 @@ public class TWDGameManager {
             }
         }
 
-        /* TODO se houver transformacao o jogo continua ...
-              se não houver tranformacao o jogo termina no turno 12 */
+        /* TODO se houver transformacão o jogo continua ...
+              se não houver transformacão o jogo termina no turno 12 */
         for (Creature creatureOrigem : creatures) {
             if (getCurrentTeamId() == 10) {
                 if (creatureOrigem.isTransformado()) {
@@ -1215,6 +1226,7 @@ public class TWDGameManager {
 
     // TODO incompleto , falta implementar bem os dias e noites - erros no DropProjet
     public boolean isDay() {
+        // TODO ideia beta por enquanto
         switch (nrTurno) {
             case 0:
             case 1:
@@ -1236,7 +1248,6 @@ public class TWDGameManager {
         return diurno;
     }
 
-    // TODO idoso está a mover com equipamentos - erro no DropProjet
     public int getEquipmentId(int creatureId) {
         /* verifica se o criatura tem o equipamento */
         for (Creature creature: creatures) {
@@ -1286,7 +1297,9 @@ public class TWDGameManager {
             if (equipamento.getId() == equipmentId) {
                 // Se os equipamentos forem escudo de madeira, pistola ou lixivia
                 // <Nome Tipo> | <Info>
-                if (equipamento.getIdTipo() == 0 || equipamento.getIdTipo() == 2) {
+                if (equipamento.getIdTipo() == 0) {
+                    return equipamento.getTitulo() + " | " + equipamento.getCountProtecaoDoEscudo();
+                } else if (equipamento.getIdTipo() == 2) {
                     return equipamento.getTitulo() + " | " + equipamento.getCountUsos();
                 } else if (equipamento.getIdTipo() == 7) {
                     return equipamento.getTitulo() + " | " + equipamento.getCountUsos();

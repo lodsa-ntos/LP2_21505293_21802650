@@ -12,6 +12,7 @@ public class Equipamento {
     private int xAtual;
     private int yAtual;
     private int countUsos;
+    private int countProtecaoDoEscudo;
     private int nrSalvacoes = 0;
     private boolean escudoUsado;
     protected boolean isEquipamento;
@@ -29,25 +30,19 @@ public class Equipamento {
         this.yAtual = yAtual;
         this.escudoUsado = false;
         if(idTipo == 0) {
-            //Escudo de madeira
+            // Escudo de madeira
             // Equipamento Defensivo
-            /*Protecao contra 1 ataque zombie*/
-            countUsos = 1;
+            /* Protecao contra 1 ataque zombie = Defesa de 1 ataque */
+            countProtecaoDoEscudo = 1;
         } else if(idTipo == 2) {
-            //Pistola
+            // Pistola
             // Equipamento Ofensivo
-            /*Tem 3 balas (permite matar 3 balas)*/
+            /* Tem 3 balas */
             countUsos = 3;
         } else if(idTipo == 7) {
-            //Lixivia
+            // Lixivia
             // Equipamento Defensivo
-            /*Protecao contra ataques zombies (Necessário 3 litros de lixivia)*/
-            countUsos = 3;
-        } else if(idTipo == 8) {
-            //Veneno
-            // Equipamento Defensivo
-            /*Protecao durante 2 turnos*/
-            /*Se o "Vivo" estiver envenenado durante 3 turnos, morre*/
+            /* Necessário 3 litros de lixivia */
             countUsos = 3;
         }
     }
@@ -114,13 +109,19 @@ public class Equipamento {
         return countUsos;
     }
 
-    public void aumentaCountUsos() {
-        this.countUsos += 1;
+    public int getCountProtecaoDoEscudo() {
+        return countProtecaoDoEscudo;
+    }
+
+    public void aumentaProtecaoDoEscudo() {
+        this.countProtecaoDoEscudo += 1;
     }
 
     public void diminuiCountUsos() {
         this.countUsos -= 1;
     }
+
+    public void diminuiProtecaoDoEscudo() {this.countProtecaoDoEscudo -= 1;}
 
     public void isBroken() {this.countUsos = 0;}
 

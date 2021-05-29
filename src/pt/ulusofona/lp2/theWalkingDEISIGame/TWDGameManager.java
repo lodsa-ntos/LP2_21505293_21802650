@@ -550,7 +550,7 @@ public class TWDGameManager {
                                                         creatureDestino.incrementaSemEquipamentoDepoisDeTransformado(0);
                                                         incrementarTurno();
                                                         return true;
-                                                    } else if (creatureOrigem.getIdTipo() == 4 && !isDay()){
+                                                    } else if (creatureOrigem.getIdTipo() == 4 && !isDay()) {
                                                         /* Protege contra ataques de zombies Vampiros */
                                                         /* incrementa o numero de salvações */
                                                         creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
@@ -678,6 +678,13 @@ public class TWDGameManager {
                                             }
                                         }
 
+                                        /* Apenas podem apanhar o antidoto os 'vivos' que estejam envenenados */
+                                        if (!creatureOrigem.isEnvenenado()) {
+                                            if (eq.getIdTipo() == 9) {
+                                                return false;
+                                            }
+                                        }
+
                                         // guardamos o equipamento existente na lista de equipamentos
                                         Equipamento eqAntigo = creatureOrigem.equipamentos.get(0);
                                         equipamentos.add(eqAntigo);
@@ -690,7 +697,7 @@ public class TWDGameManager {
                                     // depois de removido, o vivo apanha o novo equipamento
                                     // e fica com o equipamento novo na mão
                                     creatureOrigem.equipamentos.add(eq);
-                                    System.out.println("Novo: " + eq);
+                                    System.out.println("Apanhou: " + eq);
 
                                     // Incrementa o equipamento no bolso
                                     creatureOrigem.incrementaEquipamentosNoBolso();
@@ -1150,7 +1157,7 @@ public class TWDGameManager {
         }
 
         for (Equipamento e : equipamentos){
-            if (e.getXAtual() == x && e.getYAtual() == y && !e.encontrouEquipamento()){
+            if (e.getXAtual() == x && e.getYAtual() == y){
                 //System.out.println(e.getId());
                 return e.getId();
             }
@@ -1226,7 +1233,7 @@ public class TWDGameManager {
 
     // TODO incompleto , falta implementar bem os dias e noites - erros no DropProjet
     public boolean isDay() {
-        // TODO ideia beta por enquanto
+        // TODO ideia beta por enquanto, a pensar, a pensar, a pensar, em possiveis solucoes num processo por partes
         switch (nrTurno) {
             case 0:
             case 1:

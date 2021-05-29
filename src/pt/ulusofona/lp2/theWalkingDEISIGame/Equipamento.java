@@ -1,8 +1,5 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 public class Equipamento {
 
     private int id;
@@ -15,10 +12,6 @@ public class Equipamento {
     private int countProtecaoDoEscudo;
     private int nrSalvacoes = 0;
     private boolean escudoUsado;
-    protected boolean isEquipamento;
-    protected boolean isEquipmentZombie;
-
-    ArrayList<Equipamento> equipamentosQueSafaram = new ArrayList<>();
 
     public Equipamento() {
     }
@@ -75,10 +68,6 @@ public class Equipamento {
         this.yAtual = yAtual;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
     public void setIdTipo(int idTipo) {
         if(idTipo == 0) {
             titulo = "Escudo de Madeira";
@@ -114,7 +103,7 @@ public class Equipamento {
     }
 
     public void aumentaProtecaoDoEscudo() {
-        this.countProtecaoDoEscudo += 1;
+        this.countProtecaoDoEscudo = 2;
     }
 
     public void diminuiCountUsos() {
@@ -122,8 +111,6 @@ public class Equipamento {
     }
 
     public void diminuiProtecaoDoEscudo() {this.countProtecaoDoEscudo -= 1;}
-
-    public void isBroken() {this.countUsos = 0;}
 
     public boolean isEscudoUsado() {
         return escudoUsado;
@@ -133,32 +120,12 @@ public class Equipamento {
         this.escudoUsado = true;
     }
 
-    public ArrayList<Equipamento> getEquipamentosSafos() {
-        return equipamentosQueSafaram;
-    }
-
     public void incrementaNrSalvacoes() {
         this.nrSalvacoes++;
     }
 
     public int getNrSalvacoes() {
         return nrSalvacoes;
-    }
-
-    public boolean encontrouEquipamento() {
-        return isEquipamento;
-    }
-
-    public void encontrouEquipamento(boolean isEquipamento) {
-        this.isEquipamento = isEquipamento;
-    }
-
-    public boolean foundEquipmentZombie() {
-        return isEquipmentZombie;
-    }
-
-    public void foundEquipmentZombie(boolean isEquipmentZombie) {
-        this.isEquipmentZombie = isEquipmentZombie;
     }
 
     @Override

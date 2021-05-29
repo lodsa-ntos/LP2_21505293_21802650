@@ -24,6 +24,7 @@ public class TestDoJogo {
 
             // Turno 1
             assertEquals("Vivo a jogar: ", 10, mapaGigante.getCurrentTeamId());
+            assertTrue(String.valueOf(true), mapaGigante.isDay());
             assertTrue("Militar move para casa com equipamento: ", mapaGigante.move(2, 0, 3, 0));
             assertEquals("", 0, mapaGigante.getElementId(2,0)); // casa antiga fica vazia
             assertEquals("", 3, mapaGigante.getElementId(3,0)); // Militar na casa do equipamento
@@ -32,10 +33,12 @@ public class TestDoJogo {
 
             // Turno 2
             assertEquals("Zombie a jogar: ", 20, mapaGigante.getCurrentTeamId());
+            assertTrue(String.valueOf(true), mapaGigante.isDay());
             mapaGigante.move(2, 4, 2, 5); // Zombie move
 
             // Turno 3
             assertEquals("Vivo a jogar: ", 10, mapaGigante.getCurrentTeamId());
+            assertFalse(String.valueOf(false), mapaGigante.isDay());
             assertTrue("move(4, 0, 7, 0) devolveu false", mapaGigante.move(3, 0, 4, 0));
             assertEquals("", 0, mapaGigante.getElementId(3,0));
             assertEquals("", 3, mapaGigante.getElementId(4,0)); // Militar na nova casa
@@ -43,10 +46,12 @@ public class TestDoJogo {
 
             // Turno 4
             assertEquals("Zombie a jogar: ", 20, mapaGigante.getCurrentTeamId());
+            assertFalse(String.valueOf(false), mapaGigante.isDay());
             mapaGigante.move(2, 5, 1, 5); // Zombie move
 
             // Turno 5 move(4, 0, 7, 0)
             assertEquals("Vivo a jogar: ", 10, mapaGigante.getCurrentTeamId());
+            assertTrue(String.valueOf(true), mapaGigante.isDay());
             assertTrue("move(4, 0, 7, 0)", mapaGigante.move(4, 0, 7, 0));
             assertEquals("", -1, mapaGigante.getElementId(4,0));
             assertEquals("", 3, mapaGigante.getElementId(7,0)); // Militar na nova casa

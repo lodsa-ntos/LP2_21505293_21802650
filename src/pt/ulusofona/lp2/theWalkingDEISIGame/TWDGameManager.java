@@ -304,10 +304,10 @@ public class TWDGameManager {
 
         if (!gameIsOver()) {
             //VALIDAÇÕES PARA COORDENADAS DE DESTINO FORA DO MAPA
-            if (xD < 0 || xD > numLinha) {
+            if (xO < 0 || xD < 0) {
                 return false; // estão fora do mapa
 
-            } else if (yD < 0 || yD > numColuna) {
+            } else if (yO < 0 || yD < 0) {
                 return false; // estão fora do mapa
             }
 
@@ -391,7 +391,6 @@ public class TWDGameManager {
                                                     /* Quando militar defende, alteramos o estado de uso do escudo de madeira */
                                                     if (creatureDestino.getIdTipo() == 7) {
                                                         creatureDestino.getEquipamentosVivos().get(0).escudoFoiUsado();
-                                                        //creatureDestino.getEquipamentosVivos().get(0).aumentaProtecaoDoEscudo();
                                                     }
 
                                                     /* diminuimos ... */
@@ -720,7 +719,6 @@ public class TWDGameManager {
                         } else {
                             return false;
                         }
-
 
                         // se for da equipa dos zombies // e se for para cima do equipamento // vamos destrui-lo
                     } else if (creatureOrigem.getIdEquipa() == 20 /*&& creatureOrigem.getIdTipo() != 4*/) {
@@ -1233,7 +1231,7 @@ public class TWDGameManager {
 
     // TODO incompleto , falta implementar bem os dias e noites - erros no DropProjet
     public boolean isDay() {
-        // TODO ideia beta por enquanto, a pensar, a pensar, a pensar, em possiveis solucoes num processo por partes
+
         switch (nrTurno) {
             case 0:
             case 1:

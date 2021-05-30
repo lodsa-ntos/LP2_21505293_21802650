@@ -1048,9 +1048,21 @@ public class TWDGameManager {
     }
 
     public boolean gameIsOver() {
-        int nrMaxDiaENoite = 6;
+        int nrMaxDiaENoite = 12;
         int numeroVivosEmJogo = 0;
         int countTodosMenosIdosoEmJogo = 0;
+
+        // O jogo termina se tiverem passados 3 dias e 3 noites
+        /* TODO se houver transformacão o jogo continua ...
+              se não houver transformacão o jogo termina no turno 12 */
+        for (Creature creatureOrigem : creatures) {
+            if (creatureOrigem.isTransformado()) {
+                nrTurno--;
+                break;
+            } else if (nrTurno >= nrMaxDiaENoite && !creatureOrigem.isTransformado()) {
+                return true;
+            }
+        }
 
         /* Sem vivos em jogo */
         for (Creature creatureOrigem : creatures) {
@@ -1122,18 +1134,7 @@ public class TWDGameManager {
             }
         }
 
-        /* TODO se houver transformacão o jogo continua ...
-              se não houver transformacão o jogo termina no turno 12 */
-        for (Creature creatureOrigem : creatures) {
-            if (getCurrentTeamId() == 10) {
-                if (creatureOrigem.isTransformado()) {
-                    nrTurno--;
-                }
-            }
-        }
-
-        // O jogo termina se tiverem passados 3 dias e 3 noites ou se nao exitirem mais "Vivos" ou 'Zombies' em Jogo
-        return ((nrTurno/2) >= nrMaxDiaENoite);
+        return false;
     }
 
     public List<String> getAuthors() {

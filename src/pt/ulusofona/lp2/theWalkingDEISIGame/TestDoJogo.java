@@ -59,6 +59,7 @@ public class TestDoJogo {
             assertEquals("", "Escudo de Madeira | 2", mapaGigante.getEquipmentInfo(-2));
 
 
+
         } catch (FileNotFoundException | InvalidTWDInitialFileException e) {
             e.printStackTrace();
         }

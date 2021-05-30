@@ -299,7 +299,7 @@ public class TWDGameManager {
         return creatures;
     }
 
-    // TODO falta implementar os movimentos do coelho - erros no DropProjet
+    // TODO falta implementar os movimentos do coelho - 2 erros no DropProjet
     public boolean move(int xO, int yO, int xD, int yD) {
 
         if (!gameIsOver()) {
@@ -1229,7 +1229,7 @@ public class TWDGameManager {
         return resultados;
     }
 
-    // TODO incompleto , falta implementar bem os dias e noites - erros no DropProjet
+    // TODO incompleto , falta implementar bem os dias e noites - 2 erros no DropProjet
     public boolean isDay() {
 
         switch (nrTurno) {
@@ -1239,6 +1239,28 @@ public class TWDGameManager {
             case 5:
             case 8:
             case 9:
+            case 12:
+            case 13:
+            case 16:
+            case 17:
+            case 20:
+            case 21:
+            case 24:
+            case 25:
+            case 28:
+            case 29:
+            case 32:
+            case 33:
+            case 36:
+            case 37:
+            case 40:
+            case 41:
+            case 44:
+            case 45:
+            case 48:
+            case 49:
+            case 52:
+            case 53:
                 diurno = true;
                 break;
             case 2:
@@ -1247,6 +1269,26 @@ public class TWDGameManager {
             case 7:
             case 10:
             case 11:
+            case 14:
+            case 15:
+            case 18:
+            case 19:
+            case 22:
+            case 23:
+            case 26:
+            case 27:
+            case 30:
+            case 31:
+            case 34:
+            case 35:
+            case 38:
+            case 39:
+            case 42:
+            case 43:
+            case 46:
+            case 47:
+            case 50:
+            case 51:
                 diurno = false;
                 break;
         }
@@ -1316,7 +1358,7 @@ public class TWDGameManager {
         return null;
     }
 
-    /* TODO falta implementar como gravar vivo com equipamento e dentro do safeHaven - erros no DropProjet */
+    /* TODO falta implementar como gravar vivo com equipamento e dentro do safeHaven - 2 erros no DropProjet */
     public boolean saveGame(File fich) {
 
         /* retorna o separador de linha, ou seja será a quebra de linha quando chegar a final de uma linha lida */
@@ -1482,7 +1524,7 @@ public class TWDGameManager {
         return equipamentoQueSafaram;
     }
 
-    /* TODO falta implementar o desempate e o numero de equipamentos - erros no DropProjet */
+    /* TODO falta implementar o desempate e o numero de equipamentos - 2 erros no DropProjet */
     /* <Nome do Tipo>:<ID_Zombies>:<NrEquipamentos> */
     /* Qual o total de equipamentos destruidos por cada tipo de zombie? */
     private List<String> tiposZombiesEEquipamentosDestruidos() {

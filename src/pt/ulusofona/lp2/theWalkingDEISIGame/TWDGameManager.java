@@ -1058,10 +1058,8 @@ public class TWDGameManager {
         for (Creature creatureOrigem : creatures) {
             if (creatureOrigem.isTransformado()) {
                 nrTurno--;
-                break;
-            } else if (nrTurno >= nrMaxDiaENoite && !creatureOrigem.isTransformado()) {
-                return true;
-            }
+                return false;
+            } else return nrTurno >= nrMaxDiaENoite && !creatureOrigem.isTransformado();
         }
 
         /* Sem vivos em jogo */

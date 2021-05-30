@@ -59,42 +59,6 @@ public class TestDoJogo {
             assertEquals("", "Escudo de Madeira | 2", mapaGigante.getEquipmentInfo(-2));
             assertEquals("",false, mapaGigante.gameIsOver());
 
-            // Turno 6
-            assertEquals("Zombie a jogar: ", 20, mapaGigante.getCurrentTeamId());
-            assertTrue(String.valueOf(true), mapaGigante.isDay());
-            mapaGigante.move(4, 4, 4, 5); // Zombie move
-
-            // Turno 7
-            assertEquals("Vivo a jogar: ", 10, mapaGigante.getCurrentTeamId());
-            assertFalse(String.valueOf(false), mapaGigante.isDay());
-            mapaGigante.move(3, 3, 2, 3); // Zombie move
-
-            // Turno 8
-            assertEquals("Zombie a jogar: ", 10, mapaGigante.getCurrentTeamId());
-            assertFalse(String.valueOf(false), mapaGigante.isDay());
-            mapaGigante.move(1, 0, 0, 0); // Zombie move
-
-            // Turno 9
-            assertEquals("Vivo a jogar: ", 10, mapaGigante.getCurrentTeamId());
-            assertFalse(String.valueOf(false), mapaGigante.isDay());
-            mapaGigante.move(1, 1, 0, 2); // Zombie move
-
-            // Turno 10
-            assertEquals("Zombie a jogar: ", 20, mapaGigante.getCurrentTeamId());
-            assertTrue(String.valueOf(true), mapaGigante.isDay());
-            mapaGigante.move(5, 8, 3, 8); // Zombie move
-
-            // Turno 11
-            assertEquals("Vivo a jogar: ", 10, mapaGigante.getCurrentTeamId());
-            assertFalse(String.valueOf(false), mapaGigante.isDay());
-            mapaGigante.move(3, 4, 3, 5); // Zombie move
-
-            // Turno 12
-            assertEquals("Zombie a jogar: ", 20, mapaGigante.getCurrentTeamId());
-            assertFalse(String.valueOf(false), mapaGigante.isDay());
-            mapaGigante.move(8, 2, 8, 3); // Zombie move
-            assertEquals("Jogo Termina",true, mapaGigante.gameIsOver());
-
 
 
         } catch (FileNotFoundException | InvalidTWDInitialFileException e) {

@@ -1048,7 +1048,7 @@ public class TWDGameManager {
     }
 
     public boolean gameIsOver() {
-        int nrMaxDiaENoite = 12;
+        int nrMaxDiaENoite = 6;
         int numeroVivosEmJogo = 0;
         int countTodosMenosIdosoEmJogo = 0;
 
@@ -1059,7 +1059,9 @@ public class TWDGameManager {
             if (creatureOrigem.isTransformado()) {
                 nrTurno--;
                 return false;
-            } else return nrTurno >= nrMaxDiaENoite && !creatureOrigem.isTransformado();
+            } else if (((nrTurno/2) >= nrMaxDiaENoite) && !creatureOrigem.isTransformado()){
+                return true;
+            }
         }
 
         /* Sem vivos em jogo */

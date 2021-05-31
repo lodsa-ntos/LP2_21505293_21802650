@@ -1051,15 +1051,17 @@ public class TWDGameManager {
         int nrMaxDiaENoite = 6;
         int numeroVivosEmJogo = 0;
         int countTodosMenosIdosoEmJogo = 0;
+        int countTransformacoes = 0;
 
         // O jogo termina se tiverem passados 3 dias e 3 noites
         /* TODO se houver transformacão o jogo continua ...
               se não houver transformacão o jogo termina no turno 12 */
         for (Creature creatureOrigem : creatures) {
-            if (creatureOrigem.isTransformado()) {
+            if (creatureOrigem.getNumTransformacoesFeitasPorZombies() >= 1 && nrTurno >= 12) {
                 nrTurno--;
-                return false;
-            } else if (((nrTurno/2) >= nrMaxDiaENoite) && !creatureOrigem.isTransformado()){
+            }
+
+            if (creatureOrigem.getNumTransformacoesFeitasPorZombies() == 0 && nrTurno >= 12) {
                 return true;
             }
         }
@@ -1134,7 +1136,7 @@ public class TWDGameManager {
             }
         }
 
-        return false;
+        return nrTurno/2 >= nrMaxDiaENoite;
     }
 
     public List<String> getAuthors() {

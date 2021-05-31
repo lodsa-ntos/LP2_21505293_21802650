@@ -5,8 +5,8 @@
 2 : 8 : Cincinaty kid : 2 : 4
 3 : 5 : Cincinaty kid : 1 : 0
 4 : 7 : Cincinaty kid : 3 : 0
-5 : 1 : Cincinaty kid : 0 : 2
-6 : 1 : Cincinaty kid : 1 : 3
+5 : 1 : Kid Destruidor : 0 : 2
+6 : 1 : Cinci kider : 1 : 3
 3
 -1 : 5 : 4 : 0
 -2 : 0 : 3 : 4

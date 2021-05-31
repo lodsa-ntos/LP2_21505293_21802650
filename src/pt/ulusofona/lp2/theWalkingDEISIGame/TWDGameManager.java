@@ -1567,7 +1567,7 @@ public class TWDGameManager {
                 .filter((criaturas) -> !criaturas.isInSafeHaven() && !criaturas.isEnvenenado()
                         && !criaturas.zombieIsDestroyed())
                 /* Ordenar por ordem decrescente do numero de equipamentos */
-                .sorted ((v2, v1) -> v1.getEquipamentosNoBolso() - v2.getEquipamentosNoBolso())
+                .sorted ((v1, v2) -> v2.getEquipamentosNoBolso() - v1.getEquipamentosNoBolso())
                 /* Mostrar apenas 5 criaturas que mais equipamentos apanharam/destruiram */
                 .limit(5)
                 /* Transforma o resultado em strings */

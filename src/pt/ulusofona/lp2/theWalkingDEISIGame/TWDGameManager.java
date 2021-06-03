@@ -745,23 +745,17 @@ public class TWDGameManager {
                                     }
 
                                     /* Zombie Vampiro nao gosta de alho, logo não pode ser destruido */
-                                    if (creatureOrigem.getIdTipo() == 4 && isDay() == false && eq.getIdTipo() == 5) {
+                                    if (creatureOrigem.getIdTipo() == 4 && !isDay() && eq.getIdTipo() == 5) {
                                         return false;
                                     }
 
-                                    if (creatureOrigem.getIdTipo() == 4 && isDay() == true) {
+                                    /* Zombie Vampiro de dia, se tentar destruir algum equipamento, retorna false */
+                                    if (creatureOrigem.getIdTipo() == 4 && isDay()) {
                                         if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
                                                 eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
                                             return false;
                                         }
                                     }
-
-
-
-                                    /* Se coelho tentar destruir algum equipamento, retorna falso */
-                                    /*if (creatureOrigem.getIdTipo() == 13) {
-                                        return false;
-                                    }*/
 
                                     // Adiciona nos equipamentos destruidos
                                     // Destroi os equipamento
@@ -876,6 +870,7 @@ public class TWDGameManager {
                                 return false;
                             }
 
+                            /* Se forem outras criaturas */
                         } else if (creatureOrigem.getIdTipo() != 8) {
 
                             if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
@@ -914,20 +909,26 @@ public class TWDGameManager {
                     /* Movimentação a partir do Zombie Vampiro */
                     if (creatureOrigem.getIdEquipa() == 20) {
                         /* Zombie Vampiro só se movem em turnos nocturnos */
-                        if (creatureOrigem.getIdTipo() == 4 && !isDay()) {
+                        if (creatureOrigem.getIdTipo() == 4) {
+                            if (!isDay()) {
+                                if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                    return false;
+                                }
 
-                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                if (!creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
+
+                                if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                    creatureOrigem.setxAtual(xD);
+                                    creatureOrigem.setyAtual(yD);
+                                    incrementarTurno();
+                                    return true;
+                                }
+
+                            } else {
                                 return false;
                             }
-
-                            if (!creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
-                            incrementarTurno();
-                            return true;
 
                             /* Se forem outros zombies */
                         } else if (creatureOrigem.getIdTipo() != 4) {
@@ -949,10 +950,6 @@ public class TWDGameManager {
                             }
 
                             if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            if (creatureOrigem.getIdTipo() == 4 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
                             }
 

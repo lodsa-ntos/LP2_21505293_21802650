@@ -15,7 +15,24 @@ public class Coelho extends Creature {
 
     @Override
     public boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino) {
-        return (Math.abs(xD - xO) <= 0 || Math.abs(yD - yO) <= 0) && (Math.abs(xO - xD) > 1 || Math.abs(yO - yD) > 1);
+
+        if ((Math.abs(xD - xO) == 1) && (Math.abs(yD - yO) == 1)) {
+            return false;
+        }
+
+        if ((Math.abs(xD - xO) > 0 && Math.abs(xD - xO) <= 50) && (Math.abs(yD - yO) > 0 && Math.abs(yD - yO) <= 50)) {
+            return false;
+        }
+
+        return (Math.abs(xO - xD) <= 2 && Math.abs(yO - yD) <= 2 || Math.abs(xO - xD) <= 3 && Math.abs(yO - yD) <= 3);
+    }
+
+    public boolean moveDirecaoTurnosPares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
+        return Math.abs(xO - xD) <= 3 && Math.abs(yO - yD) <= 3;
+    }
+
+    public boolean moveDirecaoTurnosImpares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
+        return Math.abs(xO - xD) <= 2 && Math.abs(yO - yD) <= 2;
     }
 
     @Override
@@ -71,11 +88,6 @@ public class Coelho extends Creature {
     @Override
     public ArrayList<Equipamento> getEquipamentosVivos() {
         return equipamentos;
-    }
-
-    @Override
-    public ArrayList<Equipamento> getEquipamentosZombies() {
-        return destruidos;
     }
 
     @Override
@@ -138,11 +150,6 @@ public class Coelho extends Creature {
     }
 
     @Override
-    public int getCreaturesNoBolso() {
-        return creaturesNoBolso;
-    }
-
-    @Override
     public int getEquipamentosNoBolso() {
         return equipamentosNoBolso;
     }
@@ -170,11 +177,6 @@ public class Coelho extends Creature {
     @Override
     public void incrementaSemEquipamentoDepoisDeTransformado(int vivoTransformadoSemEquipamento) {
         equipamentosNoBolso = vivoTransformadoSemEquipamento;
-    }
-
-    @Override
-    public void incrementaZombiesDestruidos() {
-        this.zombiesDestruidos++;
     }
 
     @Override
@@ -217,16 +219,6 @@ public class Coelho extends Creature {
     }
 
     @Override
-    public int countEquipamentosZombies() {
-        return countEquipamentosDestruidos++;
-    }
-
-    @Override
-    public int getCountEquipamentosDestruidos() {
-        return countEquipamentosDestruidos;
-    }
-
-    @Override
     public boolean isTransformado() {
         return transformado;
     }
@@ -244,11 +236,6 @@ public class Coelho extends Creature {
     @Override
     public void setZombieIsDestroyed(boolean criaturaZombieDestruida) {
         isDestroyed = criaturaZombieDestruida;
-    }
-
-    @Override
-    public boolean getZombieIsRIP() {
-        return zombieIsRIP;
     }
 
     @Override

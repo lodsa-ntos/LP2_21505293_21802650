@@ -299,23 +299,24 @@ public class TWDGameManager {
         return creatures;
     }
 
-    // TODO falta implementar os movimentos do coelho - 2 erros no DropProjet
+    // TODO falta implementar os movimentos do coelho - 5 erros no DropProjet
     public boolean move(int xO, int yO, int xD, int yD) {
 
         if (!gameIsOver()) {
             //VALIDAÇÕES PARA COORDENADAS DE DESTINO FORA DO MAPA
             if (xO < 0 || xD < 0) {
                 return false; // estão fora do mapa
+            }
 
-            } else if (yO < 0 || yD < 0) {
+            if (yO < 0 || yD < 0) {
                 return false; // estão fora do mapa
             }
 
             boolean encontrouEquip = false;
 
             /* TODO variaveis para a condição de movimento do coelho */
-            boolean nrTurnosImpares = Math.abs(xO - xD) <= 2 && Math.abs(yO - yD) <= 2;
-            boolean nrTurnosPares = Math.abs(xO - xD) <= 3 && Math.abs(yO - yD) <= 3;
+            boolean moveEmNrTurnosImpares = Math.abs(xO - xD) <= 2 && Math.abs(yO - yD) <= 2;
+            boolean moveEmNrTurnosPares = Math.abs(xO - xD) <= 3 && Math.abs(yO - yD) <= 3;
 
             for (Creature creatureOrigem : creatures) {
                 if (creatureOrigem.getIdEquipa() == idEquipaAtual &&
@@ -358,7 +359,7 @@ public class TWDGameManager {
 
                                     if (creatureOrigem.getIdTipo() == 0 || creatureOrigem.getIdTipo() == 1 ||
                                             creatureOrigem.getIdTipo() == 2 || creatureOrigem.getIdTipo() == 3 ||
-                                            creatureOrigem.getIdTipo() == 4) {
+                                            creatureOrigem.getIdTipo() == 4 || creatureOrigem.getIdTipo() == 13) {
 
                                         // O cão não se transforma
                                         if (creatureDestino.getIdTipo() == 9) {
@@ -372,6 +373,7 @@ public class TWDGameManager {
                                                 case 6:
                                                 case 7:
                                                 case 8:
+                                                case 12:
                                                     /* Vivo tranforma-se (->) em Zombie */
                                                     creatureOrigem.transformaEmZombie(creatureDestino);
                                                     creatureDestino.setTransformado(true);
@@ -666,6 +668,11 @@ public class TWDGameManager {
                                             return false;
                                         }
 
+                                        /* Se coelho tentar apanhar algum equipamento, retorna falso */
+                                        if (creatureOrigem.getIdTipo() == 12) {
+                                            return false;
+                                        }
+
                                         /* senão, se tiver equipamento vamos removê-lo antes de apanhar o novo */
                                     } else {
 
@@ -721,7 +728,7 @@ public class TWDGameManager {
                         }
 
                         // se for da equipa dos zombies // e se for para cima do equipamento // vamos destrui-lo
-                    } else if (creatureOrigem.getIdEquipa() == 20 /*&& creatureOrigem.getIdTipo() != 4*/) {
+                    } else if (creatureOrigem.getIdEquipa() == 20) {
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                             for (Equipamento eq : equipamentos) {
                                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
@@ -735,6 +742,12 @@ public class TWDGameManager {
                                     if (creatureOrigem.getIdTipo() == 4 && eq.getIdTipo() == 5) {
                                         return false;
                                     }
+
+
+                                    /* Se coelho tentar destruir algum equipamento, retorna falso */
+                                    /*if (creatureOrigem.getIdTipo() == 13) {
+                                        return false;
+                                    }*/
 
                                     // Adiciona nos equipamentos destruidos
                                     // Destroi os equipamento
@@ -936,7 +949,7 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            /* Zombies nao se podem mover para o Safe Haven*/
+                            /* Zombies nao se podem mover para o Safe Haven */
                             if (isDoorToSafeHaven(xD, yD)) {
                                 return false;
                             }
@@ -949,7 +962,8 @@ public class TWDGameManager {
                         return false;
                     }
 
-                   /* TODO falta implementar o deslocamento do coelho - erros no DropProjet */
+                   /* TODO falta implementar bem o deslocamento do coelho - erros no DropProjet */
+
 
                     incrementarTurno();
                     return true;
@@ -1013,7 +1027,8 @@ public class TWDGameManager {
 
         /* Verificar se o deslocamento da criatura que está a ser movida
         * Verificar se ao mover existe uma criatura ou equipamento no meio */
-        if (xO - xD > 2 && yD - yO > 2 || xD - xO > 2 && yD - yO > 2 || xD - xO > 2 && Math.abs(yD - yO) == 0
+        if (Math.abs(xO - xD) <= 2 && Math.abs(yO - yD) <= 4 || Math.abs(xD - xO) <= 3 && Math.abs(yD - yO) <= 3 ||
+                xO - xD > 2 && yD - yO > 2 || xD - xO > 2 && yD - yO > 2 || xD - xO > 2 && Math.abs(yD - yO) == 0
                 || xD - xO > 1 && yO - yD > 1 || xO - xD > 1 && yD - yO > 1 || xO - xD > 1 && yO - yD > 1
                 || xD - xO > 1 && yD - yO > 1 || xD - xO > 1 && Math.abs(yD - yO) == 0 || xO - xD > 1 && Math.abs(yD - yO) == 0
                 || yD - yO > 1 && Math.abs(xD - xO) == 0 || yO - yD > 1 && Math.abs(xD - xO) == 0) {
@@ -1023,7 +1038,6 @@ public class TWDGameManager {
                     return false;
                 }
             }
-
 
             for (Equipamento equipamento : equipamentos) {
                 if (equipamento.getXAtual() == meioX && equipamento.getYAtual() == meioY) {
@@ -1036,7 +1050,7 @@ public class TWDGameManager {
     }
 
     protected String moverTodasDirecoes(int xO, int xD, int yO, int yD) {
-        if (Math.abs(xD - xO) > 1 && Math.abs(yD - yO) == 0 ) {
+        if (Math.abs(xD - xO) > 1 && Math.abs(yD - yO) == 0) {
             return "horizontal";
         } else if (Math.abs(xD - xO) == 0 && Math.abs(yD - yO) > 1) {
             return "vertical";
@@ -1051,16 +1065,14 @@ public class TWDGameManager {
         int nrMaxDiaENoite = 6;
         int numeroVivosEmJogo = 0;
         int countTodosMenosIdosoEmJogo = 0;
-        int countTransformacoes = 0;
 
-        // O jogo termina se tiverem passados 3 dias e 3 noites
-        /* TODO se houver transformacão o jogo continua ...
-              se não houver transformacão o jogo termina no turno 12 */
         for (Creature creatureOrigem : creatures) {
+            /* se houver transformacão o jogo continua */
             if (creatureOrigem.getNumTransformacoesFeitasPorZombies() >= 1 && nrTurno >= 12) {
                 nrTurno--;
             }
 
+            /* se até ao nrturno 12 não houver nenhuma transformação o jogo termina */
             if (creatureOrigem.getNumTransformacoesFeitasPorZombies() == 0 && nrTurno >= 12) {
                 return true;
             }
@@ -1087,6 +1099,7 @@ public class TWDGameManager {
             }
         }
 
+        /* Se ficarem apenas os vivos em jogo, o jogo termina */
         if (numeroVivosEmJogo == 0) {
             return true;
         }
@@ -1123,6 +1136,7 @@ public class TWDGameManager {
             }
         }
 
+        /* Se ficarem apenas os zombies em jogo, o jogo termina */
         if (numeroZombiesEmJogo == 0) {
             return true;
         }
@@ -1136,6 +1150,7 @@ public class TWDGameManager {
             }
         }
 
+        /* O jogo termina se tiverem passados 3 dias e 3 noites */
         return nrTurno/2 >= nrMaxDiaENoite;
     }
 
@@ -1181,7 +1196,7 @@ public class TWDGameManager {
         resultados.add("OS VIVOS");
         for (Creature creatureVivos: creatures){
             if (creatureVivos.getIdEquipa() == 10) {
-                if(!creatureVivos.isInSafeHaven() && !creatureVivos.isTransformado() && !creatureVivos.isEnvenenado()) /*TODO falta saber se não foram transformadas em zombies{*/ {
+                if(!creatureVivos.isInSafeHaven() && !creatureVivos.isTransformado() && !creatureVivos.isEnvenenado()) {
                     resultados.add(creatureVivos.getId() + " " + creatureVivos.getNome());
                 }
             }
@@ -1319,7 +1334,7 @@ public class TWDGameManager {
         return null;
     }
 
-    /* TODO falta implementar como gravar vivo com equipamento e dentro do safeHaven - 2 erros no DropProjet */
+    /* TODO falta implementar como gravar vivo com equipamento e dentro do safeHaven - 1 erro no DropProjet */
     public boolean saveGame(File fich) {
 
         /* retorna o separador de linha, ou seja será a quebra de linha quando chegar a final de uma linha lida */
@@ -1372,6 +1387,7 @@ public class TWDGameManager {
         }
     }
 
+    /* TODO falta implementar como carregar vivo com equipamento e dentro do safeHaven - 1 erro no DropProjet */
     public boolean loadGame(File fich) {
 
         try {

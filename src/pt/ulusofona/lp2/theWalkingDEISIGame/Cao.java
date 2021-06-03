@@ -11,6 +11,8 @@ public class Cao extends Creature {
     @Override
     protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creature, ArrayList<Creature> creatures) {
 
+        TWDGameManager nrTurnosOfensivos = new TWDGameManager();
+
         /* CÃO A ATACAR */
         if (this.idTipo == 9) {
 
@@ -38,7 +40,7 @@ public class Cao extends Creature {
 
                     this.setxAtual(creature.xAtual);
                     this.setyAtual(creature.yAtual);
-                    //this.getEquipamentosVivos().remove(this.equipamentos.get(0));
+                    nrTurnosOfensivos.incrementarTurno();
                     return true;
                 }
 
@@ -66,6 +68,7 @@ public class Cao extends Creature {
 
                         this.setxAtual(creature.xAtual);
                         this.setyAtual(creature.yAtual);
+                        nrTurnosOfensivos.incrementarTurno();
                         return true;
                     } else {
                         /* A pistola não tem efeito contra Zombies Vampiros */
@@ -82,6 +85,16 @@ public class Cao extends Creature {
     @Override
     public boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino) {
         return (Math.abs(xD - xO) > 0 && Math.abs(xD - xO) <= 2) && (Math.abs(yD - yO) > 0 && Math.abs(yD - yO) <= 2);
+    }
+
+    @Override
+    public boolean moveDirecaoTurnosPares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
+        return false;
+    }
+
+    @Override
+    public boolean moveDirecaoTurnosImpares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
+        return false;
     }
 
     @Override
@@ -140,11 +153,6 @@ public class Cao extends Creature {
     }
 
     @Override
-    public ArrayList<Equipamento> getEquipamentosZombies() {
-        return destruidos;
-    }
-
-    @Override
     public void setTipo(int idTipo) {
         if (idTipo == 9) {
             tipo = "Cão";
@@ -185,11 +193,6 @@ public class Cao extends Creature {
     }
 
     @Override
-    public int getCreaturesNoBolso() {
-        return creaturesNoBolso;
-    }
-
-    @Override
     public int getEquipamentosNoBolso() {
         return equipamentosNoBolso;
     }
@@ -217,11 +220,6 @@ public class Cao extends Creature {
     @Override
     public void incrementaSemEquipamentoDepoisDeTransformado(int vivoTransformadoSemEquipamento) {
         equipamentosNoBolso = vivoTransformadoSemEquipamento;
-    }
-
-    @Override
-    public void incrementaZombiesDestruidos() {
-        this.zombiesDestruidos++;
     }
 
     @Override
@@ -265,16 +263,6 @@ public class Cao extends Creature {
     }
 
     @Override
-    public int countEquipamentosZombies() {
-        return countEquipamentosDestruidos++;
-    }
-
-    @Override
-    public int getCountEquipamentosDestruidos() {
-        return countEquipamentosDestruidos;
-    }
-
-    @Override
     public boolean isTransformado() {
         return transformado;
     }
@@ -292,11 +280,6 @@ public class Cao extends Creature {
     @Override
     public void setZombieIsDestroyed(boolean criaturaZombieDestruida) {
         isDestroyed = criaturaZombieDestruida;
-    }
-
-    @Override
-    public boolean getZombieIsRIP() {
-        return zombieIsRIP;
     }
 
     @Override

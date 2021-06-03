@@ -39,6 +39,10 @@ public abstract class Creature {
 
     abstract public boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino);
 
+    abstract public boolean moveDirecaoTurnosPares(int xO, int yO, int xD, int yD, Creature creatureDestino);
+
+    abstract public boolean moveDirecaoTurnosImpares(int xO, int yO, int xD, int yD, Creature creatureDestino);
+
     abstract public int getId();
 
     abstract public int getIdEquipa();
@@ -61,15 +65,11 @@ public abstract class Creature {
 
     abstract public ArrayList<Equipamento> getEquipamentosVivos();
 
-    abstract public ArrayList<Equipamento> getEquipamentosZombies();
-
     abstract public void setTipo(int idTipo);
 
     abstract public void setEquipa(int idTipo);
 
     abstract public void transformaEmZombie(Creature creatureDestino);
-
-    abstract public int getCreaturesNoBolso();
 
     abstract public int getEquipamentosNoBolso();
 
@@ -82,8 +82,6 @@ public abstract class Creature {
     abstract public void incrementaEquipamentosNoBolso();
 
     abstract public void incrementaSemEquipamentoDepoisDeTransformado(int vivoTransformadoSemEquipamento);
-
-    abstract public void incrementaZombiesDestruidos();
 
     abstract public boolean isInSafeHaven();
 
@@ -99,10 +97,6 @@ public abstract class Creature {
 
     abstract public int getNumTransformacoesFeitasPorZombies();
 
-    abstract public int countEquipamentosZombies();
-
-    abstract public int getCountEquipamentosDestruidos();
-
     abstract public boolean isTransformado();
 
     abstract public void setTransformado (boolean criaturaTransformada);
@@ -110,8 +104,6 @@ public abstract class Creature {
     abstract public boolean zombieIsDestroyed();
 
     abstract public void setZombieIsDestroyed(boolean criaturaZombieDestruida);
-
-    abstract public boolean getZombieIsRIP();
 
     abstract public void setZombieIsRIP(boolean zombieArrivadeci);
 

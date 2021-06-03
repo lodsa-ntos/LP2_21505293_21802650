@@ -11,6 +11,8 @@ public class Crianca extends Creature {
     @Override
     protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creature, ArrayList<Creature> creatures) {
 
+        TWDGameManager nrTurnosOfensivos = new TWDGameManager();
+
         /* CRIANCA VIVO A ATACAR */
             if (this.idTipo == 5) {
 
@@ -39,6 +41,7 @@ public class Crianca extends Creature {
                             this.setxAtual(creature.xAtual);
                             this.setyAtual(creature.yAtual);
                             this.getEquipamentosVivos().remove(this.equipamentos.get(0));
+                            nrTurnosOfensivos.incrementarTurno();
                             return true;
                         } else {
                             /* criança viva com uma espada VS zombie que nao seja crianca == jogada invalida */
@@ -75,6 +78,7 @@ public class Crianca extends Creature {
 
                             this.setxAtual(creature.xAtual);
                             this.setyAtual(creature.yAtual);
+                            nrTurnosOfensivos.incrementarTurno();
                             return true;
                         } else {
                             /* A pistola não tem efeito contra Zombies Vampiros */
@@ -97,6 +101,7 @@ public class Crianca extends Creature {
 
                         this.setxAtual(creature.xAtual);
                         this.setyAtual(creature.yAtual);
+                        nrTurnosOfensivos.incrementarTurno();
                         return true;
                     }
                 }
@@ -113,6 +118,16 @@ public class Crianca extends Creature {
         }
 
         return Math.abs(xO - xD) <= 1 && Math.abs(yO - yD) <= 1;
+    }
+
+    @Override
+    public boolean moveDirecaoTurnosPares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
+        return false;
+    }
+
+    @Override
+    public boolean moveDirecaoTurnosImpares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
+        return false;
     }
 
     @Override
@@ -168,11 +183,6 @@ public class Crianca extends Creature {
     @Override
     public ArrayList<Equipamento> getEquipamentosVivos() {
         return equipamentos;
-    }
-
-    @Override
-    public ArrayList<Equipamento> getEquipamentosZombies() {
-        return destruidos;
     }
 
     @Override
@@ -249,11 +259,6 @@ public class Crianca extends Creature {
     }
 
     @Override
-    public int getCreaturesNoBolso() {
-        return creaturesNoBolso;
-    }
-
-    @Override
     public int getEquipamentosNoBolso() {
         return equipamentosNoBolso;
     }
@@ -281,11 +286,6 @@ public class Crianca extends Creature {
     @Override
     public void incrementaSemEquipamentoDepoisDeTransformado(int vivoTransformadoSemEquipamento) {
         equipamentosNoBolso = vivoTransformadoSemEquipamento;
-    }
-
-    @Override
-    public void incrementaZombiesDestruidos() {
-        this.zombiesDestruidos++;
     }
 
     @Override
@@ -329,16 +329,6 @@ public class Crianca extends Creature {
     }
 
     @Override
-    public int countEquipamentosZombies() {
-        return countEquipamentosDestruidos++;
-    }
-
-    @Override
-    public int getCountEquipamentosDestruidos() {
-        return countEquipamentosDestruidos;
-    }
-
-    @Override
     public boolean isTransformado() {
         return transformado;
     }
@@ -356,11 +346,6 @@ public class Crianca extends Creature {
     @Override
     public void setZombieIsDestroyed(boolean criaturaZombieDestruida) {
         isDestroyed = criaturaZombieDestruida;
-    }
-
-    @Override
-    public boolean getZombieIsRIP() {
-        return zombieIsRIP;
     }
 
     @Override

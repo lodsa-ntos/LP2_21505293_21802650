@@ -303,7 +303,7 @@ public class TWDGameManager {
     public boolean move(int xO, int yO, int xD, int yD) {
 
         if (!gameIsOver()) {
-            //VALIDAÇÕES PARA COORDENADAS DE DESTINO FORA DO MAPA
+            /* VALIDAÇÕES PARA COORDENADAS DE ORIGEM E DESTINO FORA DO MAPA */
             if (xO < 0 || xO > numLinha) {
                 return false; // estão fora do mapa
             }
@@ -831,7 +831,7 @@ public class TWDGameManager {
                     /* TIRAR EQUIPAMENTO DA ORIGEM */
                     // se encontrou equipamento removemos esse o equipamento da sua casa original e
                     // quando o "vivo" sai da posicao que apanhou o equipamento
-                    // o equipamento que estava na origemn antes, desaparece do mapa, para coordenadas que possam
+                    // o equipamento que estava na origem antes, desaparece do mapa, para coordenadas que possam
                     // não existir no jogo (dimensao do mapa)
                     for (Equipamento eq : equipamentos) {
                         if (creatureOrigem.getIdEquipa() == 10 && creatureOrigem.getIdTipo() != 8) {
@@ -1456,7 +1456,7 @@ public class TWDGameManager {
                    /* Filtrar zombies que tiverem pelo menos 1 ou mais transformacoes */
                    .filter((t) -> t.getNumTransformacoesFeitasPorZombies() >= 1)
                    /* Ordena por ordem decrescente */
-                   .sorted ((z2, z1) -> z1.getNumTransformacoesFeitasPorZombies() - z2.getNumTransformacoesFeitasPorZombies())
+                   .sorted ((z1, z2) -> z2.getNumTransformacoesFeitasPorZombies() - z1.getNumTransformacoesFeitasPorZombies())
                    /* Top 3 zombies*/
                    .limit(3)
                    /* Transforma os elementos em string */
@@ -1479,7 +1479,7 @@ public class TWDGameManager {
                 /* Filtrar os vivos que têm pelo menos um zombie destruidos */
                 .filter((destruidos) -> destruidos.getZombiesDestruidos() >= 1)
                 /* Ordena por ordem descendente */
-                .sorted ((v2, v1) -> v1.getZombiesDestruidos() - v2.getZombiesDestruidos())
+                .sorted ((v1, v2) -> v2.getZombiesDestruidos() - v1.getZombiesDestruidos())
                 /* Top 3 */
                 .limit(3)
                 /* Transforma os elementos em string */

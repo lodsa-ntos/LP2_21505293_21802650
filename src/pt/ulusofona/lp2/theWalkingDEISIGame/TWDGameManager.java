@@ -299,7 +299,7 @@ public class TWDGameManager {
         return creatures;
     }
 
-    // TODO falta implementar os movimentos do coelho - 5 erros no DropProjet
+    // TODO falta implementar os movimentos em turnos do coelho - 5 erros no DropProjet
     public boolean move(int xO, int yO, int xD, int yD) {
 
         if (!gameIsOver()) {
@@ -962,7 +962,7 @@ public class TWDGameManager {
                         return false;
                     }
 
-                   /* TODO falta implementar bem o deslocamento do coelho - erros no DropProjet */
+                   /* TODO falta implementar bem o deslocamento em turnos do coelho - erros no DropProjet */
 
 
                     incrementarTurno();
@@ -1247,7 +1247,7 @@ public class TWDGameManager {
         return resultados;
     }
 
-    // TODO incompleto , falta implementar bem os dias e noites - 2 erros no DropProjet
+    // TODO incompleto , isDay() está a devolver false erradamente - 2 erros no DropProjet
     public boolean isDay() {
 
         switch (nrTurno) {

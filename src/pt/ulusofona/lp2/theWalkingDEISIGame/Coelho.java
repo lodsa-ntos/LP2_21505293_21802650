@@ -10,6 +10,26 @@ public class Coelho extends Creature {
 
     @Override
     protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creatureDestino, ArrayList<Creature> creatures) {
+
+        /* IDOSO VIVO A ATACAR */
+        if (this.idTipo == 12) {
+
+            // se o vivo atacar sem equipamento nao é valido
+            if (this.equipamentos.size() == 0) {
+                return false;
+            }
+
+            /* EQUIPAMENTOS OFENSIVOS - O coelho é inofensivo, nao faz mal a uma mosca */
+            switch (this.equipamentos.get(0).getIdTipo()) {
+                case 1:/* Interação com a Espada */
+                case 2:/* Interação com a Pistola */
+                case 6:/* Interação com a Estaca de madeira */
+                case 10: { /* Interação com o capacete Beskar Helmet */
+                    return false;
+                }
+            }
+        }
+
         return false;
     }
 
@@ -144,6 +164,12 @@ public class Coelho extends Creature {
                 creatureDestino.setTipo(creatureIdTipo - 5);
                 creatureDestino.setEquipa(creatureIdTipo - 5);
                 creatureDestino.setIdTipo(creatureIdTipo - 5);
+                creatureDestino.setIdEquipa(20);
+                break;
+            case 12:
+                creatureDestino.setTipo(creatureIdTipo + 1);
+                creatureDestino.setEquipa(creatureIdTipo + 1);
+                creatureDestino.setIdTipo(creatureIdTipo + 1);
                 creatureDestino.setIdEquipa(20);
                 break;
         }

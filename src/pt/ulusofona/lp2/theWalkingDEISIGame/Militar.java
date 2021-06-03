@@ -207,6 +207,12 @@ public class Militar extends Creature {
                 creatureDestino.setIdTipo(creatureIdTipo - 5);
                 creatureDestino.setIdEquipa(20);
                 break;
+            case 12:
+                creatureDestino.setTipo(creatureIdTipo + 1);
+                creatureDestino.setEquipa(creatureIdTipo + 1);
+                creatureDestino.setIdTipo(creatureIdTipo + 1);
+                creatureDestino.setIdEquipa(20);
+                break;
         }
     }
 

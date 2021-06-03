@@ -503,7 +503,7 @@ public class TWDGameManager {
                                                             creatureDestino.incrementaSemEquipamentoDepoisDeTransformado(0);
                                                             incrementarTurno();
                                                             return true;
-                                                        } else {
+                                                        } else if (creatureOrigem.getIdTipo() == 4 && isDay()) {
                                                             return false;
                                                         }
                                                     }
@@ -557,7 +557,7 @@ public class TWDGameManager {
                                                         creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
                                                         incrementarTurno();
                                                         return true;
-                                                    } else {
+                                                    } else if (creatureOrigem.getIdTipo() == 4 && isDay()) {
                                                         return false;
                                                     }
 
@@ -673,7 +673,10 @@ public class TWDGameManager {
 
                                         /* Se coelho tentar apanhar algum equipamento, retorna falso */
                                         if (creatureOrigem.getIdTipo() == 12) {
-                                            return false;
+                                            if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
+                                                    eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
+                                                return false;
+                                            }
                                         }
 
                                         /* senão, se tiver equipamento vamos removê-lo antes de apanhar o novo */
@@ -972,9 +975,6 @@ public class TWDGameManager {
 
                    /* TODO falta implementar bem o deslocamento em turnos do coelho - erros no DropProjet */
 
-
-                   /* incrementarTurno();
-                    return true;*/
                 }
             }
         }
@@ -1548,6 +1548,8 @@ public class TWDGameManager {
                 /* filtrar as criaturas que estão em jogo */
                 .filter((criaturas) -> !criaturas.isInSafeHaven() && !criaturas.isEnvenenado()
                         && !criaturas.zombieIsDestroyed())
+                /* filtrar zombies e vivos */
+                .filter((vz) -> vz.getIdEquipa() == 10 || vz.getIdEquipa() == 20)
                 /* Ordenar por ordem decrescente do numero de equipamentos */
                 .sorted ((v1, v2) -> v2.getEquipamentosNoBolso() - v1.getEquipamentosNoBolso())
                 /* Mostrar apenas 5 criaturas que mais equipamentos apanharam/destruiram */

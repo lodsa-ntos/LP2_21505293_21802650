@@ -11,8 +11,6 @@ public class Cao extends Creature {
     @Override
     protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creature, ArrayList<Creature> creatures) {
 
-        TWDGameManager nrTurnosOfensivos = new TWDGameManager();
-
         /* CÃO A ATACAR */
         if (this.idTipo == 9) {
 
@@ -40,7 +38,6 @@ public class Cao extends Creature {
 
                     this.setxAtual(creature.xAtual);
                     this.setyAtual(creature.yAtual);
-                    nrTurnosOfensivos.incrementarTurno();
                     return true;
                 }
 
@@ -68,7 +65,6 @@ public class Cao extends Creature {
 
                         this.setxAtual(creature.xAtual);
                         this.setyAtual(creature.yAtual);
-                        nrTurnosOfensivos.incrementarTurno();
                         return true;
                     } else {
                         /* A pistola não tem efeito contra Zombies Vampiros */

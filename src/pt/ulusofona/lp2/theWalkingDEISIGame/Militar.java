@@ -11,8 +11,6 @@ public class Militar extends Creature {
     @Override
     protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creature, ArrayList<Creature> creatures) {
 
-        TWDGameManager nrTurnosOfensivos = new TWDGameManager();
-
         /* MILITAR VIVO A ATACAR */
         if (this.idTipo == 7) {
 
@@ -40,7 +38,6 @@ public class Militar extends Creature {
 
                     this.setxAtual(creature.xAtual);
                     this.setyAtual(creature.yAtual);
-                    nrTurnosOfensivos.incrementarTurno();
                     return true;
                 }
 
@@ -71,7 +68,6 @@ public class Militar extends Creature {
 
                         this.setxAtual(creature.xAtual);
                         this.setyAtual(creature.yAtual);
-                        nrTurnosOfensivos.incrementarTurno();
                         return true;
                     } else {
                         /* A pistola não tem efeito contra Zombies Vampiros */

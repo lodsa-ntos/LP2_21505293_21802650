@@ -11,8 +11,6 @@ public class Adulto extends Creature {
     @Override
     protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creature, ArrayList<Creature> creatures) {
 
-        TWDGameManager nrTurnosOfensivos = new TWDGameManager();
-
         /* ADULTO VIVO A ATACAR */
         if (this.idTipo == 6) {
 
@@ -40,7 +38,6 @@ public class Adulto extends Creature {
 
                     this.setxAtual(creature.xAtual);
                     this.setyAtual(creature.yAtual);
-                    nrTurnosOfensivos.incrementarTurno();
                     return true;
                 }
 
@@ -70,7 +67,6 @@ public class Adulto extends Creature {
 
                         this.setxAtual(creature.xAtual);
                         this.setyAtual(creature.yAtual);
-                        nrTurnosOfensivos.incrementarTurno();
                         return true;
                     } else {
                         /* A pistola não tem efeito contra Zombies Vampiros */

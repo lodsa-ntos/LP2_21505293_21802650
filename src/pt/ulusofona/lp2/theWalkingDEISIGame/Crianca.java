@@ -11,8 +11,6 @@ public class Crianca extends Creature {
     @Override
     protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creature, ArrayList<Creature> creatures) {
 
-        TWDGameManager nrTurnosOfensivos = new TWDGameManager();
-
         /* CRIANCA VIVO A ATACAR */
             if (this.idTipo == 5) {
 
@@ -41,7 +39,6 @@ public class Crianca extends Creature {
                             this.setxAtual(creature.xAtual);
                             this.setyAtual(creature.yAtual);
                             this.getEquipamentosVivos().remove(this.equipamentos.get(0));
-                            nrTurnosOfensivos.incrementarTurno();
                             return true;
                         } else {
                             /* criança viva com uma espada VS zombie que nao seja crianca == jogada invalida */
@@ -78,7 +75,6 @@ public class Crianca extends Creature {
 
                             this.setxAtual(creature.xAtual);
                             this.setyAtual(creature.yAtual);
-                            nrTurnosOfensivos.incrementarTurno();
                             return true;
                         } else {
                             /* A pistola não tem efeito contra Zombies Vampiros */
@@ -101,7 +97,6 @@ public class Crianca extends Creature {
 
                         this.setxAtual(creature.xAtual);
                         this.setyAtual(creature.yAtual);
-                        nrTurnosOfensivos.incrementarTurno();
                         return true;
                     }
                 }

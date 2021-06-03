@@ -665,7 +665,10 @@ public class TWDGameManager {
 
                                         /* Se idoso tentar apanhar equipamento a noite retorna falso */
                                         if (creatureOrigem.getIdTipo() == 8 && isDay() == false) {
-                                            return false;
+                                            if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
+                                                    eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
+                                                return false;
+                                            }
                                         }
 
                                         /* Se coelho tentar apanhar algum equipamento, retorna falso */
@@ -739,9 +742,17 @@ public class TWDGameManager {
                                     }
 
                                     /* Zombie Vampiro nao gosta de alho, logo não pode ser destruido */
-                                    if (creatureOrigem.getIdTipo() == 4 && eq.getIdTipo() == 5) {
+                                    if (creatureOrigem.getIdTipo() == 4 && isDay() == false && eq.getIdTipo() == 5) {
                                         return false;
                                     }
+
+                                    if (creatureOrigem.getIdTipo() == 4 && isDay() == true) {
+                                        if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
+                                                eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
+                                            return false;
+                                        }
+                                    }
+
 
 
                                     /* Se coelho tentar destruir algum equipamento, retorna falso */
@@ -759,9 +770,6 @@ public class TWDGameManager {
 
                                     /* Incrementa o equipamento no bolso */
                                     creatureOrigem.incrementaEquipamentosNoBolso();
-
-                                    /* Contamos os equipamentos destruidos */
-                                    //creatureOrigem.countEquipamentosDestruidos++;
 
                                     encontrouEquip = true;
                                     break;
@@ -965,8 +973,8 @@ public class TWDGameManager {
                    /* TODO falta implementar bem o deslocamento em turnos do coelho - erros no DropProjet */
 
 
-                    incrementarTurno();
-                    return true;
+                   /* incrementarTurno();
+                    return true;*/
                 }
             }
         }

@@ -304,11 +304,19 @@ public class TWDGameManager {
 
         if (!gameIsOver()) {
             //VALIDAÇÕES PARA COORDENADAS DE DESTINO FORA DO MAPA
-            if (xO < 0 || xD < 0) {
+            if (xO < 0 || xO > numLinha - 1) {
                 return false; // estão fora do mapa
             }
 
-            if (yO < 0 || yD < 0) {
+            else if (yO < 0 || yO > numColuna - 1) {
+                return false; // estão fora do mapa
+            }
+
+            else if (xD < 0 || xD > numLinha - 1) {
+                return false; // estão fora do mapa
+            }
+
+            else if (yD < 0 || yD > numColuna - 1) {
                 return false; // estão fora do mapa
             }
 
@@ -1502,7 +1510,7 @@ public class TWDGameManager {
     }
 
     /* TODO falta implementar o desempate e o numero de equipamentos - 2 erros no DropProjet */
-    /* <Nome do Tipo>:<ID_Zombies>:<NrEquipamentos> */
+    /* <Nome do Tipo>:<ID_Zombies>: TODO <NrEquipamentos> */
     /* Qual o total de equipamentos destruidos por cada tipo de zombie? */
     private List<String> tiposZombiesEEquipamentosDestruidos() {
 

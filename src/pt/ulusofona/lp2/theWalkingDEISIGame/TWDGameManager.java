@@ -304,19 +304,19 @@ public class TWDGameManager {
 
         if (!gameIsOver()) {
             //VALIDAÇÕES PARA COORDENADAS DE DESTINO FORA DO MAPA
-            if (xO < 0 || xO > numLinha - 1) {
+            if (xO < 0 || xO > numLinha) {
                 return false; // estão fora do mapa
             }
 
-            else if (yO < 0 || yO > numColuna - 1) {
+            else if (yO < 0 || yO > numColuna) {
                 return false; // estão fora do mapa
             }
 
-            else if (xD < 0 || xD > numLinha - 1) {
+            else if (xD < 0 || xD > numLinha) {
                 return false; // estão fora do mapa
             }
 
-            else if (yD < 0 || yD > numColuna - 1) {
+            else if (yD < 0 || yD > numColuna) {
                 return false; // estão fora do mapa
             }
 

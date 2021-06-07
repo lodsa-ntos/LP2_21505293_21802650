@@ -5,6 +5,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.toList;
 
 public class TWDGameManager {
@@ -50,7 +51,7 @@ public class TWDGameManager {
     private int nP;
     private int nrTurno = 0;
     private int nrTurnoDoVeneno = 0;
-    private static boolean diurno = true;
+    private boolean diurno = true;
 
     public TWDGameManager() {
     }
@@ -739,7 +740,7 @@ public class TWDGameManager {
                             for (Equipamento eq : equipamentos) {
                                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
-                                    /* Veneno não pode ser destruido */
+                                    /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
                                     if (eq.getIdTipo() == 8) {
                                         return false;
                                     }
@@ -1273,6 +1274,25 @@ public class TWDGameManager {
                 diurno = false;
                 break;
         }
+        System.out.println(nrTurno);
+
+        /*
+        nrTurnos:
+            0 -> D
+            1 -> D
+            2 -> N
+            3 -> N
+            4 -> D
+            5 -> D
+            6 -> N
+            7 -> N
+            8 -> D
+            9 -> D
+            10 -> N
+            11 -> N
+            12 -> D
+            (...) */
+
         return diurno;
     }
 
@@ -1560,8 +1580,8 @@ public class TWDGameManager {
     }
 
     public void incrementarTurno() {
-        nrTurnoDoVeneno++;
         nrTurno++;
+        nrTurnoDoVeneno++;
 
         switch (idEquipaAtual) {
             case 10:

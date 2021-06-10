@@ -1256,7 +1256,7 @@ public class TWDGameManager {
     // TODO incompleto , isDay() está a devolver false erradamente - 2 erros no DropProjet
     public boolean isDay() {
 
-        switch (nrTurno) {
+        /*switch (nrTurno) {
             case 0:
             case 1:
             case 4:
@@ -1274,24 +1274,16 @@ public class TWDGameManager {
                 diurno = false;
                 break;
         }
-        System.out.println(nrTurno);
+        */
 
-        /*
-        nrTurnos:
-            0 -> D
-            1 -> D
-            2 -> N
-            3 -> N
-            4 -> D
-            5 -> D
-            6 -> N
-            7 -> N
-            8 -> D
-            9 -> D
-            10 -> N
-            11 -> N
-            12 -> D
-            (...) */
+        if (nrTurno == 0 || nrTurno == 1) {
+            diurno = true;
+        } else if (nrTurno == 2) {
+            diurno = false;
+        } else if (nrTurno % 2 == 0) {
+            diurno = !diurno;
+        }
+        System.out.println(nrTurno);
 
         return diurno;
     }

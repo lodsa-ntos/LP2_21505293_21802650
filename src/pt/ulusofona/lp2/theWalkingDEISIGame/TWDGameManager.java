@@ -315,10 +315,6 @@ public class TWDGameManager {
 
             boolean encontrouEquip = false;
 
-            /* TODO variaveis para a condição de movimento do coelho */
-            boolean moveEmNrTurnosImpares = Math.abs(xO - xD) <= 2 && Math.abs(yO - yD) <= 2;
-            boolean moveEmNrTurnosPares = Math.abs(xO - xD) <= 3 && Math.abs(yO - yD) <= 3;
-
             for (Creature creatureOrigem : creatures) {
                 if (creatureOrigem.getIdEquipa() == idEquipaAtual &&
                         creatureOrigem.getXAtual() == xO && creatureOrigem.getYAtual() == yO) {
@@ -328,6 +324,11 @@ public class TWDGameManager {
                         if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
                             return false;
                         }
+
+                        if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
+                            return false;
+                        }
+
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                             /* Se existir uma porta safeHaven */
                             if (isDoorToSafeHaven(xD, yD)) {
@@ -849,112 +850,74 @@ public class TWDGameManager {
                     /* Movimentação a partir do idoso */
                     if (creatureOrigem.getIdEquipa() == 10) {
                         /* Idosos humanos só se movem em turnos diurnos */
-                        if (creatureOrigem.getIdTipo() == 8) {
-                            if (isDay() == true) {
-                                if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    creatureOrigem.setxAtual(xD);
-                                    creatureOrigem.setyAtual(yD);
-                                    for (Equipamento eq : equipamentos) {
-                                        //if (!encontrouEquip) {
-                                            if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
-                                                /* caso o idoso encontre o equipamento, deve-o apanhar */
-                                                creatureOrigem.equipamentos.add(eq);
-                                            }
-                                        /* quando se mover para fora dessa casa, deve-o largar */
-                                        creatureOrigem.getEquipamentosVivos().remove(eq);
-                                       // }
-                                    }
-                                    incrementarTurno();
-                                    return true;
-                                }
-                            } else {
-                                return false;
-                            }
-
-                            /* Se forem outras criaturas */
-                        } else if (creatureOrigem.getIdTipo() != 8) {
-
-                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
-                                return false;
-                            }
-
-                            if (creatureOrigem.getIdTipo() == 5 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            if (creatureOrigem.getIdTipo() == 6 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            if (creatureOrigem.getIdTipo() == 7 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            if (creatureOrigem.getIdTipo() == 9 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            if (creatureOrigem.getIdTipo() == 12 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
+                        if (creatureOrigem.getIdTipo() == 8 && isDay()) {
                             creatureOrigem.setxAtual(xD);
                             creatureOrigem.setyAtual(yD);
+                            for (Equipamento eq : equipamentos) {
+                                if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                                    /* caso o idoso encontre o equipamento, deve-o apanhar */
+                                    creatureOrigem.equipamentos.add(eq);
+                                }
+                                /* quando se mover para fora dessa casa, deve-o largar */
+                                creatureOrigem.getEquipamentosVivos().remove(eq);
+                            }
                             incrementarTurno();
                             return true;
 
+                        } else {
+
+                            /* Se forem outras criaturas vivas */
+                            if (creatureOrigem.getIdTipo() != 8) {
+
+                                if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
+                                    return false;
+                                }
+
+                                /* CRIANÇA VIVA */
+                                if (creatureOrigem.getIdTipo() == 5 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
+
+                                /* ADULTO VIVO */
+                                if (creatureOrigem.getIdTipo() == 6 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
+
+                                /* MILITAR VIVO */
+                                if (creatureOrigem.getIdTipo() == 7 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
+
+                                /* CAO */
+                                if (creatureOrigem.getIdTipo() == 9 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
+
+                                /* COELHO */
+                                if (creatureOrigem.getIdTipo() == 12 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
+
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                incrementarTurno();
+                                return true;
+                            }
+                            /* se idoso andar de noite retorna falso */
+                            return false;
                         }
-                        return false;
                     }
 
                     /* Movimentação a partir do Zombie Vampiro */
                     if (creatureOrigem.getIdEquipa() == 20) {
                         /* Zombie Vampiro só se movem em turnos nocturnos */
-                        if (creatureOrigem.getIdTipo() == 4) {
-                            if (!isDay()) {
-                                if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
-                                    return false;
-                                }
-
-                                if (!creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    return false;
-                                }
-
-                                if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    creatureOrigem.setxAtual(xD);
-                                    creatureOrigem.setyAtual(yD);
-                                    incrementarTurno();
-                                    return true;
-                                }
-
-                            } else {
-                                return false;
-                            }
-
-                            /* Se forem outros zombies */
-                        } else if (creatureOrigem.getIdTipo() != 4) {
+                        if (creatureOrigem.getIdTipo() == 4 && !isDay()) {
 
                             if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                 return false;
                             }
 
-                            if (creatureOrigem.getIdTipo() == 0 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            if (creatureOrigem.getIdTipo() == 1 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            if (creatureOrigem.getIdTipo() == 2 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            if (creatureOrigem.getIdTipo() == 13 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                            if (!creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
                             }
 
@@ -967,9 +930,57 @@ public class TWDGameManager {
                             creatureOrigem.setyAtual(yD);
                             incrementarTurno();
                             return true;
+
+                        } else {
+
+                            /* Se forem outros zombies */
+                            if (creatureOrigem.getIdTipo() != 4) {
+
+                                if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
+                                    return false;
+                                }
+
+                                /* CRIANÇA ZOMBIE */
+                                if (creatureOrigem.getIdTipo() == 0 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
+
+                                /* ADULTO ZOMBIE */
+                                if (creatureOrigem.getIdTipo() == 1 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
+
+                                /* MILITAR ZOMBIE */
+                                if (creatureOrigem.getIdTipo() == 2 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
+
+                                /* IDOSO ZOMBIE */
+                                if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
+
+                                /* COELHO ZOMBIE */
+                                if (creatureOrigem.getIdTipo() == 13 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
+
+                                /* Zombies nao se podem mover para o Safe Haven */
+                                if (isDoorToSafeHaven(xD, yD)) {
+                                    return false;
+                                }
+
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                incrementarTurno();
+                                return true;
+                            }
+                            /* se Zombie Vampiro andar de dia retorna falso */
+                            return false;
                         }
-                        return false;
                     }
+
+
 
                    /* TODO falta implementar bem o deslocamento em turnos do coelho - erros no DropProjet */
 
@@ -1273,15 +1284,16 @@ public class TWDGameManager {
             case 11:
                 diurno = false;
                 break;
-        }
-        */
+        }*/
 
-        if (nrTurno == 0 || nrTurno == 1) {
+        if (nrTurno == 0 || nrTurno == 1 || nrTurno == 4 || nrTurno == 5 || nrTurno == 8 || nrTurno == 9) {
             diurno = true;
-        } else if (nrTurno == 2) {
-            diurno = false;
         } else if (nrTurno % 2 == 0) {
-            diurno = !diurno;
+            if (!diurno) {
+                diurno = true;
+            } else {
+                diurno = false;
+            }
         }
         System.out.println(nrTurno);
 

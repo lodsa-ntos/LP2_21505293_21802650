@@ -325,11 +325,10 @@ public class TWDGameManager {
                             return false;
                         }
 
-                        if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
-                            return false;
-                        }
-
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                            if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
+                                return false;
+                            }
                             /* Se existir uma porta safeHaven */
                             if (isDoorToSafeHaven(xD, yD)) {
                                 /* Vamos colocar o vivo lá dentro */
@@ -851,18 +850,20 @@ public class TWDGameManager {
                     if (creatureOrigem.getIdEquipa() == 10) {
                         /* Idosos humanos só se movem em turnos diurnos */
                         if (creatureOrigem.getIdTipo() == 8 && isDay()) {
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
-                            for (Equipamento eq : equipamentos) {
-                                if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
-                                    /* caso o idoso encontre o equipamento, deve-o apanhar */
-                                    creatureOrigem.equipamentos.add(eq);
+                            if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                for (Equipamento eq : equipamentos) {
+                                    if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                                        /* caso o idoso encontre o equipamento, deve-o apanhar */
+                                        creatureOrigem.equipamentos.add(eq);
+                                    }
+                                    /* quando se mover para fora dessa casa, deve-o largar */
+                                    creatureOrigem.getEquipamentosVivos().remove(eq);
                                 }
-                                /* quando se mover para fora dessa casa, deve-o largar */
-                                creatureOrigem.getEquipamentosVivos().remove(eq);
+                                incrementarTurno();
+                                return true;
                             }
-                            incrementarTurno();
-                            return true;
 
                         } else {
 
@@ -911,57 +912,14 @@ public class TWDGameManager {
                     /* Movimentação a partir do Zombie Vampiro */
                     if (creatureOrigem.getIdEquipa() == 20) {
                         /* Zombie Vampiro só se movem em turnos nocturnos */
-                        if (creatureOrigem.getIdTipo() == 4 && !isDay()) {
+                        if (creatureOrigem.getIdTipo() == 4) {
+                            if (isDay() == false) {
 
-                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
-                                return false;
-                            }
-
-                            if (!creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            /* Zombies nao se podem mover para o Safe Haven */
-                            if (isDoorToSafeHaven(xD, yD)) {
-                                return false;
-                            }
-
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
-                            incrementarTurno();
-                            return true;
-
-                        } else {
-
-                            /* Se forem outros zombies */
-                            if (creatureOrigem.getIdTipo() != 4) {
-
-                                if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
+                                if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                     return false;
                                 }
 
-                                /* CRIANÇA ZOMBIE */
-                                if (creatureOrigem.getIdTipo() == 0 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    return false;
-                                }
-
-                                /* ADULTO ZOMBIE */
-                                if (creatureOrigem.getIdTipo() == 1 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    return false;
-                                }
-
-                                /* MILITAR ZOMBIE */
-                                if (creatureOrigem.getIdTipo() == 2 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    return false;
-                                }
-
-                                /* IDOSO ZOMBIE */
-                                if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    return false;
-                                }
-
-                                /* COELHO ZOMBIE */
-                                if (creatureOrigem.getIdTipo() == 13 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                if (!creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                     return false;
                                 }
 
@@ -974,10 +932,50 @@ public class TWDGameManager {
                                 creatureOrigem.setyAtual(yD);
                                 incrementarTurno();
                                 return true;
+
+
+                            } else {
+                                return false;
                             }
-                            /* se Zombie Vampiro andar de dia retorna falso */
-                            return false;
+
+                            /* Se forem outros zombies */
+                        } else if (creatureOrigem.getIdTipo() != 4) {
+
+                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                return false;
+                            }
+
+                            if (creatureOrigem.getIdTipo() == 0 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            if (creatureOrigem.getIdTipo() == 1 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            if (creatureOrigem.getIdTipo() == 2 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            if (creatureOrigem.getIdTipo() == 13 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            /* Zombies nao se podem mover para o Safe Haven */
+                            if (isDoorToSafeHaven(xD, yD)) {
+                                return false;
+                            }
+
+                            creatureOrigem.setxAtual(xD);
+                            creatureOrigem.setyAtual(yD);
+                            incrementarTurno();
+                            return true;
                         }
+                        return false;
                     }
 
 
@@ -1044,8 +1042,8 @@ public class TWDGameManager {
 
         /* Verificar se o deslocamento da criatura que está a ser movida
         * Verificar se ao mover existe uma criatura ou equipamento no meio */
-        if (Math.abs(xO - xD) <= 2 && Math.abs(yO - yD) <= 4 || Math.abs(xD - xO) <= 3 && Math.abs(yD - yO) <= 3 ||
-                xO - xD > 2 && yD - yO > 2 || xD - xO > 2 && yD - yO > 2 || xD - xO > 2 && Math.abs(yD - yO) == 0
+        if ( xO - xD > 2 && yD - yO > 2 ||
+                xD - xO > 2 && yD - yO > 2 || xD - xO > 2 && Math.abs(yD - yO) == 0
                 || xD - xO > 1 && yO - yD > 1 || xO - xD > 1 && yD - yO > 1 || xO - xD > 1 && yO - yD > 1
                 || xD - xO > 1 && yD - yO > 1 || xD - xO > 1 && Math.abs(yD - yO) == 0 || xO - xD > 1 && Math.abs(yD - yO) == 0
                 || yD - yO > 1 && Math.abs(xD - xO) == 0 || yO - yD > 1 && Math.abs(xD - xO) == 0) {

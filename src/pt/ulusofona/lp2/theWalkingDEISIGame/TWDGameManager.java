@@ -1085,13 +1085,17 @@ public class TWDGameManager {
         return "";
     }
 
-    /* TODO falta implementar a continuidade do jogo apos transformacao */
     public boolean gameIsOver() {
         int nrMaxDiasENoites = 6;
         int numeroVivosEmJogo = 0;
         int countTodosMenosIdosoEmJogo = 0;
 
         for (Creature creatureOrigem : creatures) {
+            /* se houver transformacão o jogo continua */
+            if (creatureOrigem.getNumTransformacoesFeitasPorZombies() >= 1) {
+                nrTurno--;
+            }
+
             /* O jogo termina se tiverem passados 3 dias e 3 noites sem que exista uma transformação */
             if ((nrTurno/2 >= nrMaxDiasENoites) && creatureOrigem.getNumTransformacoesFeitasPorZombies() == 0) {
                 return true;
@@ -1267,9 +1271,10 @@ public class TWDGameManager {
         return resultados;
     }
 
+    // TODO incompleto , isDay() está a devolver false erradamente - 2 erros no DropProjet
     public boolean isDay() {
 
-        /*switch (nrTurno) {
+        switch (nrTurno) {
             case 0:
             case 1:
             case 4:
@@ -1305,9 +1310,9 @@ public class TWDGameManager {
             case 30:
                 diurno = false;
                 break;
-        }*/
+        }
 
-        if (nrTurno == 0 || nrTurno == 1 || nrTurno == 4 || nrTurno == 5 || nrTurno == 8 || nrTurno == 9) {
+        /*if (nrTurno == 0 || nrTurno == 1 || nrTurno == 4 || nrTurno == 5 || nrTurno == 8 || nrTurno == 9) {
             diurno = true;
         } else if (nrTurno % 2 == 0) {
             if (!diurno) {
@@ -1317,7 +1322,7 @@ public class TWDGameManager {
             }
         }
 
-        System.out.println(nrTurno);
+        System.out.println(nrTurno);*/
 
         return diurno;
     }

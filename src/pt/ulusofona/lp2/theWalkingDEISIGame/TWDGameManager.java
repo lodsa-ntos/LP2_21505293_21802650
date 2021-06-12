@@ -862,20 +862,18 @@ public class TWDGameManager {
                     if (creatureOrigem.getIdEquipa() == 10) {
                         /* Idosos humanos só se movem em turnos diurnos */
                         if (creatureOrigem.getIdTipo() == 8 && isDay()) {
-                            if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                creatureOrigem.setxAtual(xD);
-                                creatureOrigem.setyAtual(yD);
-                                for (Equipamento eq : equipamentos) {
-                                    if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
-                                        /* caso o idoso encontre o equipamento, deve-o apanhar */
-                                        creatureOrigem.equipamentos.add(eq);
-                                    }
-                                    /* quando se mover para fora dessa casa, deve-o largar */
-                                    creatureOrigem.getEquipamentosVivos().remove(eq);
+                            creatureOrigem.setxAtual(xD);
+                            creatureOrigem.setyAtual(yD);
+                            for (Equipamento eq : equipamentos) {
+                                if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                                    /* caso o idoso encontre o equipamento, deve-o apanhar */
+                                    creatureOrigem.equipamentos.add(eq);
                                 }
-                                incrementarTurno();
-                                return true;
+                                /* quando se mover para fora dessa casa, deve-o largar */
+                                creatureOrigem.getEquipamentosVivos().remove(eq);
                             }
+                            incrementarTurno();
+                            return true;
 
                         } else {
 
@@ -991,7 +989,6 @@ public class TWDGameManager {
                     }
 
                    /* TODO falta implementar bem turnos do coelho - erros no DropProjet */
-
                 }
             }
         }

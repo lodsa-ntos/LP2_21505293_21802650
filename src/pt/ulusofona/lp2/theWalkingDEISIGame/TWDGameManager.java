@@ -1083,7 +1083,7 @@ public class TWDGameManager {
     }
 
     public boolean gameIsOver() {
-        int nrMaxDiasENoites = 6;
+        int nrMaxDiaENoite = 6;
         int numeroVivosEmJogo = 0;
         int countTodosMenosIdosoEmJogo = 0;
 
@@ -1093,8 +1093,8 @@ public class TWDGameManager {
                 nrTurno--;
             }
 
-            /* O jogo termina se tiverem passados 3 dias e 3 noites sem que exista uma transformação */
-            if ((nrTurno/2 >= nrMaxDiasENoites) && creatureOrigem.getNumTransformacoesFeitasPorZombies() == 0) {
+            /* se até ao nrturno 12 não houver nenhuma transformação o jogo termina */
+            if (creatureOrigem.getNumTransformacoesFeitasPorZombies() == 0 && nrTurno >= 12) {
                 return true;
             }
         }
@@ -1172,7 +1172,7 @@ public class TWDGameManager {
         }
 
         /* O jogo termina se tiverem passados 3 dias e 3 noites */
-        return nrTurno/2 >= nrMaxDiasENoites;
+        return nrTurno/2 >= nrMaxDiaENoite;
     }
 
     public List<String> getAuthors() {

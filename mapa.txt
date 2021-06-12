@@ -1,8 +1,8 @@
 8 8
 10
 6
-1 : 8 : Freddie M. : 0 : 0
-2 : 2 : Jackie Chan : 3 : 3
+1 : 8 : Freddie M. : 4 : 4
+2 : 13 : Jackie Chan : 3 : 3
 3 : 5 : Alice : 2 : 0
 4 : 7 : Ash : 6 : 4
 5 : 4 : Sam : 0 : 5

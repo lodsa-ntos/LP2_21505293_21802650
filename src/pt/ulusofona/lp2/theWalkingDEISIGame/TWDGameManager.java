@@ -326,9 +326,11 @@ public class TWDGameManager {
                         }
 
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+
                             if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
                                 return false;
                             }
+
                             /* Se existir uma porta safeHaven */
                             if (isDoorToSafeHaven(xD, yD)) {
                                 /* Vamos colocar o vivo lá dentro */
@@ -438,7 +440,7 @@ public class TWDGameManager {
                                                     }
 
                                                     if (creatureDestino.getIdTipo() == 6 || creatureDestino.getIdTipo() == 7 ||
-                                                            creatureDestino.getIdTipo() == 8) {
+                                                            creatureDestino.getIdTipo() == 8 || creatureDestino.getIdTipo() == 9) {
                                                         /* vamos destruir o zombie */
                                                         creatures.remove(creatureOrigem);
                                                         zombiesDestruidos.add(creatureOrigem);
@@ -456,7 +458,8 @@ public class TWDGameManager {
                                                 case 2:
                                                     /* Interação com a Pistola */
                                                     if (creatureDestino.getIdTipo() == 5 || creatureDestino.getIdTipo() == 6
-                                                            || creatureDestino.getIdTipo() == 7 || creatureDestino.getIdTipo() == 8) {
+                                                            || creatureDestino.getIdTipo() == 7 || creatureDestino.getIdTipo() == 8
+                                                    || creatureDestino.getIdTipo() == 9) {
 
                                                         if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
                                                             /* A pistola não tem efeito contra Zombies Vampiros */
@@ -565,7 +568,8 @@ public class TWDGameManager {
                                                 case 6:
                                                     /* Interação com a Estaca de madeira */
                                                     if (creatureDestino.getIdTipo() == 5 || creatureDestino.getIdTipo() == 6
-                                                            || creatureDestino.getIdTipo() == 7 || creatureDestino.getIdTipo() == 8) {
+                                                            || creatureDestino.getIdTipo() == 7 || creatureDestino.getIdTipo() == 8
+                                                            || creatureDestino.getIdTipo() == 9) {
                                                         /* vamos destruir o zombie */
                                                         creatures.remove(creatureOrigem);
                                                         zombiesDestruidos.add(creatureOrigem);
@@ -665,7 +669,7 @@ public class TWDGameManager {
                                         }
 
                                         /* Se idoso tentar apanhar equipamento a noite retorna falso */
-                                        if (creatureOrigem.getIdTipo() == 8 && isDay() == false) {
+                                        if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
                                             if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
                                                     eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
                                                 return false;
@@ -758,6 +762,14 @@ public class TWDGameManager {
                                         }
                                     }
 
+                                    /* Coelho vampiro se tentar destruir algum equipamento, retorna false */
+                                    if (creatureOrigem.getIdTipo() == 13) {
+                                        if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
+                                                eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
+                                            return false;
+                                        }
+                                    }
+
                                     // Adiciona nos equipamentos destruidos
                                     // Destroi os equipamento
                                     // Move uma posicao
@@ -793,7 +805,7 @@ public class TWDGameManager {
                                             if (creatureOrigem.isEnvenenado()) {
                                                 /* Se for idoso e for dia morre envenenado */
                                                 if (creatureOrigem.getIdTipo() == 8) {
-                                                    if (isDay() == true) {
+                                                    if (isDay()) {
                                                         nrTurnoDoVeneno = 0;
                                                         creatures.remove(creatureOrigem);
                                                         criaturasEnvenenadas.add(creatureOrigem);
@@ -913,7 +925,7 @@ public class TWDGameManager {
                     if (creatureOrigem.getIdEquipa() == 20) {
                         /* Zombie Vampiro só se movem em turnos nocturnos */
                         if (creatureOrigem.getIdTipo() == 4) {
-                            if (isDay() == false) {
+                            if (!isDay()) {
 
                                 if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                     return false;
@@ -978,9 +990,7 @@ public class TWDGameManager {
                         return false;
                     }
 
-
-
-                   /* TODO falta implementar bem o deslocamento em turnos do coelho - erros no DropProjet */
+                   /* TODO falta implementar bem turnos do coelho - erros no DropProjet */
 
                 }
             }
@@ -1042,8 +1052,7 @@ public class TWDGameManager {
 
         /* Verificar se o deslocamento da criatura que está a ser movida
         * Verificar se ao mover existe uma criatura ou equipamento no meio */
-        if ( xO - xD > 2 && yD - yO > 2 ||
-                xD - xO > 2 && yD - yO > 2 || xD - xO > 2 && Math.abs(yD - yO) == 0
+        if ( xO - xD > 2 && yD - yO > 2 || xD - xO > 2 && yD - yO > 2 || xD - xO > 2 && Math.abs(yD - yO) == 0
                 || xD - xO > 1 && yO - yD > 1 || xO - xD > 1 && yD - yO > 1 || xO - xD > 1 && yO - yD > 1
                 || xD - xO > 1 && yD - yO > 1 || xD - xO > 1 && Math.abs(yD - yO) == 0 || xO - xD > 1 && Math.abs(yD - yO) == 0
                 || yD - yO > 1 && Math.abs(xD - xO) == 0 || yO - yD > 1 && Math.abs(xD - xO) == 0) {
@@ -1076,19 +1085,15 @@ public class TWDGameManager {
         return "";
     }
 
+    /* TODO falta implementar a continuidade do jogo apos transformacao */
     public boolean gameIsOver() {
-        int nrMaxDiaENoite = 6;
+        int nrMaxDiasENoites = 6;
         int numeroVivosEmJogo = 0;
         int countTodosMenosIdosoEmJogo = 0;
 
         for (Creature creatureOrigem : creatures) {
-            /* se houver transformacão o jogo continua */
-            if (creatureOrigem.getNumTransformacoesFeitasPorZombies() >= 1 && nrTurno >= 12) {
-                nrTurno--;
-            }
-
-            /* se até ao nrturno 12 não houver nenhuma transformação o jogo termina */
-            if (creatureOrigem.getNumTransformacoesFeitasPorZombies() == 0 && nrTurno >= 12) {
+            /* O jogo termina se tiverem passados 3 dias e 3 noites sem que exista uma transformação */
+            if ((nrTurno/2 >= nrMaxDiasENoites) && creatureOrigem.getNumTransformacoesFeitasPorZombies() == 0) {
                 return true;
             }
         }
@@ -1166,7 +1171,7 @@ public class TWDGameManager {
         }
 
         /* O jogo termina se tiverem passados 3 dias e 3 noites */
-        return nrTurno/2 >= nrMaxDiaENoite;
+        return nrTurno/2 >= nrMaxDiasENoites;
     }
 
     public List<String> getAuthors() {
@@ -1262,10 +1267,9 @@ public class TWDGameManager {
         return resultados;
     }
 
-    // TODO incompleto , isDay() está a devolver false erradamente - 2 erros no DropProjet
     public boolean isDay() {
 
-        switch (nrTurno) {
+        /*switch (nrTurno) {
             case 0:
             case 1:
             case 4:
@@ -1278,6 +1282,10 @@ public class TWDGameManager {
             case 17:
             case 20:
             case 21:
+            case 24:
+            case 25:
+            case 28:
+            case 29:
                 diurno = true;
                 break;
             case 2:
@@ -1291,11 +1299,15 @@ public class TWDGameManager {
             case 18:
             case 19:
             case 22:
+            case 23:
+            case 26:
+            case 27:
+            case 30:
                 diurno = false;
                 break;
-        }
+        }*/
 
-        /*if (nrTurno == 0 || nrTurno == 1 || nrTurno == 4 || nrTurno == 5 || nrTurno == 8 || nrTurno == 9) {
+        if (nrTurno == 0 || nrTurno == 1 || nrTurno == 4 || nrTurno == 5 || nrTurno == 8 || nrTurno == 9) {
             diurno = true;
         } else if (nrTurno % 2 == 0) {
             if (!diurno) {
@@ -1303,7 +1315,7 @@ public class TWDGameManager {
             } else {
                 diurno = false;
             }
-        }*/
+        }
 
         System.out.println(nrTurno);
 

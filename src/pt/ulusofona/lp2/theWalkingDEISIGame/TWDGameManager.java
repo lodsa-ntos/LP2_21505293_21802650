@@ -862,18 +862,20 @@ public class TWDGameManager {
                     if (creatureOrigem.getIdEquipa() == 10) {
                         /* Idosos humanos só se movem em turnos diurnos */
                         if (creatureOrigem.getIdTipo() == 8 && isDay()) {
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
-                            for (Equipamento eq : equipamentos) {
-                                if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
-                                    /* caso o idoso encontre o equipamento, deve-o apanhar */
-                                    creatureOrigem.equipamentos.add(eq);
+                            if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                for (Equipamento eq : equipamentos) {
+                                    if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                                        /* caso o idoso encontre o equipamento, deve-o apanhar */
+                                        creatureOrigem.equipamentos.add(eq);
+                                    }
+                                    /* quando se mover para fora dessa casa, deve-o largar */
+                                    creatureOrigem.getEquipamentosVivos().remove(eq);
                                 }
-                                /* quando se mover para fora dessa casa, deve-o largar */
-                                creatureOrigem.getEquipamentosVivos().remove(eq);
+                                incrementarTurno();
+                                return true;
                             }
-                            incrementarTurno();
-                            return true;
 
                         } else {
 
@@ -923,7 +925,7 @@ public class TWDGameManager {
                     if (creatureOrigem.getIdEquipa() == 20) {
                         /* Zombie Vampiro só se movem em turnos nocturnos */
                         if (creatureOrigem.getIdTipo() == 4) {
-                            if (!isDay()) {
+                            if (isDay() == false) {
 
                                 if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                     return false;
@@ -1048,8 +1050,9 @@ public class TWDGameManager {
         }
 
         /* Verificar se o deslocamento da criatura que está a ser movida
-        * Verificar se ao mover existe uma criatura ou equipamento no meio */
-        if ( xO - xD > 2 && yD - yO > 2 || xD - xO > 2 && yD - yO > 2 || xD - xO > 2 && Math.abs(yD - yO) == 0
+         * Verificar se ao mover existe uma criatura ou equipamento no meio */
+        if ( xO - xD > 2 && yD - yO > 2 ||
+                xD - xO > 2 && yD - yO > 2 || xD - xO > 2 && Math.abs(yD - yO) == 0
                 || xD - xO > 1 && yO - yD > 1 || xO - xD > 1 && yD - yO > 1 || xO - xD > 1 && yO - yD > 1
                 || xD - xO > 1 && yD - yO > 1 || xD - xO > 1 && Math.abs(yD - yO) == 0 || xO - xD > 1 && Math.abs(yD - yO) == 0
                 || yD - yO > 1 && Math.abs(xD - xO) == 0 || yO - yD > 1 && Math.abs(xD - xO) == 0) {
@@ -1284,10 +1287,6 @@ public class TWDGameManager {
             case 17:
             case 20:
             case 21:
-            case 24:
-            case 25:
-            case 28:
-            case 29:
                 diurno = true;
                 break;
             case 2:
@@ -1301,10 +1300,6 @@ public class TWDGameManager {
             case 18:
             case 19:
             case 22:
-            case 23:
-            case 26:
-            case 27:
-            case 30:
                 diurno = false;
                 break;
         }
@@ -1317,9 +1312,9 @@ public class TWDGameManager {
             } else {
                 diurno = false;
             }
-        }
+        }*/
 
-        System.out.println(nrTurno);*/
+        System.out.println(nrTurno);
 
         return diurno;
     }

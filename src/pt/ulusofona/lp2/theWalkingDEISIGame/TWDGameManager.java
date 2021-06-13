@@ -1104,7 +1104,7 @@ public class TWDGameManager {
                 || xD - xO > 1 && yD - yO > 1 || xD - xO > 1 && Math.abs(yD - yO) == 0 || xO - xD > 1 && Math.abs(yD - yO) == 0
                 || yD - yO > 1 && Math.abs(xD - xO) == 0 || yO - yD > 1 && Math.abs(xD - xO) == 0) {
 
-            // verifica se uma criatura ou equipamento esta naquela posicao
+            // verifica se uma criatura, equipamento ou porta esta naquela posicao
             for (Creature creature : getCreatures()) {
                 if (creature.getXAtual() == meioX && creature.getYAtual() == meioY) {
                     return false;
@@ -1134,6 +1134,23 @@ public class TWDGameManager {
                     }
 
                     if (equipamento.getXAtual() == meioX && equipamento.getYAtual() == meioY+1) {
+                        return false;
+                    }
+                }
+            }
+
+            for (Porta porta : portasEmJogo) {
+                if (porta.getXAtual() == meioX && porta.getYAtual() == meioY) {
+                    return false;
+                }
+
+                if (direcao.equals("diagonal")) {
+
+                    if (porta.getXAtual() == meioX+1 && porta.getYAtual() == meioY) {
+                        return false;
+                    }
+
+                    if (porta.getXAtual() == meioX && porta.getYAtual() == meioY+1) {
                         return false;
                     }
                 }
@@ -1420,7 +1437,7 @@ public class TWDGameManager {
         /* Todas as portas guardadas na lista ...
         * se estiverem na posicao (x,y), retornamos true e mostramos as portas */
         for (Porta door : portasEmJogo) {
-            if (door.getxAtual() == x && door.getyAtual() == y){
+            if (door.getXAtual() == x && door.getYAtual() == y){
                 return true;
             }
         }
@@ -1496,7 +1513,7 @@ public class TWDGameManager {
             salvarFich.write(nextLine);
 
             for(Porta p : portasEmJogo) {
-                salvarFich.write(p.getxAtual() + " : " + p.getyAtual());
+                salvarFich.write(p.getXAtual() + " : " + p.getYAtual());
 
                 salvarFich.write(nextLine);
             }

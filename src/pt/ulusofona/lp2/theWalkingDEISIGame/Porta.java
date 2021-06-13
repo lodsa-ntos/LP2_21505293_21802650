@@ -9,11 +9,11 @@ public class Porta {
         this.yAtual = yAtual;
     }
 
-    public int getxAtual() {
+    public int getXAtual() {
         return xAtual;
     }
 
-    public int getyAtual() {
+    public int getYAtual() {
         return yAtual;
     }
 

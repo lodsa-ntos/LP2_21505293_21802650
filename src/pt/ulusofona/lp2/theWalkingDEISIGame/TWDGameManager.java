@@ -321,45 +321,6 @@ public class TWDGameManager {
                 if (creatureOrigem.getIdEquipa() == idEquipaAtual &&
                         creatureOrigem.getXAtual() == xO && creatureOrigem.getYAtual() == yO) {
 
-                    // TODO.: em manutenção movimento do coelho vivo e coelho zombie em turnos pares
-                    if (creatureOrigem.getIdEquipa() == 10 || creatureOrigem.getIdEquipa() == 20) {
-
-                        /* COELHO VIVO E COELHO ZOMBIE*/
-                        if (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13) {
-
-                            if (nrTurno % 2 == 0) {
-                                if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
-                                    return false;
-                                }
-
-                                /* Coelho apenas move-se na horizontal e na vertical
-                                 Se tentar mover 1 casa na diagonal a jogada é invalida */
-                                if (umaCasaNaDiagonal) {
-                                    return false;
-                                }
-
-                                 /* Coelho apenas move-se na horizontal e na vertical
-                                 Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
-                                if (duasOuMaisCasasNaDiagonal) {
-                                    return false;
-                                }
-
-                                 /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
-                                if (!creatureOrigem.moveDirecaoTurnosPares(xO, yO, xD, yD, creatureOrigem)) {
-                                    return false;
-                                }
-
-                            } else {
-                                return false;
-                            }
-
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
-                            incrementarTurno();
-                            return true;
-                        }
-                    }
-
                     /* ENTRADA PARA O SAFEHAVEN */
                     if (creatureOrigem.getIdEquipa() == 10) {
                         if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
@@ -896,6 +857,43 @@ public class TWDGameManager {
                                     }
                                 }
                             }
+                        }
+                    }
+
+                    // TODO.: em manutenção movimento do coelho vivo e coelho zombie em turnos pares
+                    if (creatureOrigem.getIdEquipa() == 10 || creatureOrigem.getIdEquipa() == 20) {
+
+                        /* COELHO VIVO E COELHO ZOMBIE*/
+                        if (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13) {
+
+                            if (nrTurno % 2 == 0) {
+                                if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                    return false;
+                                }
+
+                                /* Coelho apenas move-se na horizontal e na vertical
+                                 Se tentar mover 1 casa na diagonal a jogada é invalida */
+                                if (umaCasaNaDiagonal) {
+                                    return false;
+                                }
+
+                                 /* Coelho apenas move-se na horizontal e na vertical
+                                 Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
+                                if (duasOuMaisCasasNaDiagonal) {
+                                    return false;
+                                }
+
+                                /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
+                                if (!creatureOrigem.moveDirecaoTurnosPares(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
+
+                            }
+
+                            creatureOrigem.setxAtual(xD);
+                            creatureOrigem.setyAtual(yD);
+                            incrementarTurno();
+                            return true;
                         }
                     }
 

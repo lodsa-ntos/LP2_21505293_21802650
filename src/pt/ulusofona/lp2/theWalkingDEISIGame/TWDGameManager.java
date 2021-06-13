@@ -863,11 +863,10 @@ public class TWDGameManager {
                     // TODO.: em manutenção movimento do coelho vivo e coelho zombie em turnos pares e impares
                     if (creatureOrigem.getIdEquipa() == 10 || creatureOrigem.getIdEquipa() == 20) {
 
-                        /* COELHO VIVO E COELHO ZOMBIE*/
-                        if (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13) {
+                        if (nrTurno % 2 == 0) {
 
-                            if (nrTurno % 2 == 0) {
-                                System.out.println("estou no turno 2");
+                            /* COELHO VIVO E COELHO ZOMBIE*/
+                            if (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13) {
 
                                 if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                     return false;
@@ -890,7 +889,32 @@ public class TWDGameManager {
                                     return false;
                                 }
 
-                            } else {
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                incrementarTurno();
+                                return true;
+                            }
+
+                        } else if (nrTurno % 2 != 0) {
+
+                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                return false;
+                            }
+
+                            /* Coelho apenas move-se na horizontal e na vertical
+                                 Se tentar mover 1 casa na diagonal a jogada é invalida */
+                            if (umaCasaNaDiagonal) {
+                                return false;
+                            }
+
+                                 /* Coelho apenas move-se na horizontal e na vertical
+                                 Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
+                            if (duasOuMaisCasasNaDiagonal) {
+                                return false;
+                            }
+
+                            /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
+                            if (!creatureOrigem.moveDirecaoTurnosImpares(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
                             }
 
@@ -898,6 +922,9 @@ public class TWDGameManager {
                             creatureOrigem.setyAtual(yD);
                             incrementarTurno();
                             return true;
+
+                        } else {
+                            return false;
                         }
                     }
 

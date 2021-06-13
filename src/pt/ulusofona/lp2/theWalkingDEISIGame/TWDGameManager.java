@@ -679,12 +679,12 @@ public class TWDGameManager {
                                         }
 
                                         /* Se coelho tentar apanhar algum equipamento, retorna falso */
-                                        if (creatureOrigem.getIdTipo() == 12) {
+                                        /*if (creatureOrigem.getIdTipo() == 12) {
                                             if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
                                                     eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
                                                 return false;
                                             }
-                                        }
+                                        }*/
 
                                         /* senão, se tiver equipamento vamos removê-lo antes de apanhar o novo */
                                     } else {
@@ -860,13 +860,15 @@ public class TWDGameManager {
                         }
                     }
 
-                    // TODO.: em manutenção movimento do coelho vivo e coelho zombie em turnos pares
+                    // TODO.: em manutenção movimento do coelho vivo e coelho zombie em turnos pares e impares
                     if (creatureOrigem.getIdEquipa() == 10 || creatureOrigem.getIdEquipa() == 20) {
 
                         /* COELHO VIVO E COELHO ZOMBIE*/
                         if (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13) {
 
                             if (nrTurno % 2 == 0) {
+                                //System.out.println("estou no turno 2");
+
                                 if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                     return false;
                                 }

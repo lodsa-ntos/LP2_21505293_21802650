@@ -1111,7 +1111,12 @@ public class TWDGameManager {
                 }
 
                 if (direcao.equals("diagonal")) {
+
                     if (creature.getXAtual() == meioX+1 && creature.getYAtual() == meioY) {
+                        return false;
+                    }
+
+                    if (creature.getXAtual() == meioX && creature.getYAtual() == meioY+1) {
                         return false;
                     }
                 }
@@ -1123,7 +1128,12 @@ public class TWDGameManager {
                 }
 
                 if (direcao.equals("diagonal")) {
+
                     if (equipamento.getXAtual() == meioX+1 && equipamento.getYAtual() == meioY) {
+                        return false;
+                    }
+
+                    if (equipamento.getXAtual() == meioX && equipamento.getYAtual() == meioY+1) {
                         return false;
                     }
                 }

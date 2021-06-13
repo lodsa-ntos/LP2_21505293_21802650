@@ -765,12 +765,12 @@ public class TWDGameManager {
                                     }
 
                                     /* Coelho zombie se tentar destruir algum equipamento, retorna false */
-                                    /*if (creatureOrigem.getIdTipo() == 13) {
+                                    if (creatureOrigem.getIdTipo() == 13) {
                                         if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
                                                 eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
                                             return false;
                                         }
-                                    }*/
+                                    }
 
                                     // Adiciona nos equipamentos destruidos
                                     // Destroi os equipamento
@@ -867,7 +867,7 @@ public class TWDGameManager {
                         if (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13) {
 
                             if (nrTurno % 2 == 0) {
-                                //System.out.println("estou no turno 2");
+                                System.out.println("estou no turno 2");
 
                                 if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                     return false;
@@ -890,6 +890,8 @@ public class TWDGameManager {
                                     return false;
                                 }
 
+                            } else {
+                                return false;
                             }
 
                             creatureOrigem.setxAtual(xD);

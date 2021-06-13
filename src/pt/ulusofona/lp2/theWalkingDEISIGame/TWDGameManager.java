@@ -679,12 +679,12 @@ public class TWDGameManager {
                                         }
 
                                         /* Se coelho tentar apanhar algum equipamento, retorna falso */
-                                        /*if (creatureOrigem.getIdTipo() == 12) {
+                                        if (creatureOrigem.getIdTipo() == 12) {
                                             if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
                                                     eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
                                                 return false;
                                             }
-                                        }*/
+                                        }
 
                                         /* senão, se tiver equipamento vamos removê-lo antes de apanhar o novo */
                                     } else {
@@ -764,13 +764,13 @@ public class TWDGameManager {
                                         }
                                     }
 
-                                    /* Coelho vampiro se tentar destruir algum equipamento, retorna false */
-                                    if (creatureOrigem.getIdTipo() == 13) {
+                                    /* Coelho zombie se tentar destruir algum equipamento, retorna false */
+                                    /*if (creatureOrigem.getIdTipo() == 13) {
                                         if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
                                                 eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
                                             return false;
                                         }
-                                    }
+                                    }*/
 
                                     // Adiciona nos equipamentos destruidos
                                     // Destroi os equipamento

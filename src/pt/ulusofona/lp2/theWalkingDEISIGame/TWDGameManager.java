@@ -300,7 +300,7 @@ public class TWDGameManager {
         return creatures;
     }
 
-    // TODO falta implementar os movimentos em turnos do coelho - 5 erros no DropProjet
+    // TODO.: falta implementar os movimentos em turnos do coelho - 5 erros no DropProjet
     public boolean move(int xO, int yO, int xD, int yD) {
 
         if (!gameIsOver()) {
@@ -860,74 +860,64 @@ public class TWDGameManager {
                         }
                     }
 
-                    // TODO.: em manutenção movimento do coelho vivo e coelho zombie em turnos pares e impares
+                    /* COELHO VIVO E COELHO ZOMBIE TURNOS PARES E IMPARES */
                     if (creatureOrigem.getIdEquipa() == 10 || creatureOrigem.getIdEquipa() == 20) {
 
-                        if (nrTurno % 2 == 0) {
+                        if ((nrTurno % 2 == 0) && (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13)) {
 
-                            /* COELHO VIVO E COELHO ZOMBIE*/
-                            if (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13) {
-
-                                if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
-                                    return false;
-                                }
-
-                                /* Coelho apenas move-se na horizontal e na vertical
-                                 Se tentar mover 1 casa na diagonal a jogada é invalida */
-                                if (umaCasaNaDiagonal) {
-                                    return false;
-                                }
-
-                                 /* Coelho apenas move-se na horizontal e na vertical
-                                 Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
-                                if (duasOuMaisCasasNaDiagonal) {
-                                    return false;
-                                }
-
-                                /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
-                                if (!creatureOrigem.moveDirecaoTurnosPares(xO, yO, xD, yD, creatureOrigem)) {
-                                    return false;
-                                }
-
-                                creatureOrigem.setxAtual(xD);
-                                creatureOrigem.setyAtual(yD);
-                                incrementarTurno();
-                                return true;
+                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                return false;
                             }
 
-                        } else if (nrTurno % 2 != 0) {
-
-                            if (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13) {
-
-                                if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
-                                    return false;
-                                }
-
-                                /* Coelho apenas move-se na horizontal e na vertical
-                                 Se tentar mover 1 casa na diagonal a jogada é invalida */
-                                if (umaCasaNaDiagonal) {
-                                    return false;
-                                }
-
-                                 /* Coelho apenas move-se na horizontal e na vertical
-                                 Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
-                                if (duasOuMaisCasasNaDiagonal) {
-                                    return false;
-                                }
-
-                                /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
-                                if (!creatureOrigem.moveDirecaoTurnosImpares(xO, yO, xD, yD, creatureOrigem)) {
-                                    return false;
-                                }
-
-                                creatureOrigem.setxAtual(xD);
-                                creatureOrigem.setyAtual(yD);
-                                incrementarTurno();
-                                return true;
+                            /* Coelho apenas move-se na horizontal e na vertical
+                                Se tentar mover 1 casa na diagonal a jogada é invalida */
+                            if (umaCasaNaDiagonal) {
+                                return false;
                             }
 
-                        } else {
-                            return false;
+                            /* Coelho apenas move-se na horizontal e na vertical
+                               Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
+                            if (duasOuMaisCasasNaDiagonal) {
+                                return false;
+                            }
+
+                            /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
+                            if (!creatureOrigem.moveDirecaoTurnosPares(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            creatureOrigem.setxAtual(xD);
+                            creatureOrigem.setyAtual(yD);
+                            incrementarTurno();
+                            return true;
+
+                        } else if ((nrTurno % 2 != 0) && (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13)) {
+
+                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                return false;
+                            }
+
+                            /* Coelho apenas move-se na horizontal e na vertical
+                                Se tentar mover 1 casa na diagonal a jogada é invalida */
+                            if (umaCasaNaDiagonal) {
+                                return false;
+                            }
+
+                            /* Coelho apenas move-se na horizontal e na vertical
+                                 Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
+                            if (duasOuMaisCasasNaDiagonal) {
+                                return false;
+                            }
+
+                            /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
+                            if (!creatureOrigem.moveDirecaoTurnosImpares(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            creatureOrigem.setxAtual(xD);
+                            creatureOrigem.setyAtual(yD);
+                            incrementarTurno();
+                            return true;
                         }
                     }
 
@@ -1178,6 +1168,7 @@ public class TWDGameManager {
                         case 6:
                         case 7:
                         case 9:
+                        case 12:
                             countTodosMenosIdosoEmJogo++;
                     }
 
@@ -1215,6 +1206,7 @@ public class TWDGameManager {
                         case 1:
                         case 2:
                         case 3:
+                        case 13:
                             countTodosMenosZombieVampEmJogo++;
                     }
 
@@ -1334,10 +1326,10 @@ public class TWDGameManager {
         return resultados;
     }
 
-    // TODO incompleto , isDay() está a devolver false erradamente - 2 erros no DropProjet
+    // TODO.: incompleto , isDay() está a devolver false erradamente - 2 erros no DropProjet
     public boolean isDay() {
 
-        //TODO solucao beta
+        //TODO conhecimento padrao solucao beta
         switch (nrTurno) {
             case 0:
             case 1:
@@ -1369,7 +1361,7 @@ public class TWDGameManager {
         }
 
 
-        // TODO solucao que funciona bem mas causa falhas na movimentacao do idoso e da crianca com alho
+        // TODO conhecimento padrao solucao jogoCompleto que funciona bem mas causa falhas na movimentacao do idoso e da crianca com alho
         /*if (nrTurno == 0 || nrTurno == 1 || nrTurno == 4 || nrTurno == 5 || nrTurno == 8 || nrTurno == 9) {
             diurno = true;
         } else if (nrTurno % 2 == 0) {
@@ -1448,7 +1440,7 @@ public class TWDGameManager {
         return null;
     }
 
-    /* TODO falta implementar como gravar vivo com equipamento e dentro do safeHaven - 1 erro no DropProjet */
+    /* TODO.: falta implementar como gravar vivo com equipamento e dentro do safeHaven - 1 erro no DropProjet */
     public boolean saveGame(File fich) {
 
         /* retorna o separador de linha, ou seja será a quebra de linha quando chegar a final de uma linha lida */
@@ -1501,7 +1493,7 @@ public class TWDGameManager {
         }
     }
 
-    /* TODO falta implementar como carregar vivo com equipamento e dentro do safeHaven - 1 erro no DropProjet */
+    /* TODO.: falta implementar como carregar vivo com equipamento e dentro do safeHaven - 1 erro no DropProjet */
     public boolean loadGame(File fich) {
 
         try {
@@ -1615,7 +1607,7 @@ public class TWDGameManager {
         return equipamentoQueSafaram;
     }
 
-    /* TODO falta implementar o desempate e o numero de equipamentos - 2 erros no DropProjet */
+    /* TODO.: falta implementar o desempate e o numero de equipamentos - 2 erros no DropProjet */
     /* <Nome do Tipo>:<ID_Zombies>: TODO <NrEquipamentos> */
     /* Qual o total de equipamentos destruidos por cada tipo de zombie? */
     private List<String> tiposZombiesEEquipamentosDestruidos() {
@@ -1680,10 +1672,6 @@ public class TWDGameManager {
                 idEquipaAtual = 10;
                 break;
         }
-    }
-
-    public int getNrTurno() {
-        return nrTurno;
     }
 
     public void incrementarReset() {

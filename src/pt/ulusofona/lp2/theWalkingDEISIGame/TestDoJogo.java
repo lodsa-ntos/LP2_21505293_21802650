@@ -66,18 +66,23 @@ public class TestDoJogo {
         }
     }
 
-    /*@Test
-    public void test02IdosoNaNoite() throws InvalidTWDInitialFileException, FileNotFoundException {
-        TWDGameManager idosoNoturno = new TWDGameManager();
+    @Test
+    public void test01MovimentosCoelho() throws InvalidTWDInitialFileException, FileNotFoundException {
+        TWDGameManager runCoelho = new TWDGameManager();
 
-        if (idosoNoturno.isDay()) {
-            idosoNoturno.startGame(new File("ficheirosParaTestes/mapaGigante.txt"));
-            assertEquals(String.valueOf(true), idosoNoturno.getCurrentTeamId(), 10);
-            assertTrue(idosoNoturno.move(4, 0, 7, 0));
-            assertTrue(idosoNoturno.move(3, 4, 2, 4));
-            assertFalse(idosoNoturno.move(3, 3, 4, 3)); *//* idoso não pode andar de noite *//*
+        try {
+            runCoelho.startGame(new File("ficheirosParaTestes/movimentosCoelho.txt"));
+            assertEquals(String.valueOf(true), 2, runCoelho.getWorldSize().length);
+
+            // Turno 1
+            assertEquals("Vivo a jogar: ", 10, runCoelho.getCurrentTeamId());
+            assertTrue(String.valueOf(true), runCoelho.isDay());
+            assertTrue("Coelho move : ", runCoelho.move(2, 1, 4, 1));
+            assertEquals("", 0, runCoelho.getElementId(2,0)); // casa antiga fica vazia
+            assertEquals("", 2, runCoelho.getElementId(4,1)); // Coelho na nova casa
+
+        } catch (FileNotFoundException | InvalidTWDInitialFileException e) {
+            e.printStackTrace();
         }
-
-
-    }*/
+    }
 }

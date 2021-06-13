@@ -314,10 +314,51 @@ public class TWDGameManager {
             }
 
             boolean encontrouEquip = false;
+            boolean umaCasaNaDiagonal = (Math.abs(xD - xO) == 1) && (Math.abs(yD - yO) == 1);
+            boolean duasOuMaisCasasNaDiagonal = (Math.abs(xD - xO) > 0 && Math.abs(xD - xO) <= 50) && (Math.abs(yD - yO) > 0 && Math.abs(yD - yO) <= 50);
 
             for (Creature creatureOrigem : creatures) {
                 if (creatureOrigem.getIdEquipa() == idEquipaAtual &&
                         creatureOrigem.getXAtual() == xO && creatureOrigem.getYAtual() == yO) {
+
+                    // TODO.: em manutenção movimento do coelho vivo e coelho zombie em turnos pares
+                    if (creatureOrigem.getIdEquipa() == 10 || creatureOrigem.getIdEquipa() == 20) {
+
+                        /* COELHO VIVO E COELHO ZOMBIE*/
+                        if (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13) {
+
+                            if (nrTurno % 2 == 0) {
+                                if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                    return false;
+                                }
+
+                                /* Coelho apenas move-se na horizontal e na vertical
+                                 Se tentar mover 1 casa na diagonal a jogada é invalida */
+                                if (umaCasaNaDiagonal) {
+                                    return false;
+                                }
+
+                                 /* Coelho apenas move-se na horizontal e na vertical
+                                 Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
+                                if (duasOuMaisCasasNaDiagonal) {
+                                    return false;
+                                }
+
+                                 /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
+                                if (!creatureOrigem.moveDirecaoTurnosPares(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
+
+                            } else {
+                                return false;
+                            }
+
+                            creatureOrigem.setxAtual(xD);
+                            creatureOrigem.setyAtual(yD);
+                            incrementarTurno();
+                            return true;
+                        }
+                    }
 
                     /* ENTRADA PARA O SAFEHAVEN */
                     if (creatureOrigem.getIdEquipa() == 10) {
@@ -880,7 +921,7 @@ public class TWDGameManager {
                         } else {
 
                             /* Se forem outras criaturas vivas */
-                            if (creatureOrigem.getIdTipo() != 8) {
+                            if (creatureOrigem.getIdTipo() != 8 && creatureOrigem.getIdTipo() != 12) {
 
                                 if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
                                     return false;
@@ -903,11 +944,6 @@ public class TWDGameManager {
 
                                 /* CAO */
                                 if (creatureOrigem.getIdTipo() == 9 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    return false;
-                                }
-
-                                /* COELHO */
-                                if (creatureOrigem.getIdTipo() == 12 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                     return false;
                                 }
 
@@ -973,10 +1009,6 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            if (creatureOrigem.getIdTipo() == 13 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
                             /* Zombies nao se podem mover para o Safe Haven */
                             if (isDoorToSafeHaven(xD, yD)) {
                                 return false;
@@ -990,7 +1022,6 @@ public class TWDGameManager {
                         return false;
                     }
 
-                   /* TODO falta implementar bem turnos do coelho - erros no DropProjet */
                 }
             }
         }
@@ -1274,6 +1305,7 @@ public class TWDGameManager {
     // TODO incompleto , isDay() está a devolver false erradamente - 2 erros no DropProjet
     public boolean isDay() {
 
+        //TODO solucao beta
         switch (nrTurno) {
             case 0:
             case 1:
@@ -1304,6 +1336,8 @@ public class TWDGameManager {
                 break;
         }
 
+
+        // TODO solucao que funciona bem mas causa falhas na movimentacao do idoso e da crianca com alho
         /*if (nrTurno == 0 || nrTurno == 1 || nrTurno == 4 || nrTurno == 5 || nrTurno == 8 || nrTurno == 9) {
             diurno = true;
         } else if (nrTurno % 2 == 0) {
@@ -1614,6 +1648,10 @@ public class TWDGameManager {
                 idEquipaAtual = 10;
                 break;
         }
+    }
+
+    public int getNrTurno() {
+        return nrTurno;
     }
 
     public void incrementarReset() {

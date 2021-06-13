@@ -1,11 +1,9 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.io.*;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.toList;
 
 public class TWDGameManager {
@@ -300,11 +298,13 @@ public class TWDGameManager {
         return creatures;
     }
 
-    // TODO.: falta implementar os movimentos em turnos do coelho - 5 erros no DropProjet
+    /* TODO.: zombies agarram e destroem muitos equipamentos (Militar zombie e Adulto Vivo)
+        - 3 erros no DropProjet */
     public boolean move(int xO, int yO, int xD, int yD) {
 
         if (!gameIsOver()) {
-            /* VALIDAÇÕES PARA COORDENADAS DE ORIGEM E DESTINO FORA DO MAPA */
+
+            /* TODO.: VALIDAÇÕES PARA COORDENADAS DE ORIGEM E DESTINO FORA DO MAPA */
             if (xO < 0 || xD < 0) {
                 return false; // estão fora do mapa
             }
@@ -350,7 +350,7 @@ public class TWDGameManager {
                         }
                     }
 
-                    // COMBATE = VIVO NA DEFENSIVA
+                    /* COMBATE = VIVO NA DEFENSIVA */
                     for (Creature creatureDestino : creatures) {
                         // Se o elemento de uma equipa cair em cima de um outro da mesma equipa
                         // retorna falso
@@ -645,7 +645,7 @@ public class TWDGameManager {
                         }
                     }
 
-                    /* AÇÃO = APANHAR E LARGAR OU DESTRUIR EQUIPAMENTO */
+                    /* AÇÃO = APANHAR, LARGAR OU DESTRUIR EQUIPAMENTO */
                     /* caso na posicao destino nao tiver uma criatura
                      verifica se é um equipamento */
                     if (creatureOrigem.getIdEquipa() == 10) {
@@ -792,7 +792,7 @@ public class TWDGameManager {
                         }
                     }
 
-                    /* Interação com o Veneno e Antidoto */
+                    /* Interação com o Veneno e Antidoto - fora do combate */
                     if (creatureOrigem.getIdEquipa() == 10) {
                         for (Equipamento eq : equipamentos) {
                             if (!encontrouEquip) {
@@ -940,42 +940,37 @@ public class TWDGameManager {
                                 return true;
                             }
 
-                        } else {
-
                             /* Se forem outras criaturas vivas */
-                            if (creatureOrigem.getIdTipo() != 8 && creatureOrigem.getIdTipo() != 12) {
+                        } else if (creatureOrigem.getIdTipo() != 8 && creatureOrigem.getIdTipo() != 12) {
 
-                                if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
-                                    return false;
-                                }
-
-                                /* CRIANÇA VIVA */
-                                if (creatureOrigem.getIdTipo() == 5 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    return false;
-                                }
-
-                                /* ADULTO VIVO */
-                                if (creatureOrigem.getIdTipo() == 6 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    return false;
-                                }
-
-                                /* MILITAR VIVO */
-                                if (creatureOrigem.getIdTipo() == 7 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    return false;
-                                }
-
-                                /* CAO */
-                                if (creatureOrigem.getIdTipo() == 9 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    return false;
-                                }
-
-                                creatureOrigem.setxAtual(xD);
-                                creatureOrigem.setyAtual(yD);
-                                incrementarTurno();
-                                return true;
+                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
+                                return false;
                             }
-                            /* se idoso andar de noite retorna falso */
-                            return false;
+
+                            /* CRIANÇA VIVA */
+                            if (creatureOrigem.getIdTipo() == 5 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            /* ADULTO VIVO */
+                            if (creatureOrigem.getIdTipo() == 6 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            /* MILITAR VIVO */
+                            if (creatureOrigem.getIdTipo() == 7 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            /* CAO */
+                            if (creatureOrigem.getIdTipo() == 9 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            creatureOrigem.setxAtual(xD);
+                            creatureOrigem.setyAtual(yD);
+                            incrementarTurno();
+                            return true;
                         }
                     }
 
@@ -1440,7 +1435,8 @@ public class TWDGameManager {
         return null;
     }
 
-    /* TODO.: falta implementar como gravar vivo com equipamento e dentro do safeHaven - 1 erro no DropProjet */
+    /* TODO.: imcompleto falta implementar como gravar vivo com equipamento e dentro do safeHaven
+         e em que turno paramos - 1 erro no DropProjet */
     public boolean saveGame(File fich) {
 
         /* retorna o separador de linha, ou seja será a quebra de linha quando chegar a final de uma linha lida */
@@ -1493,7 +1489,7 @@ public class TWDGameManager {
         }
     }
 
-    /* TODO.: falta implementar como carregar vivo com equipamento e dentro do safeHaven - 1 erro no DropProjet */
+    /* TODO.: imcompleto falta implementar como carregar jogo completo - 1 erro no DropProjet */
     public boolean loadGame(File fich) {
 
         try {
@@ -1607,7 +1603,7 @@ public class TWDGameManager {
         return equipamentoQueSafaram;
     }
 
-    /* TODO.: falta implementar o desempate e o numero de equipamentos - 2 erros no DropProjet */
+    /* TODO.: falta implementar o desempate e o numero de equipamentos - 1 erros no DropProjet */
     /* <Nome do Tipo>:<ID_Zombies>: TODO <NrEquipamentos> */
     /* Qual o total de equipamentos destruidos por cada tipo de zombie? */
     private List<String> tiposZombiesEEquipamentosDestruidos() {
@@ -1626,7 +1622,8 @@ public class TWDGameManager {
                  e permitir obter chaves e valores contidos nesse map */
                 .entrySet().stream()
                 /* Ordenar do tipo que mais destruiu para o tipo que menos destruiu */
-                .sorted((e1,e2)-> (int)(e2.getValue() - e1.getValue()))
+                /* TODO.: erro na ordenacao - 1 falha no DropProjet*/
+                .sorted((e1, e2)-> (int)(e2.getValue() - e1.getValue()))
                 /* Transforma o resultado em strings */
                 .map((z) -> z.getKey() +":"+ z.getValue())
                 /* transforma o resultado final em formato de lista */

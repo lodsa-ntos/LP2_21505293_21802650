@@ -1103,20 +1103,18 @@ public class TWDGameManager {
                 || xD - xO > 1 && yO - yD > 1 || xO - xD > 1 && yD - yO > 1 || xO - xD > 1 && yO - yD > 1
                 || xD - xO > 1 && yD - yO > 1 || xD - xO > 1 && Math.abs(yD - yO) == 0 || xO - xD > 1 && Math.abs(yD - yO) == 0
                 || yD - yO > 1 && Math.abs(xD - xO) == 0 || yO - yD > 1 && Math.abs(xD - xO) == 0) {
+
             // verifica se uma criatura ou equipamento esta naquela posicao
             for (Creature creature : getCreatures()) {
                 if (creature.getXAtual() == meioX && creature.getYAtual() == meioY) {
                     return false;
                 }
 
-                if (creature.getXAtual() == meioX+1 && creature.getYAtual() == meioY) {
-                    return false;
+                if (direcao.equals("diagonal")) {
+                    if (creature.getXAtual() == meioX+1 && creature.getYAtual() == meioY) {
+                        return false;
+                    }
                 }
-
-                if (creature.getXAtual() == meioX+2 && creature.getYAtual() == meioY) {
-                    return false;
-                }
-
             }
 
             for (Equipamento equipamento : equipamentos) {
@@ -1124,12 +1122,10 @@ public class TWDGameManager {
                     return false;
                 }
 
-                if (equipamento.getXAtual() == meioX+1 && equipamento.getYAtual() == meioY) {
-                    return false;
-                }
-
-                if (equipamento.getXAtual() == meioX+2 && equipamento.getYAtual() == meioY) {
-                    return false;
+                if (direcao.equals("diagonal")) {
+                    if (equipamento.getXAtual() == meioX+1 && equipamento.getYAtual() == meioY) {
+                        return false;
+                    }
                 }
             }
         }

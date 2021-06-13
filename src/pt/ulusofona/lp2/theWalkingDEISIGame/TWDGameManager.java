@@ -861,7 +861,7 @@ public class TWDGameManager {
                     }
 
                     // TODO.: em manutenção movimento do coelho vivo e coelho zombie em turnos pares e impares
-                    //if (creatureOrigem.getIdEquipa() == 10 || creatureOrigem.getIdEquipa() == 20) {
+                    if (creatureOrigem.getIdEquipa() == 10 || creatureOrigem.getIdEquipa() == 20) {
 
                         if (nrTurno % 2 == 0) {
 
@@ -897,36 +897,39 @@ public class TWDGameManager {
 
                         } else if (nrTurno % 2 != 0) {
 
-                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
-                                return false;
-                            }
+                            if (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13) {
 
-                            /* Coelho apenas move-se na horizontal e na vertical
+                                if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                    return false;
+                                }
+
+                                /* Coelho apenas move-se na horizontal e na vertical
                                  Se tentar mover 1 casa na diagonal a jogada é invalida */
-                            if (umaCasaNaDiagonal) {
-                                return false;
-                            }
+                                if (umaCasaNaDiagonal) {
+                                    return false;
+                                }
 
                                  /* Coelho apenas move-se na horizontal e na vertical
                                  Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
-                            if (duasOuMaisCasasNaDiagonal) {
-                                return false;
-                            }
+                                if (duasOuMaisCasasNaDiagonal) {
+                                    return false;
+                                }
 
-                            /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
-                            if (!creatureOrigem.moveDirecaoTurnosImpares(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
+                                /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
+                                if (!creatureOrigem.moveDirecaoTurnosImpares(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
 
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
-                            incrementarTurno();
-                            return true;
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                incrementarTurno();
+                                return true;
+                            }
 
                         } else {
                             return false;
                         }
-                    //}
+                    }
 
                     /* Movimentação a partir do idoso */
                     if (creatureOrigem.getIdEquipa() == 10) {

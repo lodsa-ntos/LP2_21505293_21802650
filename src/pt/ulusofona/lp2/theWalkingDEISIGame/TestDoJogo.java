@@ -57,7 +57,7 @@ public class TestDoJogo {
             assertEquals("", 3, mapaGigante.getElementId(7,0)); // Militar na nova casa
             assertEquals("Militar com novo equipamento", -2, mapaGigante.getEquipmentId(3));
             assertEquals("", "Escudo de Madeira | 2", mapaGigante.getEquipmentInfo(-2));
-            assertEquals("",false, mapaGigante.gameIsOver());
+            assertFalse("", mapaGigante.gameIsOver());
 
 
 
@@ -67,19 +67,56 @@ public class TestDoJogo {
     }
 
     @Test
-    public void test01MovimentosCoelho() throws InvalidTWDInitialFileException, FileNotFoundException {
+    public void test03MovimentosCoelho() throws InvalidTWDInitialFileException, FileNotFoundException {
         TWDGameManager runCoelho = new TWDGameManager();
 
         try {
             runCoelho.startGame(new File("ficheirosParaTestes/movimentosCoelho.txt"));
             assertEquals(String.valueOf(true), 2, runCoelho.getWorldSize().length);
 
-            // Turno 1
+            // Turno 0 - PAR
             assertEquals("Vivo a jogar: ", 10, runCoelho.getCurrentTeamId());
             assertTrue(String.valueOf(true), runCoelho.isDay());
             assertTrue("Coelho move : ", runCoelho.move(2, 1, 4, 1));
             assertEquals("", 0, runCoelho.getElementId(2,0)); // casa antiga fica vazia
             assertEquals("", 2, runCoelho.getElementId(4,1)); // Coelho na nova casa
+
+            // Turno 1 - IMPAR
+            assertEquals("Zombie a jogar: ", 20, runCoelho.getCurrentTeamId());
+            assertTrue(String.valueOf(true), runCoelho.isDay());
+            assertFalse("Coelho move : ", runCoelho.move(3, 4, 3, 1));
+            assertEquals("", 3, runCoelho.getElementId(3,4)); // casa antiga nao fica vazia
+            assertEquals("", 0, runCoelho.getElementId(3,1)); // Coelho na nova casa
+
+            // Turno 1 - IMPAR
+            assertEquals("Zombie a jogar: ", 20, runCoelho.getCurrentTeamId());
+            assertTrue(String.valueOf(true), runCoelho.isDay());
+            assertTrue("Coelho move : ", runCoelho.move(3, 4, 3, 2));
+            assertEquals("", 0, runCoelho.getElementId(3,4)); // casa antiga fica vazia
+            assertEquals("", 3, runCoelho.getElementId(3,2)); // Coelho nao vai para a nova casa
+
+            // Turno 2 - PAR
+            assertEquals("Vivo a jogar: ", 10, runCoelho.getCurrentTeamId());
+            assertFalse(String.valueOf(false), runCoelho.isDay());
+            assertTrue("Coelho move : ", runCoelho.move(2, 2, 2, 3));
+            assertEquals("", 0, runCoelho.getElementId(2,2)); // casa antiga fica vazia
+            assertEquals("", 1, runCoelho.getElementId(2,3)); // Coelho na nova casa
+
+            // Turno 3 - IMPAR
+            assertEquals("Zombie a jogar: ", 20, runCoelho.getCurrentTeamId());
+            assertFalse(String.valueOf(false), runCoelho.isDay());
+            assertTrue("Coelho move : ", runCoelho.move(4, 4, 4, 3));
+            assertEquals("", 0, runCoelho.getElementId(4,4)); // casa antiga fica vazia
+            assertEquals("", 4, runCoelho.getElementId(4,3)); // Coelho na nova casa
+
+            // Turno 4 - PAR
+            assertEquals("Vivo a jogar: ", 10, runCoelho.getCurrentTeamId());
+            assertTrue(String.valueOf(true), runCoelho.isDay());
+            assertFalse("Coelho move para casa com equipamento : ", runCoelho.move(2, 3, 1, 3));
+            assertEquals("", 1, runCoelho.getElementId(2,3)); // casa antiga nao fica vazia
+            assertEquals("", -2, runCoelho.getElementId(1,3)); // Coelho nao vai para a nova casa
+            assertEquals("", 0, runCoelho.getEquipmentId(3)); // Nao apanhou a espada com id = -2
+            assertEquals("", 0, runCoelho.getEquipmentTypeId(-1));
 
         } catch (FileNotFoundException | InvalidTWDInitialFileException e) {
             e.printStackTrace();

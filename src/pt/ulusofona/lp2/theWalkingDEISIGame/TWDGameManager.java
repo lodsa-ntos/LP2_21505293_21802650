@@ -304,7 +304,7 @@ public class TWDGameManager {
 
         if (!gameIsOver()) {
 
-            /* TODO.: VALIDAÇÕES PARA COORDENADAS DE ORIGEM E DESTINO FORA DO MAPA */
+            /* VALIDAÇÕES PARA COORDENADAS DE ORIGEM E DESTINO FORA DO MAPA */
             if (xO < 0 || xD < 0) {
                 return false; // estão fora do mapa
             }
@@ -329,9 +329,9 @@ public class TWDGameManager {
 
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
 
-                            /*if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
+                            if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
                                 return false;
-                            }*/
+                            }
 
                             /* Se existir uma porta safeHaven */
                             if (isDoorToSafeHaven(xD, yD)) {
@@ -1140,7 +1140,7 @@ public class TWDGameManager {
         for (Creature creatureOrigem : creatures) {
             /* se houver transformacão o jogo continua */
             if (creatureOrigem.getNumTransformacoesFeitasPorZombies() >= 1) {
-                nrTurno--;
+                nrTurno--; //TODO.: Possivel bug no idoso do erro do DropProjet
             }
 
             /* se até ao nrturno 12 não houver nenhuma transformação o jogo termina */
@@ -1324,6 +1324,7 @@ public class TWDGameManager {
     public boolean isDay() {
 
         //TODO conhecimento padrao solucao beta
+        //TODO.: Possivel bug no idoso do erro do DropProjet
         switch (nrTurno) {
             case 0:
             case 1:
@@ -1337,6 +1338,24 @@ public class TWDGameManager {
             case 17:
             case 20:
             case 21:
+            case 24:
+            case 25:
+            case 28:
+            case 29:
+            case 32:
+            case 33:
+            case 36:
+            case 37:
+            case 40:
+            case 41:
+            case 44:
+            case 45:
+            case 48:
+            case 49:
+            case 52:
+            case 53:
+            case 56:
+            case 57:
                 diurno = true;
                 break;
             case 2:
@@ -1350,6 +1369,24 @@ public class TWDGameManager {
             case 18:
             case 19:
             case 22:
+            case 23:
+            case 26:
+            case 27:
+            case 30:
+            case 31:
+            case 34:
+            case 35:
+            case 38:
+            case 39:
+            case 42:
+            case 43:
+            case 46:
+            case 47:
+            case 50:
+            case 51:
+            case 54:
+            case 55:
+            case 58:
                 diurno = false;
                 break;
         }

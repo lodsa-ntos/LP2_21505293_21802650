@@ -329,9 +329,9 @@ public class TWDGameManager {
 
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
 
-                            if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
+                            /*if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
                                 return false;
-                            }
+                            }*/
 
                             /* Se existir uma porta safeHaven */
                             if (isDoorToSafeHaven(xD, yD)) {
@@ -977,8 +977,8 @@ public class TWDGameManager {
                     /* Movimentação a partir do Zombie Vampiro */
                     if (creatureOrigem.getIdEquipa() == 20) {
                         /* Zombie Vampiro só se movem em turnos nocturnos */
-                        if (creatureOrigem.getIdTipo() == 4) {
-                            if (isDay() == false) {
+                        if (creatureOrigem.getIdTipo() == 4 ) {
+                            if (!isDay()) {
 
                                 if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                     return false;
@@ -1036,7 +1036,6 @@ public class TWDGameManager {
                             incrementarTurno();
                             return true;
                         }
-                        return false;
                     }
 
                 }
@@ -1321,7 +1320,7 @@ public class TWDGameManager {
         return resultados;
     }
 
-    // TODO.: incompleto , isDay() está a devolver false erradamente - 2 erros no DropProjet
+    // TODO.: incompleto, isDay() está a devolver false erradamente - 2 erros no DropProjet
     public boolean isDay() {
 
         //TODO conhecimento padrao solucao beta

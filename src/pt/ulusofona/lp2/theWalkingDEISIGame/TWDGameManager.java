@@ -861,7 +861,7 @@ public class TWDGameManager {
                     }
 
                     // TODO.: em manutenção movimento do coelho vivo e coelho zombie em turnos pares e impares
-                    if (creatureOrigem.getIdEquipa() == 10 || creatureOrigem.getIdEquipa() == 20) {
+                    //if (creatureOrigem.getIdEquipa() == 10 || creatureOrigem.getIdEquipa() == 20) {
 
                         if (nrTurno % 2 == 0) {
 
@@ -926,7 +926,7 @@ public class TWDGameManager {
                         } else {
                             return false;
                         }
-                    }
+                    //}
 
                     /* Movimentação a partir do idoso */
                     if (creatureOrigem.getIdEquipa() == 10) {
@@ -1016,7 +1016,7 @@ public class TWDGameManager {
                             }
 
                             /* Se forem outros zombies */
-                        } else if (creatureOrigem.getIdTipo() != 4) {
+                        } else if (creatureOrigem.getIdTipo() != 4 && creatureOrigem.getIdTipo() != 13) {
 
                             if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                 return false;

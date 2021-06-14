@@ -417,6 +417,7 @@ public class TWDGameManager {
                                                 case 1:
                                                     /* Interação com a Espada */
                                                     if (creatureDestino.getIdTipo() == 5) {
+                                                        /* Crianca viva não consegue usar a espada contra outros zombies */
                                                         if (creatureOrigem.getIdTipo() != 0) {
                                                             /* vamos transformar o vivo em zombie */
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
@@ -427,7 +428,8 @@ public class TWDGameManager {
                                                             /* e colocamos o numero de equipamentos que tinha antes a zero */
                                                             creatureDestino.incrementaSemEquipamentoDepoisDeTransformado(0);
                                                         } else {
-                                                            /* vamos destruir o zombie */
+                                                            /* Se for o combate na defensiva contra uma crianca zombie */
+                                                            /* vamos destruir a crianca zombie */
                                                             creatures.remove(creatureOrigem);
                                                             zombiesDestruidos.add(creatureOrigem);
                                                             /* incrementa o numero de zombies destruidos */
@@ -439,9 +441,8 @@ public class TWDGameManager {
                                                         }
                                                         incrementarTurno();
                                                         return true;
-                                                    }
 
-                                                    if (creatureDestino.getIdTipo() == 6 || creatureDestino.getIdTipo() == 7 ||
+                                                    } else if (creatureDestino.getIdTipo() == 6 || creatureDestino.getIdTipo() == 7 ||
                                                             creatureDestino.getIdTipo() == 8 || creatureDestino.getIdTipo() == 9) {
                                                         /* vamos destruir o zombie */
                                                         creatures.remove(creatureOrigem);

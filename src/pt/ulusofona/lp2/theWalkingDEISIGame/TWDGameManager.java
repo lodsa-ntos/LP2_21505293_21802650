@@ -748,7 +748,7 @@ public class TWDGameManager {
                                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
                                     /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
-                                    if (eq.getIdTipo() == 8) {
+                                    if (creatureOrigem.getIdTipo() != 2 && eq.getIdTipo() == 8) {
                                         return false;
                                     }
 

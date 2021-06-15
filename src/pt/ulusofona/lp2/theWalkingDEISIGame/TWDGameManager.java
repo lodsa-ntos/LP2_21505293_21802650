@@ -699,11 +699,11 @@ public class TWDGameManager {
                                         }
 
                                         /* Apenas podem apanhar o antidoto os 'vivos' que estejam envenenados */
-                                        if (!creatureOrigem.isEnvenenado()) {
+                                        /*if (!creatureOrigem.isEnvenenado()) {
                                             if (eq.getIdTipo() == 9) {
                                                 return false;
                                             }
-                                        }
+                                        }*/
 
                                         // guardamos o equipamento existente na lista de equipamentos
                                         Equipamento eqAntigo = creatureOrigem.equipamentos.get(0);
@@ -748,7 +748,7 @@ public class TWDGameManager {
                                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
                                     /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
-                                    if (creatureOrigem.getIdTipo() != 2 && eq.getIdTipo() == 8) {
+                                    if (eq.getIdTipo() == 8) {
                                         return false;
                                     }
 

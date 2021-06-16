@@ -1,6 +1,7 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class Creature {
     protected int id;
@@ -26,6 +27,8 @@ public abstract class Creature {
 
     protected ArrayList<Equipamento> equipamentos = new ArrayList<>();
     protected ArrayList<Equipamento> destruidos = new ArrayList<>();
+
+    public static HashMap<String, Integer> equipamentosDestruidosByZombies = new HashMap<>();
 
     public Creature(int id, int idTipo, String nome, int xAtual, int yAtual) {
         this.id = id;

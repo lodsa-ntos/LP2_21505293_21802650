@@ -699,11 +699,11 @@ public class TWDGameManager {
                                         }
 
                                         /* Apenas podem apanhar o antidoto os 'vivos' que estejam envenenados */
-                                        /*if (!creatureOrigem.isEnvenenado()) {
+                                        if (!creatureOrigem.isEnvenenado()) {
                                             if (eq.getIdTipo() == 9) {
                                                 return false;
                                             }
-                                        }*/
+                                        }
 
                                         // guardamos o equipamento existente na lista de equipamentos
                                         Equipamento eqAntigo = creatureOrigem.equipamentos.get(0);
@@ -783,6 +783,16 @@ public class TWDGameManager {
 
                                     /* Incrementa o equipamento no bolso */
                                     creatureOrigem.incrementaEquipamentosNoBolso();
+
+                                    HashMap<String, Integer> zombieEquipDestroyed =
+                                            Creature.equipamentosDestruidosByZombies;
+
+                                    if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
+                                        int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
+                                        zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
+                                    } else {
+                                        zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
+                                    }
 
                                     encontrouEquip = true;
                                     break;
@@ -1364,37 +1374,7 @@ public class TWDGameManager {
     // TODO.: incompleto, isDay() está a devolver false erradamente - 2 erros no DropProjet
     public boolean isDay() {
 
-        //TODO conhecimento padrao solucao beta
-        switch (nrTurno) {
-            case 0:
-            case 1:
-            case 4:
-            case 5:
-            case 8:
-            case 9:
-            case 12:
-            case 13:
-            case 16:
-            case 17:
-            case 20:
-            case 21:
-                diurno = true;
-                break;
-            case 2:
-            case 3:
-            case 6:
-            case 7:
-            case 10:
-            case 11:
-            case 14:
-            case 15:
-            case 18:
-            case 19:
-            case 22:
-                diurno = false;
-                break;
-        }
-
+        diurno = (nrTurno / 2) % 2 == 0;
 
         // TODO conhecimento padrao solucao jogoCompleto que funciona bem mas causa falhas na movimentacao do idoso e da crianca com alho
         /*if (nrTurno == 0 || nrTurno == 1 || nrTurno == 4 || nrTurno == 5 || nrTurno == 8 || nrTurno == 9) {
@@ -1572,7 +1552,7 @@ public class TWDGameManager {
         estatisticaDoJogo.put("os3ZombiesMaisTramados", zombiesTramado());
         estatisticaDoJogo.put("os3VivosMaisDuros", vivosDuros());
         estatisticaDoJogo.put("tiposDeEquipamentoMaisUteis", equipamentosUteis());
-        estatisticaDoJogo.put("tiposDeZombiesESeusEquipamentosDestruidos", tiposZombiesEEquipamentosDestruidos());
+        estatisticaDoJogo.put("tiposDeZombieESeusEquipamentosDestruidos", tiposZombiesEEquipamentosDestruidos());
         estatisticaDoJogo.put("criaturasMaisEquipadas", criaturasMaisEquipamentosApanharam());
 
         return estatisticaDoJogo;
@@ -1644,11 +1624,20 @@ public class TWDGameManager {
     }
 
     /* TODO.: falta implementar o desempate e o numero de equipamentos - 1 erros no DropProjet */
-    /* <Nome do Tipo>:<ID_Zombies>: TODO <NrEquipamentos> */
+    /* <Nome do Tipo>:< Contar zombies do mesmo tipo>: TODO somar <NrEquipamentos> destruidos */
     /* Qual o total de equipamentos destruidos por cada tipo de zombie? */
     private List<String> tiposZombiesEEquipamentosDestruidos() {
 
-        List<String> zombieScore;
+        /* ORDENAR O HASHMAP ONDE CONTEM O NUMERO DE EUQIPAMENTo destroidos (STATIC DA CLASSE CREATURE) */
+        /* FOR EACH DO HASHMAP E COLOCAR NO FORMATO REQUERIDO */
+        // nome do tipo + zombiescore.get(nome do tipo) +
+        // Creature.equipamentosDestruidosByZombis.get(nome do tipo)
+
+        //List<String> zombieScore;
+        Map <String, Long> zombieScore;
+        LinkedList<Map.Entry<String, Integer>> zombieEquipDestroyed =
+                new LinkedList<>(Creature.equipamentosDestruidosByZombies.entrySet());
+        List<String> res = new ArrayList<>();
 
         zombieScore = getCreatures().stream()
                 /* filtrar as criaturas zombies */
@@ -1657,19 +1646,15 @@ public class TWDGameManager {
                 .filter((zomb) -> !zomb.zombieIsDestroyed())
                 /* recolher os nomes do zombies e contar o numeros de zombies do mesmo tipo em jogo
                 e converter num conjunto de dados */
-                .collect(Collectors.groupingBy(Creature::getTipo, Collectors.counting()))
-                /* O entrySet vai retornar o que está contido no collect, um set contido no mapa
-                 e permitir obter chaves e valores contidos nesse map */
-                .entrySet().stream()
-                /* Ordenar do tipo que mais destruiu para o tipo que menos destruiu */
-                /* TODO.: erro na ordenacao - 1 falha no DropProjet*/
-                .sorted((e1, e2)-> (int)(e2.getValue() - e1.getValue()))
-                /* Transforma o resultado em strings */
-                .map((z) -> z.getKey() +":"+ z.getValue())
-                /* transforma o resultado final em formato de lista */
-                .collect(toList());
+                .collect(Collectors.groupingBy(Creature::getTipo, Collectors.counting()));
 
-    return zombieScore;
+        zombieEquipDestroyed.sort((e1, e2)-> e2.getValue() - e1.getValue());
+
+        for (Map.Entry<String, Integer> zombie: zombieEquipDestroyed) {
+            res.add(zombie.getKey() + ":" + zombieScore.get(zombie.getKey()) + ":" + zombie.getValue());
+        }
+
+    return res;
 
     }
 
@@ -1720,6 +1705,7 @@ public class TWDGameManager {
         equipamentosEncontrados = new ArrayList<>(); // reset da lista de equipamentos encontrados
         zombiesDestruidos = new ArrayList<>(); // reset da lista de zombies destruidos
         portasEmJogo = new ArrayList<>(); // reset das portas em jogo
+        Creature.equipamentosDestruidosByZombies = new HashMap<>(); // reset do hashmap de equipemntos detruidos pelos tipos de zombie
 
         numLinha = 0; // reset variavel numLinha.
         numColuna = 0; // reset variavel numColuna.

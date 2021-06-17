@@ -23,7 +23,6 @@ public abstract class Creature {
     protected int zombiesDestruidos = 0;
     protected int countZombiesIguais = 0;
     protected int countTransformacoesFeitas = 0;
-    protected int countEquipamentosDestruidos = 0;
 
     protected ArrayList<Equipamento> equipamentos = new ArrayList<>();
     protected ArrayList<Equipamento> destruidos = new ArrayList<>();

@@ -3,6 +3,7 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -32,8 +33,6 @@ public class TWDGameManager {
     private static ArrayList<Equipamento> equipamentos = new ArrayList<>();
     //Lista de zombies destruidos
     static ArrayList<Creature> zombiesDestruidos = new ArrayList<>();
-    //Lista de Equipamento encontrados no caminho
-    static ArrayList<Equipamento> equipamentosEncontrados = new ArrayList<>();
     //Lista de Portas em Jogo
     private static ArrayList<Porta> portasEmJogo = new ArrayList<>();
 
@@ -787,10 +786,13 @@ public class TWDGameManager {
                                     HashMap<String, Integer> zombieEquipDestroyed =
                                             Creature.equipamentosDestruidosByZombies;
 
+                                    /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
+                                    * de destruicao para esse mesmo zombie */
                                     if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
                                         int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
                                         zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
                                     } else {
+                                        /* Senão se for a primeira vez dizemos que só destruiu 1*/
                                         zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
                                     }
 
@@ -1371,21 +1373,9 @@ public class TWDGameManager {
         return resultados;
     }
 
-    // TODO.: incompleto, isDay() está a devolver false erradamente - 2 erros no DropProjet
     public boolean isDay() {
 
         diurno = (nrTurno / 2) % 2 == 0;
-
-        // TODO conhecimento padrao solucao jogoCompleto que funciona bem mas causa falhas na movimentacao do idoso e da crianca com alho
-        /*if (nrTurno == 0 || nrTurno == 1 || nrTurno == 4 || nrTurno == 5 || nrTurno == 8 || nrTurno == 9) {
-            diurno = true;
-        } else if (nrTurno % 2 == 0) {
-            if (!diurno) {
-                diurno = true;
-            } else {
-                diurno = false;
-            }
-        }*/
 
         System.out.println(nrTurno);
 
@@ -1623,20 +1613,16 @@ public class TWDGameManager {
         return equipamentoQueSafaram;
     }
 
-    /* TODO.: falta implementar o desempate e o numero de equipamentos - 1 erros no DropProjet */
-    /* <Nome do Tipo>:< Contar zombies do mesmo tipo>: TODO somar <NrEquipamentos> destruidos */
+    /* <Nome do Tipo>:< Nr zombies do tipo>: <NrEquipamentos> destruidos */
     /* Qual o total de equipamentos destruidos por cada tipo de zombie? */
     private List<String> tiposZombiesEEquipamentosDestruidos() {
 
-        /* ORDENAR O HASHMAP ONDE CONTEM O NUMERO DE EUQIPAMENTo destroidos (STATIC DA CLASSE CREATURE) */
-        /* FOR EACH DO HASHMAP E COLOCAR NO FORMATO REQUERIDO */
-        // nome do tipo + zombiescore.get(nome do tipo) +
-        // Creature.equipamentosDestruidosByZombis.get(nome do tipo)
-
-        //List<String> zombieScore;
+        /* Map para guardar nome do tipo e a quantidade do tipo de zombie em jogo */
         Map <String, Long> zombieScore;
-        LinkedList<Map.Entry<String, Integer>> zombieEquipDestroyed =
-                new LinkedList<>(Creature.equipamentosDestruidosByZombies.entrySet());
+
+        ArrayList<Map.Entry<String, Integer>> zombieEquipDestroyed =
+                new ArrayList<>(Creature.equipamentosDestruidosByZombies.entrySet());
+
         List<String> res = new ArrayList<>();
 
         zombieScore = getCreatures().stream()
@@ -1648,13 +1634,20 @@ public class TWDGameManager {
                 e converter num conjunto de dados */
                 .collect(Collectors.groupingBy(Creature::getTipo, Collectors.counting()));
 
+        /* Ordenar os equipamentos destruidos por ordem decrescente */
         zombieEquipDestroyed.sort((e1, e2)-> e2.getValue() - e1.getValue());
 
+        /* Percorremos o ArrayList zombieEquipDestroyed onde contém o nome tipos de zombies e o número dos seus
+        equipamentos destruídos, de forma a verificar quais os zombies que tenham destruidos 1 ou mais equipamentos */
         for (Map.Entry<String, Integer> zombie: zombieEquipDestroyed) {
+            /* Adicionamos o que queremos obter na nossa lista -> ... */
+            /* TODO <Nome do Tipo>:<Nr zombies do tipo>:<NrEquipamentos> destruidos */
             res.add(zombie.getKey() + ":" + zombieScore.get(zombie.getKey()) + ":" + zombie.getValue());
         }
 
-    return res;
+        /* TOP 3*/
+        return res.stream().limit(3)
+                .collect(toList());
 
     }
 
@@ -1702,10 +1695,9 @@ public class TWDGameManager {
         equipamentos = new ArrayList<>(); // reset da lista de equipamentos
         safe = new ArrayList<>(); // reset da lista safeHaven
         criaturasEnvenenadas = new ArrayList<>(); // reset da lista de criaturas envenedadas
-        equipamentosEncontrados = new ArrayList<>(); // reset da lista de equipamentos encontrados
         zombiesDestruidos = new ArrayList<>(); // reset da lista de zombies destruidos
         portasEmJogo = new ArrayList<>(); // reset das portas em jogo
-        Creature.equipamentosDestruidosByZombies = new HashMap<>(); // reset do hashmap de equipemntos detruidos pelos tipos de zombie
+        Creature.equipamentosDestruidosByZombies = new HashMap<>(); // reset do hashmap de equipamentos destruidos pelos tipos de zombie
 
         numLinha = 0; // reset variavel numLinha.
         numColuna = 0; // reset variavel numColuna.

@@ -32,6 +32,10 @@ public class Cao extends Creature {
                     /* incrementa o numero de zombies destruidos */
                     countZombiesDestruidos();
                     creature.setZombieIsDestroyed(true);
+                    /* Depois do zombie ser destruido diminuimos a quantidade de zombies em jogo */
+                    Creature.decrementCreaturesZombies();
+                    /* E diminuimos a totalidade de criaturas em jogo */
+                    Creature.decrementCreatures();
 
                     /* incrementa o numero de salvacao feita pelo equipamento */
                     this.equipamentos.get(0).incrementaNrSalvacoes();
@@ -62,6 +66,10 @@ public class Cao extends Creature {
                         /* incrementa o numero de zombies destruidos */
                         countZombiesDestruidos();
                         creature.setZombieIsDestroyed(true);
+                        /* Depois do zombie ser destruido diminuimos a quantidade de zombies em jogo */
+                        Creature.decrementCreaturesZombies();
+                        /* E diminuimos a totalidade de criaturas em jogo */
+                        Creature.decrementCreatures();
 
                         this.setxAtual(creature.xAtual);
                         this.setyAtual(creature.yAtual);
@@ -236,16 +244,6 @@ public class Cao extends Creature {
     @Override
     public void setEnvenenado(boolean envenenado) {
         isEnvenenado = envenenado;
-    }
-
-    @Override
-    public int getNrCriaturasZombies() {
-        if (tipo.equals("Criança (Zombie)") || tipo.equals("Adulto (Zombie)") || tipo.equals("Militar (Zombie)")
-                || tipo.equals("Idoso (Zombie)") || tipo.equals("Zombie Vampiro")) {
-            countZombiesIguais++;
-        }
-
-        return countZombiesIguais;
     }
 
     @Override

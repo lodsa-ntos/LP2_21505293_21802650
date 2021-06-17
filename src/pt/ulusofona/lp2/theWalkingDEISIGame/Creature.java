@@ -21,14 +21,17 @@ public abstract class Creature {
     protected int creaturesNoBolso = 0;
     protected int equipamentosNoBolso = 0;
     protected int zombiesDestruidos = 0;
-    protected int countZombiesIguais = 0;
     protected int countTransformacoesFeitas = 0;
-    protected int countEquipamentosDestruidos = 0;
 
     protected ArrayList<Equipamento> equipamentos = new ArrayList<>();
     protected ArrayList<Equipamento> destruidos = new ArrayList<>();
 
-    public static HashMap<String, Integer> equipamentosDestruidosByZombies = new HashMap<>();
+    protected static HashMap<String, Integer> equipamentosDestruidosByZombies = new HashMap<>();
+    protected static int totalCreaturesEmJogo = 0;
+    protected static int totalCreaturesVivas = 0;
+    protected static int totalCreaturesZombies = 0;
+    protected static int countTodosMenosOIdoso = 0;
+    protected static int countTodosMenosZombieVampiro = 0;
 
     public Creature(int id, int idTipo, String nome, int xAtual, int yAtual) {
         this.id = id;
@@ -36,7 +39,24 @@ public abstract class Creature {
         this.nome = nome;
         this.xAtual = xAtual;
         this.yAtual = yAtual;
+
+        totalCreaturesEmJogo++;
+
+        if (idTipo == 0 || idTipo == 1 || idTipo == 2 || idTipo == 3 || idTipo == 4 || idTipo == 13) {
+            totalCreaturesZombies++;
+        } else {
+            totalCreaturesVivas++;
+        }
+
     }
+
+    public static void incrementCreatures() { totalCreaturesEmJogo++; }
+    public static void incrementCreaturesVivas() { totalCreaturesVivas++; }
+    public static void incrementCreaturesZombies() { totalCreaturesZombies++; }
+
+    public static void decrementCreatures() { totalCreaturesEmJogo--; }
+    public static void decrementCreaturesVivas() { totalCreaturesVivas--; }
+    public static void decrementCreaturesZombies() { totalCreaturesZombies--; }
 
     abstract protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creatureDestino, ArrayList<Creature> creatures);
 
@@ -93,8 +113,6 @@ public abstract class Creature {
     abstract public boolean isEnvenenado();
 
     abstract public void setEnvenenado(boolean envenenado);
-
-    abstract public int getNrCriaturasZombies();
 
     abstract public void countTransformacoesFeitasPorZombies();
 

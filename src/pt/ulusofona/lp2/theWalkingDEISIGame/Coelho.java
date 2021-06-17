@@ -217,15 +217,6 @@ public class Coelho extends Creature {
     }
 
     @Override
-    public int getNrCriaturasZombies() {
-        if (this.id > 0) {
-            countZombiesIguais++;
-        }
-
-        return countZombiesIguais;
-    }
-
-    @Override
     public void countTransformacoesFeitasPorZombies() {
         countTransformacoesFeitas++;
     }

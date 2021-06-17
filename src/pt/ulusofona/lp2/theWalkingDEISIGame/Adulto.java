@@ -32,6 +32,10 @@ public class Adulto extends Creature {
                     /* incrementa o numero de zombies destruidos */
                     countZombiesDestruidos();
                     creature.setZombieIsDestroyed(true);
+                    /* Depois do zombie ser destruido diminuimos a quantidade de zombies em jogo */
+                    Creature.decrementCreaturesZombies();
+                    /* E diminuimos a totalidade de criaturas em jogo */
+                    Creature.decrementCreatures();
 
                     /* incrementa o numero de salvacao feita pelo equipamento */
                     this.equipamentos.get(0).incrementaNrSalvacoes();
@@ -61,6 +65,10 @@ public class Adulto extends Creature {
                         /* incrementa o numero de zombies destruidos */
                         countZombiesDestruidos();
                         creature.setZombieIsDestroyed(true);
+                        /* Depois do zombie ser destruido diminuimos a quantidade de zombies em jogo */
+                        Creature.decrementCreaturesZombies();
+                        /* E diminuimos a totalidade de criaturas em jogo */
+                        Creature.decrementCreatures();
                         if (creature.zombieIsDestroyed()) {
                             System.out.println(creature.toString());
                         }
@@ -261,15 +269,6 @@ public class Adulto extends Creature {
     @Override
     public void setEnvenenado(boolean envenenado) {
         isEnvenenado = envenenado;
-    }
-
-    @Override
-    public int getNrCriaturasZombies() {
-        if (this.id > 0) {
-            countZombiesIguais++;
-        }
-
-        return countZombiesIguais;
     }
 
     @Override

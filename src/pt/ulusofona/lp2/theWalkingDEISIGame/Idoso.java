@@ -222,16 +222,6 @@ public class Idoso extends Creature {
     }
 
     @Override
-    public int getNrCriaturasZombies() {
-        if (tipo.equals("Criança (Zombie)") || tipo.equals("Adulto (Zombie)") || tipo.equals("Militar (Zombie)")
-                || tipo.equals("Idoso (Zombie)") || tipo.equals("Zombie Vampiro")) {
-            countZombiesIguais++;
-        }
-
-        return countZombiesIguais;
-    }
-
-    @Override
     public void countTransformacoesFeitasPorZombies() {
         countTransformacoesFeitas++;
     }

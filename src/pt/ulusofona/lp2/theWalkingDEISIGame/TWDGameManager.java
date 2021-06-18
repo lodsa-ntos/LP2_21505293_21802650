@@ -1628,6 +1628,7 @@ public class TWDGameManager {
                 .filter((zomb) -> !zomb.zombieIsDestroyed())
                 /* recolher os nomes do zombies e contar o numeros de zombies do mesmo tipo em jogo
                 e converter num conjunto de dados */
+                .sorted((z2, z1) -> z1.getId() -z2.getId())
                 .collect(Collectors.groupingBy(Creature::getTipo, Collectors.counting()));
 
         /* Ordenar os equipamentos destruidos por ordem decrescente */
@@ -1642,7 +1643,8 @@ public class TWDGameManager {
         }
 
         /* TOP 3 */
-        return res.stream().limit(3)
+        return res.stream()
+                .limit(3)
                 .collect(toList());
 
     }

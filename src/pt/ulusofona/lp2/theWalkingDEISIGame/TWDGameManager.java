@@ -315,7 +315,7 @@ public class TWDGameManager {
 
                     /* ENTRADA PARA O SAFEHAVEN */
                     if (creatureOrigem.getIdEquipa() == 10) {
-                        if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
+                        if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
                             return false;
                         }
 
@@ -878,7 +878,7 @@ public class TWDGameManager {
 
                         if ((nrTurno % 2 == 0) && (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13)) {
 
-                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                 return false;
                             }
 
@@ -906,7 +906,7 @@ public class TWDGameManager {
 
                         } else if ((nrTurno % 2 != 0) && (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13)) {
 
-                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                 return false;
                             }
 
@@ -956,7 +956,7 @@ public class TWDGameManager {
                             /* Se forem outras criaturas vivas */
                         } else if (creatureOrigem.getIdTipo() != 8 && creatureOrigem.getIdTipo() != 12) {
 
-                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
                                 return false;
                             }
 
@@ -993,7 +993,7 @@ public class TWDGameManager {
                         if (creatureOrigem.getIdTipo() == 4 ) {
                             if (!isDay()) {
 
-                                if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                     return false;
                                 }
 
@@ -1019,7 +1019,7 @@ public class TWDGameManager {
                             /* Se forem outros zombies */
                         } else if (creatureOrigem.getIdTipo() != 4 && creatureOrigem.getIdTipo() != 13) {
 
-                            if (!saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                 return false;
                             }
 
@@ -1057,7 +1057,7 @@ public class TWDGameManager {
         return false;
     }
 
-    protected boolean saltarPorCima(int xO, int yO, int xD, int yD) {
+    public boolean saltarPorCima(int xO, int yO, int xD, int yD) {
         /* verifica direcao em que a critura está a tentar saltar por cima */
         String direcao = moverTodasDirecoes(xO, xD, yO, yD);
         int diffX = 0;
@@ -1111,37 +1111,35 @@ public class TWDGameManager {
 
         /* Verificar se o deslocamento da criatura que está a ser movida tenta salto por cima
          * E se ao mover existe uma criatura ou equipamento no meio */
-        if ( xO - xD > 2 && yD - yO > 2 ||
-                xD - xO > 2 && yD - yO > 2 || xD - xO > 2 && Math.abs(yD - yO) == 0
-                || xD - xO > 1 && yO - yD > 1 || xO - xD > 1 && yD - yO > 1 || xO - xD > 1 && yO - yD > 1
+        if (xD - xO > 1 && yO - yD > 1 || xO - xD > 1 && yD - yO > 1 || xO - xD > 1 && yO - yD > 1
                 || xD - xO > 1 && yD - yO > 1 || xD - xO > 1 && Math.abs(yD - yO) == 0 || xO - xD > 1 && Math.abs(yD - yO) == 0
                 || yD - yO > 1 && Math.abs(xD - xO) == 0 || yO - yD > 1 && Math.abs(xD - xO) == 0) {
 
             // verifica se uma criatura, equipamento ou porta esta naquela posicao
             for (Creature creature : getCreatures()) {
                 if (creature.getXAtual() == meioX && creature.getYAtual() == meioY) {
-                    return false;
+                    return true;
                 }
             }
 
             for (Equipamento equipamento : equipamentos) {
                 if (equipamento.getXAtual() == meioX && equipamento.getYAtual() == meioY) {
-                    return false;
+                    return true;
                 }
             }
 
             for (Porta porta : portasEmJogo) {
                 if (porta.getXAtual() == meioX && porta.getYAtual() == meioY) {
-                    return false;
+                    return true;
                 }
             }
 
         }
 
-        return true;
+        return false;
     }
 
-    protected String moverTodasDirecoes(int xO, int xD, int yO, int yD) {
+    public String moverTodasDirecoes(int xO, int xD, int yO, int yD) {
         if (Math.abs(xD - xO) > 1 && Math.abs(yD - yO) == 0) {
             return "horizontal";
         } else if (Math.abs(xD - xO) == 0 && Math.abs(yD - yO) > 1) {

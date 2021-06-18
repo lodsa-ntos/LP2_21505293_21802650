@@ -690,12 +690,12 @@ public class TWDGameManager {
                                     } else {
 
                                         // se for militar e escudo de madeira, entao a protecao aumenta
-                                        /*if (creatureOrigem.getIdTipo() == 7 && eq.getIdTipo() == 0) {
+                                        if (creatureOrigem.getIdTipo() == 7 && eq.getIdTipo() == 0) {
                                             // verifica se foi a primeira vez a usar
                                             if (!eq.isEscudoUsado()) {
                                                 eq.aumentaProtecaoDoEscudo();
                                             }
-                                        }*/
+                                        }
 
                                         /* Apenas podem apanhar o antidoto os 'vivos' que estejam envenenados */
                                         if (!creatureOrigem.isEnvenenado()) {
@@ -1122,33 +1122,11 @@ public class TWDGameManager {
                 if (creature.getXAtual() == meioX && creature.getYAtual() == meioY) {
                     return false;
                 }
-
-                if (direcao.equals("diagonal")) {
-
-                    if (creature.getXAtual() == meioX+1 && creature.getYAtual() == meioY) {
-                        return false;
-                    }
-
-                    if (creature.getXAtual() == meioX && creature.getYAtual() == meioY+1) {
-                        return false;
-                    }
-                }
             }
 
             for (Equipamento equipamento : equipamentos) {
                 if (equipamento.getXAtual() == meioX && equipamento.getYAtual() == meioY) {
                     return false;
-                }
-
-                if (direcao.equals("diagonal")) {
-
-                    if (equipamento.getXAtual() == meioX+1 && equipamento.getYAtual() == meioY) {
-                        return false;
-                    }
-
-                    if (equipamento.getXAtual() == meioX && equipamento.getYAtual() == meioY+1) {
-                        return false;
-                    }
                 }
             }
 
@@ -1156,18 +1134,8 @@ public class TWDGameManager {
                 if (porta.getXAtual() == meioX && porta.getYAtual() == meioY) {
                     return false;
                 }
-
-                if (direcao.equals("diagonal")) {
-
-                    if (porta.getXAtual() == meioX+1 && porta.getYAtual() == meioY) {
-                        return false;
-                    }
-
-                    if (porta.getXAtual() == meioX && porta.getYAtual() == meioY+1) {
-                        return false;
-                    }
-                }
             }
+
         }
 
         return true;
@@ -1192,8 +1160,15 @@ public class TWDGameManager {
         int numeroZombiesEmJogo = 0;
         int countTodosMenosZombieVampEmJogo = 0;
 
-        if (!houveTransformacao && nrTurno == 12) {
+        /*if (!houveTransformacao && nrTurno == 12) {
             return true;
+        }*/
+
+        for (Creature creatureOrigem : creatures) {
+            /* se até ao nrturno 12 não houver nenhuma transformação o jogo termina */
+            if (!creatureOrigem.isTransformado() && nrTurno == 12) {
+                return true;
+            }
         }
 
         /* Sem vivos em jogo */
@@ -1268,7 +1243,7 @@ public class TWDGameManager {
         }
 
         /* O jogo termina se tiverem passados 3 dias e 3 noites */
-        return !houveTransformacao && nrTurno == 12;
+        return nrTurno/2 >= nrMaxDiaENoite;
     }
 
     public List<String> getAuthors() {

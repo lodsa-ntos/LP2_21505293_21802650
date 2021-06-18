@@ -36,7 +36,11 @@ public class Idoso extends Creature {
     @Override
     public boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino) {
 
-        if (Math.abs(xD - xO) > 0 && Math.abs(yD - yO) > 0) {
+        /*if (Math.abs(xD - xO) > 0 && Math.abs(yD - yO) > 0) {
+            return false;
+        }*/
+
+        if ((Math.abs(xD - xO) > 0 && Math.abs(xD - xO) <= 50) && (Math.abs(yD - yO) > 0 && Math.abs(yD - yO) <= 50)) {
             return false;
         }
 

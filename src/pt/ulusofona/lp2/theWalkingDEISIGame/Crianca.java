@@ -31,10 +31,6 @@ public class Crianca extends Creature {
                             /* incrementa o numero de zombies destruidos */
                             countZombiesDestruidos();
                             creature.setZombieIsDestroyed(true);
-                            /* Depois do zombie ser destruido diminuimos a quantidade de zombies em jogo */
-                            Creature.decrementCreaturesZombies();
-                            /* E diminuimos a totalidade de criaturas em jogo */
-                            Creature.decrementCreatures();
                             creature.setZombieIsRIP(true);
 
                             /* incrementa o numero de salvacao feita pelo equipamento */
@@ -73,10 +69,6 @@ public class Crianca extends Creature {
                             /* incrementa o numero de zombies destruidos */
                             countZombiesDestruidos();
                             creature.setZombieIsDestroyed(true);
-                            /* Depois do zombie ser destruido diminuimos a quantidade de zombies em jogo */
-                            Creature.decrementCreaturesZombies();
-                            /* E diminuimos a totalidade de criaturas em jogo */
-                            Creature.decrementCreatures();
                             if (creature.zombieIsDestroyed()) {
                                 System.out.println(creature.toString());
                             }
@@ -99,10 +91,6 @@ public class Crianca extends Creature {
                         /* incrementa o numero de zombies destruidos */
                         countZombiesDestruidos();
                         creature.setZombieIsDestroyed(true);
-                        /* Depois do zombie ser destruido diminuimos a quantidade de zombies em jogo */
-                        Creature.decrementCreaturesZombies();
-                        /* E diminuimos a totalidade de criaturas em jogo */
-                        Creature.decrementCreatures();
 
                         /* incrementa o numero de salvacao feita pelo equipamento */
                         this.equipamentos.get(0).incrementaNrSalvacoes();

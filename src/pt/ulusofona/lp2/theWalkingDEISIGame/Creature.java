@@ -12,6 +12,8 @@ public abstract class Creature {
     protected String equipa;
     protected int xAtual;
     protected int yAtual;
+    protected int novoX;
+    protected int novoY;
     protected boolean isEnvenenado;
     protected boolean isInSafeHaven;
     protected boolean transformado;
@@ -30,8 +32,6 @@ public abstract class Creature {
     protected static int totalCreaturesEmJogo = 0;
     protected static int totalCreaturesVivas = 0;
     protected static int totalCreaturesZombies = 0;
-    protected static int countTodosMenosOIdoso = 0;
-    protected static int countTodosMenosZombieVampiro = 0;
 
     public Creature(int id, int idTipo, String nome, int xAtual, int yAtual) {
         this.id = id;
@@ -50,13 +50,13 @@ public abstract class Creature {
 
     }
 
-    public static void incrementCreatures() { totalCreaturesEmJogo++; }
-    public static void incrementCreaturesVivas() { totalCreaturesVivas++; }
-    public static void incrementCreaturesZombies() { totalCreaturesZombies++; }
+    public int getNovoX() {
+        return novoX;
+    }
 
-    public static void decrementCreatures() { totalCreaturesEmJogo--; }
-    public static void decrementCreaturesVivas() { totalCreaturesVivas--; }
-    public static void decrementCreaturesZombies() { totalCreaturesZombies--; }
+    public int getNovoY() {
+        return novoY;
+    }
 
     abstract protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creatureDestino, ArrayList<Creature> creatures);
 

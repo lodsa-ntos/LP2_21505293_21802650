@@ -45,6 +45,7 @@ public class TWDGameManager {
     private int nrTurno = 0;
     private int nrTurnoDoVeneno = 0;
     private boolean diurno = true;
+    boolean houveTransformacao;
 
     public TWDGameManager() {
     }
@@ -374,10 +375,7 @@ public class TWDGameManager {
                                                     creatureOrigem.transformaEmZombie(creatureDestino);
                                                     creatureDestino.setTransformado(true);
                                                     creatureOrigem.countTransformacoesFeitasPorZombies();
-                                                    /* Depois da transformacao aumentamos o numero de zombies */
-                                                    Creature.incrementCreaturesZombies();
-                                                    /* diminuimos o numero de vivos */
-                                                    Creature.decrementCreaturesVivas();
+                                                    houveTransformacao = true;
                                                     incrementarTurno();
                                                     return true;
                                             }
@@ -418,10 +416,7 @@ public class TWDGameManager {
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
                                                             creatureDestino.setTransformado(true);
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
-                                                            /* Depois da transformacao aumentamos o numero de zombies */
-                                                            Creature.incrementCreaturesZombies();
-                                                            /* diminuimos o numero de vivos */
-                                                            Creature.decrementCreaturesVivas();
+                                                            houveTransformacao = true;
                                                             /* e destrui-mos o equipamento */
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                             /* e colocamos o numero de equipamentos que tinha antes a zero */
@@ -434,10 +429,6 @@ public class TWDGameManager {
                                                             /* incrementa o numero de zombies destruidos */
                                                             creatureDestino.countZombiesDestruidos();
                                                             creatureOrigem.setZombieIsDestroyed(true);
-                                                            /* Depois do zombie ser destruido diminuimos a quantidade de zombies em jogo */
-                                                            Creature.decrementCreaturesZombies();
-                                                            /* E diminuimos a totalidade de criaturas em jogo */
-                                                            Creature.decrementCreatures();
                                                             if (creatureOrigem.zombieIsDestroyed()) {
                                                                 System.out.println(creatureOrigem.toString());
                                                             }
@@ -454,10 +445,6 @@ public class TWDGameManager {
                                                         /* incrementa o numero de zombies destruidos */
                                                         creatureDestino.countZombiesDestruidos();
                                                         creatureOrigem.setZombieIsDestroyed(true);
-                                                        /* Depois do zombie ser destruido diminuimos a quantidade de zombies em jogo */
-                                                        Creature.decrementCreaturesZombies();
-                                                        /* E diminuimos a totalidade de criaturas em jogo */
-                                                        Creature.decrementCreatures();
                                                         if (creatureOrigem.zombieIsDestroyed()) {
                                                             System.out.println(creatureOrigem.toString());
                                                         }
@@ -477,10 +464,7 @@ public class TWDGameManager {
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
                                                             creatureDestino.setTransformado(true);
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
-                                                            /* Depois da transformacao aumentamos o numero de zombies */
-                                                            Creature.incrementCreaturesZombies();
-                                                            /* diminuimos o numero de vivos */
-                                                            Creature.decrementCreaturesVivas();
+                                                            houveTransformacao = true;
                                                             /* e destrui-mos o equipamento*/
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                             /* e colocamos o numero de equipamentos que tinha antes a zero */
@@ -503,10 +487,6 @@ public class TWDGameManager {
                                                             /* incrementa o numero de zombies destruidos */
                                                             creatureDestino.countZombiesDestruidos();
                                                             creatureOrigem.setZombieIsDestroyed(true);
-                                                            /* Depois do zombie ser destruido diminuimos a quantidade de zombies em jogo */
-                                                            Creature.decrementCreaturesZombies();
-                                                            /* E diminuimos a totalidade de criaturas em jogo */
-                                                            Creature.decrementCreatures();
                                                             if (creatureOrigem.zombieIsDestroyed()) {
                                                                 System.out.println(creatureOrigem.toString());
                                                             }
@@ -519,10 +499,7 @@ public class TWDGameManager {
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
                                                             creatureDestino.setTransformado(true);
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
-                                                            /* Depois da transformacao aumentamos o numero de zombies */
-                                                            Creature.incrementCreaturesZombies();
-                                                            /* diminuimos o numero de vivos */
-                                                            Creature.decrementCreaturesVivas();
+                                                            houveTransformacao = true;
                                                             /* e destrui-mos o equipamento*/
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                             /* e colocamos o numero de equipamentos que tinha antes a zero */
@@ -554,10 +531,7 @@ public class TWDGameManager {
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
-                                                        /* Depois da transformacao aumentamos o numero de zombies */
-                                                        Creature.incrementCreaturesZombies();
-                                                        /* diminuimos o numero de vivos */
-                                                        Creature.decrementCreaturesVivas();
+                                                        houveTransformacao = true;
                                                         /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                         /* e colocamos o numero de equipamentos que tinha antes a zero */
@@ -575,10 +549,7 @@ public class TWDGameManager {
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
-                                                        /* Depois da transformacao aumentamos o numero de zombies */
-                                                        Creature.incrementCreaturesZombies();
-                                                        /* diminuimos o numero de vivos */
-                                                        Creature.decrementCreaturesVivas();
+                                                        houveTransformacao = true;
                                                         /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                         /* e colocamos o numero de equipamentos que tinha antes a zero */
@@ -607,10 +578,6 @@ public class TWDGameManager {
                                                         /* incrementa o numero de zombies destruidos */
                                                         creatureDestino.countZombiesDestruidos();
                                                         creatureOrigem.setZombieIsDestroyed(true);
-                                                        /* Depois do zombie ser destruido diminuimos a quantidade de zombies em jogo */
-                                                        Creature.decrementCreaturesZombies();
-                                                        /* E diminuimos a totalidade de criaturas em jogo */
-                                                        Creature.decrementCreatures();
                                                         if (creatureOrigem.zombieIsDestroyed()) {
                                                             System.out.println(creatureOrigem.toString());
                                                         }
@@ -628,10 +595,7 @@ public class TWDGameManager {
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
-                                                        /* Depois da transformacao aumentamos o numero de zombies */
-                                                        Creature.incrementCreaturesZombies();
-                                                        /* diminuimos o numero de vivos */
-                                                        Creature.decrementCreaturesVivas();
+                                                        houveTransformacao = true;
                                                         /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                         /* e colocamos o numero de equipamentos que tinha antes a zero */
@@ -1225,42 +1189,65 @@ public class TWDGameManager {
         int nrMaxDiaENoite = 6;
         int numeroVivosEmJogo = Creature.totalCreaturesVivas;
         int numeroZombiesEmJogo = Creature.totalCreaturesZombies;
-        int countTodosMenosIdosoEmJogo = Creature.countTodosMenosOIdoso;
-        int countTodosMenosZombieVampEmJogo = Creature.countTodosMenosZombieVampiro;
+        int countTodosMenosIdosoEmJogo = 0;
+        int countTodosMenosZombieVampEmJogo = 0;
 
-        for (Creature creatureOrigem : creatures) {
-            /* se até ao nrturno 12 não houver nenhuma transformação o jogo termina */
-            if (!creatureOrigem.isTransformado() && nrTurno >= 12) {
-                return true;
+        /* Se não houver transformacao até ao nrturno 12, o jogo termina no nrTurno 12 */
+        /* Se houver transformacao o jogo continua */
+        if (!houveTransformacao && nrTurno == 12) {
+            return true;
+        }
+
+        /* Só idosos vivos em jogo */
+        for (Creature creaturesNight : creatures) {
+            if (creaturesNight.getIdEquipa() == 10) {
+                /* Se existirem "Vivos" e não passaram para o SafeHaven ou não foram transformado em Zombie */
+                if (!creaturesNight.isInSafeHaven() && !creaturesNight.isTransformado()
+                        && !creaturesNight.isEnvenenado()) {
+                    /* Ou não morreram envenenados, conta os "Vivos" que ainda estão em Jogo */
+                    int idTipo = creaturesNight.getIdTipo();
+                    if (idTipo == 5 || idTipo == 6 || idTipo == 7 || idTipo == 9 || idTipo == 12) {
+                        countTodosMenosIdosoEmJogo++;
+                    }
+                }
+            }
+        }
+
+        /* Apenas idosos vivos em jogo no turno nocturno, o jogo termina */
+        if (getCurrentTeamId() == 10) {
+            if (!isDay()) {
+                return countTodosMenosIdosoEmJogo == 0;
+            } else {
+                return false;
+            }
+        }
+
+        /* Apenas Zombie Vampiro em jogo */
+        for (Creature creaturesDay : creatures) {
+            if (creaturesDay.getIdEquipa() == 20) {
+                /* Se existirem 'zombies' e ainda não foram destruidos */
+                if (!creaturesDay.zombieIsDestroyed()) {
+                    /* conta os "zombies" que ainda estão em Jogo*/
+                    int idTipo = creaturesDay.getIdTipo();
+                    if (idTipo == 0 || idTipo == 1 || idTipo == 2 || idTipo == 3 || idTipo == 13) {
+                        countTodosMenosZombieVampEmJogo++;
+                    }
+                }
+            }
+        }
+
+        /* Apenas Zombie Vampiro em jogo no turno diurno , jogo termina*/
+        if (getCurrentTeamId() == 20) {
+            if (isDay()) {
+                return countTodosMenosZombieVampEmJogo == 0;
+            } else {
+                return false;
             }
         }
 
         if (numeroVivosEmJogo == 0 || numeroZombiesEmJogo == 0) {
             return true;
         }
-
-        for (Creature creaturesNight : getCreatures()) {
-            if (creaturesNight.getIdEquipa() == 10) {
-                /* Se apenas restar idoso vivo em jogo e é de noite, o jogo termina */
-                if (creaturesNight.getIdTipo() == 8 && !isDay()) {
-                    return countTodosMenosIdosoEmJogo == 0;
-                } else {
-                    return false;
-                }
-            }
-        }
-
-        for (Creature creaturesDay : getCreatures()) {
-            if (creaturesDay.getIdEquipa() == 20) {
-                /* Se apenas restar Zombie vampiro em jogo e é de dia, o jogo termina */
-                if (isDay()) {
-                    return countTodosMenosZombieVampEmJogo == 0;
-                } else {
-                    return false;
-                }
-            }
-        }
-
 
         /* O jogo termina se tiverem passados 3 dias e 3 noites */
         return nrTurno/2 >= nrMaxDiaENoite;

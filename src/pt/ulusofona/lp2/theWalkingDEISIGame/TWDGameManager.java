@@ -290,8 +290,8 @@ public class TWDGameManager {
         return creatures;
     }
 
-    /* TODO.: zombies agarram e destroem muitos equipamentos (Militar zombie e Adulto Vivo)
-        - 3 erros no DropProjet */
+    /* TODO.: A fn move devolve false erradamente
+        - 6 erros no DropProjet */
     public boolean move(int xO, int yO, int xD, int yD) {
 
         if (!gameIsOver()) {
@@ -1051,6 +1051,8 @@ public class TWDGameManager {
                         }
                     }
 
+                    incrementarTurno();
+                    return true;
                 }
             }
         }
@@ -1110,8 +1112,10 @@ public class TWDGameManager {
         }
 
         /* Verificar se o deslocamento da criatura que está a ser movida tenta salto por cima
-         * E se ao mover existe uma criatura ou equipamento no meio */
-        if (xD - xO > 1 && yO - yD > 1 || xO - xD > 1 && yD - yO > 1 || xO - xD > 1 && yO - yD > 1
+         * E se ao mover existe uma criatura, equipamento ou  porta no meio */
+        if (xO - xD > 2 && yD - yO > 2 ||
+                xD - xO > 2 && yD - yO > 2 || xD - xO > 2 && Math.abs(yD - yO) == 0
+                || xD - xO > 1 && yO - yD > 1 || xO - xD > 1 && yD - yO > 1 || xO - xD > 1 && yO - yD > 1
                 || xD - xO > 1 && yD - yO > 1 || xD - xO > 1 && Math.abs(yD - yO) == 0 || xO - xD > 1 && Math.abs(yD - yO) == 0
                 || yD - yO > 1 && Math.abs(xD - xO) == 0 || yO - yD > 1 && Math.abs(xD - xO) == 0) {
 
@@ -1577,6 +1581,7 @@ public class TWDGameManager {
         return equipamentoQueSafaram;
     }
 
+    /* TODO.: deveriam ser 3 linhas - 2 erros no DropProjet */
     /* <Nome do Tipo>:< Nr zombies do tipo>: <NrEquipamentos> destruidos */
     /* Qual o total de equipamentos destruidos por cada tipo de zombie? */
     private List<String> tiposZombiesEEquipamentosDestruidos() {

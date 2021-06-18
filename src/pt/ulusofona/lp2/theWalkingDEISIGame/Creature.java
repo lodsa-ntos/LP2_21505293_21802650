@@ -12,8 +12,6 @@ public abstract class Creature {
     protected String equipa;
     protected int xAtual;
     protected int yAtual;
-    protected int novoX;
-    protected int novoY;
     protected boolean isEnvenenado;
     protected boolean isInSafeHaven;
     protected boolean transformado;
@@ -29,9 +27,6 @@ public abstract class Creature {
     protected ArrayList<Equipamento> destruidos = new ArrayList<>();
 
     protected static HashMap<String, Integer> equipamentosDestruidosByZombies = new HashMap<>();
-    protected static int totalCreaturesEmJogo = 0;
-    protected static int totalCreaturesVivas = 0;
-    protected static int totalCreaturesZombies = 0;
 
     public Creature(int id, int idTipo, String nome, int xAtual, int yAtual) {
         this.id = id;
@@ -39,23 +34,6 @@ public abstract class Creature {
         this.nome = nome;
         this.xAtual = xAtual;
         this.yAtual = yAtual;
-
-        totalCreaturesEmJogo++;
-
-        if (idTipo == 0 || idTipo == 1 || idTipo == 2 || idTipo == 3 || idTipo == 4 || idTipo == 13) {
-            totalCreaturesZombies++;
-        } else {
-            totalCreaturesVivas++;
-        }
-
-    }
-
-    public int getNovoX() {
-        return novoX;
-    }
-
-    public int getNovoY() {
-        return novoY;
     }
 
     abstract protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creatureDestino, ArrayList<Creature> creatures);

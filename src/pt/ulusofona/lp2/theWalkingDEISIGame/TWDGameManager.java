@@ -1187,9 +1187,9 @@ public class TWDGameManager {
 
     public boolean gameIsOver() {
         int nrMaxDiaENoite = 6;
-        int numeroVivosEmJogo = Creature.totalCreaturesVivas;
-        int numeroZombiesEmJogo = Creature.totalCreaturesZombies;
+        int numeroVivosEmJogo = 0;
         int countTodosMenosIdosoEmJogo = 0;
+        int numeroZombiesEmJogo = 0;
         int countTodosMenosZombieVampEmJogo = 0;
 
         /* Se não houver transformacao até ao nrturno 12, o jogo termina no nrTurno 12 */
@@ -1198,19 +1198,31 @@ public class TWDGameManager {
             return true;
         }
 
-        /* Só idosos vivos em jogo */
-        for (Creature creaturesNight : creatures) {
-            if (creaturesNight.getIdEquipa() == 10) {
+        /* Sem vivos em jogo */
+        for (Creature creatureOrigem : creatures) {
+            if (creatureOrigem.getIdEquipa() == 10) {
                 /* Se existirem "Vivos" e não passaram para o SafeHaven ou não foram transformado em Zombie */
-                if (!creaturesNight.isInSafeHaven() && !creaturesNight.isTransformado()
-                        && !creaturesNight.isEnvenenado()) {
+                if (!creatureOrigem.isInSafeHaven() && !creatureOrigem.isTransformado()
+                        && !creatureOrigem.isEnvenenado()) {
                     /* Ou não morreram envenenados, conta os "Vivos" que ainda estão em Jogo */
-                    int idTipo = creaturesNight.getIdTipo();
-                    if (idTipo == 5 || idTipo == 6 || idTipo == 7 || idTipo == 9 || idTipo == 12) {
-                        countTodosMenosIdosoEmJogo++;
+
+                    switch (creatureOrigem.getIdTipo()) {
+                        case 5:
+                        case 6:
+                        case 7:
+                        case 9:
+                        case 12:
+                            countTodosMenosIdosoEmJogo++;
                     }
+
+                    numeroVivosEmJogo++;
                 }
             }
+        }
+
+        /* Se ficarem apenas os vivos em jogo, o jogo termina */
+        if (numeroVivosEmJogo == 0) {
+            return true;
         }
 
         /* Apenas idosos vivos em jogo no turno nocturno, o jogo termina */
@@ -1222,18 +1234,30 @@ public class TWDGameManager {
             }
         }
 
-        /* Apenas Zombie Vampiro em jogo */
-        for (Creature creaturesDay : creatures) {
-            if (creaturesDay.getIdEquipa() == 20) {
+        /* Sem zombies em jogo */
+        for (Creature creatureOrigem : creatures) {
+            if (creatureOrigem.getIdEquipa() == 20) {
                 /* Se existirem 'zombies' e ainda não foram destruidos */
-                if (!creaturesDay.zombieIsDestroyed()) {
+                if (!creatureOrigem.zombieIsDestroyed()) {
                     /* conta os "zombies" que ainda estão em Jogo*/
-                    int idTipo = creaturesDay.getIdTipo();
-                    if (idTipo == 0 || idTipo == 1 || idTipo == 2 || idTipo == 3 || idTipo == 13) {
-                        countTodosMenosZombieVampEmJogo++;
+
+                    switch (creatureOrigem.getIdTipo()) {
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 13:
+                            countTodosMenosZombieVampEmJogo++;
                     }
+
+                    numeroZombiesEmJogo++;
                 }
             }
+        }
+
+        /* Se ficarem apenas os zombies em jogo, o jogo termina */
+        if (numeroZombiesEmJogo == 0) {
+            return true;
         }
 
         /* Apenas Zombie Vampiro em jogo no turno diurno , jogo termina*/
@@ -1245,10 +1269,8 @@ public class TWDGameManager {
             }
         }
 
-        if (numeroVivosEmJogo == 0 || numeroZombiesEmJogo == 0) {
-            return true;
-        }
-
+        /* Se não houver transformacao até ao nrturno 12, o jogo termina no nrTurno 12 */
+        /* Se houver transformacao o jogo continua */
         /* O jogo termina se tiverem passados 3 dias e 3 noites */
         return nrTurno/2 >= nrMaxDiaENoite;
     }

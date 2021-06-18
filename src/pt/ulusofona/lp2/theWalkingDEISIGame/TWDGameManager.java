@@ -690,12 +690,12 @@ public class TWDGameManager {
                                     } else {
 
                                         // se for militar e escudo de madeira, entao a protecao aumenta
-                                        if (creatureOrigem.getIdTipo() == 7 && eq.getIdTipo() == 0) {
+                                        /*if (creatureOrigem.getIdTipo() == 7 && eq.getIdTipo() == 0) {
                                             // verifica se foi a primeira vez a usar
                                             if (!eq.isEscudoUsado()) {
                                                 eq.aumentaProtecaoDoEscudo();
                                             }
-                                        }
+                                        }*/
 
                                         /* Apenas podem apanhar o antidoto os 'vivos' que estejam envenenados */
                                         if (!creatureOrigem.isEnvenenado()) {
@@ -1192,8 +1192,6 @@ public class TWDGameManager {
         int numeroZombiesEmJogo = 0;
         int countTodosMenosZombieVampEmJogo = 0;
 
-        /* Se não houver transformacao até ao nrturno 12, o jogo termina no nrTurno 12 */
-        /* Se houver transformacao o jogo continua */
         if (!houveTransformacao && nrTurno == 12) {
             return true;
         }
@@ -1269,10 +1267,8 @@ public class TWDGameManager {
             }
         }
 
-        /* Se não houver transformacao até ao nrturno 12, o jogo termina no nrTurno 12 */
-        /* Se houver transformacao o jogo continua */
         /* O jogo termina se tiverem passados 3 dias e 3 noites */
-        return nrTurno/2 >= nrMaxDiaENoite;
+        return !houveTransformacao && nrTurno == 12;
     }
 
     public List<String> getAuthors() {

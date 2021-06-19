@@ -1673,7 +1673,7 @@ public class TWDGameManager {
         numColuna = 0; // reset variavel numColuna.
         xPortas = 0; // reset variavel xPortas safeHaven.
         yPortas = 0; // reset variavel yPortas safeHaven.
-        nrTurno = 13; // reset variavel turnos do jogo.
+        nrTurno = 0; // reset variavel turnos do jogo.
         nrTurnoDoVeneno = 0; // reset variavel de turnos quando o vivo apanha o equipamento veneno
     }
 }

@@ -772,6 +772,15 @@ public class TWDGameManager {
                                         }
                                     }
 
+                                    if (creatureOrigem.getIdTipo() == 2) {
+                                        if (eq.getIdTipo() != 8) {
+                                            /* Removemos o equipamento */
+                                            equipamentos.remove(eq);
+                                            /* Incrementa o equipamento no bolso */
+                                            creatureOrigem.incrementaEquipamentosNoBolso();
+                                        }
+                                    }
+
                                     // Adiciona nos equipamentos destruidos
                                     // Destroi os equipamento
                                     // Move uma posicao

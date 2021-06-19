@@ -743,6 +743,11 @@ public class TWDGameManager {
                         // se for da equipa dos zombies // e se for para cima do equipamento // vamos destrui-lo
                     } else if (creatureOrigem.getIdEquipa() == 20) {
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
+                                return false;
+                            }
+
                             for (Equipamento eq : equipamentos) {
                                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
@@ -772,14 +777,14 @@ public class TWDGameManager {
                                         }
                                     }
 
-                                    if (creatureOrigem.getIdTipo() == 2) {
+                                    /*if (creatureOrigem.getIdTipo() == 2) {
                                         if (eq.getIdTipo() != 8) {
-                                            /* Removemos o equipamento */
+                                            *//* Removemos o equipamento *//*
                                             equipamentos.remove(eq);
-                                            /* Incrementa o equipamento no bolso */
+                                            *//* Incrementa o equipamento no bolso *//*
                                             creatureOrigem.incrementaEquipamentosNoBolso();
                                         }
-                                    }
+                                    }*/
 
                                     // Adiciona nos equipamentos destruidos
                                     // Destroi os equipamento

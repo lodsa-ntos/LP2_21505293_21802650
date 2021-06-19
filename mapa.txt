@@ -2,7 +2,7 @@
 10
 3
 1 : 2 : Cincinaty Kid : 4 : 2
-2 : 2 : Cincinaty Kid2 : 0 : 0
+2 : 1 : Cincinaty Kid2 : 0 : 0
 3 : 7 : Paciente Zero Quando Era Novo : 3 : 3
 3
 -1 : 0 : 0 : 2

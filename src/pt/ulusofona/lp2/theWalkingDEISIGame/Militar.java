@@ -81,6 +81,7 @@ public class Militar extends Creature {
 
     @Override
     public boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino) {
+
         return Math.abs(xO - xD) <= 3 && Math.abs(yO - yD) <= 3;
     }
 

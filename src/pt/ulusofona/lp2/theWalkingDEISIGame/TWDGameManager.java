@@ -45,7 +45,7 @@ public class TWDGameManager {
     private int nrTurno = 0;
     private int nrTurnoDoVeneno = 0;
     private boolean diurno = true;
-    boolean houveTransformacao;
+    private boolean houveTransformacao;
 
     public TWDGameManager() {
     }
@@ -290,8 +290,7 @@ public class TWDGameManager {
         return creatures;
     }
 
-    /* TODO.: A fn move devolve false erradamente
-        - 6 erros no DropProjet */
+    /* TODO.: A fn move devolve false erradamente - 6 erros no DropProjet */
     public boolean move(int xO, int yO, int xD, int yD) {
 
         if (!gameIsOver()) {
@@ -319,7 +318,7 @@ public class TWDGameManager {
                             return false;
                         }
 
-                        if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                        /*if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {*/
 
                             if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
                                 return false;
@@ -339,7 +338,7 @@ public class TWDGameManager {
                                 incrementarTurno();
                                 return true;
                             }
-                        }
+                        /*}*/
                     }
 
                     /* COMBATE = VIVO NA DEFENSIVA */
@@ -358,7 +357,7 @@ public class TWDGameManager {
                                             creatureOrigem.getIdTipo() == 2 || creatureOrigem.getIdTipo() == 3 ||
                                             creatureOrigem.getIdTipo() == 4 || creatureOrigem.getIdTipo() == 13) {
 
-                                        // O cão não se transforma
+                                        /* O cão não se transforma */
                                         if (creatureDestino.getIdTipo() == 9) {
                                             return false;
                                         }
@@ -400,7 +399,7 @@ public class TWDGameManager {
                                                     creatureDestino.equipamentos.get(0).incrementaNrSalvacoes();
 
                                                     if (creatureDestino.equipamentos.get(0).getCountProtecaoDoEscudo() == 0) {
-                                                        // destrui-mos o equipamento
+                                                        /* destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                     }
 
@@ -589,7 +588,8 @@ public class TWDGameManager {
                                                         return true;
                                                     }
 
-                                                case 7:/* Interação com a Lixivia */
+                                                case 7:
+                                                    /* Interação com a Lixivia */
                                                     if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
                                                         /* vamos transformar o vivo em zombie */
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
@@ -1051,8 +1051,6 @@ public class TWDGameManager {
                         }
                     }
 
-                    incrementarTurno();
-                    return true;
                 }
             }
         }
@@ -1602,7 +1600,7 @@ public class TWDGameManager {
                 .filter((zomb) -> !zomb.zombieIsDestroyed())
                 /* recolher os nomes do zombies e contar o numeros de zombies do mesmo tipo em jogo
                 e converter num conjunto de dados */
-                .sorted((z2, z1) -> z1.getId() -z2.getId())
+                .sorted((z1, z2) -> z2.getId() -z1.getId())
                 .collect(Collectors.groupingBy(Creature::getTipo, Collectors.counting()));
 
         /* Ordenar os equipamentos destruidos por ordem decrescente */
@@ -1612,7 +1610,7 @@ public class TWDGameManager {
         equipamentos destruídos, de forma a verificar quais os zombies que tenham destruidos 1 ou mais equipamentos */
         for (Map.Entry<String, Integer> zombie: zombieEquipDestroyed) {
             /* Adicionamos o que queremos obter na nossa lista -> ... */
-            /* TODO <Nome do Tipo>:<Nr zombies do tipo>:<NrEquipamentos> destruidos */
+            /* TODO.: <Nome do Tipo> : <Nr zombies do tipo> : <NrEquipamentos> destruidos */
             res.add(zombie.getKey() + ":" + zombieScore.get(zombie.getKey()) + ":" + zombie.getValue());
         }
 
@@ -1675,7 +1673,7 @@ public class TWDGameManager {
         numColuna = 0; // reset variavel numColuna.
         xPortas = 0; // reset variavel xPortas safeHaven.
         yPortas = 0; // reset variavel yPortas safeHaven.
-        nrTurno = 0; // reset variavel turnos do jogo.
+        nrTurno = 13; // reset variavel turnos do jogo.
         nrTurnoDoVeneno = 0; // reset variavel de turnos quando o vivo apanha o equipamento veneno
     }
 }

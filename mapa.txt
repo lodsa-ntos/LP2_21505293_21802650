@@ -1,18 +1,12 @@
-8 8
-20
-7
-1 : 2 : Freddie M. : 0 : 4
-2 : 7 : Jackie Chan : 4 : 2
-3 : 6 : Alice : 4 : 5
-4 : 6 : Ash : 6 : 2
-5 : 6 : Sam : 5 : 3
-6 : 3 : Freddie M. : 2 : 5
-7 : 2 : Freddie M. : 2 : 3
-5
--1 : 2 : 3 : 2
--2 : 0 : 5 : 2
--3 : 5 : 3 : 3
--4 : 5 : 2 : 4
--5 : 1 : 5 : 4
+5 5
+10
+3
+1 : 2 : Cincinaty Kid : 4 : 2
+2 : 2 : Cincinaty Kid2 : 0 : 0
+3 : 7 : Paciente Zero Quando Era Novo : 3 : 3
+3
+-1 : 0 : 0 : 2
+-2 : 0 : 3 : 2
+-3 : 0 : 0 : 4
 1
-0 : 0
+4 : 4

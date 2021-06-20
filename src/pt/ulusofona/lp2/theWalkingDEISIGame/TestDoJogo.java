@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -20,7 +21,6 @@ public class TestDoJogo {
 
             mapaGigante.startGame(new File("ficheirosParaTestes/mapaGigante.txt"));
             assertEquals(String.valueOf(true), 2, mapaGigante.getWorldSize().length);
-            List<Creature> creatureList = mapaGigante.getCreatures();
 
             // Turno 1
             assertEquals("Vivo a jogar: ", 10, mapaGigante.getCurrentTeamId());
@@ -67,7 +67,7 @@ public class TestDoJogo {
     }
 
     @Test
-    public void test03MovimentosCoelho() throws InvalidTWDInitialFileException, FileNotFoundException {
+    public void test02MovimentosCoelho() throws InvalidTWDInitialFileException, FileNotFoundException {
         TWDGameManager runCoelho = new TWDGameManager();
 
         try {
@@ -122,4 +122,71 @@ public class TestDoJogo {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void test03MilitarVsEquipamento() throws InvalidTWDInitialFileException, FileNotFoundException {
+        TWDGameManager militarSmash = new TWDGameManager();
+
+        try {
+            militarSmash.startGame(new File("ficheirosParaTestes/militarVSEquipamento.txt"));
+
+            assertEquals(String.valueOf(true), 2, militarSmash.getWorldSize().length);
+
+            // Turno 0
+            assertEquals("Vivo a jogar: ", 10, militarSmash.getCurrentTeamId());
+            assertTrue(String.valueOf(true), militarSmash.isDay()); // DIA
+            assertTrue("Militar Vivo move : ", militarSmash.move(1, 2, 1, 0));
+            assertEquals("", 0, militarSmash.getElementId(1,2)); // casa antiga fica vazia
+            assertEquals("", 2, militarSmash.getElementId(1,0)); // Militar Vivo na nova casa
+
+            // Turno 1
+            assertEquals("Zombie a jogar: ", 20, militarSmash.getCurrentTeamId());
+            assertTrue(String.valueOf(true), militarSmash.isDay()); // DIA
+            assertTrue("Militar Zombie move para casa com equipamento : ", militarSmash.move(4, 2, 3, 2));
+            assertEquals("", 0, militarSmash.getElementId(4,2)); // casa antiga fica vazia
+            assertEquals("", 1, militarSmash.getElementId(3,2)); // Militar Vivo na nova casa
+            assertFalse("", militarSmash.saltarPorCima(4,2,3,2)); // Não faz salto por cima
+            assertEquals("militarSmash.move(4, 2, 3, 2)", 0, militarSmash.getEquipmentId(1)); // Eq. destruido
+            assertEquals("", 0, militarSmash.getEquipmentTypeId(-1));
+            assertEquals("", 0, militarSmash.getElementId(4,2)); // casa vazia
+            assertEquals("", 1, militarSmash.getElementId(3,2));
+
+            for (Creature m : militarSmash.getCreatures()) {
+                int idMilitar = m.getId();
+                if (idMilitar == 1) {
+                    assertEquals("1 | Militar (Zombie) | Os Outros | Freddy M. 1 @ (3, 2)", m.toString());
+                }
+            }
+            assertTrue("", militarSmash.criaturasMaisEquipamentosApanharam().contains("1:Freddy M.:1"));
+
+            // Turno 2
+            assertEquals("Vivo a jogar: ", 10, militarSmash.getCurrentTeamId());
+            assertFalse(String.valueOf(false), militarSmash.isDay()); // NOITE
+            assertTrue("Militar Vivo move : ", militarSmash.move(1, 0, 1, 1));
+            assertEquals("", 0, militarSmash.getElementId(1,0)); // casa antiga fica vazia
+            assertEquals("", 2, militarSmash.getElementId(1,1)); // Militar Vivo na nova casa
+
+            // Turno 3
+            assertEquals("Zombie a jogar: ", 20, militarSmash.getCurrentTeamId());
+            assertFalse(String.valueOf(false), militarSmash.isDay()); // NOITE
+            assertTrue("Militar Zombie move para nova casa : ", militarSmash.move(3, 2, 2, 2));
+            assertEquals("", 0, militarSmash.getElementId(3,2)); // casa antiga fica vazia
+            assertEquals("", 1, militarSmash.getElementId(2,2)); // Militar Vivo na nova casa
+            assertEquals("militarSmash.move(3, 2, 2, 2)", 0, militarSmash.getEquipmentId(1)); // Eq. destruido
+            assertEquals("", 0, militarSmash.getEquipmentTypeId(-1)); // Eq. destruido
+            assertEquals("", 0, militarSmash.getElementId(3,2)); // casa vazia
+            assertEquals("", 1, militarSmash.getElementId(2,2));
+
+            for (Creature m : militarSmash.getCreatures()) {
+                int idMilitar = m.getId();
+                if (idMilitar == 1) {
+                    assertEquals("1 | Militar (Zombie) | Os Outros | Freddy M. 1 @ (2, 2)", m.toString());
+                }
+            }
+
+        } catch (FileNotFoundException | InvalidTWDInitialFileException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

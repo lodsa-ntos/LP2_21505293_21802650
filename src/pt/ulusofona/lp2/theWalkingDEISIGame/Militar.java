@@ -326,7 +326,6 @@ public class Militar extends Creature {
 
     @Override
     public String toString() {
-
         TWDGameManager zombie = new TWDGameManager();
 
         if (isInSafeHaven()){

@@ -797,12 +797,12 @@ public class TWDGameManager {
                                         int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
                                         zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
                                     } else {
-                                        /* Senão se for a primeira vez dizemos que só destruiu 1*/
+                                        /* Senão se for a primeira vez dizemos que só destruiu 1 */
                                         zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
                                     }
 
-                                    encontrouEquip = true;
-                                    break;
+                                    /*encontrouEquip = true;
+                                    break;*/
                                 }
                             }
                         } else {
@@ -1170,6 +1170,7 @@ public class TWDGameManager {
         }*/
 
         for (Creature creatureOrigem : creatures) {
+
             /* se até ao nrturno 12 não houver nenhuma transformação o jogo termina */
             if (!creatureOrigem.isTransformado() && nrTurno == 12) {
                 return true;
@@ -1521,7 +1522,7 @@ public class TWDGameManager {
 
     /* <IDCriatura>:<Nome>:<NrTransformações> */
     /* Quais os 3 zombies que mais vivos transformaram? */
-    private List<String> zombiesTramado() {
+    public List<String> zombiesTramado() {
 
         List<String> creturesZombies;
 
@@ -1544,7 +1545,7 @@ public class TWDGameManager {
 
     /* <IDCriatura>:<Nome>:<NrDestruicoes> */
     /* Quais os 3 vivos que mais zombies destruiram */
-    private List<String> vivosDuros() {
+    public List<String> vivosDuros() {
 
         List<String> creaturesVivos;
 
@@ -1567,7 +1568,7 @@ public class TWDGameManager {
 
     /* <ID>:<NrSalvacoes> */
     /* Quais os equipamentos que mais safaram os vivos (of/def)? */
-    private List<String> equipamentosUteis() {
+    public List<String> equipamentosUteis() {
 
         List<String> equipamentoQueSafaram;
 
@@ -1587,7 +1588,7 @@ public class TWDGameManager {
     /* TODO.: deveriam ser 3 linhas - 2 erros no DropProjet */
     /* <Nome do Tipo>:< Nr zombies do tipo>: <NrEquipamentos> destruidos */
     /* Qual o total de equipamentos destruidos por cada tipo de zombie? */
-    private List<String> tiposZombiesEEquipamentosDestruidos() {
+    public List<String> tiposZombiesEEquipamentosDestruidos() {
 
         /* Map para guardar nome do tipo e a quantidade do tipo de zombie em jogo */
         Map <String, Long> zombieScore;
@@ -1605,11 +1606,10 @@ public class TWDGameManager {
                 .filter((zomb) -> !zomb.zombieIsDestroyed())
                 /* recolher os nomes do zombies e contar o numeros de zombies do mesmo tipo em jogo
                 e converter num conjunto de dados */
-                .sorted((z1, z2) -> z2.getId() -z1.getId())
                 .collect(Collectors.groupingBy(Creature::getTipo, Collectors.counting()));
 
         /* Ordenar os equipamentos destruidos por ordem decrescente */
-        zombieEquipDestroyed.sort((e2, e1)-> e1.getValue() - e2.getValue());
+        zombieEquipDestroyed.sort((e1, e2)-> e2.getValue() - e1.getValue());
 
         /* Percorremos o ArrayList zombieEquipDestroyed onde contém o nome tipos de zombies e o número dos seus
         equipamentos destruídos, de forma a verificar quais os zombies que tenham destruidos 1 ou mais equipamentos */
@@ -1619,16 +1619,12 @@ public class TWDGameManager {
             res.add(zombie.getKey() + ":" + zombieScore.get(zombie.getKey()) + ":" + zombie.getValue());
         }
 
-        /* TOP 3 */
-        return res.stream()
-                .limit(3)
-                .collect(toList());
-
+        return res;
     }
 
     /* <IDCriatura>:<Nome>:<NrEquipamentos> */
     /* Quais as 5 criaturas que mais equipamentos apanharam/destruitam */
-    private List<String> criaturasMaisEquipamentosApanharam() {
+    public List<String> criaturasMaisEquipamentosApanharam() {
 
         List<String> osEquipados;
 

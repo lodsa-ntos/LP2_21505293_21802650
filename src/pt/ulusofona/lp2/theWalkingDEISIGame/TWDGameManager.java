@@ -753,7 +753,8 @@ public class TWDGameManager {
 
                                     /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
                                     if (eq.getIdTipo() == 8) {
-                                        return false;
+                                        incrementarTurno();
+                                        return true;
                                     }
 
                                     /* Zombie Vampiro nao gosta de alho, logo não pode ser destruido */

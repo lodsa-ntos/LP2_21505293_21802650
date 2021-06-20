@@ -748,7 +748,12 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            for (Equipamento eq : equipamentos) {
+                            int i = 0, equipamentosSize = equipamentos.size();
+
+                            while (i < equipamentosSize) {
+
+                                Equipamento eq = equipamentos.get(i);
+
                                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
                                     /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
@@ -804,6 +809,7 @@ public class TWDGameManager {
                                     /*encontrouEquip = true;
                                     break;*/
                                 }
+                                i++;
                             }
                         } else {
                             return false;

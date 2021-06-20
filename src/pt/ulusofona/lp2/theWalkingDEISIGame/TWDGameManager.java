@@ -741,7 +741,7 @@ public class TWDGameManager {
                         }
 
                         // se for da equipa dos zombies // e se for para cima do equipamento // vamos destrui-lo
-                    } else if (creatureOrigem.getIdEquipa() == 20 && creatureOrigem.getIdTipo() != 2) {
+                    } else if (creatureOrigem.getIdEquipa() == 20) {
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
 
                             if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
@@ -807,54 +807,6 @@ public class TWDGameManager {
                             }
                         } else {
                             return false;
-                        }
-                    }
-
-                    /* AÇÃO = DESTRUIR EQUIPAMENTO */
-                    /* Apenas para o Militar -- ??? */
-                    if (creatureOrigem.getIdEquipa() == 20 && creatureOrigem.getIdTipo() == 2) {
-                        if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
-                                return false;
-                            }
-
-                            for (Equipamento eqParaMilitar : equipamentos) {
-                                if (eqParaMilitar.getXAtual() == xD && eqParaMilitar.getYAtual() == yD) {
-
-                                    if (creatureOrigem.getIdTipo() == 2) {
-                                        if (eqParaMilitar.getIdTipo() == 0 || eqParaMilitar.getIdTipo() == 1 || eqParaMilitar.getIdTipo() == 2 || eqParaMilitar.getIdTipo() == 3 ||
-                                                eqParaMilitar.getIdTipo() == 4 || eqParaMilitar.getIdTipo() == 5 || eqParaMilitar.getIdTipo() == 6 || eqParaMilitar.getIdTipo() == 7 ||
-                                                eqParaMilitar.getIdTipo() == 9 || eqParaMilitar.getIdTipo() == 10) {
-
-                                            // Adiciona nos equipamentos destruidos
-                                            // Destroi os equipamento
-                                            // Move uma posicao
-                                            creatureOrigem.destruidos.add(eqParaMilitar);
-
-                                            /* Removemos o equipamento */
-                                            equipamentos.remove(eqParaMilitar);
-
-                                            /* Incrementa o equipamento no bolso */
-                                            creatureOrigem.incrementaEquipamentosNoBolso();
-
-                                            HashMap<String, Integer> zombieEquipDestroyed =
-                                                    Creature.equipamentosDestruidosByZombies;
-
-                                            /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
-                                             * de destruicao para esse mesmo zombie */
-                                            if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
-                                                int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
-                                                zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
-                                            } else {
-                                                /* Senão se for a primeira vez dizemos que só destruiu 1*/
-                                                zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
-                                            }
-                                        }
-                                    }
-
-                                    break;
-                                }
-                            }
                         }
                     }
 
@@ -1089,11 +1041,6 @@ public class TWDGameManager {
                             }
 
                             if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            /* Zombies nao se podem mover para o Safe Haven */
-                            if (isDoorToSafeHaven(xD, yD)) {
                                 return false;
                             }
 

@@ -1044,6 +1044,11 @@ public class TWDGameManager {
                                 return false;
                             }
 
+                            /* Zombies nao se podem mover para o Safe Haven */
+                            if (isDoorToSafeHaven(xD, yD)) {
+                                return false;
+                            }
+
                             creatureOrigem.setxAtual(xD);
                             creatureOrigem.setyAtual(yD);
                             incrementarTurno();

@@ -647,7 +647,7 @@ public class TWDGameManager {
                         }
                     }
 
-                    /* AÇÃO = VIVO A APANHAR E LARGAR EQUIPAMENTO */
+                    /* AÇÃO = APANHAR, LARGAR OU DESTRUIR EQUIPAMENTO */
                     /* caso na posicao destino nao tiver uma criatura
                      verifica se é um equipamento */
                     if (creatureOrigem.getIdEquipa() == 10) {
@@ -749,10 +749,7 @@ public class TWDGameManager {
                         } else {
                             return false;
                         }
-                    }
-
-                    /* AÇÃO = ZOMBIE A DESTRUIR EQUIPAMENTO */
-                    if (creatureOrigem.getIdEquipa() == 20) {
+                    } else if (creatureOrigem.getIdEquipa() == 20) {
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
 
                             if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
@@ -1679,7 +1676,7 @@ public class TWDGameManager {
         numColuna = 0; // reset variavel numColuna.
         xPortas = 0; // reset variavel xPortas safeHaven.
         yPortas = 0; // reset variavel yPortas safeHaven.
-        nrTurno = 14; // reset variavel turnos do jogo.
+        nrTurno = 0; // reset variavel turnos do jogo.
         nrTurnoDoVeneno = 0; // reset variavel de turnos quando o vivo apanha o equipamento veneno
     }
 }

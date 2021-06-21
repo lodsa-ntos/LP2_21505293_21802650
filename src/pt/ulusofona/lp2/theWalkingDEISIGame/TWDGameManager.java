@@ -29,7 +29,9 @@ public class TWDGameManager {
     //Lista de criaturas envenenadas
     private static ArrayList<Creature> criaturasEnvenenadas = new ArrayList<>();
     //Lista de Equipamento
-    private static ArrayList<Equipamento> equipamentos = new ArrayList<>();
+    static ArrayList<Equipamento> equipamentos = new ArrayList<>();
+    //Lista de Equipamentos Destruidos dos Zombies
+    static ArrayList<Equipamento> equipamentosDestruidos = new ArrayList<>();
     //Lista de zombies destruidos
     static ArrayList<Creature> zombiesDestruidos = new ArrayList<>();
     //Lista de Portas em Jogo
@@ -314,9 +316,9 @@ public class TWDGameManager {
 
                     /* ENTRADA PARA O SAFEHAVEN */
                     if (creatureOrigem.getIdEquipa() == 10) {
-                        /*if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
+                        if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
                             return false;
-                        }*/
+                        }
 
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
 
@@ -645,7 +647,7 @@ public class TWDGameManager {
                         }
                     }
 
-                    /* AÇÃO = APANHAR, LARGAR OU DESTRUIR EQUIPAMENTO */
+                    /* AÇÃO = VIVO A APANHAR E LARGAR EQUIPAMENTO */
                     /* caso na posicao destino nao tiver uma criatura
                      verifica se é um equipamento */
                     if (creatureOrigem.getIdEquipa() == 10) {
@@ -686,6 +688,25 @@ public class TWDGameManager {
                                             }
                                         }
 
+                                        // o vivo apanha o equipamento pela primeira vez
+                                        // e fica com o equipamento na mão
+                                        creatureOrigem.equipamentos.add(eq);
+                                        System.out.println("Apanhou: " + eq);
+
+                                        // Incrementa o equipamento no bolso
+                                        creatureOrigem.incrementaEquipamentosNoBolso();
+
+                                        if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 8) {
+                                            System.out.println("\n" + creatureOrigem.getTipo() + " está envenenado." + "\n"
+                                                    + "Warning: Se o 'Vivo' estiver envenenado durante 3 turnos, morre. " +
+                                                    "\n" + "Tem mais uma jogada, tente encontrar o antidoto.");
+                                        }
+
+                                        if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 9) {
+                                            System.out.println("\n" + creatureOrigem.getTipo() + " conseguiu o antídoto a tempo, " +
+                                                    "está curado. Encontre o safeHaven e salve-se...");
+                                        }
+
                                         /* senão, se tiver equipamento vamos removê-lo antes de apanhar o novo */
                                     } else {
 
@@ -704,32 +725,21 @@ public class TWDGameManager {
                                             }
                                         }
 
-                                        // guardamos o equipamento existente na lista de equipamentos
+                                        /* removemos o equipamento antigo */
                                         Equipamento eqAntigo = creatureOrigem.equipamentos.get(0);
-                                        equipamentos.add(eqAntigo);
-                                        // removemos esse equipamento e devolvemos na posicao original
-                                        creatureOrigem.equipamentos.get(0).setXAtual(creatureOrigem.getXAtual());
-                                        creatureOrigem.equipamentos.get(0).setYAtual(creatureOrigem.getYAtual());
                                         creatureOrigem.getEquipamentosVivos().remove(eqAntigo);
-                                    }
 
-                                    // depois de removido, o vivo apanha o novo equipamento
-                                    // e fica com o equipamento novo na mão
-                                    creatureOrigem.equipamentos.add(eq);
-                                    System.out.println("Apanhou: " + eq);
+                                        /* e largamos o equipamento antigo na casa original de onde o vivo estava antes */
+                                        eqAntigo.setXAtual(creatureOrigem.getXAtual());
+                                        eqAntigo.setYAtual(creatureOrigem.getYAtual());
 
-                                    // Incrementa o equipamento no bolso
-                                    creatureOrigem.incrementaEquipamentosNoBolso();
+                                        // depois de removido, o vivo apanha o novo equipamento
+                                        // e fica com o equipamento novo na mão
+                                        creatureOrigem.equipamentos.add(eq);
+                                        System.out.println("Apanhou novo equipamento: " + eq);
 
-                                    if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 8) {
-                                        System.out.println("\n" + creatureOrigem.getTipo() + " está envenenado." + "\n"
-                                                + "Warning: Se o 'Vivo' estiver envenenado durante 3 turnos, morre. " +
-                                                "\n" + "Tem mais uma jogada, tente encontrar o antidoto.");
-                                    }
-
-                                    if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 9) {
-                                        System.out.println("\n" + creatureOrigem.getTipo() + " conseguiu o antídoto a tempo, " +
-                                                "está curado. Encontre o safeHaven e salve-se...");
+                                        // Incrementa o equipamento no bolso
+                                        creatureOrigem.incrementaEquipamentosNoBolso();
                                     }
 
                                     encontrouEquip = true;
@@ -739,67 +749,67 @@ public class TWDGameManager {
                         } else {
                             return false;
                         }
-
-                        // se for da equipa dos zombies // e se for para cima do equipamento // vamos destrui-lo
                     }
 
+                    /* AÇÃO = ZOMBIE A DESTRUIR EQUIPAMENTO */
                     if (creatureOrigem.getIdEquipa() == 20) {
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
 
-                            /*if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
                                 return false;
-                            }*/
+                            }
 
-                            for (Equipamento eq : equipamentos) {
-                                if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                            for (Equipamento eqDestino : equipamentos) {
+                                if (eqDestino.getXAtual() == xD && eqDestino.getYAtual() == yD) {
 
-                                    /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
-                                    if (eq.getIdTipo() == 8) {
+                                    /* Processa o esmagando do equipamento */
+                                    /* ZOMBIES VS EQUIPAMENTOS */
+                                    boolean movimentoParaDestruirValido = creatureOrigem.smashEquipmentWithoutLive(xO, yO, xD, yD, creatureOrigem,
+                                            eqDestino, equipamentos);
+
+                                    /* Se a movimentacao para destruir o equipamento não for valido, retorna false, jogada invalida */
+                                    if (!movimentoParaDestruirValido) {
                                         return false;
-                                    }
-
-                                    /* Zombie Vampiro nao gosta de alho, logo não pode ser destruido */
-                                    if (creatureOrigem.getIdTipo() == 4 && !isDay() && eq.getIdTipo() == 5) {
-                                        return false;
-                                    }
-
-                                    /* Zombie Vampiro de dia, se tentar destruir algum equipamento, retorna false */
-                                    if (creatureOrigem.getIdTipo() == 4 && isDay()) {
-                                        if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
-                                                eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
-                                            return false;
-                                        }
-                                    }
-
-                                    /* Coelho zombie se tentar destruir algum equipamento, retorna false */
-                                    if (creatureOrigem.getIdTipo() == 13) {
-                                        if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
-                                                eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
-                                            return false;
-                                        }
-                                    }
-
-                                    /* Removemos o equipamento */
-                                    eq.setXAtual(xO+30);
-                                    eq.setYAtual(yO+30);
-
-                                    /* Incrementa o equipamento no bolso */
-                                    creatureOrigem.incrementaEquipamentosNoBolso();
-
-                                    HashMap<String, Integer> zombieEquipDestroyed =
-                                            Creature.equipamentosDestruidosByZombies;
-
-                                    /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
-                                     * de destruicao para esse mesmo zombie */
-                                    if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
-                                        int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
-                                        zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
                                     } else {
-                                        /* Senão se for a primeira vez dizemos que só destruiu 1 */
-                                        zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
+
+                                        /* Zombie Vampiro nao gosta de alho, logo a cabeça de alho não pode ser destruida */
+                                        if (creatureOrigem.getIdTipo() == 4 && !isDay() && eqDestino.getIdTipo() == 5) {
+                                            return false;
+                                        }
+
+                                        /* Zombie Vampiro de dia, se tentar destruir algum equipamento, retorna false */
+                                        if (creatureOrigem.getIdTipo() == 4 && isDay()) {
+                                            if (eqDestino.getIdTipo() == 0 || eqDestino.getIdTipo() == 1 || eqDestino.getIdTipo() == 2 ||
+                                                    eqDestino.getIdTipo() == 3 || eqDestino.getIdTipo() == 4 ||
+                                                    eqDestino.getIdTipo() == 5 || eqDestino.getIdTipo() == 6 || eqDestino.getIdTipo() == 7
+                                                    || eqDestino.getIdTipo() == 8 || eqDestino.getIdTipo() == 9 || eqDestino.getIdTipo() == 10) {
+                                                return false;
+                                            }
+                                        }
+
+                                        // Incrementa o equipamento no bolso
+                                        creatureOrigem.incrementaEquipamentosNoBolso();
+
+                                        HashMap<String, Integer> zombieEquipDestroyed =
+                                                Creature.equipamentosDestruidosByZombies;
+
+                                        /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
+                                         * de destruicao para esse mesmo zombie */
+                                        if (!creatureOrigem.zombieIsDestroyed()) {
+                                            if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
+                                                int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
+                                                zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
+                                            } else {
+                                                /* Senão se for a primeira vez dizemos que só destruiu 1 */
+                                                zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
+                                            }
+                                        }
+
+                                        break;
                                     }
                                 }
                             }
+
                         } else {
                             return false;
                         }
@@ -1019,9 +1029,9 @@ public class TWDGameManager {
                             /* Se forem outros zombies */
                         } else if (creatureOrigem.getIdTipo() != 4 && creatureOrigem.getIdTipo() != 13) {
 
-                            /*if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                 return false;
-                            }*/
+                            }
 
                             if (creatureOrigem.getIdTipo() == 0 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
@@ -1669,7 +1679,7 @@ public class TWDGameManager {
         numColuna = 0; // reset variavel numColuna.
         xPortas = 0; // reset variavel xPortas safeHaven.
         yPortas = 0; // reset variavel yPortas safeHaven.
-        nrTurno = 0; // reset variavel turnos do jogo.
+        nrTurno = 14; // reset variavel turnos do jogo.
         nrTurnoDoVeneno = 0; // reset variavel de turnos quando o vivo apanha o equipamento veneno
     }
 }

@@ -77,6 +77,11 @@ public class Cao extends Creature {
         return false;
     }
 
+    @Override
+    protected boolean smashEquipmentWithoutLive(int xO, int yO, int xD, int yD, Creature creatureZombie,
+                                                Equipamento equipamentoNoDestino, ArrayList<Equipamento> equipamentosDestruidos) {
+        return false;
+    }
 
     @Override
     public boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino) {

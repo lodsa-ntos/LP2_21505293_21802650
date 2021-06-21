@@ -37,6 +37,9 @@ public abstract class Creature {
 
     abstract protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creatureDestino, ArrayList<Creature> creatures);
 
+    abstract protected boolean smashEquipmentWithoutLive(int xO, int yO, int xD, int yD, Creature creatureZombie,
+                                                         Equipamento equipamentoNoDestino, ArrayList<Equipamento> equipamentosDestruidos);
+
     abstract public boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino);
 
     abstract public boolean moveDirecaoTurnosPares(int xO, int yO, int xD, int yD, Creature creatureDestino);

@@ -24,7 +24,6 @@ public abstract class Creature {
     protected int countTransformacoesFeitas = 0;
 
     protected ArrayList<Equipamento> equipamentos = new ArrayList<>();
-    protected ArrayList<Equipamento> destruidos = new ArrayList<>();
 
     protected static HashMap<String, Integer> equipamentosDestruidosByZombies = new HashMap<>();
 

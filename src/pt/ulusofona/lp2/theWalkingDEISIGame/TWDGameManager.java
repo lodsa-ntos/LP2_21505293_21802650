@@ -748,12 +748,7 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            int i = 0, equipamentosSize = equipamentos.size();
-
-                            while (i < equipamentosSize) {
-
-                                Equipamento eq = equipamentos.get(i);
-
+                            for (Equipamento eq : equipamentos) {
                                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
                                     /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
@@ -782,13 +777,9 @@ public class TWDGameManager {
                                         }
                                     }
 
-                                    // Adiciona nos equipamentos destruidos
-                                    // Destroi os equipamento
-                                    // Move uma posicao
-                                    creatureOrigem.destruidos.add(eq);
-
                                     /* Removemos o equipamento */
-                                    equipamentos.remove(eq);
+                                    eq.setXAtual(xO+30);
+                                    eq.setYAtual(yO+30);
 
                                     /* Incrementa o equipamento no bolso */
                                     creatureOrigem.incrementaEquipamentosNoBolso();
@@ -805,11 +796,7 @@ public class TWDGameManager {
                                         /* Senão se for a primeira vez dizemos que só destruiu 1 */
                                         zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
                                     }
-
-                                    /*encontrouEquip = true;
-                                    break;*/
                                 }
-                                i++;
                             }
                         } else {
                             return false;

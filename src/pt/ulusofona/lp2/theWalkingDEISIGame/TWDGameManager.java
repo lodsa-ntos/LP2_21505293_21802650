@@ -647,7 +647,7 @@ public class TWDGameManager {
                         }
                     }
 
-                    /* AÇÃO = APANHAR, LARGAR OU DESTRUIR EQUIPAMENTO */
+                    /* AÇÃO = VIVO A APANHAR E LARGAR EQUIPAMENTO */
                     /* caso na posicao destino nao tiver uma criatura
                      verifica se é um equipamento */
                     if (creatureOrigem.getIdEquipa() == 10) {
@@ -749,7 +749,10 @@ public class TWDGameManager {
                         } else {
                             return false;
                         }
-                    } else if (creatureOrigem.getIdEquipa() == 20) {
+                    }
+
+                    /* AÇÃO = ZOMBIE A DESTRUIR EQUIPAMENTO */
+                    if (creatureOrigem.getIdEquipa() == 20) {
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
 
                             if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {

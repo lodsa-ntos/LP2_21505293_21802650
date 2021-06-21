@@ -27,7 +27,6 @@ public class ZombieVampiro extends Creature {
                     case 2: /* Destruicao da Pistola */
                     case 3: /* Destruicao do Escudo Tático */
                     case 4: /* Destruicao do Revista Maria */
-                    case 5: /* Destruicao da Cabeça de alho */
                     case 6: /* Destruicao da Estaca de madeira */
                     case 7: /* Destruicao da Lixivia */
                     case 9: /* Destruicao do Antidoto */
@@ -39,6 +38,7 @@ public class ZombieVampiro extends Creature {
                         this.setyAtual(creatureZombie.yAtual);
                         return true;
                     case 8: /* Destruicao do Veneno */
+                    case 5: /* Destruicao da Cabeça de alho */
                         return false;
                 }
 

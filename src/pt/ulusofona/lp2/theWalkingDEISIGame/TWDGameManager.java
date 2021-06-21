@@ -795,14 +795,18 @@ public class TWDGameManager {
 
                                         /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
                                          * de destruicao para esse mesmo zombie */
-                                        if (!creatureOrigem.zombieIsDestroyed()) {
-                                            if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
-                                                int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
-                                                zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
-                                            } else {
-                                                /* Senão se for a primeira vez dizemos que só destruiu 1 */
-                                                zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
-                                            }
+                                        if (!zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
+
+                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), 0);
+
+                                        } else if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
+
+                                            int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
+                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
+
+                                        } else {
+                                            /* Senão se for a primeira vez dizemos que só destruiu 1 */
+                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
                                         }
 
                                         break;
@@ -1679,7 +1683,7 @@ public class TWDGameManager {
         numColuna = 0; // reset variavel numColuna.
         xPortas = 0; // reset variavel xPortas safeHaven.
         yPortas = 0; // reset variavel yPortas safeHaven.
-        nrTurno = 0; // reset variavel turnos do jogo.
+        nrTurno = 1; // reset variavel turnos do jogo.
         nrTurnoDoVeneno = 0; // reset variavel de turnos quando o vivo apanha o equipamento veneno
     }
 }

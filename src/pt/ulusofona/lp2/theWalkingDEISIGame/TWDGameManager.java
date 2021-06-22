@@ -309,7 +309,6 @@ public class TWDGameManager {
             boolean encontrouEquip = false;
             boolean umaCasaNaDiagonal = (Math.abs(xD - xO) == 1) && (Math.abs(yD - yO) == 1);
             boolean duasOuMaisCasasNaDiagonal = (Math.abs(xD - xO) > 0 && Math.abs(xD - xO) <= 50) && (Math.abs(yD - yO) > 0 && Math.abs(yD - yO) <= 50);
-            boolean equiDestruido = false;
 
             for (Creature creatureOrigem : creatures) {
                 if (creatureOrigem.getIdEquipa() == idEquipaAtual &&
@@ -771,36 +770,15 @@ public class TWDGameManager {
                                         return false;
                                     } else {
 
-                                        /* Zombie Vampiro nao gosta de alho, logo a cabeça de alho não pode ser destruida */
-                                        if (creatureOrigem.getIdTipo() == 4 && !isDay() && eqDestino.getIdTipo() == 5) {
-                                            return false;
-                                        }
-
-                                        /* Zombie Vampiro de dia, se tentar destruir algum equipamento, retorna false */
-                                        if (creatureOrigem.getIdTipo() == 4 && isDay()) {
-                                            if (eqDestino.getIdTipo() == 0 || eqDestino.getIdTipo() == 1 || eqDestino.getIdTipo() == 2 ||
-                                                    eqDestino.getIdTipo() == 3 || eqDestino.getIdTipo() == 4 ||
-                                                    eqDestino.getIdTipo() == 5 || eqDestino.getIdTipo() == 6 || eqDestino.getIdTipo() == 7
-                                                    || eqDestino.getIdTipo() == 8 || eqDestino.getIdTipo() == 9 || eqDestino.getIdTipo() == 10) {
-                                                return false;
-                                            }
-                                        }
-
                                         // Incrementa o equipamento no bolso
                                         creatureOrigem.incrementaEquipamentosNoBolso();
-
-                                        equiDestruido = true;
 
                                         HashMap<String, Integer> zombieEquipDestroyed =
                                                 Creature.equipamentosDestruidosByZombies;
 
                                         /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
                                          * de destruicao para esse mesmo zombie */
-                                        if (!zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
-
-                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), 0);
-
-                                        } else if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
+                                        if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
 
                                             int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
                                             zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
@@ -1009,20 +987,17 @@ public class TWDGameManager {
                                     return false;
                                 }
 
-                                if (!creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    return false;
+                                if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                    creatureOrigem.setxAtual(xD);
+                                    creatureOrigem.setyAtual(yD);
+                                    incrementarTurno();
+                                    return true;
                                 }
 
                                 /* Zombies nao se podem mover para o Safe Haven */
                                 if (isDoorToSafeHaven(xD, yD)) {
                                     return false;
                                 }
-
-                                creatureOrigem.setxAtual(xD);
-                                creatureOrigem.setyAtual(yD);
-                                incrementarTurno();
-                                return true;
-
 
                             } else {
                                 return false;

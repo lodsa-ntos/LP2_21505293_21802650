@@ -17,31 +17,26 @@ public class ZombieVampiro extends Creature {
     protected boolean smashEquipmentWithoutLive(int xO, int yO, int xD, int yD, Creature creatureZombie,
                                                 Equipamento equipamentoNoDestino, ArrayList<Equipamento> equipamentosDestruidos) {
         // ZOMBIE A ESMAGAR EQUIPAMENTO
-        if (getIdEquipa() == 20) {
+        if (getIdTipo() == 4) {
 
-            if (getIdTipo() == 4) {
-
-                switch (TWDGameManager.equipamentos.get(0).getIdTipo()) {
-                    case 0: /* Destruicao do Escudo de Madeira */
-                    case 1: /* Destruicao da Espada */
-                    case 2: /* Destruicao da Pistola */
-                    case 3: /* Destruicao do Escudo Tático */
-                    case 4: /* Destruicao da Revista Maria */
-                    case 6: /* Destruicao da Estaca de madeira */
-                    case 7: /* Destruicao da Lixivia */
-                    case 9: /* Destruicao do Antidoto */
-                    case 10: /* Destruicao do capacete Beskar Helmet */
-                        /* vamos destruir o equipamento */
-                        equipamentosDestruidos.remove(equipamentoNoDestino);
-                        TWDGameManager.equipamentosDestruidos.add(equipamentoNoDestino);
-                        this.setxAtual(creatureZombie.xAtual);
-                        this.setyAtual(creatureZombie.yAtual);
-                        return true;
-                    case 5: /* Destruicao da Cabeça de alho */
-                    case 8: /* Destruicao do Veneno */
-                        return false;
-                }
-
+            switch (TWDGameManager.equipamentos.get(0).getIdTipo()) {
+                case 0: /* Destruicao do Escudo de Madeira */
+                case 1: /* Destruicao da Espada */
+                case 2: /* Destruicao da Pistola */
+                case 3: /* Destruicao do Escudo Tático */
+                case 4: /* Destruicao da Revista Maria */
+                case 6: /* Destruicao da Estaca de madeira */
+                case 7: /* Destruicao da Lixivia */
+                case 9: /* Destruicao do Antidoto */
+                case 10: /* Destruicao do capacete Beskar Helmet */
+                    equipamentosDestruidos.remove(equipamentoNoDestino);
+                    TWDGameManager.equipamentosDestruidos.add(equipamentoNoDestino);
+                    this.setxAtual(creatureZombie.xAtual);
+                    this.setyAtual(creatureZombie.yAtual);
+                    return true;
+                case 5: /* Destruicao da Cabeça de alho */
+                case 8: /* Destruicao do Veneno */
+                    return false;
             }
         }
 

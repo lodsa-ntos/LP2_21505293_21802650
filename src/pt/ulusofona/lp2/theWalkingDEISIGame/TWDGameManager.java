@@ -30,8 +30,6 @@ public class TWDGameManager {
     private static ArrayList<Creature> criaturasEnvenenadas = new ArrayList<>();
     //Lista de Equipamento
     static ArrayList<Equipamento> equipamentos = new ArrayList<>();
-    //Lista de Equipamentos Destruidos dos Zombies
-    static ArrayList<Equipamento> equipamentosDestruidos = new ArrayList<>();
     //Lista de zombies destruidos
     static ArrayList<Creature> zombiesDestruidos = new ArrayList<>();
     //Lista de Portas em Jogo
@@ -228,7 +226,6 @@ public class TWDGameManager {
                                         || idTipo == 6 || idTipo == 7 || idTipo == 8 || idTipo == 9 || idTipo == 10) {
                                     Equipamento allEquipments = new Equipamento(id, idTipo, posX, posY);
                                     equipamentos.add(allEquipments); // adiciona equipamento
-                                    equipamentosDestruidos.add(allEquipments);
                                     allEquipments.setIdTipo(idTipo); // chama o tipo de equipamento
                                     System.out.println(allEquipments.toString());
                                 }
@@ -753,7 +750,7 @@ public class TWDGameManager {
 
                     } else if (creatureOrigem.getIdEquipa() == 20) {
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                            for (Equipamento eq : equipamentosDestruidos) {
+                            for (Equipamento eq : equipamentos) {
                                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
                                     /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */

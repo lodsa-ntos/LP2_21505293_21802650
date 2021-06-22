@@ -748,7 +748,7 @@ public class TWDGameManager {
                             return false;
                         }
 
-                    } else if (creatureOrigem.getIdEquipa() == 20) {
+                    } else if (creatureOrigem.getIdEquipa() == 20 && creatureOrigem.getIdTipo() != 2) {
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                             for (Equipamento eq : equipamentos) {
                                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
@@ -798,10 +798,6 @@ public class TWDGameManager {
                                         zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
                                     }
 
-                                    creatureOrigem.setxAtual(xD);
-                                    creatureOrigem.setyAtual(yD);
-                                    incrementarTurno();
-                                    return true;
                                     //encontrouEquip = true;
                                     //break;
                                 }
@@ -1040,9 +1036,9 @@ public class TWDGameManager {
                             }
 
                             /* MILITAR ZOMBIE */
-                            /*if (creatureOrigem.getIdTipo() == 2 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                            if (creatureOrigem.getIdTipo() == 2 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
-                            }*/
+                            }
 
                             /* IDOSO ZOMBIE */
                             if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {

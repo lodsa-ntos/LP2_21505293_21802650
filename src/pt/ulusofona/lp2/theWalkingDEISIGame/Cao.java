@@ -78,12 +78,6 @@ public class Cao extends Creature {
     }
 
     @Override
-    protected boolean smashEquipmentWithoutLive(int xO, int yO, int xD, int yD, Creature creatureZombie,
-                                                Equipamento equipamentoNoDestino, ArrayList<Equipamento> equipamentosDestruidos) {
-        return false;
-    }
-
-    @Override
     public boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino) {
         return (Math.abs(xD - xO) > 0 && Math.abs(xD - xO) <= 2) && (Math.abs(yD - yO) > 0 && Math.abs(yD - yO) <= 2);
     }

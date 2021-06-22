@@ -228,6 +228,7 @@ public class TWDGameManager {
                                         || idTipo == 6 || idTipo == 7 || idTipo == 8 || idTipo == 9 || idTipo == 10) {
                                     Equipamento allEquipments = new Equipamento(id, idTipo, posX, posY);
                                     equipamentos.add(allEquipments); // adiciona equipamento
+                                    equipamentosDestruidos.add(allEquipments);
                                     allEquipments.setIdTipo(idTipo); // chama o tipo de equipamento
                                     System.out.println(allEquipments.toString());
                                 }
@@ -750,49 +751,6 @@ public class TWDGameManager {
                             return false;
                         }
 
-                    } else if (creatureOrigem.getIdEquipa() == 20) {
-                        if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-
-                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
-                                return false;
-                            }
-
-                            for (Equipamento eqDestino : equipamentos) {
-                                if (eqDestino.getXAtual() == xD && eqDestino.getYAtual() == yD) {
-
-                                    /* Processa o esmagando do equipamento */
-                                    /* ZOMBIES VS EQUIPAMENTOS */
-                                    boolean movimentoParaDestruirValido = creatureOrigem.smashEquipmentWithoutLive(xO, yO, xD, yD, creatureOrigem,
-                                            eqDestino, equipamentos);
-
-                                    /* Se a movimentacao para destruir o equipamento não for valido, retorna false, jogada invalida */
-                                    if (!movimentoParaDestruirValido) {
-                                        return false;
-                                    } else {
-
-                                        // Incrementa o equipamento no bolso
-                                        creatureOrigem.incrementaEquipamentosNoBolso();
-
-                                        HashMap<String, Integer> zombieEquipDestroyed =
-                                                Creature.equipamentosDestruidosByZombies;
-
-                                        /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
-                                         * de destruicao para esse mesmo zombie */
-                                        if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
-
-                                            int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
-                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
-
-                                        } else {
-                                            /* Senão se for a primeira vez dizemos que só destruiu 1 */
-                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
-                                        }
-
-                                        break;
-                                    }
-                                }
-                            }
-                        }
                     }
 
                     /* Interação com o Veneno e Antidoto - fora do combate */
@@ -977,52 +935,60 @@ public class TWDGameManager {
                         }
                     }
 
-                    /* Movimentação a partir do Zombie Vampiro */
+                    /* ZOMBIES VS EQUIPAMENTOS */
                     if (creatureOrigem.getIdEquipa() == 20) {
-                        /* Zombie Vampiro só se movem em turnos nocturnos */
-                        if (creatureOrigem.getIdTipo() == 4 ) {
-                            if (!isDay()) {
 
-                                if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
-                                    return false;
+                        /* CRIANCA ZOMBIE VS EQUIPAMENTOS */
+                        if (creatureOrigem.getIdTipo() == 0) {
+
+                            /* Zombies nao se podem mover para o Safe Haven */
+                            if (isDoorToSafeHaven(xD, yD)) {
+                                return false;
+                            }
+
+                            if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                for (Equipamento eq : equipamentosDestruidos) {
+                                    if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+
+                                        /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
+                                        if (eq.getIdTipo() == 8) {
+                                            return false;
+                                        }
+
+                                        /* Removemos o equipamento */
+                                        equipamentos.remove(eq);
+
+                                        /* Incrementa o equipamento no bolso */
+                                        creatureOrigem.incrementaEquipamentosNoBolso();
+
+                                        HashMap<String, Integer> zombieEquipDestroyed =
+                                                Creature.equipamentosDestruidosByZombies;
+
+                                        /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
+                                         * de destruicao para esse mesmo zombie */
+                                        if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
+                                            int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
+                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
+                                        } else {
+                                            /* Senão se for a primeira vez dizemos que só destruiu 1 */
+                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
+                                        }
+
+                                    }
                                 }
-
-                                if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                    creatureOrigem.setxAtual(xD);
-                                    creatureOrigem.setyAtual(yD);
-                                    incrementarTurno();
-                                    return true;
-                                }
-
-                                /* Zombies nao se podem mover para o Safe Haven */
-                                if (isDoorToSafeHaven(xD, yD)) {
-                                    return false;
-                                }
-
+                                incrementarTurno();
+                                return true;
                             } else {
                                 return false;
                             }
 
-                            /* Se forem outros zombies */
-                        } else if (creatureOrigem.getIdTipo() != 4 && creatureOrigem.getIdTipo() != 13) {
+                        }
 
+                        /* ADULTO ZOMBIE VS EQUIPAMENTOS */
+                        if (creatureOrigem.getIdTipo() == 1) {
                             if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
-                                return false;
-                            }
-
-                            if (creatureOrigem.getIdTipo() == 0 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            if (creatureOrigem.getIdTipo() == 1 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            /*if (creatureOrigem.getIdTipo() == 2 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }*/
-
-                            if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
                             }
 
@@ -1031,13 +997,246 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
-                            incrementarTurno();
-                            return true;
-                        }
-                    }
+                            if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                for (Equipamento eq : equipamentosDestruidos) {
+                                    if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
+                                        /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
+                                        if (eq.getIdTipo() == 8) {
+                                            return false;
+                                        }
+
+                                        /* Removemos o equipamento */
+                                        equipamentos.remove(eq);
+
+                                        /* Incrementa o equipamento no bolso */
+                                        creatureOrigem.incrementaEquipamentosNoBolso();
+
+                                        HashMap<String, Integer> zombieEquipDestroyed =
+                                                Creature.equipamentosDestruidosByZombies;
+
+                                        /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
+                                         * de destruicao para esse mesmo zombie */
+                                        if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
+                                            int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
+                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
+                                        } else {
+                                            /* Senão se for a primeira vez dizemos que só destruiu 1 */
+                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
+                                        }
+
+                                    }
+                                }
+                                incrementarTurno();
+                                return true;
+                            } else {
+                                return false;
+                            }
+
+                        }
+
+                        /* MILITAR ZOMBIE VS EQUIPAMENTOS */
+                        if (creatureOrigem.getIdTipo() == 2) {
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                return false;
+                            }
+
+                            /* Zombies nao se podem mover para o Safe Haven */
+                            if (isDoorToSafeHaven(xD, yD)) {
+                                return false;
+                            }
+
+                            if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                for (Equipamento eq : equipamentosDestruidos) {
+                                    if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+
+                                        /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
+                                        if (eq.getIdTipo() == 8) {
+                                            return false;
+                                        }
+
+                                        /* Removemos o equipamento */
+                                        equipamentos.remove(eq);
+
+                                        /* Incrementa o equipamento no bolso */
+                                        creatureOrigem.incrementaEquipamentosNoBolso();
+
+                                        HashMap<String, Integer> zombieEquipDestroyed =
+                                                Creature.equipamentosDestruidosByZombies;
+
+                                        /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
+                                         * de destruicao para esse mesmo zombie */
+                                        if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
+                                            int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
+                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
+                                        } else {
+                                            /* Senão se for a primeira vez dizemos que só destruiu 1 */
+                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
+                                        }
+
+                                    }
+                                }
+                                incrementarTurno();
+                                return true;
+                            } else {
+                                return false;
+                            }
+
+                        }
+
+                        /* IDOSO ZOMBIE VS EQUIPAMENTOS */
+                        if (creatureOrigem.getIdTipo() == 3) {
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                return false;
+                            }
+
+                            /* Zombies nao se podem mover para o Safe Haven */
+                            if (isDoorToSafeHaven(xD, yD)) {
+                                return false;
+                            }
+
+                            if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                for (Equipamento eq : equipamentosDestruidos) {
+                                    if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+
+                                        /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
+                                        if (eq.getIdTipo() == 8) {
+                                            return false;
+                                        }
+
+                                        /* Removemos o equipamento */
+                                        equipamentos.remove(eq);
+
+                                        /* Incrementa o equipamento no bolso */
+                                        creatureOrigem.incrementaEquipamentosNoBolso();
+
+                                        HashMap<String, Integer> zombieEquipDestroyed =
+                                                Creature.equipamentosDestruidosByZombies;
+
+                                        /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
+                                         * de destruicao para esse mesmo zombie */
+                                        if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
+                                            int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
+                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
+                                        } else {
+                                            /* Senão se for a primeira vez dizemos que só destruiu 1 */
+                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
+                                        }
+
+                                    }
+                                }
+                                incrementarTurno();
+                                return true;
+                            } else {
+                                return false;
+                            }
+
+                        }
+
+                        /* Zombie Vampiro só se movem em turnos nocturnos VS EQUIPAMENTOS */
+                        if (creatureOrigem.getIdTipo() == 4 && !isDay()) {
+
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                return false;
+                            }
+
+                            if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                for (Equipamento eq : equipamentosDestruidos) {
+                                    if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+
+                                        /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
+                                        if (eq.getIdTipo() == 8) {
+                                            return false;
+                                        }
+
+                                        if (eq.getIdTipo() == 5) {
+                                            return false;
+                                        }
+
+                                        if (isDay()) {
+                                            if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 ||
+                                                    eq.getIdTipo() == 3 || eq.getIdTipo() == 4 || eq.getIdTipo() == 5 ||
+                                                    eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 ||
+                                                    eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
+                                                return false;
+                                            }
+                                        }
+
+                                        /* Removemos o equipamento */
+                                        equipamentos.remove(eq);
+
+                                        /* Incrementa o equipamento no bolso */
+                                        creatureOrigem.incrementaEquipamentosNoBolso();
+
+                                        HashMap<String, Integer> zombieEquipDestroyed =
+                                                Creature.equipamentosDestruidosByZombies;
+
+                                        /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
+                                         * de destruicao para esse mesmo zombie */
+                                        if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
+                                            int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
+                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
+                                        } else {
+                                            /* Senão se for a primeira vez dizemos que só destruiu 1 */
+                                            zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
+                                        }
+
+                                    }
+                                }
+                                incrementarTurno();
+                                return true;
+                            }
+
+                            /* Zombies nao se podem mover para o Safe Haven */
+                            if (isDoorToSafeHaven(xD, yD)) {
+                                return false;
+                            }
+
+                        }
+
+                        /* COELHO ZOMBIE VS EQUIPAMENTOS */
+                        if (creatureOrigem.getIdTipo() == 13) {
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                return false;
+                            }
+
+                            /* Zombies nao se podem mover para o Safe Haven */
+                            if (isDoorToSafeHaven(xD, yD)) {
+                                return false;
+                            }
+
+                            if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                for (Equipamento eq : equipamentosDestruidos) {
+                                    if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+
+                                        if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 ||
+                                                eq.getIdTipo() == 3 || eq.getIdTipo() == 4 || eq.getIdTipo() == 5 ||
+                                                eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 ||
+                                                eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
+                                            return false;
+                                        }
+
+                                    }
+                                }
+                                incrementarTurno();
+                                return true;
+                            } else {
+                                return false;
+                            }
+
+                        }
+
+                    }
                 }
             }
         }

@@ -19,14 +19,14 @@ public class ZombieVampiro extends Creature {
         // ZOMBIE A ESMAGAR EQUIPAMENTO
         if (getIdEquipa() == 20) {
 
-            if (this.idTipo == 4) {
+            if (getIdTipo() == 4) {
 
                 switch (TWDGameManager.equipamentos.get(0).getIdTipo()) {
                     case 0: /* Destruicao do Escudo de Madeira */
                     case 1: /* Destruicao da Espada */
                     case 2: /* Destruicao da Pistola */
                     case 3: /* Destruicao do Escudo Tático */
-                    case 4: /* Destruicao do Revista Maria */
+                    case 4: /* Destruicao da Revista Maria */
                     case 6: /* Destruicao da Estaca de madeira */
                     case 7: /* Destruicao da Lixivia */
                     case 9: /* Destruicao do Antidoto */

@@ -118,7 +118,7 @@ public class Crianca extends Creature {
                     case 1: /* Destruicao da Espada */
                     case 2: /* Destruicao da Pistola */
                     case 3: /* Destruicao do Escudo Tático */
-                    case 4: /* Destruicao do Revista Maria */
+                    case 4: /* Destruicao da Revista Maria */
                     case 5: /* Destruicao da Cabeça de alho */
                     case 6: /* Destruicao da Estaca de madeira */
                     case 7: /* Destruicao da Lixivia */

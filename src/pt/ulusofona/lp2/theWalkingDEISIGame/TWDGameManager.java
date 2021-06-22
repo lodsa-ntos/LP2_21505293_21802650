@@ -309,6 +309,7 @@ public class TWDGameManager {
             boolean encontrouEquip = false;
             boolean umaCasaNaDiagonal = (Math.abs(xD - xO) == 1) && (Math.abs(yD - yO) == 1);
             boolean duasOuMaisCasasNaDiagonal = (Math.abs(xD - xO) > 0 && Math.abs(xD - xO) <= 50) && (Math.abs(yD - yO) > 0 && Math.abs(yD - yO) <= 50);
+            boolean equiDestruido = false;
 
             for (Creature creatureOrigem : creatures) {
                 if (creatureOrigem.getIdEquipa() == idEquipaAtual &&
@@ -746,6 +747,8 @@ public class TWDGameManager {
                                     break;
                                 }
                             }
+                        } else {
+                            return false;
                         }
 
                     } else if (creatureOrigem.getIdEquipa() == 20) {
@@ -785,6 +788,8 @@ public class TWDGameManager {
 
                                         // Incrementa o equipamento no bolso
                                         creatureOrigem.incrementaEquipamentosNoBolso();
+
+                                        equiDestruido = true;
 
                                         HashMap<String, Integer> zombieEquipDestroyed =
                                                 Creature.equipamentosDestruidosByZombies;
@@ -1038,9 +1043,9 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            if (creatureOrigem.getIdTipo() == 2 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                            /*if (creatureOrigem.getIdTipo() == 2 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
-                            }
+                            }*/
 
                             if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
@@ -1605,7 +1610,7 @@ public class TWDGameManager {
                 /* filtrar as criaturas zombies */
                 .filter((zo) -> zo.getIdEquipa() == 20)
                 /* recolher os nomes do zombies e contar o numeros de zombies do mesmo tipo em jogo
-                e converter num conjunto de dados */
+                e converter num conjunto de dados (chave, valor) */
                 .collect(Collectors.groupingBy(Creature::getTipo, Collectors.counting()));
 
         /* Ordenar os equipamentos destruidos por ordem decrescente */

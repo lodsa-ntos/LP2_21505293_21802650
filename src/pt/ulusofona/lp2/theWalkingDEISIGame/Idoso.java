@@ -39,14 +39,14 @@ public class Idoso extends Creature {
         // ZOMBIE A ESMAGAR EQUIPAMENTO
         if (getIdEquipa() == 20) {
 
-            if (this.idTipo == 3) {
+            if (getIdTipo() == 3) {
 
                 switch (TWDGameManager.equipamentos.get(0).getIdTipo()) {
                     case 0: /* Destruicao do Escudo de Madeira */
                     case 1: /* Destruicao da Espada */
                     case 2: /* Destruicao da Pistola */
                     case 3: /* Destruicao do Escudo Tático */
-                    case 4: /* Destruicao do Revista Maria */
+                    case 4: /* Destruicao da Revista Maria */
                     case 5: /* Destruicao da Cabeça de alho */
                     case 6: /* Destruicao da Estaca de madeira */
                     case 7: /* Destruicao da Lixivia */

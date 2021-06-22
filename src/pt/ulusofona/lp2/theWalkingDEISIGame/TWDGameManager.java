@@ -753,7 +753,7 @@ public class TWDGameManager {
 
                     } else if (creatureOrigem.getIdEquipa() == 20) {
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                            for (Equipamento eq : equipamentos) {
+                            for (Equipamento eq : equipamentosDestruidos) {
                                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
                                     /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
@@ -762,7 +762,7 @@ public class TWDGameManager {
                                     }
 
                                     /* Zombie Vampiro nao gosta de alho, logo não pode ser destruido */
-                                    if (creatureOrigem.getIdTipo() == 4 && !isDay() && eq.getIdTipo() == 5) {
+                                    if (creatureOrigem.getIdTipo() == 4 && eq.getIdTipo() == 5) {
                                         return false;
                                     }
 
@@ -792,6 +792,19 @@ public class TWDGameManager {
 
                                     /* Incrementa o equipamento no bolso */
                                     creatureOrigem.incrementaEquipamentosNoBolso();
+
+                                    HashMap<String, Integer> zombieEquipDestroyed =
+                                            Creature.equipamentosDestruidosByZombies;
+
+                                    /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
+                                     * de destruicao para esse mesmo zombie */
+                                    if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
+                                        int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
+                                        zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
+                                    } else {
+                                        /* Senão se for a primeira vez dizemos que só destruiu 1 */
+                                        zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
+                                    }
 
                                     encontrouEquip = true;
                                     break;

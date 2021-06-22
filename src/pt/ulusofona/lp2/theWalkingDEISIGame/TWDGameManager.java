@@ -779,7 +779,7 @@ public class TWDGameManager {
                                         }
                                     }
 
-                                    /* Removemos o equipamento */
+                                    /* TODO.: Removemos o equipamento */
                                     equipamentos.remove(eq);
 
                                     /* Incrementa o equipamento no bolso */
@@ -798,8 +798,12 @@ public class TWDGameManager {
                                         zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
                                     }
 
-                                    encontrouEquip = true;
-                                    break;
+                                    creatureOrigem.setxAtual(xD);
+                                    creatureOrigem.setyAtual(yD);
+                                    incrementarTurno();
+                                    return true;
+                                    //encontrouEquip = true;
+                                    //break;
                                 }
                             }
                         } else {
@@ -1025,18 +1029,22 @@ public class TWDGameManager {
                                 return false;
                             }
 
+                            /* CRIANÇA ZOMBIE */
                             if (creatureOrigem.getIdTipo() == 0 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
                             }
 
+                            /* ADULTO ZOMBIE*/
                             if (creatureOrigem.getIdTipo() == 1 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
                             }
 
+                            /* MILITAR ZOMBIE */
                             if (creatureOrigem.getIdTipo() == 2 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
                             }
 
+                            /* IDOSO ZOMBIE */
                             if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
                             }

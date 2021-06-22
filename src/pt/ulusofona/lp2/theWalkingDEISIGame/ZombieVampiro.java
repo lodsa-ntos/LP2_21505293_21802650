@@ -37,8 +37,8 @@ public class ZombieVampiro extends Creature {
                         this.setxAtual(creatureZombie.xAtual);
                         this.setyAtual(creatureZombie.yAtual);
                         return true;
-                    case 8: /* Destruicao do Veneno */
                     case 5: /* Destruicao da Cabeça de alho */
+                    case 8: /* Destruicao do Veneno */
                         return false;
                 }
 

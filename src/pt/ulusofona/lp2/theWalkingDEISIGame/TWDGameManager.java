@@ -746,13 +746,9 @@ public class TWDGameManager {
                                     break;
                                 }
                             }
-                        } else {
-                            return false;
                         }
-                    }
 
-                    /* AÇÃO = ZOMBIE A DESTRUIR EQUIPAMENTO */
-                    if (creatureOrigem.getIdEquipa() == 20) {
+                    } else if (creatureOrigem.getIdEquipa() == 20) {
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
 
                             if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
@@ -813,9 +809,6 @@ public class TWDGameManager {
                                     }
                                 }
                             }
-
-                        } else {
-                            return false;
                         }
                     }
 
@@ -1611,8 +1604,6 @@ public class TWDGameManager {
         zombieScore = getCreatures().stream()
                 /* filtrar as criaturas zombies */
                 .filter((zo) -> zo.getIdEquipa() == 20)
-                /* filtrar os zombies que não foram destruidos */
-                .filter((zomb) -> !zomb.zombieIsDestroyed())
                 /* recolher os nomes do zombies e contar o numeros de zombies do mesmo tipo em jogo
                 e converter num conjunto de dados */
                 .collect(Collectors.groupingBy(Creature::getTipo, Collectors.counting()));

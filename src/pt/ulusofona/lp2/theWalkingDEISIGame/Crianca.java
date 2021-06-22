@@ -111,7 +111,7 @@ public class Crianca extends Creature {
         // ZOMBIE A ESMAGAR EQUIPAMENTO
         if (getIdEquipa() == 20) {
 
-            if (this.idTipo == 0) {
+            if (getIdTipo() == 0) {
 
                 switch (TWDGameManager.equipamentos.get(0).getIdTipo()) {
                     case 0: /* Destruicao do Escudo de Madeira */

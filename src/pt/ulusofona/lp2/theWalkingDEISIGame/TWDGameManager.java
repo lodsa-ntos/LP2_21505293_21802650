@@ -779,11 +779,6 @@ public class TWDGameManager {
                                         }
                                     }
 
-                                    // Adiciona nos equipamentos destruidos
-                                    // Destroi os equipamento
-                                    // Move uma posicao
-                                    //creatureOrigem.destruidos.add(eq);
-
                                     /* Removemos o equipamento */
                                     equipamentos.remove(eq);
 

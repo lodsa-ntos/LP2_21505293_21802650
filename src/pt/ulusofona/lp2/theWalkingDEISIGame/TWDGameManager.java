@@ -753,188 +753,6 @@ public class TWDGameManager {
 
                     }
 
-                    /* Interação com o Veneno e Antidoto - fora do combate */
-                    if (creatureOrigem.getIdEquipa() == 10) {
-                        for (Equipamento eq : equipamentos) {
-                            if (!encontrouEquip) {
-                                if (eq.getXAtual() == xO && eq.getYAtual() == yO) {
-                                    /* Se o vivo apanhar um veneno */
-                                    if (eq.getIdTipo() == 8) {
-                                        //nrTurnoDoVeneno++;
-                                        /* dizemos que o vivo está envenenado */
-                                        creatureOrigem.setEnvenenado(true);
-
-                                        if (nrTurnoDoVeneno > 1) {
-                                            if (creatureOrigem.isEnvenenado()) {
-                                                /* Se for idoso e for dia morre envenenado */
-                                                if (creatureOrigem.getIdTipo() == 8) {
-                                                    if (isDay()) {
-                                                        nrTurnoDoVeneno = 0;
-                                                        creatures.remove(creatureOrigem);
-                                                        criaturasEnvenenadas.add(creatureOrigem);
-                                                        creatureOrigem.setHumanDeadPorEnvenenamento(true);
-                                                        incrementarTurno();
-                                                        return true;
-                                                    } else {
-                                                        return false;
-                                                    }
-                                                } else if (creatureOrigem.getIdTipo() != 8) {
-                                                    nrTurnoDoVeneno = 0;
-                                                    creatures.remove(creatureOrigem);
-                                                    criaturasEnvenenadas.add(creatureOrigem);
-                                                    creatureOrigem.setHumanDeadPorEnvenenamento(true);
-                                                    incrementarTurno();
-                                                    return true;
-                                                }
-
-                                            } else {
-                                                return false;
-                                            }
-                                        }
-                                        /* Se apanhar o antidoto, fica curado */
-                                    } else if (eq.getIdTipo() == 9) {
-                                        nrTurnoDoVeneno = 0;
-                                        creatureOrigem.setEnvenenado(false);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    /* TIRAR EQUIPAMENTO DA ORIGEM */
-                    // se encontrou equipamento removemos esse o equipamento da sua casa original e
-                    // quando o "vivo" sai da posicao que apanhou o equipamento
-                    // o equipamento que estava na origem antes, desaparece do mapa, para coordenadas que possam
-                    // não existir no jogo (dimensao do mapa)
-                    for (Equipamento eq : equipamentos) {
-                        if (creatureOrigem.getIdEquipa() == 10 && creatureOrigem.getIdTipo() != 8) {
-                            if (!encontrouEquip) {
-                                if (eq.getXAtual() == xO && eq.getYAtual() == yO) {
-                                    if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                        // removemos o equipamento para coordenadas que possam
-                                        // não existir no jogo (dimensao do mapa), para que ele não desapareca do mapa
-                                        eq.setXAtual(xO+30);
-                                        eq.setYAtual(yO+30);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    /* COELHO VIVO E COELHO ZOMBIE TURNOS PARES E IMPARES */
-                    if (creatureOrigem.getIdEquipa() == 10 || creatureOrigem.getIdEquipa() == 20) {
-
-                        if ((nrTurno % 2 == 0) && (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13)) {
-
-                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
-                                return false;
-                            }
-
-                            /* Coelho apenas move-se na horizontal e na vertical
-                                Se tentar mover 1 casa na diagonal a jogada é invalida */
-                            if (umaCasaNaDiagonal) {
-                                return false;
-                            }
-
-                            /* Coelho apenas move-se na horizontal e na vertical
-                               Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
-                            if (duasOuMaisCasasNaDiagonal) {
-                                return false;
-                            }
-
-                            /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
-                            if (!creatureOrigem.moveDirecaoTurnosPares(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
-                            incrementarTurno();
-                            return true;
-
-                        } else if ((nrTurno % 2 != 0) && (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13)) {
-
-                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
-                                return false;
-                            }
-
-                            /* Coelho apenas move-se na horizontal e na vertical
-                                Se tentar mover 1 casa na diagonal a jogada é invalida */
-                            if (umaCasaNaDiagonal) {
-                                return false;
-                            }
-
-                            /* Coelho apenas move-se na horizontal e na vertical
-                                 Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
-                            if (duasOuMaisCasasNaDiagonal) {
-                                return false;
-                            }
-
-                            /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
-                            if (!creatureOrigem.moveDirecaoTurnosImpares(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
-                            incrementarTurno();
-                            return true;
-                        }
-                    }
-
-                    /* Movimentação a partir do idoso */
-                    if (creatureOrigem.getIdEquipa() == 10) {
-                        /* Idosos humanos só se movem em turnos diurnos */
-                        if (creatureOrigem.getIdTipo() == 8 && isDay()) {
-                            if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                creatureOrigem.setxAtual(xD);
-                                creatureOrigem.setyAtual(yD);
-                                for (Equipamento eq : equipamentos) {
-                                    if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
-                                        /* caso o idoso encontre o equipamento, deve-o apanhar */
-                                        creatureOrigem.equipamentos.add(eq);
-                                    }
-                                    /* quando se mover para fora dessa casa, deve-o largar */
-                                    creatureOrigem.getEquipamentosVivos().remove(eq);
-                                }
-                                incrementarTurno();
-                                return true;
-                            }
-
-                            /* Se forem outras criaturas vivas */
-                        } else if (creatureOrigem.getIdTipo() != 8 && creatureOrigem.getIdTipo() != 12) {
-
-                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
-                                return false;
-                            }
-
-                            /* CRIANÇA VIVA */
-                            if (creatureOrigem.getIdTipo() == 5 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            /* ADULTO VIVO */
-                            if (creatureOrigem.getIdTipo() == 6 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            /* MILITAR VIVO */
-                            if (creatureOrigem.getIdTipo() == 7 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            /* CAO */
-                            if (creatureOrigem.getIdTipo() == 9 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
-                            incrementarTurno();
-                            return true;
-                        }
-                    }
-
                     /* ZOMBIES VS EQUIPAMENTOS */
                     if (creatureOrigem.getIdEquipa() == 20) {
 
@@ -1237,6 +1055,189 @@ public class TWDGameManager {
                         }
 
                     }
+
+                    /* Interação com o Veneno e Antidoto - fora do combate */
+                    if (creatureOrigem.getIdEquipa() == 10) {
+                        for (Equipamento eq : equipamentos) {
+                            if (!encontrouEquip) {
+                                if (eq.getXAtual() == xO && eq.getYAtual() == yO) {
+                                    /* Se o vivo apanhar um veneno */
+                                    if (eq.getIdTipo() == 8) {
+                                        //nrTurnoDoVeneno++;
+                                        /* dizemos que o vivo está envenenado */
+                                        creatureOrigem.setEnvenenado(true);
+
+                                        if (nrTurnoDoVeneno > 1) {
+                                            if (creatureOrigem.isEnvenenado()) {
+                                                /* Se for idoso e for dia morre envenenado */
+                                                if (creatureOrigem.getIdTipo() == 8) {
+                                                    if (isDay()) {
+                                                        nrTurnoDoVeneno = 0;
+                                                        creatures.remove(creatureOrigem);
+                                                        criaturasEnvenenadas.add(creatureOrigem);
+                                                        creatureOrigem.setHumanDeadPorEnvenenamento(true);
+                                                        incrementarTurno();
+                                                        return true;
+                                                    } else {
+                                                        return false;
+                                                    }
+                                                } else if (creatureOrigem.getIdTipo() != 8) {
+                                                    nrTurnoDoVeneno = 0;
+                                                    creatures.remove(creatureOrigem);
+                                                    criaturasEnvenenadas.add(creatureOrigem);
+                                                    creatureOrigem.setHumanDeadPorEnvenenamento(true);
+                                                    incrementarTurno();
+                                                    return true;
+                                                }
+
+                                            } else {
+                                                return false;
+                                            }
+                                        }
+                                        /* Se apanhar o antidoto, fica curado */
+                                    } else if (eq.getIdTipo() == 9) {
+                                        nrTurnoDoVeneno = 0;
+                                        creatureOrigem.setEnvenenado(false);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    /* TIRAR EQUIPAMENTO DA ORIGEM */
+                    // se encontrou equipamento removemos esse o equipamento da sua casa original e
+                    // quando o "vivo" sai da posicao que apanhou o equipamento
+                    // o equipamento que estava na origem antes, desaparece do mapa, para coordenadas que possam
+                    // não existir no jogo (dimensao do mapa)
+                    for (Equipamento eq : equipamentos) {
+                        if (creatureOrigem.getIdEquipa() == 10 && creatureOrigem.getIdTipo() != 8) {
+                            if (!encontrouEquip) {
+                                if (eq.getXAtual() == xO && eq.getYAtual() == yO) {
+                                    if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                        // removemos o equipamento para coordenadas que possam
+                                        // não existir no jogo (dimensao do mapa), para que ele não desapareca do mapa
+                                        eq.setXAtual(xO+30);
+                                        eq.setYAtual(yO+30);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    /* COELHO VIVO E COELHO ZOMBIE TURNOS PARES E IMPARES */
+                    if (creatureOrigem.getIdEquipa() == 10 || creatureOrigem.getIdEquipa() == 20) {
+
+                        if ((nrTurno % 2 == 0) && (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13)) {
+
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                return false;
+                            }
+
+                            /* Coelho apenas move-se na horizontal e na vertical
+                                Se tentar mover 1 casa na diagonal a jogada é invalida */
+                            if (umaCasaNaDiagonal) {
+                                return false;
+                            }
+
+                            /* Coelho apenas move-se na horizontal e na vertical
+                               Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
+                            if (duasOuMaisCasasNaDiagonal) {
+                                return false;
+                            }
+
+                            /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
+                            if (!creatureOrigem.moveDirecaoTurnosPares(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            creatureOrigem.setxAtual(xD);
+                            creatureOrigem.setyAtual(yD);
+                            incrementarTurno();
+                            return true;
+
+                        } else if ((nrTurno % 2 != 0) && (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13)) {
+
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                return false;
+                            }
+
+                            /* Coelho apenas move-se na horizontal e na vertical
+                                Se tentar mover 1 casa na diagonal a jogada é invalida */
+                            if (umaCasaNaDiagonal) {
+                                return false;
+                            }
+
+                            /* Coelho apenas move-se na horizontal e na vertical
+                                 Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
+                            if (duasOuMaisCasasNaDiagonal) {
+                                return false;
+                            }
+
+                            /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
+                            if (!creatureOrigem.moveDirecaoTurnosImpares(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            creatureOrigem.setxAtual(xD);
+                            creatureOrigem.setyAtual(yD);
+                            incrementarTurno();
+                            return true;
+                        }
+                    }
+
+                    /* Movimentação a partir do idoso */
+                    if (creatureOrigem.getIdEquipa() == 10) {
+                        /* Idosos humanos só se movem em turnos diurnos */
+                        if (creatureOrigem.getIdTipo() == 8 && isDay()) {
+                            if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                for (Equipamento eq : equipamentos) {
+                                    if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                                        /* caso o idoso encontre o equipamento, deve-o apanhar */
+                                        creatureOrigem.equipamentos.add(eq);
+                                    }
+                                    /* quando se mover para fora dessa casa, deve-o largar */
+                                    creatureOrigem.getEquipamentosVivos().remove(eq);
+                                }
+                                incrementarTurno();
+                                return true;
+                            }
+
+                            /* Se forem outras criaturas vivas */
+                        } else if (creatureOrigem.getIdTipo() != 8 && creatureOrigem.getIdTipo() != 12) {
+
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
+                                return false;
+                            }
+
+                            /* CRIANÇA VIVA */
+                            if (creatureOrigem.getIdTipo() == 5 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            /* ADULTO VIVO */
+                            if (creatureOrigem.getIdTipo() == 6 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            /* MILITAR VIVO */
+                            if (creatureOrigem.getIdTipo() == 7 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            /* CAO */
+                            if (creatureOrigem.getIdTipo() == 9 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            creatureOrigem.setxAtual(xD);
+                            creatureOrigem.setyAtual(yD);
+                            incrementarTurno();
+                            return true;
+                        }
+                    }
+
                 }
             }
         }

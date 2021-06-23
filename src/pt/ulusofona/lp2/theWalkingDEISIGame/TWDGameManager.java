@@ -314,9 +314,9 @@ public class TWDGameManager {
 
                     /* ENTRADA PARA O SAFEHAVEN */
                     if (creatureOrigem.getIdEquipa() == 10) {
-                        if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
+                        /*if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
                             return false;
-                        }
+                        }*/
 
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
 
@@ -957,9 +957,9 @@ public class TWDGameManager {
                             /* Se forem outras criaturas vivas */
                         } else if (creatureOrigem.getIdTipo() != 8 && creatureOrigem.getIdTipo() != 12) {
 
-                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
+                            /*if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
                                 return false;
-                            }
+                            }*/
 
                             /* CRIANÇA VIVA */
                             if (creatureOrigem.getIdTipo() == 5 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
@@ -994,9 +994,9 @@ public class TWDGameManager {
                         if (creatureOrigem.getIdTipo() == 4 ) {
                             if (!isDay()) {
 
-                                if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                /*if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                     return false;
-                                }
+                                }*/
 
                                 if (!creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                     return false;
@@ -1020,9 +1020,9 @@ public class TWDGameManager {
                             /* Se forem outros zombies */
                         } else if (creatureOrigem.getIdTipo() != 4 && creatureOrigem.getIdTipo() != 13) {
 
-                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                            /*if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                 return false;
-                            }
+                            }*/
 
                             /* CRIANÇA ZOMBIE */
                             if (creatureOrigem.getIdTipo() == 0 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
@@ -1130,7 +1130,7 @@ public class TWDGameManager {
             }
 
             for (Equipamento equipamento : equipamentos) {
-                if (equipamento.getXAtual() +1 == meioX && equipamento.getYAtual() -1 == meioY) {
+                if (equipamento.getXAtual() == meioX && equipamento.getYAtual() == meioY) {
                     return true;
                 }
             }

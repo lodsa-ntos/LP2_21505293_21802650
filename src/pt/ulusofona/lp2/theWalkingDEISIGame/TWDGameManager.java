@@ -1118,7 +1118,7 @@ public class TWDGameManager {
          * E se ao mover existe uma criatura, equipamento ou  porta no meio */
         if (xO - xD > 2 && yD - yO > 2 ||
                 xD - xO > 2 && yD - yO > 2 || xD - xO > 2 && Math.abs(yD - yO) == 0
-                /*|| xD - xO > 1 && yO - yD > 1 */|| xO - xD > 1 && yD - yO > 1 || xO - xD > 1 && yO - yD > 1
+                || xD - xO == 2 && yO - yD == 2 || xO - xD > 1 && yD - yO > 1 || xO - xD > 1 && yO - yD > 1
                 || xD - xO > 1 && yD - yO > 1 || xD - xO > 1 && Math.abs(yD - yO) == 0 || xO - xD > 1 && Math.abs(yD - yO) == 0
                 || yD - yO > 1 && Math.abs(xD - xO) == 0 || yO - yD > 1 && Math.abs(xD - xO) == 0) {
 

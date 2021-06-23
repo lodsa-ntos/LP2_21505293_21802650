@@ -1130,7 +1130,7 @@ public class TWDGameManager {
             }
 
             for (Equipamento equipamento : equipamentos) {
-                if (equipamento.getXAtual() == meioX && equipamento.getYAtual() == meioY) {
+                if (equipamento.getXAtual() +1 == meioX && equipamento.getYAtual() -1 == meioY) {
                     return true;
                 }
             }
@@ -1140,7 +1140,6 @@ public class TWDGameManager {
                     return true;
                 }
             }
-
         }
 
         return false;

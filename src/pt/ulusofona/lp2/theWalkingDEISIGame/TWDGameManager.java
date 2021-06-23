@@ -748,62 +748,61 @@ public class TWDGameManager {
                             return false;
                         }
 
-                    } else if (creatureOrigem.getIdEquipa() == 20 && creatureOrigem.getIdTipo() != 2) {
-                        if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                            for (Equipamento eq : equipamentos) {
-                                if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                    } else if (creatureOrigem.getIdEquipa() == 20) {
 
-                                    /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
-                                    if (eq.getIdTipo() == 8) {
-                                        return false;
-                                    }
+                        for (Equipamento eq : equipamentos) {
+                            if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
-                                    /* Zombie Vampiro nao gosta de alho, logo não pode ser destruido */
-                                    if (creatureOrigem.getIdTipo() == 4 && eq.getIdTipo() == 5) {
-                                        return false;
-                                    }
-
-                                    /* Zombie Vampiro de dia, se tentar destruir algum equipamento, retorna false */
-                                    if (creatureOrigem.getIdTipo() == 4 && isDay()) {
-                                        if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
-                                                eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
-                                            return false;
-                                        }
-                                    }
-
-                                    /* Coelho zombie se tentar destruir algum equipamento, retorna false */
-                                    if (creatureOrigem.getIdTipo() == 13) {
-                                        if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
-                                                eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
-                                            return false;
-                                        }
-                                    }
-
-                                    /* TODO.: Removemos o equipamento */
-                                    equipamentos.remove(eq);
-
-                                    /* Incrementa o equipamento no bolso */
-                                    creatureOrigem.incrementaEquipamentosNoBolso();
-
-                                    HashMap<String, Integer> zombieEquipDestroyed =
-                                            Creature.equipamentosDestruidosByZombies;
-
-                                    /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
-                                     * de destruicao para esse mesmo zombie */
-                                    if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
-                                        int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
-                                        zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
-                                    } else {
-                                        /* Senão se for a primeira vez dizemos que só destruiu 1 */
-                                        zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
-                                    }
-
-                                    //encontrouEquip = true;
-                                    //break;
+                                /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
+                                if (eq.getIdTipo() == 8) {
+                                    return false;
                                 }
+
+                                /* Zombie Vampiro nao gosta de alho, logo não pode ser destruido */
+                                if (creatureOrigem.getIdTipo() == 4 && eq.getIdTipo() == 5) {
+                                    return false;
+                                }
+
+                                /* Zombie Vampiro de dia, se tentar destruir algum equipamento, retorna false */
+                                if (creatureOrigem.getIdTipo() == 4 && isDay()) {
+                                    if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
+                                            eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
+                                        return false;
+                                    }
+                                }
+
+                                /* Coelho zombie se tentar destruir algum equipamento, retorna false */
+                                if (creatureOrigem.getIdTipo() == 13) {
+                                    if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
+                                            eq.getIdTipo() == 5 || eq.getIdTipo() == 6 || eq.getIdTipo() == 7 || eq.getIdTipo() == 8 || eq.getIdTipo() == 9 || eq.getIdTipo() == 10) {
+                                        return false;
+                                    }
+                                }
+
+                                /* Incrementa o equipamento no bolso */
+                                creatureOrigem.incrementaEquipamentosNoBolso();
+                                creatureOrigem.setxAtual(xD);
+                                creatureOrigem.setyAtual(yD);
+                                /* removemos o equipamento */
+                                equipamentos.remove(eq);
+
+                                HashMap<String, Integer> zombieEquipDestroyed =
+                                        Creature.equipamentosDestruidosByZombies;
+
+                                /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
+                                 * de destruicao para esse mesmo zombie */
+                                if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
+                                    int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
+                                    zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
+                                } else {
+                                    /* Senão se for a primeira vez dizemos que só destruiu 1 */
+                                    zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
+                                }
+
+                                incrementarTurno();
+                                return true;
+
                             }
-                        } else {
-                            return false;
                         }
                     }
 

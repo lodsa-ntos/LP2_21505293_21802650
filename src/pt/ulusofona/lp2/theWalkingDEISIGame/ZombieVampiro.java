@@ -15,6 +15,12 @@ public class ZombieVampiro extends Creature {
 
     @Override
     public boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino) {
+
+        /* Proibir tentativa de salto 0,4 -> 1,2 */
+        if (Math.abs(xO - xD) >= 2 && Math.abs(yO - yD) == 1 || Math.abs(xD - xO) == 1 && Math.abs(yD - yO) >= 2) {
+            return false;
+        }
+
         return Math.abs(xO - xD) <= 2 && Math.abs(yO - yD) <= 2;
     }
 

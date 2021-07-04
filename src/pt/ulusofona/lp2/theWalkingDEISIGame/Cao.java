@@ -36,8 +36,8 @@ public class Cao extends Creature {
                     /* incrementa o numero de salvacao feita pelo equipamento */
                     this.equipamentos.get(0).incrementaNrSalvacoes();
 
-                    this.setxAtual(creature.xAtual);
-                    this.setyAtual(creature.yAtual);
+                    this.setXAtual(creature.xAtual);
+                    this.setYAtual(creature.yAtual);
                     return true;
                 }
 
@@ -63,8 +63,8 @@ public class Cao extends Creature {
                         countZombiesDestruidos();
                         creature.setZombieIsDestroyed(true);
 
-                        this.setxAtual(creature.xAtual);
-                        this.setyAtual(creature.yAtual);
+                        this.setXAtual(creature.xAtual);
+                        this.setYAtual(creature.yAtual);
                         return true;
                     } else {
                         /* A pistola não tem efeito contra Zombies Vampiros */
@@ -133,12 +133,12 @@ public class Cao extends Creature {
     }
 
     @Override
-    public void setxAtual(int xAtual) {
+    public void setXAtual(int xAtual) {
         this.xAtual = xAtual;
     }
 
     @Override
-    public void setyAtual(int yAtual) {
+    public void setYAtual(int yAtual) {
         this.yAtual = yAtual;
     }
 

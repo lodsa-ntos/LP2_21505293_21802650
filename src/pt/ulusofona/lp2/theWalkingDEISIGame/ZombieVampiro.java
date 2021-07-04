@@ -75,12 +75,12 @@ public class ZombieVampiro extends Creature {
     }
 
     @Override
-    public void setxAtual(int xAtual) {
+    public void setXAtual(int xAtual) {
         this.xAtual = xAtual;
     }
 
     @Override
-    public void setyAtual(int yAtual) {
+    public void setYAtual(int yAtual) {
         this.yAtual = yAtual;
     }
 

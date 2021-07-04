@@ -333,6 +333,8 @@ public class TWDGameManager {
                                 creatures.get(creatures.indexOf(creatureOrigem)).inSafeHaven(true);
                                 /* E adiciona-mos o vivo na lista do safeHaven */
                                 safe.add(creatureOrigem);
+                                creatureOrigem.setXAtual(xO+30);
+                                creatureOrigem.setYAtual(yO+30);
                                 //creatureOrigem.setxAtual(xD);
                                 //creatureOrigem.setyAtual(yD);
                                 incrementarTurno();
@@ -774,8 +776,8 @@ public class TWDGameManager {
 
                                 /* Incrementa o equipamento no bolso */
                                 creatureOrigem.incrementaEquipamentosNoBolso();
-                                creatureOrigem.setxAtual(xD);
-                                creatureOrigem.setyAtual(yD);
+                                creatureOrigem.setXAtual(xD);
+                                creatureOrigem.setYAtual(yD);
                                 /* removemos o equipamento */
                                 equipamentos.remove(eq);
 
@@ -893,8 +895,8 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
+                            creatureOrigem.setXAtual(xD);
+                            creatureOrigem.setYAtual(yD);
                             incrementarTurno();
                             return true;
 
@@ -921,8 +923,8 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
+                            creatureOrigem.setXAtual(xD);
+                            creatureOrigem.setYAtual(yD);
                             incrementarTurno();
                             return true;
                         }
@@ -933,8 +935,8 @@ public class TWDGameManager {
                         /* Idosos humanos só se movem em turnos diurnos */
                         if (creatureOrigem.getIdTipo() == 8 && isDay()) {
                             if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                creatureOrigem.setxAtual(xD);
-                                creatureOrigem.setyAtual(yD);
+                                creatureOrigem.setXAtual(xD);
+                                creatureOrigem.setYAtual(yD);
                                 for (Equipamento eq : equipamentos) {
                                     if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
                                         /* caso o idoso encontre o equipamento, deve-o apanhar */
@@ -974,8 +976,8 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
+                            creatureOrigem.setXAtual(xD);
+                            creatureOrigem.setYAtual(yD);
                             incrementarTurno();
                             return true;
                         }
@@ -1000,8 +1002,8 @@ public class TWDGameManager {
                                     return false;
                                 }
 
-                                creatureOrigem.setxAtual(xD);
-                                creatureOrigem.setyAtual(yD);
+                                creatureOrigem.setXAtual(xD);
+                                creatureOrigem.setYAtual(yD);
                                 incrementarTurno();
                                 return true;
 
@@ -1042,8 +1044,8 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            creatureOrigem.setxAtual(xD);
-                            creatureOrigem.setyAtual(yD);
+                            creatureOrigem.setXAtual(xD);
+                            creatureOrigem.setYAtual(yD);
                             incrementarTurno();
                             return true;
                         }

@@ -59,9 +59,9 @@ public abstract class Creature {
 
     abstract public int getYAtual();
 
-    abstract public void setxAtual(int xAtual);
+    abstract public void setXAtual(int xAtual);
 
-    abstract public void setyAtual(int yAtual);
+    abstract public void setYAtual(int yAtual);
 
     abstract public ArrayList<Equipamento> getEquipamentosVivos();
 

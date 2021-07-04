@@ -25,7 +25,7 @@ public class Equipamento {
         if(idTipo == 0) {
             // Escudo de madeira
             // Equipamento Defensivo
-            /* Protecao contra 1 ataque zombie = Defesa de 1 ataque */
+            /* Protecao contra 1 ataque zombie = Defesa de 1 ataque (vivo) // Defesa de 2 ataques (Militar vivo) */
             countProtecaoDoEscudo = 1;
         } else if(idTipo == 2) {
             // Pistola

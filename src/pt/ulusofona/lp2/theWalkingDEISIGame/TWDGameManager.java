@@ -1,5 +1,6 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
+
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -45,7 +46,6 @@ public class TWDGameManager {
     private int nrTurno = 0;
     private int nrTurnoDoVeneno = 0;
     private boolean diurno = true;
-    private boolean houveTransformacao;
 
     public TWDGameManager() {
     }
@@ -290,7 +290,7 @@ public class TWDGameManager {
         return creatures;
     }
 
-    /* TODO.: A fn move devolve false erradamente - 6 erros no DropProjet */
+    /* TODO.: A fn move devolve false erradamente - 5 erros no DropProjet */
     public boolean move(int xO, int yO, int xD, int yD) {
 
         if (!gameIsOver()) {
@@ -333,8 +333,8 @@ public class TWDGameManager {
                                 creatures.get(creatures.indexOf(creatureOrigem)).inSafeHaven(true);
                                 /* E adiciona-mos o vivo na lista do safeHaven */
                                 safe.add(creatureOrigem);
-                                creatureOrigem.setxAtual(xD);
-                                creatureOrigem.setyAtual(yD);
+                                //creatureOrigem.setxAtual(xD);
+                                //creatureOrigem.setyAtual(yD);
                                 incrementarTurno();
                                 return true;
                             }
@@ -374,7 +374,6 @@ public class TWDGameManager {
                                                     creatureOrigem.transformaEmZombie(creatureDestino);
                                                     creatureDestino.setTransformado(true);
                                                     creatureOrigem.countTransformacoesFeitasPorZombies();
-                                                    houveTransformacao = true;
                                                     incrementarTurno();
                                                     return true;
                                             }
@@ -415,7 +414,6 @@ public class TWDGameManager {
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
                                                             creatureDestino.setTransformado(true);
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
-                                                            houveTransformacao = true;
                                                             /* e destrui-mos o equipamento */
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                             /* e colocamos o numero de equipamentos que tinha antes a zero */
@@ -463,7 +461,6 @@ public class TWDGameManager {
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
                                                             creatureDestino.setTransformado(true);
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
-                                                            houveTransformacao = true;
                                                             /* e destrui-mos o equipamento*/
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                             /* e colocamos o numero de equipamentos que tinha antes a zero */
@@ -498,7 +495,6 @@ public class TWDGameManager {
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
                                                             creatureDestino.setTransformado(true);
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
-                                                            houveTransformacao = true;
                                                             /* e destrui-mos o equipamento*/
                                                             creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                             /* e colocamos o numero de equipamentos que tinha antes a zero */
@@ -530,7 +526,6 @@ public class TWDGameManager {
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
-                                                        houveTransformacao = true;
                                                         /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                         /* e colocamos o numero de equipamentos que tinha antes a zero */
@@ -548,7 +543,6 @@ public class TWDGameManager {
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
-                                                        houveTransformacao = true;
                                                         /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                         /* e colocamos o numero de equipamentos que tinha antes a zero */
@@ -595,7 +589,6 @@ public class TWDGameManager {
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
-                                                        houveTransformacao = true;
                                                         /* e destrui-mos o equipamento */
                                                         creatureDestino.getEquipamentosVivos().remove(creatureDestino.equipamentos.get(0));
                                                         /* e colocamos o numero de equipamentos que tinha antes a zero */
@@ -1164,10 +1157,6 @@ public class TWDGameManager {
         int numeroZombiesEmJogo = 0;
         int countTodosMenosZombieVampEmJogo = 0;
 
-        /*if (!houveTransformacao && nrTurno == 12) {
-            return true;
-        }*/
-
         for (Creature creatureOrigem : creatures) {
 
             /* se até ao nrturno 12 não houver nenhuma transformação o jogo termina */
@@ -1584,7 +1573,7 @@ public class TWDGameManager {
         return equipamentoQueSafaram;
     }
 
-    /* TODO.: deveriam ser 3 linhas - 2 erros no DropProjet */
+    /* TODO.: deveriam ser 3 linhas (causas: possivel ordenacao por desempate )- 2 erros no DropProjet */
     /* <Nome do Tipo>:< Nr zombies do tipo>: <NrEquipamentos> destruidos */
     /* Qual o total de equipamentos destruidos por cada tipo de zombie? */
     public List<String> tiposZombiesEEquipamentosDestruidos() {
@@ -1592,7 +1581,7 @@ public class TWDGameManager {
         /* Map para guardar nome do tipo e a quantidade do tipo de zombie em jogo */
         Map <String, Long> zombieScore;
 
-        /* ArrayList onde contém o (chave) nome do tipo do zombie e o (valor) numero de seus equipamentos destruidos */
+        /* ArrayList onde contém a (chave) nome do tipo do zombie e o (valor) numero de seus equipamentos destruidos */
         ArrayList<Map.Entry<String, Integer>> zombieEquipDestroyed =
                 new ArrayList<>(Creature.equipamentosDestruidosByZombies.entrySet());
 

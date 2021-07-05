@@ -307,6 +307,7 @@ public class TWDGameManager {
             boolean encontrouEquip = false;
             boolean umaCasaNaDiagonal = (Math.abs(xD - xO) == 1) && (Math.abs(yD - yO) == 1);
             boolean duasOuMaisCasasNaDiagonal = (Math.abs(xD - xO) > 0 && Math.abs(xD - xO) <= 50) && (Math.abs(yD - yO) > 0 && Math.abs(yD - yO) <= 50);
+            boolean isPortaSafeHaven = isDoorToSafeHaven(xD, yD);
 
             for (Creature creatureOrigem : creatures) {
                 if (creatureOrigem.getIdEquipa() == idEquipaAtual &&
@@ -324,7 +325,17 @@ public class TWDGameManager {
                             }
 
                             /* Se existir uma porta safeHaven no destino */
-                            if (isDoorToSafeHaven(xD, yD)) {
+                            if (isPortaSafeHaven) {
+                                /* Se o vivo tiver um equipamento */
+                                if (creatureOrigem.getEquipamentosVivos().size() != 0) {
+                                    /* removemos o equipamento antes dele entrar no safeHave */
+                                    Equipamento eqAntigo = creatureOrigem.equipamentos.get(0);
+                                    creatureOrigem.getEquipamentosVivos().remove(eqAntigo);
+
+                                    /* e largamos o equipamento na casa original de onde o vivo estava antes */
+                                    eqAntigo.setXAtual(creatureOrigem.getXAtual());
+                                    eqAntigo.setYAtual(creatureOrigem.getYAtual());
+                                }
                                 /* Vamos colocar o vivo lá dentro */
                                 creatureOrigem.inSafeHaven(true);
                                 /*  E vamos remove-lo do mapa */
@@ -895,7 +906,7 @@ public class TWDGameManager {
 
                             if (creatureOrigem.getIdTipo() == 13 ) {
                                 /* Zombies nao se podem mover para o Safe Haven */
-                                if (isDoorToSafeHaven(xD, yD)) {
+                                if (isPortaSafeHaven) {
                                     return false;
                                 }
                             }
@@ -930,7 +941,7 @@ public class TWDGameManager {
 
                             if (creatureOrigem.getIdTipo() == 13 ) {
                                 /* Zombies nao se podem mover para o Safe Haven */
-                                if (isDoorToSafeHaven(xD, yD)) {
+                                if (isPortaSafeHaven) {
                                     return false;
                                 }
                             }
@@ -1010,7 +1021,7 @@ public class TWDGameManager {
                                 }
 
                                 /* Zombies nao se podem mover para o Safe Haven */
-                                if (isDoorToSafeHaven(xD, yD)) {
+                                if (isPortaSafeHaven) {
                                     return false;
                                 }
 
@@ -1052,7 +1063,7 @@ public class TWDGameManager {
                             }
 
                             /* Zombies nao se podem mover para o Safe Haven */
-                            if (isDoorToSafeHaven(xD, yD)) {
+                            if (isPortaSafeHaven) {
                                 return false;
                             }
 

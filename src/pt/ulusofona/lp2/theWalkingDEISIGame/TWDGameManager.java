@@ -317,8 +317,7 @@ public class TWDGameManager {
                         if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
                             return false;
                         }
-
-                        //if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                        if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
 
                             if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
                                 return false;
@@ -333,14 +332,13 @@ public class TWDGameManager {
                                 creatures.get(creatures.indexOf(creatureOrigem)).inSafeHaven(true);
                                 /* E adiciona-mos o vivo na lista do safeHaven */
                                 safe.add(creatureOrigem);
-                                creatureOrigem.setXAtual(xD+30);
-                                creatureOrigem.setYAtual(yD+30);
-                               // creatureOrigem.setXAtual(xD);
-                                //creatureOrigem.setYAtual(yD);
+                                /* sair da casa original */
+                                creatureOrigem.setXAtual(xO+30);
+                                creatureOrigem.setYAtual(yO+30);
                                 incrementarTurno();
                                 return true;
                             }
-                        //}
+                        }
                     }
 
                     /* COMBATE = VIVO NA DEFENSIVA */
@@ -895,6 +893,13 @@ public class TWDGameManager {
                                 return false;
                             }
 
+                            if (creatureOrigem.getIdTipo() == 13 ) {
+                                /* Zombies nao se podem mover para o Safe Haven */
+                                if (isDoorToSafeHaven(xD, yD)) {
+                                    return false;
+                                }
+                            }
+
                             creatureOrigem.setXAtual(xD);
                             creatureOrigem.setYAtual(yD);
                             incrementarTurno();
@@ -921,6 +926,13 @@ public class TWDGameManager {
                             /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
                             if (!creatureOrigem.moveDirecaoTurnosImpares(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
+                            }
+
+                            if (creatureOrigem.getIdTipo() == 13 ) {
+                                /* Zombies nao se podem mover para o Safe Haven */
+                                if (isDoorToSafeHaven(xD, yD)) {
+                                    return false;
+                                }
                             }
 
                             creatureOrigem.setXAtual(xD);
@@ -1369,7 +1381,7 @@ public class TWDGameManager {
         /* Todas as portas guardadas na lista ...
          * se estiverem na posicao (x,y), retornamos true e mostramos as portas */
         for (Porta door : portasEmJogo) {
-            if (door.getXAtual() == x && door.getYAtual() == y){
+            if (door.getXAtual() == x && door.getYAtual() == y) {
                 return true;
             }
         }

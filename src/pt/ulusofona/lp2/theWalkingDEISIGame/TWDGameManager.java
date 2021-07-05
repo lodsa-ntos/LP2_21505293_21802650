@@ -318,13 +318,13 @@ public class TWDGameManager {
                             return false;
                         }
 
-                        if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                        //if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
 
                             if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
                                 return false;
                             }
 
-                            /* Se existir uma porta safeHaven */
+                            /* Se existir uma porta safeHaven no destino */
                             if (isDoorToSafeHaven(xD, yD)) {
                                 /* Vamos colocar o vivo lá dentro */
                                 creatureOrigem.inSafeHaven(true);
@@ -333,14 +333,14 @@ public class TWDGameManager {
                                 creatures.get(creatures.indexOf(creatureOrigem)).inSafeHaven(true);
                                 /* E adiciona-mos o vivo na lista do safeHaven */
                                 safe.add(creatureOrigem);
-                                creatureOrigem.setXAtual(xO+30);
-                                creatureOrigem.setYAtual(yO+30);
-                                //creatureOrigem.setxAtual(xD);
-                                //creatureOrigem.setyAtual(yD);
+                                creatureOrigem.setXAtual(xD+30);
+                                creatureOrigem.setYAtual(yD+30);
+                               // creatureOrigem.setXAtual(xD);
+                                //creatureOrigem.setYAtual(yD);
                                 incrementarTurno();
                                 return true;
                             }
-                        }
+                        //}
                     }
 
                     /* COMBATE = VIVO NA DEFENSIVA */
@@ -1183,7 +1183,6 @@ public class TWDGameManager {
                         case 12:
                             countTodosMenosIdosoEmJogo++;
                     }
-
                     numeroVivosEmJogo++;
                 }
             }

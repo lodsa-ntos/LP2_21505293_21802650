@@ -135,7 +135,7 @@ public class TestDoJogo {
             // Turno 0
             assertEquals("Vivo a jogar: ", 10, militarSmash.getCurrentTeamId());
             assertTrue(String.valueOf(true), militarSmash.isDay()); // DIA
-            assertTrue("Militar Vivo move : ", militarSmash.move(1, 2, 1, 0));
+            assertTrue("Militar Vivo move : ", militarSmash.move(1, 1, 1, 0));
             assertEquals("", 0, militarSmash.getElementId(1,2)); // casa antiga fica vazia
             assertEquals("", 2, militarSmash.getElementId(1,0)); // Militar Vivo na nova casa
 

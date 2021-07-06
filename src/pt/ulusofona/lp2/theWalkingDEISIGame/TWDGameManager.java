@@ -779,8 +779,6 @@ public class TWDGameManager {
                                 creatureOrigem.setYAtual(yD);
                                 /* removemos o equipamento */
                                 equipamentos.remove(eq);
-                                eq.setXAtual(xO+30);
-                                eq.setYAtual(yO+30);
 
                                 HashMap<String, Integer> zombieEquipDestroyed =
                                         Creature.equipamentosDestruidosByZombies;

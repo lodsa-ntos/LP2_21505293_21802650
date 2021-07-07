@@ -31,8 +31,6 @@ public class TWDGameManager {
     private static ArrayList<Creature> criaturasEnvenenadas = new ArrayList<>();
     //Lista de Equipamentos
     static ArrayList<Equipamento> equipamentos = new ArrayList<>();
-    //Lista de Equipamentos para zombies destruirem
-    static ArrayList<Equipamento> equipamentosDestruidosPorZombies = new ArrayList<>();
     //Lista de zombies destruidos
     static ArrayList<Creature> zombiesDestruidos = new ArrayList<>();
     //Lista de Portas em Jogo
@@ -227,7 +225,6 @@ public class TWDGameManager {
                                         || idTipo == 6 || idTipo == 7 || idTipo == 8 || idTipo == 9 || idTipo == 10) {
                                     Equipamento allEquipments = new Equipamento(id, idTipo, posX, posY);
                                     equipamentos.add(allEquipments); // adiciona equipamento
-                                    equipamentosDestruidosPorZombies.add(allEquipments); // adiciona equipamento
                                     allEquipments.setIdTipo(idTipo); // chama o tipo de equipamento
                                     System.out.println(allEquipments.toString());
                                 }
@@ -751,23 +748,26 @@ public class TWDGameManager {
                             return false;
                         }
 
-                    } else if (creatureOrigem.getIdEquipa() == 20) {
+                    } else if (creatureOrigem.getIdEquipa() == 20
+                    && creatureOrigem.getIdTipo() != 2) {
 
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                             if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
                                 return false;
                             }
 
-                            for (Equipamento eq : equipamentosDestruidosPorZombies) {
+                            for (Equipamento eq : equipamentos) {
                                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
                                     /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
                                     if (eq.getIdTipo() == 8) {
+                                        System.out.println("Zombies não podem destruir o frasco de veneno");
                                         return false;
                                     }
 
                                     /* Zombie Vampiro nao gosta de alho, logo não pode ser destruido */
                                     if (creatureOrigem.getIdTipo() == 4 && eq.getIdTipo() == 5) {
+                                        System.out.println("Zombie Vampiro nao gosta de alho");
                                         return false;
                                     }
 
@@ -791,6 +791,7 @@ public class TWDGameManager {
                                     creatureOrigem.incrementaEquipamentosNoBolso();
                                     /* removemos o equipamento */
                                     equipamentos.remove(eq);
+                                    System.out.println(eq.getTitulo() + " destruido");
                                     creatureOrigem.setXAtual(xD);
                                     creatureOrigem.setYAtual(yD);
 
@@ -1677,7 +1678,6 @@ public class TWDGameManager {
 
         creatures = new ArrayList<>(); // resent da lista de creatures.
         equipamentos = new ArrayList<>(); // reset da lista de equipamentos
-        equipamentosDestruidosPorZombies = new ArrayList<>(); // reset da lista de equipamentos destruidos por zombies
         doorsOfSalvation = new ArrayList<>(); // reset da lista safeHaven
         criaturasEnvenenadas = new ArrayList<>(); // reset da lista de criaturas envenedadas
         zombiesDestruidos = new ArrayList<>(); // reset da lista de zombies destruidos

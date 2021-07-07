@@ -26,11 +26,13 @@ public class TWDGameManager {
     //Lista de Creatures
     private static ArrayList<Creature> creatures = new ArrayList<>();
     //Lista para o safeHaven
-    private static ArrayList<Creature> safe = new ArrayList<>();
+    private static ArrayList<Creature> doorsOfSalvation = new ArrayList<>();
     //Lista de criaturas envenenadas
     private static ArrayList<Creature> criaturasEnvenenadas = new ArrayList<>();
-    //Lista de Equipamento
+    //Lista de Equipamentos
     static ArrayList<Equipamento> equipamentos = new ArrayList<>();
+    //Lista de Equipamentos para zombies destruirem
+    static ArrayList<Equipamento> equipamentosDestruidosPorZombies = new ArrayList<>();
     //Lista de zombies destruidos
     static ArrayList<Creature> zombiesDestruidos = new ArrayList<>();
     //Lista de Portas em Jogo
@@ -225,6 +227,7 @@ public class TWDGameManager {
                                         || idTipo == 6 || idTipo == 7 || idTipo == 8 || idTipo == 9 || idTipo == 10) {
                                     Equipamento allEquipments = new Equipamento(id, idTipo, posX, posY);
                                     equipamentos.add(allEquipments); // adiciona equipamento
+                                    equipamentosDestruidosPorZombies.add(allEquipments); // adiciona equipamento
                                     allEquipments.setIdTipo(idTipo); // chama o tipo de equipamento
                                     System.out.println(allEquipments.toString());
                                 }
@@ -320,9 +323,10 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            /*if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
+                            /* Se idoso tentar entrar no safe Haven a noite, retorna falso, jogada invalida */
+                            if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
                                 return false;
-                            }*/
+                            }
 
                             /* Se existir uma porta safeHaven no destino */
                             if (isPortaSafeHaven) {
@@ -332,7 +336,7 @@ public class TWDGameManager {
                                 //creatureOrigem.id = 0;
                                 creatures.get(creatures.indexOf(creatureOrigem)).inSafeHaven(true);
                                 /* E adiciona-mos o vivo na lista do safeHaven */
-                                safe.add(creatureOrigem);
+                                doorsOfSalvation.add(creatureOrigem);
                                 /* sair da casa original */
                                 creatureOrigem.setXAtual(xO+30);
                                 creatureOrigem.setYAtual(yO+30);
@@ -373,7 +377,6 @@ public class TWDGameManager {
                                                 case 12:
                                                     /* Vivo tranforma-se (->) em Zombie */
                                                     creatureOrigem.transformaEmZombie(creatureDestino);
-                                                    nrTurno = -1;
                                                     creatureDestino.setTransformado(true);
                                                     creatureOrigem.countTransformacoesFeitasPorZombies();
                                                     incrementarTurno();
@@ -414,7 +417,6 @@ public class TWDGameManager {
                                                         if (creatureOrigem.getIdTipo() != 0) {
                                                             /* vamos transformar o vivo em zombie */
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
-                                                            nrTurno = -1;
                                                             creatureDestino.setTransformado(true);
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento */
@@ -462,7 +464,6 @@ public class TWDGameManager {
                                                             /* A pistola não tem efeito contra Zombies Vampiros */
                                                             /* vamos transformar o vivo em zombie */
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
-                                                            nrTurno = -1;
                                                             creatureDestino.setTransformado(true);
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento*/
@@ -497,7 +498,6 @@ public class TWDGameManager {
                                                             /* A pistola não tem efeito contra Zombies Vampiros */
                                                             /* vamos transformar o vivo em zombie */
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
-                                                            nrTurno = -1;
                                                             creatureDestino.setTransformado(true);
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento*/
@@ -529,7 +529,6 @@ public class TWDGameManager {
                                                         /* Não protege de outros zombies */
                                                         /* Vivo tranforma-se (->) em Zombie */
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
-                                                        nrTurno = -1;
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         /* e destrui-mos o equipamento */
@@ -547,7 +546,6 @@ public class TWDGameManager {
                                                         /* Não protege de outros zombies */
                                                         /* Vivo tranforma-se (->) em Zombie */
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
-                                                        nrTurno = -1;
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         /* e destrui-mos o equipamento */
@@ -594,7 +592,6 @@ public class TWDGameManager {
                                                     if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
                                                         /* vamos transformar o vivo em zombie */
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
-                                                        nrTurno = -1;
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         /* e destrui-mos o equipamento */
@@ -761,7 +758,7 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            for (Equipamento eq : equipamentos) {
+                            for (Equipamento eq : equipamentosDestruidosPorZombies) {
                                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
                                     /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
@@ -1331,7 +1328,7 @@ public class TWDGameManager {
         resultados.add("");
 
         resultados.add("OS VIVOS");
-        for (Creature creatureVivos: safe ) {
+        for (Creature creatureVivos: doorsOfSalvation) {
             if (creatureVivos.getIdEquipa() == 10) {
                 if (creatureVivos.isInSafeHaven()) {
                     resultados.add(creatureVivos.getId() + " " + creatureVivos.getNome());
@@ -1388,7 +1385,7 @@ public class TWDGameManager {
     public List<Integer> getIdsInSafeHaven() {
 
         ArrayList<Integer> creaturesSafeHeavenID = new ArrayList<>();
-        for (Creature creature : safe){
+        for (Creature creature : doorsOfSalvation){
             creaturesSafeHeavenID.add(creature.getId());
         }
         return creaturesSafeHeavenID;
@@ -1680,7 +1677,8 @@ public class TWDGameManager {
 
         creatures = new ArrayList<>(); // resent da lista de creatures.
         equipamentos = new ArrayList<>(); // reset da lista de equipamentos
-        safe = new ArrayList<>(); // reset da lista safeHaven
+        equipamentosDestruidosPorZombies = new ArrayList<>(); // reset da lista de equipamentos destruidos por zombies
+        doorsOfSalvation = new ArrayList<>(); // reset da lista safeHaven
         criaturasEnvenenadas = new ArrayList<>(); // reset da lista de criaturas envenedadas
         zombiesDestruidos = new ArrayList<>(); // reset da lista de zombies destruidos
         portasEmJogo = new ArrayList<>(); // reset das portas em jogo

@@ -1476,30 +1476,53 @@ public class TWDGameManager {
             salvarFich.write(getCreatures().size() + "");
             salvarFich.write(nextLine);
 
-            for(Creature criatura : getCreatures()) {
-                salvarFich.write(criatura.getId() + " : " + criatura.getIdTipo() + " : " + criatura.getNome() + " : "
-                        + criatura.getXAtual() + " : " + criatura.getYAtual());
-
-                salvarFich.write(nextLine);
+            for(int y = 0; y < numLinha; ++y) {
+                for (int x = 0; x < numColuna; ++x) {
+                    int elementId = getElementId(x, y);
+                    if (elementId > 0) {
+                        Creature creature = getCreatureTypeId(creatures, elementId);
+                        if (creature != null) {
+                            int equipmentId = getEquipmentId(elementId);
+                            String creatureInGame = "" + creature.toString();
+                            if (equipmentId < 0) {
+                                creatureInGame = creatureInGame + " -- " + getEquipmentInfo(equipmentId);
+                                salvarFich.write(creatureInGame);
+                                salvarFich.write(nextLine);
+                            } else {
+                                salvarFich.write(creature.toString());
+                                salvarFich.write(nextLine);
+                            }
+                        }
+                    }
+                }
             }
 
             salvarFich.write(equipamentos.size() + "");
             salvarFich.write(nextLine);
 
-            for(Equipamento objeto : equipamentos) {
-                salvarFich.write(objeto.getId() + " : " + objeto.getIdTipo()+ " : " + objeto.getXAtual() + " : "
-                        + objeto.getYAtual());
-
-                salvarFich.write(nextLine);
+            for(int y = 0; y < numLinha; ++y) {
+                for (int x = 0; x < numColuna; ++x) {
+                    int elementIdEquipment = getElementId(x, y);
+                    if (elementIdEquipment < 0) {
+                        int eqId = getEquipmentTypeId(elementIdEquipment);
+                        String eqInfo = getEquipmentInfo(elementIdEquipment);
+                        salvarFich.write(eqId + " | " + x + ", " + y +  " | " + " " + eqInfo);
+                        salvarFich.write(nextLine);
+                    }
+                }
             }
 
             salvarFich.write(portasEmJogo.size() + "");
             salvarFich.write(nextLine);
 
-            for(Porta p : portasEmJogo) {
-                salvarFich.write(p.getXAtual() + " : " + p.getYAtual());
-
-                salvarFich.write(nextLine);
+            for(int y = 0; y < numLinha; ++y) {
+                for (int x = 0; x < numColuna; ++x) {
+                    boolean portaNoDestino = isDoorToSafeHaven(x, y);
+                    if (portaNoDestino) {
+                        salvarFich.write(x + " : " + y);
+                        salvarFich.write(nextLine);
+                    }
+                }
             }
 
             salvarFich.close();
@@ -1715,5 +1738,15 @@ public class TWDGameManager {
         yPortas = 0; // reset variavel yPortas safeHaven.
         nrTurno = 0; // reset variavel turnos do jogo.
         nrTurnoDoVeneno = 0; // reset variavel de turnos quando o vivo apanha o equipamento veneno
+    }
+
+    public Creature getCreatureTypeId(ArrayList<Creature> creatures, int creatureId){
+
+        for (Creature c: creatures){
+            if (creatureId == c.getId()){
+                return c;
+            }
+        }
+        return null;
     }
 }

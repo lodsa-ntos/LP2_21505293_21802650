@@ -374,6 +374,7 @@ public class TWDGameManager {
                                                 case 12:
                                                     /* Vivo tranforma-se (->) em Zombie */
                                                     creatureOrigem.transformaEmZombie(creatureDestino);
+                                                    nrTurno = 0;
                                                     creatureDestino.setTransformado(true);
                                                     creatureOrigem.countTransformacoesFeitasPorZombies();
                                                     incrementarTurno();
@@ -414,6 +415,7 @@ public class TWDGameManager {
                                                         if (creatureOrigem.getIdTipo() != 0) {
                                                             /* vamos transformar o vivo em zombie */
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
+                                                            nrTurno = 0;
                                                             creatureDestino.setTransformado(true);
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento */
@@ -461,6 +463,7 @@ public class TWDGameManager {
                                                             /* A pistola não tem efeito contra Zombies Vampiros */
                                                             /* vamos transformar o vivo em zombie */
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
+                                                            nrTurno = 0;
                                                             creatureDestino.setTransformado(true);
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento*/
@@ -495,6 +498,7 @@ public class TWDGameManager {
                                                             /* A pistola não tem efeito contra Zombies Vampiros */
                                                             /* vamos transformar o vivo em zombie */
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
+                                                            nrTurno = 0;
                                                             creatureDestino.setTransformado(true);
                                                             creatureOrigem.countTransformacoesFeitasPorZombies();
                                                             /* e destrui-mos o equipamento*/
@@ -526,6 +530,7 @@ public class TWDGameManager {
                                                         /* Não protege de outros zombies */
                                                         /* Vivo tranforma-se (->) em Zombie */
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
+                                                        nrTurno = 0;
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         /* e destrui-mos o equipamento */
@@ -543,6 +548,7 @@ public class TWDGameManager {
                                                         /* Não protege de outros zombies */
                                                         /* Vivo tranforma-se (->) em Zombie */
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
+                                                        nrTurno = 0;
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         /* e destrui-mos o equipamento */
@@ -589,6 +595,7 @@ public class TWDGameManager {
                                                     if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
                                                         /* vamos transformar o vivo em zombie */
                                                         creatureOrigem.transformaEmZombie(creatureDestino);
+                                                        nrTurno = 0;
                                                         creatureDestino.setTransformado(true);
                                                         creatureOrigem.countTransformacoesFeitasPorZombies();
                                                         /* e destrui-mos o equipamento */

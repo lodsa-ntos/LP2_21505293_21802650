@@ -790,7 +790,7 @@ public class TWDGameManager {
                                     creatureOrigem.setXAtual(xD);
                                     creatureOrigem.setYAtual(yD);
                                     /* removemos o equipamento */
-                                    equipamentos.remove(eq);
+                                    //equipamentos.remove(eq);
                                     System.out.println(eq.getTitulo() + " destruido");
                                     /* Incrementa o equipamento no bolso */
                                     creatureOrigem.incrementaEquipamentosNoBolso();

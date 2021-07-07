@@ -38,10 +38,12 @@ public class Coelho extends Creature {
         return true;
     }
 
+    @Override
     public boolean moveDirecaoTurnosPares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
         return Math.abs(xO - xD) <= 3 && Math.abs(yO - yD) <= 3;
     }
 
+    @Override
     public boolean moveDirecaoTurnosImpares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
         return Math.abs(xO - xD) <= 2 && Math.abs(yO - yD) <= 2;
     }

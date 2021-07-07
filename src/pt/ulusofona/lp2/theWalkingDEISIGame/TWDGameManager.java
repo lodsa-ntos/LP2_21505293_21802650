@@ -748,15 +748,15 @@ public class TWDGameManager {
                             return false;
                         }
 
-                    } else if (creatureOrigem.getIdEquipa() == 20
-                    && creatureOrigem.getIdTipo() != 2) {
+                    } else if (creatureOrigem.getIdEquipa() == 20) {
 
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                             if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
                                 return false;
                             }
 
-                            for (Equipamento eq : equipamentos) {
+                            for (int i = 0; i < equipamentos.size(); i++) {
+                                Equipamento eq = equipamentos.get(i);
                                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
                                     /* Veneno não pode ser destruido, zombies não podem mover para casas com veneno */
@@ -787,13 +787,13 @@ public class TWDGameManager {
                                         }
                                     }
 
-                                    /* Incrementa o equipamento no bolso */
-                                    creatureOrigem.incrementaEquipamentosNoBolso();
+                                    creatureOrigem.setXAtual(xD);
+                                    creatureOrigem.setYAtual(yD);
                                     /* removemos o equipamento */
                                     equipamentos.remove(eq);
                                     System.out.println(eq.getTitulo() + " destruido");
-                                    creatureOrigem.setXAtual(xD);
-                                    creatureOrigem.setYAtual(yD);
+                                    /* Incrementa o equipamento no bolso */
+                                    creatureOrigem.incrementaEquipamentosNoBolso();
 
                                     HashMap<String, Integer> zombieEquipDestroyed =
                                             Creature.equipamentosDestruidosByZombies;

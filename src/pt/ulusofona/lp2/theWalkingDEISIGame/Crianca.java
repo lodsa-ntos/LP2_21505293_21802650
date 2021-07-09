@@ -356,20 +356,15 @@ public class Crianca extends Creature {
 
     @Override
     public String toString() {
-
         TWDGameManager zombie = new TWDGameManager();
 
         if (isInSafeHaven()){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ A salvo";
         } else if (zombieIsDestroyed() || humanDeadPorEnvenenamento()){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + 0 + " @ (RIP)";
-        } else if (zombie.getCurrentTeamId() == 20 && isTransformado()){
+        }  else if (equipa.equals("Os Vivos") || equipa.equals("Os Outros") || (zombie.getCurrentTeamId() == 20 && isTransformado())){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
-        } else if (equipa.equals("Os Vivos")){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
-        } else if (equipa.equals("Os Outros")){
-            return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
-        } else {
+        }  else {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
         }
     }

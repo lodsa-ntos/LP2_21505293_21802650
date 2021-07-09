@@ -4,8 +4,10 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
+import static org.junit.Assert.assertEquals;
 
 public class TWDGameManager {
 
@@ -807,7 +809,9 @@ public class TWDGameManager {
                                                 System.out.println("Coelho zombie nao consegue destruir equipamentos");
                                                 return false;
                                             }
-                                        } else if (creatureOrigem.getIdTipo() != 4 && creatureOrigem.getIdTipo() != 13) {
+                                            /* Se forem outros zombies */
+                                        } else if (creatureOrigem.getIdTipo() != 4 && creatureOrigem.getIdTipo() != 13
+                                                && creatureOrigem.getIdTipo() != 2) {
 
                                             /* Incrementa o equipamento no bolso */
                                             creatureOrigem.incrementaEquipamentosNoBolso();
@@ -1099,6 +1103,14 @@ public class TWDGameManager {
 
                             creatureOrigem.setXAtual(xD);
                             creatureOrigem.setYAtual(yD);
+                            for (int i = 0; i < equipamentos.size(); i++) {
+                                Equipamento eq = equipamentos.get(i);
+                                if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
+                                    equipamentos.remove(eq);
+                                    /* Incrementa o equipamento no bolso */
+                                    creatureOrigem.incrementaEquipamentosNoBolso();
+                                }
+                            }
                             incrementarTurno();
                             return true;
                         }
@@ -1458,8 +1470,6 @@ public class TWDGameManager {
         return null;
     }
 
-    /* TODO.: imcompleto falta implementar como gravar vivo com equipamento e dentro do safeHaven
-         e em que turno paramos - 1 erro no DropProjet */
     public boolean saveGame(File fich) {
 
         /* retorna o separador de linha, ou seja será a quebra de linha quando chegar a final de uma linha lida */
@@ -1504,9 +1514,9 @@ public class TWDGameManager {
                 for (int x = 0; x < numColuna; ++x) {
                     int elementIdEquipment = getElementId(x, y);
                     if (elementIdEquipment < 0) {
-                        int eqId = getEquipmentTypeId(elementIdEquipment);
-                        String eqInfo = getEquipmentInfo(elementIdEquipment);
-                        salvarFich.write(eqId + " | " + x + ", " + y +  " | " + " " + eqInfo);
+                        int eqId = getElementId(x,y);
+                        int eqIdType = getEquipmentTypeId(elementIdEquipment);
+                        salvarFich.write(eqId + " : " + eqIdType + " : " + x + " : " + y);
                         salvarFich.write(nextLine);
                     }
                 }
@@ -1530,12 +1540,12 @@ public class TWDGameManager {
             return true;
 
         } catch (IOException e) {
-            System.out.println("Erro.: Não foi possível o guardar o jogo no ficheiro " + fich.getName() );
+            System.out.println("Erro.: Não foi possível o guardar o jogo no ficheiro " + fich.getName().replace(".txt", ""));
             return false;
         }
     }
 
-    /* TODO.: imcompleto falta implementar como carregar jogo completo - 1 erro no DropProjet */
+    /* TODO.: imcompleto falta implementar como carregar jogo completo - 3 erro no DropProjet */
     public boolean loadGame(File fich) {
 
         try {
@@ -1544,7 +1554,8 @@ public class TWDGameManager {
             return true;
 
         } catch (IOException | InvalidTWDInitialFileException e) {
-            System.out.println("Erro.: Não foi possível carregar o jogo guardado do ficheiro " + fich.getName());
+            System.out.println("Erro.: Não foi possível carregar o jogo guardado do ficheiro " +
+                    fich.getName().replace(".txt", ""));
             return false;
         }
     }
@@ -1736,7 +1747,7 @@ public class TWDGameManager {
         numColuna = 0; // reset variavel numColuna.
         xPortas = 0; // reset variavel xPortas safeHaven.
         yPortas = 0; // reset variavel yPortas safeHaven.
-        nrTurno = 0; // reset variavel turnos do jogo.
+        nrTurno = 13; // reset variavel turnos do jogo.
         nrTurnoDoVeneno = 0; // reset variavel de turnos quando o vivo apanha o equipamento veneno
     }
 

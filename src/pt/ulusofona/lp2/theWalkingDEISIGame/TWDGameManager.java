@@ -1183,11 +1183,11 @@ public class TWDGameManager {
                 }
             }
 
-            for (Porta porta : portasEmJogo) {
+            /*for (Porta porta : portasEmJogo) {
                 if (porta.getXAtual() == meioX && porta.getYAtual() == meioY) {
                     return true;
                 }
-            }
+            }*/
         }
 
         return false;

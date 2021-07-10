@@ -1,12 +1,10 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
-
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
-
 
 public class TWDGameManager {
 
@@ -641,7 +639,7 @@ public class TWDGameManager {
                         }
                     }
 
-                    /* AÇÃO = VIVO A APANHAR E LARGAR EQUIPAMENTO */
+                    /* AÇÃO = APANHAR, LARGAR E DESTRUIR EQUIPAMENTO */
                     /* caso na posicao destino nao tiver uma criatura
                      verifica se é um equipamento */
                     if (creatureOrigem.getIdEquipa() == 10) {
@@ -1016,9 +1014,9 @@ public class TWDGameManager {
                             }
 
                             /* ADULTO VIVO */
-                            if (creatureOrigem.getIdTipo() == 6 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                            /*if (creatureOrigem.getIdTipo() == 6 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
-                            }
+                            }*/
 
                             /* MILITAR VIVO */
                             if (creatureOrigem.getIdTipo() == 7 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
@@ -1085,9 +1083,9 @@ public class TWDGameManager {
                             }
 
                             /* MILITAR ZOMBIE */
-                            if (creatureOrigem.getIdTipo() == 2 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                            /*if (creatureOrigem.getIdTipo() == 2 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
-                            }
+                            }*/
 
                             /* IDOSO ZOMBIE */
                             if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
@@ -1101,14 +1099,6 @@ public class TWDGameManager {
 
                             creatureOrigem.setXAtual(xD);
                             creatureOrigem.setYAtual(yD);
-                            for (int i = 0; i < equipamentos.size(); i++) {
-                                Equipamento eq = equipamentos.get(i);
-                                if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
-                                    equipamentos.remove(eq);
-                                    /* Incrementa o equipamento no bolso */
-                                    creatureOrigem.incrementaEquipamentosNoBolso();
-                                }
-                            }
                             incrementarTurno();
                             return true;
                         }

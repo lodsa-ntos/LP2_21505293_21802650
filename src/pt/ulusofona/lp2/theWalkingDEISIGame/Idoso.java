@@ -217,7 +217,7 @@ public class Idoso extends Creature {
     }
 
     @Override
-    public void setEnvenenado(boolean envenenado) {
+    public void drankVeneno(boolean envenenado) {
         isEnvenenado = envenenado;
     }
 

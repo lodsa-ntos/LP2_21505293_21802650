@@ -89,7 +89,7 @@ public abstract class Creature {
 
     abstract public boolean isEnvenenado();
 
-    abstract public void setEnvenenado(boolean envenenado);
+    abstract public void drankVeneno(boolean envenenado);
 
     abstract public void countTransformacoesFeitasPorZombies();
 

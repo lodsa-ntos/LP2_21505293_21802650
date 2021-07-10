@@ -233,7 +233,7 @@ public class Cao extends Creature {
     }
 
     @Override
-    public void setEnvenenado(boolean envenenado) {
+    public void drankVeneno(boolean envenenado) {
         isEnvenenado = envenenado;
     }
 

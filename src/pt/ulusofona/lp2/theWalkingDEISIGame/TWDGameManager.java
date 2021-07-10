@@ -1,12 +1,10 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
-
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
-
 
 public class TWDGameManager {
 
@@ -304,7 +302,6 @@ public class TWDGameManager {
                 return false; // estão fora do mapa
             }
 
-            boolean encontrouEquip = false;
             boolean umaCasaNaDiagonal = (Math.abs(xD - xO) == 1) && (Math.abs(yD - yO) == 1);
             boolean duasOuMaisCasasNaDiagonal = (Math.abs(xD - xO) > 0 && Math.abs(xD - xO) <= 50) && (Math.abs(yD - yO) > 0 && Math.abs(yD - yO) <= 50);
             boolean isPortaSafeHaven = isDoorToSafeHaven(xD, yD);
@@ -641,7 +638,7 @@ public class TWDGameManager {
                         }
                     }
 
-                    /* AÇÃO = VIVO A APANHAR E LARGAR EQUIPAMENTO */
+                    /* AÇÃO = APANHAR, LARGAR E DESTRUIR EQUIPAMENTOS */
                     /* caso na posicao destino nao tiver uma criatura
                      verifica se é um equipamento */
                     if (creatureOrigem.getIdEquipa() == 10) {
@@ -649,6 +646,36 @@ public class TWDGameManager {
 
                             if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
                                 return false;
+                            }
+
+                            /* Interação com o Veneno e Antidoto - fora do combate */
+                            /* Se vivo estiver envenenado */
+                            if (creatureOrigem.isEnvenenado()) {
+                                //Se for idoso e for dia morre envenenado
+                                if (creatureOrigem.getIdTipo() == 8) {
+                                    if (getElementId(xD,yD) == 0) {
+                                        if (isDay()) {
+                                            nrTurnoDoVeneno = 0;
+                                            creatures.remove(creatureOrigem);
+                                            criaturasEnvenenadas.add(creatureOrigem);
+                                            creatureOrigem.setHumanDeadPorEnvenenamento(true);
+                                            incrementarTurno();
+                                            return true;
+
+                                        } else {
+                                            return false;
+                                        }
+                                    }
+                                } else if (creatureOrigem.getIdTipo() != 8) {
+                                    if (getElementId(xD,yD) == 0) {
+                                        nrTurnoDoVeneno = 0;
+                                        creatures.remove(creatureOrigem);
+                                        criaturasEnvenenadas.add(creatureOrigem);
+                                        creatureOrigem.setHumanDeadPorEnvenenamento(true);
+                                        incrementarTurno();
+                                        return true;
+                                    }
+                                }
                             }
 
                             for (Equipamento eq : equipamentos) {
@@ -671,6 +698,11 @@ public class TWDGameManager {
                                             }
                                         }
 
+                                        if (eq.getIdTipo() == 8) {
+                                            //dizemos que o vivo está envenenado
+                                            creatureOrigem.drankVeneno(true);
+                                        }
+
                                         /* Se idoso tentar apanhar equipamento a noite retorna falso */
                                         if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
                                             if (eq.getIdTipo() == 0 || eq.getIdTipo() == 1 || eq.getIdTipo() == 2 || eq.getIdTipo() == 3 || eq.getIdTipo() == 4 ||
@@ -687,23 +719,55 @@ public class TWDGameManager {
                                             }
                                         }
 
-                                        // o vivo apanha o equipamento pela primeira vez
-                                        // e fica com o equipamento na mão
-                                        creatureOrigem.equipamentos.add(eq);
-                                        System.out.println("Apanhou: " + eq);
+                                        if (creatureOrigem.getIdTipo() == 8) {
+                                            /* Incrementa o equipamento no bolso */
+                                            creatureOrigem.incrementaEquipamentosNoBolso();
+                                            /* colocamos o vivo nessas posicões */
+                                            creatureOrigem.setXAtual(xD);
+                                            creatureOrigem.setYAtual(yD);
+                                            /* O vivo apanha o equipamento pela primeira vez */
+                                            creatureOrigem.equipamentos.add(eq);
+                                            System.out.println("Apanhou: " + eq);
 
-                                        // Incrementa o equipamento no bolso
-                                        creatureOrigem.incrementaEquipamentosNoBolso();
+                                            if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 8) {
+                                                System.out.println("\n" + creatureOrigem.getTipo() + " está envenenado." + "\n"
+                                                        + "Warning: Se o 'Vivo' estiver envenenado durante 3 turnos, morre. " +
+                                                        "\n" + "Tem mais uma jogada, tente encontrar o antidoto.");
+                                            }
 
-                                        if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 8) {
-                                            System.out.println("\n" + creatureOrigem.getTipo() + " está envenenado." + "\n"
-                                                    + "Warning: Se o 'Vivo' estiver envenenado durante 3 turnos, morre. " +
-                                                    "\n" + "Tem mais uma jogada, tente encontrar o antidoto.");
-                                        }
+                                            if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 9) {
+                                                System.out.println("\n" + creatureOrigem.getTipo() + " conseguiu o antídoto a tempo, " +
+                                                        "está curado. Encontre o safeHaven e salve-se...");
+                                            }
+                                            incrementarTurno();
+                                            return true;
 
-                                        if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 9) {
-                                            System.out.println("\n" + creatureOrigem.getTipo() + " conseguiu o antídoto a tempo, " +
-                                                    "está curado. Encontre o safeHaven e salve-se...");
+                                        } else if (creatureOrigem.getIdTipo() != 8) {
+                                            /* Incrementa o equipamento no bolso */
+                                            creatureOrigem.incrementaEquipamentosNoBolso();
+                                            /* colocamos o vivo nessas posicões */
+                                            creatureOrigem.setXAtual(xD);
+                                            creatureOrigem.setYAtual(yD);
+                                            /* Tiramos o equipamento da origem */
+                                            eq.setXAtual(xO + 30);
+                                            eq.setYAtual(yO + 30);
+                                            /* O vivo apanha o equipamento pela primeira vez */
+                                            creatureOrigem.equipamentos.add(eq);
+
+                                            System.out.println("Apanhou: " + eq);
+                                            if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 8) {
+                                                System.out.println("\n" + creatureOrigem.getTipo() + " está envenenado." + "\n"
+                                                        + "Warning: Se o 'Vivo' estiver envenenado durante 3 turnos, morre. " +
+                                                        "\n" + "Tem mais uma jogada, tente encontrar o antidoto.");
+                                            }
+
+                                            if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 9) {
+                                                System.out.println("\n" + creatureOrigem.getTipo() + " conseguiu o antídoto a tempo, " +
+                                                        "está curado. Encontre o safeHaven e salve-se...");
+                                            }
+
+                                            incrementarTurno();
+                                            return true;
                                         }
 
                                         /* senão, se tiver equipamento vamos removê-lo antes de apanhar o novo */
@@ -722,37 +786,89 @@ public class TWDGameManager {
                                             if (eq.getIdTipo() == 9) {
                                                 return false;
                                             }
+                                        } else if (creatureOrigem.isEnvenenado()) {
+                                            if (eq.getIdTipo() == 9) {
+                                                nrTurnoDoVeneno = 0;
+                                                creatureOrigem.drankVeneno(false);
+                                            }
                                         }
 
-                                        /* removemos o equipamento antigo */
-                                        Equipamento eqAntigo = creatureOrigem.equipamentos.get(0);
-                                        creatureOrigem.getEquipamentosVivos().remove(eqAntigo);
+                                        if (eq.getIdTipo() == 8) {
+                                            //dizemos que o vivo está envenenado
+                                            creatureOrigem.drankVeneno(true);
+                                        }
 
-                                        /* e largamos o equipamento antigo na casa original de onde o vivo estava antes */
-                                        eqAntigo.setXAtual(creatureOrigem.getXAtual());
-                                        eqAntigo.setYAtual(creatureOrigem.getYAtual());
+                                        if (creatureOrigem.getIdTipo() == 8) {
+                                            /* removemos o equipamento antigo */
+                                            Equipamento eqAntigo = creatureOrigem.equipamentos.get(0);
+                                            creatureOrigem.getEquipamentosVivos().remove(eqAntigo);
 
-                                        // depois de removido, o vivo apanha o novo equipamento
-                                        // e fica com o equipamento novo na mão
-                                        creatureOrigem.equipamentos.add(eq);
-                                        System.out.println("Apanhou novo equipamento: " + eq);
+                                            /* Incrementa o novo equipamento no bolso */
+                                            creatureOrigem.incrementaEquipamentosNoBolso();
+                                            /* e largamos o equipamento antigo na casa original de onde o vivo estava antes */
+                                            eqAntigo.setXAtual(creatureOrigem.getXAtual());
+                                            eqAntigo.setYAtual(creatureOrigem.getYAtual());
+                                            /* colocamos o vivo nessas posicões */
+                                            creatureOrigem.setXAtual(xD);
+                                            creatureOrigem.setYAtual(yD);
+                                            /* depois de removido, o vivo apanha o novo equipamento */
+                                            creatureOrigem.equipamentos.add(eq);
+                                            System.out.println("Apanhou novo equipamento: " + eq);
 
-                                        // Incrementa o equipamento no bolso
-                                        creatureOrigem.incrementaEquipamentosNoBolso();
+                                            if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 8) {
+                                                System.out.println("\n" + creatureOrigem.getTipo() + " está envenenado." + "\n"
+                                                        + "Warning: Se o 'Vivo' estiver envenenado durante 3 turnos, morre. " +
+                                                        "\n" + "Tem mais uma jogada, tente encontrar o antidoto.");
+                                            }
+
+                                            if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 9) {
+                                                System.out.println("\n" + creatureOrigem.getTipo() + " conseguiu o antídoto a tempo, " +
+                                                        "está curado. Encontre o safeHaven e salve-se...");
+                                            }
+                                            incrementarTurno();
+                                            return true;
+
+                                        } else if (creatureOrigem.getIdTipo() != 8) {
+                                            /* removemos o equipamento antigo */
+                                            Equipamento eqAntigo = creatureOrigem.equipamentos.get(0);
+                                            creatureOrigem.getEquipamentosVivos().remove(eqAntigo);
+
+                                            /* Incrementa o novo equipamento no bolso */
+                                            creatureOrigem.incrementaEquipamentosNoBolso();
+                                            /* e largamos o equipamento antigo na casa original de onde o vivo estava antes */
+                                            eqAntigo.setXAtual(creatureOrigem.getXAtual());
+                                            eqAntigo.setYAtual(creatureOrigem.getYAtual());
+                                            /* colocamos o vivo nessas posicões */
+                                            creatureOrigem.setXAtual(xD);
+                                            creatureOrigem.setYAtual(yD);
+                                            /* depois de removido, o vivo apanha o novo equipamento */
+                                            creatureOrigem.equipamentos.add(eq);
+                                            eq.setXAtual(xO + 30);
+                                            eq.setYAtual(yO + 30);
+                                            System.out.println("Apanhou novo equipamento: " + eq);
+
+                                            if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 8) {
+                                                System.out.println("\n" + creatureOrigem.getTipo() + " está envenenado." + "\n"
+                                                        + "Warning: Se o 'Vivo' estiver envenenado durante 3 turnos, morre. " +
+                                                        "\n" + "Tem mais uma jogada, tente encontrar o antidoto.");
+                                            }
+
+                                            if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 9) {
+                                                System.out.println("\n" + creatureOrigem.getTipo() + " conseguiu o antídoto a tempo, " +
+                                                        "está curado. Encontre o safeHaven e salve-se...");
+                                            }
+                                            incrementarTurno();
+                                            return true;
+                                        }
                                     }
-
-                                    encontrouEquip = true;
-                                    break;
                                 }
                             }
-                        } else {
-                            return false;
                         }
 
                     } else if (creatureOrigem.getIdEquipa() == 20) {
 
                         if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
+                            if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                 return false;
                             }
 
@@ -780,8 +896,8 @@ public class TWDGameManager {
                                                     equipamentos.remove(eq);
                                                     System.out.println(eq.getTitulo() + " destruido");
 
-                                                    HashMap<String, Integer> zombieEquipDestroyed =
-                                                            Creature.equipamentosDestruidosByZombies;
+                                                            HashMap<String, Integer> zombieEquipDestroyed =
+                                                                    Creature.equipamentosDestruidosByZombies;
 
                                                     /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
                                                      * de destruicao para esse mesmo zombie */
@@ -809,15 +925,17 @@ public class TWDGameManager {
                                                 return false;
                                             }
                                             /* Se forem outros zombies */
-                                        } else if (creatureOrigem.getIdTipo() != 4 && creatureOrigem.getIdTipo() != 13
-                                                && creatureOrigem.getIdTipo() != 2) {
+                                        } else if (creatureOrigem.getIdTipo() != 4 && creatureOrigem.getIdTipo() != 13) {
 
-                                            /* Incrementa o equipamento no bolso */
+                                            /* Incrementa-mos o equipamento no bolso */
                                             creatureOrigem.incrementaEquipamentosNoBolso();
+                                            /* Colocamos o zombie na posicao do destino onde estava o equipamento */
                                             creatureOrigem.setXAtual(xD);
                                             creatureOrigem.setYAtual(yD);
                                             /* removemos o equipamento */
                                             equipamentos.remove(eq);
+                                            eq.setXAtual(xO+30);
+                                            eq.setYAtual(yO+30);
                                             System.out.println(eq.getTitulo() + " destruido");
 
                                             HashMap<String, Integer> zombieEquipDestroyed =
@@ -836,74 +954,6 @@ public class TWDGameManager {
                                             incrementarTurno();
                                             return true;
                                         }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    /* Interação com o Veneno e Antidoto - fora do combate */
-                    if (creatureOrigem.getIdEquipa() == 10) {
-                        for (Equipamento eq : equipamentos) {
-                            if (!encontrouEquip) {
-                                if (eq.getXAtual() == xO && eq.getYAtual() == yO) {
-                                    /* Se o vivo apanhar um veneno */
-                                    if (eq.getIdTipo() == 8) {
-                                        //nrTurnoDoVeneno++;
-                                        /* dizemos que o vivo está envenenado */
-                                        creatureOrigem.setEnvenenado(true);
-
-                                        if (nrTurnoDoVeneno > 1) {
-                                            if (creatureOrigem.isEnvenenado()) {
-                                                /* Se for idoso e for dia morre envenenado */
-                                                if (creatureOrigem.getIdTipo() == 8) {
-                                                    if (isDay()) {
-                                                        nrTurnoDoVeneno = 0;
-                                                        creatures.remove(creatureOrigem);
-                                                        criaturasEnvenenadas.add(creatureOrigem);
-                                                        creatureOrigem.setHumanDeadPorEnvenenamento(true);
-                                                        incrementarTurno();
-                                                        return true;
-                                                    } else {
-                                                        return false;
-                                                    }
-                                                } else if (creatureOrigem.getIdTipo() != 8) {
-                                                    nrTurnoDoVeneno = 0;
-                                                    creatures.remove(creatureOrigem);
-                                                    criaturasEnvenenadas.add(creatureOrigem);
-                                                    creatureOrigem.setHumanDeadPorEnvenenamento(true);
-                                                    incrementarTurno();
-                                                    return true;
-                                                }
-
-                                            } else {
-                                                return false;
-                                            }
-                                        }
-                                        /* Se apanhar o antidoto, fica curado */
-                                    } else if (eq.getIdTipo() == 9) {
-                                        nrTurnoDoVeneno = 0;
-                                        creatureOrigem.setEnvenenado(false);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    /* TIRAR EQUIPAMENTO DA ORIGEM */
-                    // se encontrou equipamento removemos esse o equipamento da sua casa original e
-                    // quando o "vivo" sai da posicao que apanhou o equipamento
-                    // o equipamento que estava na origem antes, desaparece do mapa, para coordenadas que possam
-                    // não existir no jogo (dimensao do mapa)
-                    for (Equipamento eq : equipamentos) {
-                        if (creatureOrigem.getIdEquipa() == 10 && creatureOrigem.getIdTipo() != 8) {
-                            if (!encontrouEquip) {
-                                if (eq.getXAtual() == xO && eq.getYAtual() == yO) {
-                                    if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                        // removemos o equipamento para coordenadas que possam
-                                        // não existir no jogo (dimensao do mapa), para que ele não desapareca do mapa
-                                        eq.setXAtual(xO+30);
-                                        eq.setYAtual(yO+30);
                                     }
                                 }
                             }
@@ -943,10 +993,12 @@ public class TWDGameManager {
                                 }
                             }
 
-                            creatureOrigem.setXAtual(xD);
-                            creatureOrigem.setYAtual(yD);
-                            incrementarTurno();
-                            return true;
+                            if (getElementId(xD,yD) == 0) {
+                                creatureOrigem.setXAtual(xD);
+                                creatureOrigem.setYAtual(yD);
+                                incrementarTurno();
+                                return true;
+                            }
 
                         } else if ((nrTurno % 2 != 0) && (creatureOrigem.getIdTipo() == 12 || creatureOrigem.getIdTipo() == 13)) {
 
@@ -978,10 +1030,12 @@ public class TWDGameManager {
                                 }
                             }
 
-                            creatureOrigem.setXAtual(xD);
-                            creatureOrigem.setYAtual(yD);
-                            incrementarTurno();
-                            return true;
+                            if (getElementId(xD,yD) == 0) {
+                                creatureOrigem.setXAtual(xD);
+                                creatureOrigem.setYAtual(yD);
+                                incrementarTurno();
+                                return true;
+                            }
                         }
                     }
 
@@ -989,17 +1043,13 @@ public class TWDGameManager {
                     if (creatureOrigem.getIdEquipa() == 10) {
                         /* Idosos humanos só se movem em turnos diurnos */
                         if (creatureOrigem.getIdTipo() == 8 && isDay()) {
-                            if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                creatureOrigem.setXAtual(xD);
-                                creatureOrigem.setYAtual(yD);
+                            if (getElementId(xD,yD) == 0) {
                                 for (Equipamento eq : equipamentos) {
-                                    if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
-                                        /* caso o idoso encontre o equipamento, deve-o apanhar */
-                                        creatureOrigem.equipamentos.add(eq);
-                                    }
-                                    /* quando se mover para fora dessa casa, deve-o largar */
+                                    /* quando idoso se mover para fora da casa com equipamento, deve-o largar */
                                     creatureOrigem.getEquipamentosVivos().remove(eq);
                                 }
+                                creatureOrigem.setXAtual(xD);
+                                creatureOrigem.setYAtual(yD);
                                 incrementarTurno();
                                 return true;
                             }
@@ -1031,10 +1081,12 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            creatureOrigem.setXAtual(xD);
-                            creatureOrigem.setYAtual(yD);
-                            incrementarTurno();
-                            return true;
+                            if (getElementId(xD,yD) == 0) {
+                                creatureOrigem.setXAtual(xD);
+                                creatureOrigem.setYAtual(yD);
+                                incrementarTurno();
+                                return true;
+                            }
                         }
                     }
 
@@ -1057,10 +1109,12 @@ public class TWDGameManager {
                                     return false;
                                 }
 
-                                creatureOrigem.setXAtual(xD);
-                                creatureOrigem.setYAtual(yD);
-                                incrementarTurno();
-                                return true;
+                                if (getElementId(xD,yD) == 0) {
+                                    creatureOrigem.setXAtual(xD);
+                                    creatureOrigem.setYAtual(yD);
+                                    incrementarTurno();
+                                    return true;
+                                }
 
 
                             } else {
@@ -1100,21 +1154,14 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            creatureOrigem.setXAtual(xD);
-                            creatureOrigem.setYAtual(yD);
-                            for (int i = 0; i < equipamentos.size(); i++) {
-                                Equipamento eq = equipamentos.get(i);
-                                if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
-                                    equipamentos.remove(eq);
-                                    /* Incrementa o equipamento no bolso */
-                                    creatureOrigem.incrementaEquipamentosNoBolso();
-                                }
+                            if (getElementId(xD,yD) == 0) {
+                                creatureOrigem.setXAtual(xD);
+                                creatureOrigem.setYAtual(yD);
+                                incrementarTurno();
+                                return true;
                             }
-                            incrementarTurno();
-                            return true;
                         }
                     }
-
                 }
             }
         }
@@ -1401,7 +1448,8 @@ public class TWDGameManager {
 
         boolean diurno = (nrTurno / 2) % 2 == 0;
 
-        System.out.println(nrTurno);
+        System.out.println("Turnos jogo: " + nrTurno);
+        System.out.println("Veneno: " +nrTurnoDoVeneno);
 
         return diurno;
     }

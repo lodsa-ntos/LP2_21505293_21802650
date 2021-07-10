@@ -112,7 +112,7 @@ public class TestDoJogo {
             // Turno 4 - PAR
             assertEquals("Vivo a jogar: ", 10, runCoelho.getCurrentTeamId());
             assertTrue(String.valueOf(true), runCoelho.isDay());
-            assertFalse("Coelho move para casa com equipamento : ", runCoelho.move(2, 3, 1, 3));
+            assertFalse("Coelho move para casa com equipamento: Devia retornar falso ", runCoelho.move(2, 3, 1, 3));
             assertEquals("", 1, runCoelho.getElementId(2,3)); // casa antiga nao fica vazia
             assertEquals("", -2, runCoelho.getElementId(1,3)); // Coelho nao vai para a nova casa
             assertEquals("", 0, runCoelho.getEquipmentId(3)); // Nao apanhou a espada com id = -2

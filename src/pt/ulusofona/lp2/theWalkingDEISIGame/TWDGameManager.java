@@ -809,8 +809,7 @@ public class TWDGameManager {
                                                 return false;
                                             }
                                             /* Se forem outros zombies */
-                                        } else if (creatureOrigem.getIdTipo() != 4 && creatureOrigem.getIdTipo() != 13
-                                                && creatureOrigem.getIdTipo() != 2) {
+                                        } else if (creatureOrigem.getIdTipo() != 4 && creatureOrigem.getIdTipo() != 13) {
 
                                             /* Incrementa o equipamento no bolso */
                                             creatureOrigem.incrementaEquipamentosNoBolso();

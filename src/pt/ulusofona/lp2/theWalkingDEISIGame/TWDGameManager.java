@@ -704,7 +704,6 @@ public class TWDGameManager {
                                                     "está curado. Encontre o safeHaven e salve-se...");
                                         }
 
-
                                         /* senão, se tiver equipamento vamos removê-lo antes de apanhar o novo */
                                     } else {
 
@@ -738,8 +737,6 @@ public class TWDGameManager {
 
                                         // Incrementa o equipamento no bolso
                                         creatureOrigem.incrementaEquipamentosNoBolso();
-                                        incrementarTurno();
-                                        return true;
                                     }
 
                                     encontrouEquip = true;

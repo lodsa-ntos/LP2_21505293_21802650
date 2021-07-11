@@ -704,6 +704,7 @@ public class TWDGameManager {
                                                     "está curado. Encontre o safeHaven e salve-se...");
                                         }
 
+
                                         /* senão, se tiver equipamento vamos removê-lo antes de apanhar o novo */
                                     } else {
 
@@ -737,14 +738,14 @@ public class TWDGameManager {
 
                                         // Incrementa o equipamento no bolso
                                         creatureOrigem.incrementaEquipamentosNoBolso();
+                                        incrementarTurno();
+                                        return true;
                                     }
 
                                     encontrouEquip = true;
                                     break;
                                 }
                             }
-                        } else {
-                            return false;
                         }
 
                     } else if (creatureOrigem.getIdEquipa() == 20) {
@@ -754,8 +755,8 @@ public class TWDGameManager {
                                 return false;
                             }
 
-                            for (int i = 0; i < equipamentos.size(); i++) {
-                                Equipamento eq = equipamentos.get(i);
+                            for (Equipamento eq : equipamentos) {
+
                                 if (eq.getXAtual() == xD && eq.getYAtual() == yD) {
 
                                     /* Veneno não pode ser destruido, logo zombies não podem mover para casas com veneno */
@@ -809,35 +810,35 @@ public class TWDGameManager {
                                             /* Se forem outros zombies */
                                         } else if (creatureOrigem.getIdTipo() != 4 && creatureOrigem.getIdTipo() != 13) {
 
-                                            /* Incrementa o equipamento no bolso */
-                                            creatureOrigem.incrementaEquipamentosNoBolso();
                                             creatureOrigem.setXAtual(xD);
                                             creatureOrigem.setYAtual(yD);
                                             /* removemos o equipamento */
                                             equipamentos.remove(eq);
+                                            /* Incrementa o equipamento no bolso */
+                                            creatureOrigem.incrementaEquipamentosNoBolso();
                                             System.out.println(eq.getTitulo() + " destruido");
 
-                                            HashMap<String, Integer> zombieEquipDestroyed =
-                                                    Creature.equipamentosDestruidosByZombies;
+                                                HashMap<String, Integer> zombieEquipDestroyed =
+                                                        Creature.equipamentosDestruidosByZombies;
 
-                                            /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
-                                             * de destruicao para esse mesmo zombie */
-                                            if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
-                                                int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
-                                                zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
-                                            } else {
-                                                /* Senão se for a primeira vez dizemos que só destruiu 1 */
-                                                zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
+                                                /* Se no HashMap conter zombie que já destruiu 1 equipamento, vamos contar numero
+                                                 * de destruicao para esse mesmo zombie */
+                                                if (zombieEquipDestroyed.containsKey(creatureOrigem.getTipo())) {
+                                                    int count = zombieEquipDestroyed.get(creatureOrigem.getTipo());
+                                                    zombieEquipDestroyed.put(creatureOrigem.getTipo(), count + 1);
+                                                } else {
+                                                    /* Senão se for a primeira vez dizemos que só destruiu 1 */
+                                                    zombieEquipDestroyed.put(creatureOrigem.getTipo(), 1);
+                                                }
+
+                                                incrementarTurno();
+                                                return true;
                                             }
-
-                                            incrementarTurno();
-                                            return true;
                                         }
                                     }
                                 }
                             }
                         }
-                    }
 
                     /* Interação com o Veneno e Antidoto - fora do combate */
                     if (creatureOrigem.getIdEquipa() == 10) {
@@ -1014,9 +1015,9 @@ public class TWDGameManager {
                             }
 
                             /* ADULTO VIVO */
-                            /*if (creatureOrigem.getIdTipo() == 6 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                            if (creatureOrigem.getIdTipo() == 6 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
-                            }*/
+                            }
 
                             /* MILITAR VIVO */
                             if (creatureOrigem.getIdTipo() == 7 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
@@ -1083,9 +1084,9 @@ public class TWDGameManager {
                             }
 
                             /* MILITAR ZOMBIE */
-                            /*if (creatureOrigem.getIdTipo() == 2 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                            if (creatureOrigem.getIdTipo() == 2 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
-                            }*/
+                            }
 
                             /* IDOSO ZOMBIE */
                             if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
@@ -1183,11 +1184,11 @@ public class TWDGameManager {
                 }
             }
 
-            /*for (Porta porta : portasEmJogo) {
+            for (Porta porta : portasEmJogo) {
                 if (porta.getXAtual() == meioX && porta.getYAtual() == meioY) {
                     return true;
                 }
-            }*/
+            }
         }
 
         return false;

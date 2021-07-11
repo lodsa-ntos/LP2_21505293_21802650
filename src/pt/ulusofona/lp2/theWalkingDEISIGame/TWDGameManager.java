@@ -716,9 +716,16 @@ public class TWDGameManager {
                                         }
 
                                         /* Apenas podem apanhar o antidoto os 'vivos' que estejam envenenados */
-                                        if (!creatureOrigem.isEnvenenado()) {
+                                        /*if (!creatureOrigem.isEnvenenado()) {
                                             if (eq.getIdTipo() == 9) {
                                                 return false;
+                                            }
+                                        }
+*/
+                                        if (creatureOrigem.isEnvenenado()) {
+                                            if (eq.getIdTipo() == 9) {
+                                                nrTurnoDoVeneno = 0;
+                                                creatureOrigem.drankVeneno(false);
                                             }
                                         }
 
@@ -737,6 +744,17 @@ public class TWDGameManager {
 
                                         // Incrementa o equipamento no bolso
                                         creatureOrigem.incrementaEquipamentosNoBolso();
+
+                                        if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 8) {
+                                            System.out.println("\n" + creatureOrigem.getTipo() + " está envenenado." + "\n"
+                                                    + "Warning: Se o 'Vivo' estiver envenenado durante 3 turnos, morre. " +
+                                                    "\n" + "Tem mais uma jogada, tente encontrar o antidoto.");
+                                        }
+
+                                        if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 9) {
+                                            System.out.println("\n" + creatureOrigem.getTipo() + " conseguiu o antídoto a tempo, " +
+                                                    "está curado. Encontre o safeHaven e salve-se...");
+                                        }
                                     }
 
                                     encontrouEquip = true;
@@ -872,7 +890,11 @@ public class TWDGameManager {
                                                 }
 
                                             } else {
-                                                return false;
+                                                if (!creatureOrigem.isEnvenenado()) {
+                                                    if (eq.getIdTipo() == 9) {
+                                                        return false;
+                                                    }
+                                                }
                                             }
                                         }
                                         /* Se apanhar o antidoto, fica curado */

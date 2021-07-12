@@ -13,52 +13,60 @@
 
 # Descrição do comportamento das criaturas
 <p align="justify"> As criaturas vão ter comportamentos ligeiramente diferentes em função da sua categoria."</p>
+
 As diferenças de comportamento vão dividir-se em duas grandes categorias:
-    ## Iteração com equipamentos:
-        - Os __Vivos__ só podem carregar um __Equipamento__ de cada vez.
-            - As __Crianças Vivas__, devido à sua baixa estatura, não conseguem usar a espada de forma eficaz contra 
-              todos os Zombies.
-                - Conseguem apanhar a espada, mas apenas conseguem infligir dano a um zombie que também seja criança.
-            - Os __Idosos Vivos__ não podem transportar equipamentos.
-            - O __Escudo de Madeira__, quando empunhado por um Militar, aguenta dois ataques , pois o Militar 
-              tem uma técnica defensiva de nível três.
-            - Os __Cães Vivos__ podem transportar equipamento.
-            - O __Coelho Vivo__ apenas se pode mover para casas que não tenham equipamentos
-        - Os __Zombies__ (qualquer categoria) destroem equipamento.
-            - Um __Zombie Vampiro__ não se pode mover para uma posição onde esteja uma __Cabeça de Alho__,
-              ou seja o Zombie Vampiro não pode destruir uma Cabeça de Alho.
-            - O __Coelho Zombie__ apenas se pode mover para casas que não tenham equipamentos
-    ## Movimentos:
-        - O movimento pode variar das seguintes formas:
-            - A quantidade máxima de deslocamento que podem fazer.
-            - Em que tipo de turno se podem mover (diurno, noturno, ambos).
-            - As direções nas quais se podem mover:
-                ### Principais
-                    - Norte, Sul, Este, Oeste
-                ### Colaterais
-                    - Noroeste, Nordeste, Sudoeste, Sudeste
-        - Caso um __Vivo__ se mova para uma casa que seja um __SafeHaven__ (uma área segura), sai do jogo.
-        - Os __Zombies__ não se podem mover para os __SafeHaven__.
-        - Um __Vivo__ não se pode mover para uma casa onde esteja outro __Vivo__.
-        - Um __Zombie__ não se pode mover para uma casa onde esteja outro __Zombie__.
-        - Uma criatura nunca pode passar por cima de outra  criatura, equipamento ou portas __SafeHaven__, 
-          mesmo que tenha um deslocamento máximo superior a 1.
-        ## Combate:
-        - Um __Vivo__ apenas se pode mover para uma casa onde esteja um Zombie se tiver um equipamento ofensivo
-          que possa ser usado contra esse zombie.
-        - Se o __Vivo__ não tiver nenhum equipamento, então vai ser transformado em __Zombie__.
-            - O __Zombie__ que se moveu e iniciou o combate vai continuar na sua casa original.
-        - Os __Cães__ nunca podem ser atacados, porque assustam os __Zombies__.
-            #### Restrições de Movimentos de Combate:
-                - Se um __Vivo__ tiver uma pistola, não se pode mover para cima do Zombie Vampiro.
+- ### Iteração com equipamentos:
+  - Os __Vivos__ só podem carregar um __Equipamento__ de cada vez.
+    - As __Crianças Vivas__, devido à sua baixa estatura, não conseguem usar a espada eficazmente contra 
+      todos os Zombies.
+        - Conseguem apanhar a espada, mas apenas conseguem infligir dano a um zombie que também seja criança.
+  - Os __Idosos Vivos__ não podem transportar equipamentos.
+  - O __Escudo de Madeira__, quando empunhado por um Militar, aguenta dois ataques, pois o Militar 
+    tem uma técnica defensiva de nível três.
+  - Os __Cães Vivos__ podem transportar equipamento.
+  - O __Coelho Vivo__ apenas se pode mover para casas que não tenham equipamentos.
+  - Os __Zombies__ (qualquer categoria) destroem equipamento.
+  - Um __Zombie Vampiro__ não se pode mover para uma posição onde esteja uma __Cabeça de Alho__,
+    ou seja o Zombie Vampiro não pode destruir uma Cabeça de Alho.
+  - O __Coelho Zombie__ apenas se pode mover para casas que não tenham equipamentos.
+    
+- ### Movimentos:
+  - O movimento pode variar das seguintes formas:
+  - A quantidade máxima de deslocamento que podem fazer.
+  - Em que tipo de turno se podem mover (diurno, noturno, ambos).
+  - As direções nas quais se podem mover:
+    
+     #### Principais
+       - Norte, sul, este, oeste
+      
+     #### Colaterais
+       - Noroeste, Nordeste, Sudoeste, Sudeste
+      
+  - Caso um __Vivo__ se mova para uma casa que seja um __SafeHaven__ (uma área segura), sai do jogo.
+  - Os __Zombies__ não se podem mover para os __SafeHaven__.
+  - Um __Vivo__ não se pode mover para uma casa onde esteja outro __Vivo__.
+  - Um __Zombie__ não se pode mover para uma casa onde esteja outro __Zombie__.
+  - Uma criatura nunca pode passar por cima de outra criatura, equipamento ou portas __SafeHaven__, 
+    mesmo que tenha um deslocamento máximo superior a 1.
+    
+    ##### Combate:
+    - Um __Vivo__ apenas se pode mover para uma casa onde esteja um Zombie se tiver um equipamento ofensivo
+     que possa ser usado contra esse zombie.
+    - Se o __Vivo__ não tiver nenhum equipamento, então vai ser transformado em __Zombie__.
+       - O __Zombie__ que se moveu e iniciou o combate vai continuar na sua casa original.
+    - Os __Cães__ nunca podem ser atacados, porque assustam os __Zombies__.
+    
+     ##### Restrições de Movimentos de Combate:
+     - Se um __Vivo__ tiver uma pistola, não se pode mover para cima do Zombie Vampiro.
 
 # Equipas
 Neste jogo existem duas equipas:
-    - [Os Vivo]()
-        — A equipa [Os Vivos] é controlada pelo utilizador. Esta é a equipa que contém o Freddy M. e os seus amigos
-          e vizinhos.
-    - [Os Outros]()
-        — A equipa [Os Outros] são apenas zombies.
+- [Os Vivo]()
+  - A equipa “Os Vivos” é controlada pelo utilizador. Esta é a equipa que contém o Freddy M. e os seus amigos
+    e vizinhos.
+    
+- [Os Outros]()
+  - A equipa [Os Outros] são apenas zombies.
 
 # Equipamentos
 | Defensivo/Ofensivo | Titulo                       | Descrição                                                                                                                                                                      |
@@ -156,10 +164,10 @@ os dois turnos seguintes ocorrem durante a noite, e assim por diante.
   
 - InvalidTWDInitialFileException — representa as exceções a serem lançadas no jogo, ou seja, contém os métodos/funções 
                                    que vão retornar o estado de validação de algo a validar no jogo:
-                                        — Se o ficheiro tiver pelo menos 2 criaturas
-                                        — Se alguma das criaturas contiver o número errado de componentes
-                                            — Componentes: ID: tipo: X: Y
-                                            — Número errado: menos que 5 ou mais do que 5.
+  - Se o ficheiro tiver pelo menos 2 criaturas.
+  - Se alguma das criaturas contiver o número errado de componentes
+  - Componentes: ID: tipo: X: Y
+  - Número errado: menos que 5 ou mais do que 5.
 
 ### Classes abstratas
 - Creature — representa todas as criaturas, ou seja, contém os atributos relevantes para a caraterização das criaturas que
@@ -167,13 +175,13 @@ os dois turnos seguintes ocorrem durante a noite, e assim por diante.
   criaturas.
     
     #### Classes filho
-    - Adulto — contém os métodos/funções que processam os comportamentos relevantes da criatura adulto (Vivo e Zombie)
-    - Cão — contém os métodos/funções que processam os comportamentos relevantes da criatura cão
-    - Coelho — contém os métodos/funções que processam os comportamentos relevantes da criatura coelho (Vivo e Zombie)
-    - Criança — contém os métodos/funções que processam os comportamentos relevantes da criatura criança (Vivo e Zombie)
-    - Idoso — contém os métodos/funções que processam os comportamentos relevantes da criatura Idoso (Vivo e Zombie)
-    - Militar — contém os métodos/funções que processam os comportamentos relevantes da criatura Militar (Vivo e Zombie)
-    - ZombieVampiro — contém os métodos/funções que processam os comportamentos relevantes da para criatura Zombie Vampiro (Vivo e Zombie)
+    - Adulto — contém os métodos/funções que processam os comportamentos relevantes da criatura adulto.
+    - Cão — contém os métodos/funções que processam os comportamentos relevantes da criatura cão.
+    - Coelho — contém os métodos/funções que processam os comportamentos relevantes da criatura coelho.
+    - Criança — contém os métodos/funções que processam os comportamentos relevantes da criatura criança.
+    - Idoso — contém os métodos/funções que processam os comportamentos relevantes da criatura Idoso.
+    - Militar — contém os métodos/funções que processam os comportamentos relevantes da criatura Militar.
+    - ZombieVampiro — contém os métodos/funções que processam os comportamentos relevantes da para criatura Zombie Vampiro.
 
 # Video de demonstração
 https://youtu.be/4QDdYK6ZXPc

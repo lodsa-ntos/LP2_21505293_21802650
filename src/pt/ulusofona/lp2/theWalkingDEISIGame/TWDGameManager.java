@@ -334,8 +334,8 @@ public class TWDGameManager {
                                 /* E adiciona-mos o vivo na lista do safeHaven */
                                 doorsOfSalvation.add(creatureOrigem);
                                 /* sair da casa original */
-                                /*creatureOrigem.setXAtual(xO+30);
-                                creatureOrigem.setYAtual(yO+30);*/
+                                creatureOrigem.setXAtual(xO+30);
+                                creatureOrigem.setYAtual(yO+30);
                                 incrementarTurno();
                                 return true;
                             }
@@ -905,8 +905,8 @@ public class TWDGameManager {
                                     if (creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                         // removemos o equipamento para coordenadas que possam
                                         // não existir no jogo (dimensao do mapa), para que ele não desapareca do mapa
-                                        /*eq.setXAtual(xO+30);
-                                        eq.setYAtual(yO+30);*/
+                                        eq.setXAtual(xO+30);
+                                        eq.setYAtual(yO+30);
                                     }
                                 }
                             }

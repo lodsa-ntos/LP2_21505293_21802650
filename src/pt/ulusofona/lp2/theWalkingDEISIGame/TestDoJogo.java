@@ -92,7 +92,7 @@ public class TestDoJogo {
             assertEquals("Zombie a jogar: ", 20, runCoelho.getCurrentTeamId());
             assertTrue(String.valueOf(true), runCoelho.isDay());
             assertTrue("Coelho move : ", runCoelho.move(3, 4, 3, 2));
-            assertEquals("", 0, runCoelho.getElementId(3,4)); // casa antiga fica vazia
+            assertEquals("", 0, runCoelho.getElementId(3,4)); // casa antiga não fica
             assertEquals("", 3, runCoelho.getElementId(3,2)); // Coelho nao vai para a nova casa
 
             // Turno 2 - PAR

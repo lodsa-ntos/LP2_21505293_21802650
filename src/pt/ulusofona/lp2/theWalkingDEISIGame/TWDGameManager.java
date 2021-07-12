@@ -1464,6 +1464,7 @@ public class TWDGameManager {
         return null;
     }
 
+    /* TODO.: imcompleto faltou implementar guardar vivo com equipamento - 1 erro no DropProjet */
     public boolean saveGame(File fich) {
 
         /* retorna o separador de linha, ou seja será a quebra de linha quando chegar a final de uma linha lida */
@@ -1516,7 +1517,7 @@ public class TWDGameManager {
         }
     }
 
-    /* TODO.: imcompleto falta implementar como carregar jogo completo - 3 erro no DropProjet */
+    /* TODO.: imcompleto faltou implementar como carregar jogo completo - 1 erro no DropProjet */
     public boolean loadGame(File fich) {
 
         try {
@@ -1631,7 +1632,7 @@ public class TWDGameManager {
         return equipamentoQueSafaram;
     }
 
-    /* TODO.: deveriam ser 3 linhas (causas: possivel ordenacao por desempate ) - 2 erros no DropProjet */
+    /* TODO.: deveriam ser 3 linhas - 2 erros no DropProjet */
     /* <Nome do Tipo>:< Nr zombies do tipo>: <NrEquipamentos> destruidos */
     /* Qual o total de equipamentos destruidos por cada tipo de zombie? */
     public List<String> tiposZombiesEEquipamentosDestruidos() {

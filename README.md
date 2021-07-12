@@ -32,16 +32,13 @@ As diferenças de comportamento vão dividir-se em duas grandes categorias:
     
 - ### Movimentos:
   - O movimento pode variar das seguintes formas:
-  - A quantidade máxima de deslocamento que podem fazer.
-  - Em que tipo de turno se podem mover (diurno, noturno, ambos).
-  - As direções nas quais se podem mover:
-    
-     #### Principais
-       - Norte, sul, este, oeste
-      
-     #### Colaterais
-       - Noroeste, Nordeste, Sudoeste, Sudeste
-      
+    - A quantidade máxima de deslocamento que podem fazer.
+    - Em que tipo de turno se podem mover (diurno, noturno, ambos).
+    - As direções nas quais se podem mover:
+        #### Principais
+            - Norte, sul, este, oeste
+        #### Colaterais
+            - Noroeste, Nordeste, Sudoeste, Sudeste
   - Caso um __Vivo__ se mova para uma casa que seja um __SafeHaven__ (uma área segura), sai do jogo.
   - Os __Zombies__ não se podem mover para os __SafeHaven__.
   - Um __Vivo__ não se pode mover para uma casa onde esteja outro __Vivo__.
@@ -59,6 +56,24 @@ As diferenças de comportamento vão dividir-se em duas grandes categorias:
      ##### Restrições de Movimentos de Combate:
      - Se um __Vivo__ tiver uma pistola, não se pode mover para cima do Zombie Vampiro.
 
+# Inspiração e referência
+### Filmes
+ - [Resident Evil: Apocalypse](https://www.imdb.com/title/tt0318627/)
+ - [Doom](https://www.imdb.com/video/vi3115565337?playlistId=tt0419706&ref_=tt_ov_vi)
+ - [Resident Evil: Extinction](https://www.imdb.com/title/tt0432021/)
+ - [I Am Legend](https://www.imdb.com/title/tt0480249/)
+ - [Resident Evil: Afterlife](https://www.imdb.com/title/tt1220634/)
+ - [Resident Evil: Retribution](https://www.imdb.com/title/tt1855325/)
+ - [World War Z](https://www.imdb.com/title/tt0816711/)
+ - [Resident Evil: The Final Chapter](https://www.imdb.com/title/tt2592614/)
+ - [#Alive](https://www.imdb.com/title/tt10620868/)
+ - [Army of the dead](https://www.imdb.com/title/tt0993840/)
+
+### Jogos
+ - [Plant vs Zombies](https://www.ea.com/pt-br/games/plants-vs-zombies/plants-vs-zombies)
+ - [The Walking Dead: Season Two](https://pt.wikipedia.org/wiki/The_Walking_Dead:_Season_Two)
+ - [Dead Rising 3](https://pt.wikipedia.org/wiki/Dead_Rising_3)
+
 # Equipas
 Neste jogo existem duas equipas:
 - [Os Vivo]()
@@ -66,7 +81,7 @@ Neste jogo existem duas equipas:
     e vizinhos.
     
 - [Os Outros]()
-  - A equipa [Os Outros] são apenas zombies.
+  - A equipa “Os Outros” são apenas zombies.
 
 # Equipamentos
 | Defensivo/Ofensivo | Titulo                       | Descrição                                                                                                                                                                      |
@@ -166,8 +181,10 @@ os dois turnos seguintes ocorrem durante a noite, e assim por diante.
                                    que vão retornar o estado de validação de algo a validar no jogo:
   - Se o ficheiro tiver pelo menos 2 criaturas.
   - Se alguma das criaturas contiver o número errado de componentes
-  - Componentes: ID: tipo: X: Y
-  - Número errado: menos que 5 ou mais do que 5.
+    - Componentes: ID: tipo: X: Y
+    - Número errado: menos que 5 ou mais do que 5.
+
+- TestDoJogo — responsável por testar algumas fases do jogo e o movimento e combates de criaturas e a iterçao com os equipamentops
 
 ### Classes abstratas
 - Creature — representa todas as criaturas, ou seja, contém os atributos relevantes para a caraterização das criaturas que

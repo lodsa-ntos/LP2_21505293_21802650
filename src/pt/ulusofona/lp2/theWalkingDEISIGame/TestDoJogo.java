@@ -190,13 +190,4 @@ public class TestDoJogo {
             e.printStackTrace();
         }
     }
-
-    @Test
-    public void test03LoadGame() throws InvalidTWDInitialFileException, FileNotFoundException {
-        TWDGameManager mapaGigante = new TWDGameManager();
-
-        String pathToSaveGame = "ficheirosParaTestes/saveGameMapaGigante.txt";
-        assertTrue("", mapaGigante.loadGame(new File(pathToSaveGame)));
-
-    }
 }

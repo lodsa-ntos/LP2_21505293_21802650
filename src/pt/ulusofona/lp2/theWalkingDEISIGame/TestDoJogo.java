@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,7 +60,8 @@ public class TestDoJogo {
             assertEquals("", "Escudo de Madeira | 2", mapaGigante.getEquipmentInfo(-2));
             assertFalse("", mapaGigante.gameIsOver());
 
-
+            String pathToSaveGame = "ficheirosParaTestes/saveGameMapaGigante.txt";
+            assertTrue(String.valueOf(true), mapaGigante.saveGame(new File(pathToSaveGame)));
 
         } catch (FileNotFoundException | InvalidTWDInitialFileException e) {
             e.printStackTrace();
@@ -189,4 +191,12 @@ public class TestDoJogo {
         }
     }
 
+    @Test
+    public void test03LoadGame() throws InvalidTWDInitialFileException, FileNotFoundException {
+        TWDGameManager mapaGigante = new TWDGameManager();
+
+        String pathToSaveGame = "ficheirosParaTestes/saveGameMapaGigante.txt";
+        assertTrue(String.valueOf(true), mapaGigante.loadGame(new File(pathToSaveGame)));
+
+    }
 }

@@ -152,14 +152,14 @@ os dois turnos seguintes ocorrem durante a noite, e assim por diante.
   - ### Cão
     - O deslocamento máximo é 1.
     - Movem-se em qualquer turno.
-    - Só se movem nas 4 direções colaterais (Noroeste, Nordeste, Sudoeste, Sudeste)
+    - Só se movem nas 4 direções colaterais (noroeste, nordeste, sudoeste, sudeste)
 
   - ### Coelho (Vivo ou Zombie)
     - Deslocamento:
         - três casas nos turnos pares
         - duas casas nos turnos ímpares
     - Movem-se em qualquer turno.
-    - Movem-se na horizontal e na vertical
+    - Movem-se na horizontal e na vertical.
 
   - ### Zombie Vampiro
     - O deslocamento máximo é 2.
@@ -184,7 +184,7 @@ os dois turnos seguintes ocorrem durante a noite, e assim por diante.
     - Componentes: ID: tipo: X: Y
     - Número errado: menos que 5 ou mais do que 5.
 
-- TestDoJogo — responsável por testar algumas fases do jogo e o movimento e combates de criaturas e a iterçao com os equipamentops
+- TestDoJogo — responsável por testar algumas fases do jogo, o movimento e combates de criaturas e a iteração com os equipamentops
 
 ### Classes abstratas
 - Creature — representa todas as criaturas, ou seja, contém os atributos relevantes para a caraterização das criaturas que
@@ -201,7 +201,7 @@ os dois turnos seguintes ocorrem durante a noite, e assim por diante.
     - ZombieVampiro — contém os métodos/funções que processam os comportamentos relevantes da para criatura Zombie Vampiro.
 
 # Video de demonstração
-https://youtu.be/4QDdYK6ZXPc
+ - Uma demonstração funcional do jogo pode ser visto [aqui](https://youtu.be/8WLPsPnztbo).
 
 ## Tela do jogo
 ![alt_text](WalkingDEISI.PNG?raw=true "Walking Deisi")

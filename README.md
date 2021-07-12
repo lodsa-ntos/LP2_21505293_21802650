@@ -201,7 +201,7 @@ os dois turnos seguintes ocorrem durante a noite, e assim por diante.
     - ZombieVampiro — contém os métodos/funções que processam os comportamentos relevantes da para criatura Zombie Vampiro.
 
 # Video de demonstração
- - Uma demonstração funcional do jogo pode ser visto [aqui](https://youtu.be/8WLPsPnztbo).
+ - Uma demonstração funcional do jogo pode ser vista [aqui](https://youtu.be/8WLPsPnztbo).
 
 ## Tela do jogo
 ![alt_text](WalkingDEISI.PNG?raw=true "Walking Deisi")

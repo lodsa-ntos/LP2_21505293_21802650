@@ -196,7 +196,7 @@ public class TestDoJogo {
         TWDGameManager mapaGigante = new TWDGameManager();
 
         String pathToSaveGame = "ficheirosParaTestes/saveGameMapaGigante.txt";
-        assertTrue(String.valueOf(true), mapaGigante.loadGame(new File(pathToSaveGame)));
+        assertTrue("", mapaGigante.loadGame(new File(pathToSaveGame)));
 
     }
 }

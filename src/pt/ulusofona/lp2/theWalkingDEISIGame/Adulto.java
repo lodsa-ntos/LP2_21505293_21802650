@@ -80,18 +80,18 @@ public class Adulto extends Creature {
     }
 
     @Override
-    public boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino) {
+    protected boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino) {
 
         return Math.abs(xO - xD) <= 2 && Math.abs(yO - yD) <= 2;
     }
 
     @Override
-    public boolean moveDirecaoTurnosPares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
+    protected boolean moveDirecaoTurnosPares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
         return false;
     }
 
     @Override
-    public boolean moveDirecaoTurnosImpares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
+    protected boolean moveDirecaoTurnosImpares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
         return false;
     }
 
@@ -219,8 +219,8 @@ public class Adulto extends Creature {
     }
 
     @Override
-    public int countZombiesDestruidos() {
-        return zombiesDestruidos++;
+    public void countZombiesDestruidos() {
+        zombiesDestruidos++;
     }
 
     @Override

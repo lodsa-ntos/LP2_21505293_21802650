@@ -37,11 +37,11 @@ public abstract class Creature {
 
     abstract protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creatureDestino, ArrayList<Creature> creatures);
 
-    abstract public boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino);
+    abstract protected boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino);
 
-    abstract public boolean moveDirecaoTurnosPares(int xO, int yO, int xD, int yD, Creature creatureDestino);
+    abstract protected boolean moveDirecaoTurnosPares(int xO, int yO, int xD, int yD, Creature creatureDestino);
 
-    abstract public boolean moveDirecaoTurnosImpares(int xO, int yO, int xD, int yD, Creature creatureDestino);
+    abstract protected boolean moveDirecaoTurnosImpares(int xO, int yO, int xD, int yD, Creature creatureDestino);
 
     abstract public int getId();
 
@@ -73,7 +73,7 @@ public abstract class Creature {
 
     abstract public int getEquipamentosNoBolso();
 
-    abstract public int countZombiesDestruidos();
+    abstract public void countZombiesDestruidos();
 
     abstract public int getZombiesDestruidos();
 

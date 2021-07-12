@@ -2,8 +2,8 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 public class Equipamento {
 
-    private int id;
-    private int idTipo;
+    private final int id;
+    private final int idTipo;
     private String titulo;
 
     private int xAtual;
@@ -12,9 +12,6 @@ public class Equipamento {
     private int countProtecaoDoEscudo;
     private int nrSalvacoes = 0;
     private boolean escudoUsado;
-
-    public Equipamento() {
-    }
 
     public Equipamento(int id, int idTipo, int xAtual, int yAtual) {
         this.id = id;

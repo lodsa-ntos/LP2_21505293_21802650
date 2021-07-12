@@ -1,8 +1,8 @@
 package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 public class Porta {
-    private int xAtual;
-    private int yAtual;
+    private final int xAtual;
+    private final int yAtual;
 
     public Porta(int xAtual, int yAtual) {
         this.xAtual = xAtual;

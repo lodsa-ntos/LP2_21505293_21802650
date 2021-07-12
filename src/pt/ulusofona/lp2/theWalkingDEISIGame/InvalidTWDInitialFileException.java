@@ -2,9 +2,9 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 public class InvalidTWDInitialFileException extends Exception {
 
-    boolean creaturesDefinition;
-    int nrCreatures;
-    String linhaCreatures;
+    private final boolean creaturesDefinition;
+    private final int nrCreatures;
+    private final String linhaCreatures;
 
     public InvalidTWDInitialFileException(int nrCreatures, boolean creaturesDefinition, String linhaCreatures) {
         this.nrCreatures = nrCreatures;

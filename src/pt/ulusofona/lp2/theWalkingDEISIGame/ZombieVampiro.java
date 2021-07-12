@@ -14,7 +14,7 @@ public class ZombieVampiro extends Creature {
     }
 
     @Override
-    public boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino) {
+    protected boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino) {
 
         /* Proibir tentativa de salto 0,4 -> 1,2 */
         if (Math.abs(xO - xD) >= 2 && Math.abs(yO - yD) == 1 || Math.abs(xD - xO) == 1 && Math.abs(yD - yO) >= 2) {
@@ -25,12 +25,12 @@ public class ZombieVampiro extends Creature {
     }
 
     @Override
-    public boolean moveDirecaoTurnosPares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
+    protected boolean moveDirecaoTurnosPares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
         return false;
     }
 
     @Override
-    public boolean moveDirecaoTurnosImpares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
+    protected boolean moveDirecaoTurnosImpares(int xO, int yO, int xD, int yD, Creature creatureDestino) {
         return false;
     }
 
@@ -145,14 +145,15 @@ public class ZombieVampiro extends Creature {
                 break;
         }
     }
+
     @Override
     public int getEquipamentosNoBolso() {
         return equipamentosNoBolso;
     }
 
     @Override
-    public int countZombiesDestruidos() {
-        return zombiesDestruidos++;
+    public void countZombiesDestruidos() {
+        zombiesDestruidos++;
     }
 
     @Override

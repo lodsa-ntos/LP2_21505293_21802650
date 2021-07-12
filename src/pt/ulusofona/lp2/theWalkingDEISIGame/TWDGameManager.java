@@ -24,26 +24,26 @@ public class TWDGameManager {
 
     //Lista de Creatures
     private static ArrayList<Creature> creatures = new ArrayList<>();
-    //Lista para o safeHaven
-    private static ArrayList<Creature> doorsOfSalvation = new ArrayList<>();
     //Lista de criaturas envenenadas
     private static ArrayList<Creature> criaturasEnvenenadas = new ArrayList<>();
     //Lista de Equipamentos
-    static ArrayList<Equipamento> equipamentos = new ArrayList<>();
+    private static ArrayList<Equipamento> equipamentos = new ArrayList<>();
     //Lista de zombies destruidos
     static ArrayList<Creature> zombiesDestruidos = new ArrayList<>();
+    //Lista para o safeHaven
+    private ArrayList<Creature> doorsOfSalvation = new ArrayList<>();
     //Lista de Portas em Jogo
-    private static ArrayList<Porta> portasEmJogo = new ArrayList<>();
+    private ArrayList<Porta> portasEmJogo = new ArrayList<>();
 
-    private static int numLinha;
-    private static int numColuna;
+    private int numLinha;
+    private int numColuna;
     private int xPortas;
     private int yPortas;
-    private int linhaAtual = 0;
     private int idEquipaInicial;
     private int idEquipaAtual;
-    private int nrTurno = 0;
     private int nrTurnoDoVeneno = 0;
+    private int linhaAtual = 0;
+    private int nrTurno = 0;
 
     public TWDGameManager() {
     }
@@ -888,13 +888,6 @@ public class TWDGameManager {
                                                     incrementarTurno();
                                                     return true;
                                                 }
-
-                                            } else {
-                                                if (!creatureOrigem.isEnvenenado()) {
-                                                    if (eq.getIdTipo() == 9) {
-                                                        return false;
-                                                    }
-                                                }
                                             }
                                         }
                                         /* Se apanhar o antidoto, fica curado */
@@ -1494,53 +1487,30 @@ public class TWDGameManager {
             salvarFich.write(getCreatures().size() + "");
             salvarFich.write(nextLine);
 
-            for(int y = 0; y < numLinha; ++y) {
-                for (int x = 0; x < numColuna; ++x) {
-                    int elementId = getElementId(x, y);
-                    if (elementId > 0) {
-                        Creature creature = getCreatureTypeId(creatures, elementId);
-                        if (creature != null) {
-                            int equipmentId = getEquipmentId(elementId);
-                            String creatureInGame = "" + creature.toString();
-                            if (equipmentId < 0) {
-                                creatureInGame = creatureInGame + " -- " + getEquipmentInfo(equipmentId);
-                                salvarFich.write(creatureInGame);
-                                salvarFich.write(nextLine);
-                            } else {
-                                salvarFich.write(creature.toString());
-                                salvarFich.write(nextLine);
-                            }
-                        }
-                    }
-                }
+            for(Creature criatura : getCreatures()) {
+                salvarFich.write(criatura.getId() + " : " + criatura.getIdTipo() + " : " + criatura.getNome() + " : "
+                        + criatura.getXAtual() + " : " + criatura.getYAtual());
+
+                salvarFich.write(nextLine);
             }
 
             salvarFich.write(equipamentos.size() + "");
             salvarFich.write(nextLine);
 
-            for(int y = 0; y < numLinha; ++y) {
-                for (int x = 0; x < numColuna; ++x) {
-                    int elementIdEquipment = getElementId(x, y);
-                    if (elementIdEquipment < 0) {
-                        int eqId = getElementId(x,y);
-                        int eqIdType = getEquipmentTypeId(elementIdEquipment);
-                        salvarFich.write(eqId + " : " + eqIdType + " : " + x + " : " + y);
-                        salvarFich.write(nextLine);
-                    }
-                }
+            for(Equipamento objeto : equipamentos) {
+                salvarFich.write(objeto.getId() + " : " + objeto.getIdTipo()+ " : " + objeto.getXAtual() + " : "
+                        + objeto.getYAtual());
+
+                salvarFich.write(nextLine);
             }
 
             salvarFich.write(portasEmJogo.size() + "");
             salvarFich.write(nextLine);
 
-            for(int y = 0; y < numLinha; ++y) {
-                for (int x = 0; x < numColuna; ++x) {
-                    boolean portaNoDestino = isDoorToSafeHaven(x, y);
-                    if (portaNoDestino) {
-                        salvarFich.write(x + " : " + y);
-                        salvarFich.write(nextLine);
-                    }
-                }
+            for(Porta p : portasEmJogo) {
+                salvarFich.write(p.getXAtual() + " : " + p.getYAtual());
+
+                salvarFich.write(nextLine);
             }
 
             salvarFich.close();
@@ -1727,7 +1697,7 @@ public class TWDGameManager {
         return osEquipados;
     }
 
-    public void incrementarTurno() {
+    private void incrementarTurno() {
         nrTurno++;
         nrTurnoDoVeneno++;
 
@@ -1741,7 +1711,7 @@ public class TWDGameManager {
         }
     }
 
-    public void incrementarReset() {
+    private void incrementarReset() {
 
         creatures = new ArrayList<>(); // resent da lista de creatures.
         equipamentos = new ArrayList<>(); // reset da lista de equipamentos
@@ -1759,7 +1729,7 @@ public class TWDGameManager {
         nrTurnoDoVeneno = 0; // reset variavel de turnos quando o vivo apanha o equipamento veneno
     }
 
-    public Creature getCreatureTypeId(ArrayList<Creature> creatures, int creatureId){
+    private Creature getCreatureTypeId(ArrayList<Creature> creatures, int creatureId){
 
         for (Creature c: creatures){
             if (creatureId == c.getId()){

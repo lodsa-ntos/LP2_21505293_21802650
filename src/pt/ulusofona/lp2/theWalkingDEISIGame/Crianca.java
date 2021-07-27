@@ -27,10 +27,12 @@ public class Crianca extends Creature {
                             /* vamos destruir o zombie crianca e posicionar a crianca viva naquela posicao */
                             creatures.remove(creature);
                             TWDGameManager.zombiesDestruidos.add(creature);
+                           // TWDGameManager.criaturasFinadasDestruidas.add(creature);
 
                             /* incrementa o numero de zombies destruidos */
                             countZombiesDestruidos();
                             creature.setZombieIsDestroyed(true);
+                            creature.setPersonagensDestruidas(true);
                             creature.setZombieIsRIP(true);
 
                             /* incrementa o numero de salvacao feita pelo equipamento */
@@ -65,10 +67,12 @@ public class Crianca extends Creature {
                             /* vamos destruir o zombie */
                             creatures.remove(creature);
                             TWDGameManager.zombiesDestruidos.add(creature);
+                            //TWDGameManager.criaturasFinadasDestruidas.add(creature);
 
                             /* incrementa o numero de zombies destruidos */
                             countZombiesDestruidos();
                             creature.setZombieIsDestroyed(true);
+                            creature.setPersonagensDestruidas(true);
                             if (creature.zombieIsDestroyed()) {
                                 System.out.println(creature.toString());
                             }
@@ -87,10 +91,12 @@ public class Crianca extends Creature {
                         /* vamos destruir o zombie */
                         creatures.remove(creature);
                         TWDGameManager.zombiesDestruidos.add(creature);
+                        //TWDGameManager.criaturasFinadasDestruidas.add(creature);
 
                         /* incrementa o numero de zombies destruidos */
                         countZombiesDestruidos();
                         creature.setZombieIsDestroyed(true);
+                        creature.setPersonagensDestruidas(true);
 
                         /* incrementa o numero de salvacao feita pelo equipamento */
                         this.equipamentos.get(0).incrementaNrSalvacoes();
@@ -355,6 +361,16 @@ public class Crianca extends Creature {
     }
 
     @Override
+    public boolean personagensDestruidas() {
+        return criaturasFinadasDead;
+    }
+
+    @Override
+    public void setPersonagensDestruidas(boolean isDead) {
+        criaturasFinadasDead = isDead;
+    }
+
+    @Override
     public String toString() {
         TWDGameManager zombie = new TWDGameManager();
 
@@ -364,7 +380,9 @@ public class Crianca extends Creature {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + 0 + " @ (RIP)";
         }  else if (equipa.equals("Os Vivos") || equipa.equals("Os Outros") || (zombie.getCurrentTeamId() == 20 && isTransformado())){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
-        }  else {
+        }  else if (personagensDestruidas()){
+            return id + " | " + nome;
+        } else {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
         }
     }

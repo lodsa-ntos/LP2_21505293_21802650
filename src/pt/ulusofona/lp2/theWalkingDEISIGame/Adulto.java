@@ -32,6 +32,7 @@ public class Adulto extends Creature {
                     /* incrementa o numero de zombies destruidos */
                     countZombiesDestruidos();
                     creature.setZombieIsDestroyed(true);
+                    creature.setPersonagensDestruidas(true);
 
                     /* incrementa o numero de salvacao feita pelo equipamento */
                     this.equipamentos.get(0).incrementaNrSalvacoes();
@@ -57,10 +58,12 @@ public class Adulto extends Creature {
                         /* vamos destruir o zombie */
                         creatures.remove(creature);
                         TWDGameManager.zombiesDestruidos.add(creature);
+                        //TWDGameManager.criaturasFinadasDestruidas.add(creature);
 
                         /* incrementa o numero de zombies destruidos */
                         countZombiesDestruidos();
                         creature.setZombieIsDestroyed(true);
+                        creature.setPersonagensDestruidas(true);
                         if (creature.zombieIsDestroyed()) {
                             System.out.println(creature.toString());
                         }
@@ -299,6 +302,16 @@ public class Adulto extends Creature {
     }
 
     @Override
+    public boolean personagensDestruidas() {
+        return criaturasFinadasDead;
+    }
+
+    @Override
+    public void setPersonagensDestruidas(boolean isDead) {
+        criaturasFinadasDead = isDead;
+    }
+
+    @Override
     public boolean humanDeadPorEnvenenamento() {
         return deadPorEnvenenamento;
     }
@@ -334,7 +347,9 @@ public class Adulto extends Creature {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + 0 + " @ (RIP)";
         }  else if (equipa.equals("Os Vivos") || equipa.equals("Os Outros") || (zombie.getCurrentTeamId() == 20 && isTransformado())){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
-        }  else {
+        }  else if (personagensDestruidas()){
+            return id + " | " + nome;
+        } else {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
         }
     }

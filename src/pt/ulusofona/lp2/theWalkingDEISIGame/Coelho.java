@@ -264,6 +264,16 @@ public class Coelho extends Creature {
     }
 
     @Override
+    public boolean personagensDestruidas() {
+        return criaturasFinadasDead;
+    }
+
+    @Override
+    public void setPersonagensDestruidas(boolean isDead) {
+        criaturasFinadasDead = isDead;
+    }
+
+    @Override
     public String getTipo() {
         return tipo;
     }
@@ -289,7 +299,9 @@ public class Coelho extends Creature {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + 0 + " @ (RIP)";
         }  else if (equipa.equals("Os Vivos") || equipa.equals("Os Outros") || (zombie.getCurrentTeamId() == 20 && isTransformado())){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
-        }  else {
+        }  else if (personagensDestruidas()){
+            return id + " | " + nome;
+        } else {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
         }
     }

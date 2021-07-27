@@ -2,30 +2,79 @@ package pt.ulusofona.lp2.theWalkingDEISIGame;
 
 import java.util.ArrayList;
 
-public class Idoso extends Creature {
+public class Slacker extends  Creature{
 
-    public Idoso(int id, int idTipo, String nome, int xAtual, int yAtual) {
+    public Slacker(int id, int idTipo, String nome, int xAtual, int yAtual) {
         super(id, idTipo, nome, xAtual, yAtual);
     }
 
     @Override
     protected boolean processarCombateOfensivo(int xO, int yO, int xD, int yD, Creature creature, ArrayList<Creature> creatures) {
 
-        /* IDOSO VIVO A ATACAR */
-        if (this.idTipo == 8) {
+        /* Slacker VIVO A ATACAR */
+        if (this.idTipo == 20) {
 
             // se o vivo atacar sem equipamento nao é valido
             if (this.equipamentos.size() == 0) {
                 return false;
             }
 
-            /* EQUIPAMENTOS OFENSIVOS - O Idoso nao ataca, apenas defende */
+            /* EQUIPAMENTOS OFENSIVOS */
             switch (this.equipamentos.get(0).getIdTipo()) {
-                case 1:/* Interação com a Espada */
-                case 2:/* Interação com a Pistola */
-                case 6:/* Interação com a Estaca de madeira */
-                case 10: { /* Interação com o capacete Beskar Helmet */
-                    return false;
+                case 1: /* Interação com a Espada */
+                case 6: /* Interação com o capacete Beskar Helmet */
+                case 10: { /* Interação com a Estaca de madeira */
+
+                    /* vamos destruir o zombie */
+                    creatures.remove(creature);
+                    TWDGameManager.zombiesDestruidos.add(creature);
+
+                    /* incrementa o numero de zombies destruidos */
+                    countZombiesDestruidos();
+                    creature.setZombieIsDestroyed(true);
+                    creature.setPersonagensDestruidas(true);
+
+                    /* incrementa o numero de salvacao feita pelo equipamento */
+                    this.equipamentos.get(0).incrementaNrSalvacoes();
+
+                    this.setXAtual(creature.xAtual);
+                    this.setYAtual(creature.yAtual);
+                    return true;
+                }
+
+                case 2: { /* Interação com a Pistola */
+
+                    if (getEquipamentosVivos().get(0).getCountUsos() == 0) {
+                        //getEquipamentosVivos().get(0).isBroken();
+                        return false;
+                    }
+
+                    if (creature.getIdTipo() != 4) {
+                        this.equipamentos.get(0).diminuiCountUsos();/* ataque VS outros zombies, diminui uma bala*/
+
+                        /* incrementa o numero de salvacao feita pelo equipamento */
+                        this.equipamentos.get(0).incrementaNrSalvacoes();
+
+                        /* vamos destruir o zombie */
+                        creatures.remove(creature);
+                        TWDGameManager.zombiesDestruidos.add(creature);
+                        //TWDGameManager.criaturasFinadasDestruidas.add(creature);
+
+                        /* incrementa o numero de zombies destruidos */
+                        countZombiesDestruidos();
+                        creature.setZombieIsDestroyed(true);
+                        creature.setPersonagensDestruidas(true);
+                        if (creature.zombieIsDestroyed()) {
+                            System.out.println(creature.toString());
+                        }
+
+                        this.setXAtual(creature.xAtual);
+                        this.setYAtual(creature.yAtual);
+                        return true;
+                    } else {
+                        /* A pistola não tem efeito contra Zombies Vampiros */
+                        return false;
+                    }
                 }
             }
         }
@@ -36,11 +85,7 @@ public class Idoso extends Creature {
     @Override
     protected boolean moveDirecao(int xO, int yO, int xD, int yD, Creature creatureDestino) {
 
-        if ((Math.abs(xD - xO) > 0 && Math.abs(xD - xO) <= 50) && (Math.abs(yD - yO) > 0 && Math.abs(yD - yO) <= 50)) {
-            return false;
-        }
-
-        return Math.abs(xO - xD) <= 1 && Math.abs(yO - yD) <= 1;
+        return Math.abs(xO - xD) <= 1 && Math.abs(yO - yD) <= 0;
     }
 
     @Override
@@ -111,11 +156,11 @@ public class Idoso extends Creature {
     @Override
     public void setTipo(int idTipo) {
         switch (idTipo) {
-            case 3:
-                tipo = "Idoso (Zombie)";
+            case 21:
+                tipo = "Slacker (Zombie)";
                 break;
-            case 8:
-                tipo = "Idoso (Vivo)";
+            case 20:
+                tipo = "Slacker (Vivo)";
                 break;
             default:
                 tipo = "";
@@ -131,6 +176,7 @@ public class Idoso extends Creature {
             case 2:
             case 3:
             case 4:
+            case 21:
                 equipa = "Os Outros";
                 idEquipa = 20;
                 break;
@@ -139,6 +185,7 @@ public class Idoso extends Creature {
             case 7:
             case 8:
             case 9:
+            case 20:
                 equipa = "Os Vivos";
                 idEquipa = 10;
                 break;
@@ -257,16 +304,6 @@ public class Idoso extends Creature {
     }
 
     @Override
-    public boolean humanDeadPorEnvenenamento() {
-        return deadPorEnvenenamento;
-    }
-
-    @Override
-    public void setHumanDeadPorEnvenenamento(boolean criaturaIsDead) {
-        deadPorEnvenenamento = criaturaIsDead;
-    }
-
-    @Override
     public boolean personagensDestruidas() {
         return criaturasFinadasDead;
     }
@@ -277,6 +314,16 @@ public class Idoso extends Creature {
     }
 
     @Override
+    public boolean humanDeadPorEnvenenamento() {
+        return deadPorEnvenenamento;
+    }
+
+    @Override
+    public void setHumanDeadPorEnvenenamento(boolean criaturaIsDead) {
+        deadPorEnvenenamento = criaturaIsDead;
+    }
+
+    @Override
     public String getTipo() {
         return tipo;
     }
@@ -284,9 +331,9 @@ public class Idoso extends Creature {
     @Override
     public String getImagePNG() {
         switch (idTipo){
-            case 3:
-                return "zombieIdoso.png";
-            case 8:
+            case 21:
+                return "zombieAdulto.png";
+            case 20:
                 return "human.png";
         }
         return null;
@@ -308,5 +355,4 @@ public class Idoso extends Creature {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
         }
     }
-
 }

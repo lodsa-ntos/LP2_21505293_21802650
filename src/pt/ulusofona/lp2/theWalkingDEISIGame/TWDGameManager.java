@@ -30,6 +30,8 @@ public class TWDGameManager {
     private static ArrayList<Equipamento> equipamentos = new ArrayList<>();
     //Lista de zombies destruidos
     static ArrayList<Creature> zombiesDestruidos = new ArrayList<>();
+    //Lista de zombies destruidos
+    private ArrayList<String> criaturasFinadasDestruidas = new ArrayList<>();
     //Lista para o safeHaven
     private ArrayList<Creature> doorsOfSalvation = new ArrayList<>();
     //Lista de Portas em Jogo
@@ -179,6 +181,15 @@ public class TWDGameManager {
                                 System.out.println(coelho.toString()); // imprime coelho
                                 break;
 
+                            case 20:
+                            case 21:
+                                Creature slacker = new Slacker(id, idTipo, nome, posX, posY);
+                                creatures.add(slacker); // adiciona coelho
+                                slacker.setTipo(idTipo);
+                                slacker.setEquipa(idTipo);
+                                System.out.println(slacker.toString()); // imprime coelho
+                                break;
+
                             default:
                                 System.out.println("Erro! Criatura não adicionada!");
                                 break;
@@ -324,6 +335,10 @@ public class TWDGameManager {
                                 return false;
                             }
 
+                            if (creatureOrigem.getIdTipo() == 5) {
+                                return false;
+                            }
+
                             /* Se existir uma porta safeHaven no destino */
                             if (isPortaSafeHaven) {
                                 /* Vamos colocar o vivo lá dentro */
@@ -356,7 +371,8 @@ public class TWDGameManager {
 
                                     if (creatureOrigem.getIdTipo() == 0 || creatureOrigem.getIdTipo() == 1 ||
                                             creatureOrigem.getIdTipo() == 2 || creatureOrigem.getIdTipo() == 3 ||
-                                            creatureOrigem.getIdTipo() == 4 || creatureOrigem.getIdTipo() == 13) {
+                                            creatureOrigem.getIdTipo() == 4 || creatureOrigem.getIdTipo() == 13
+                                     || creatureOrigem.getIdTipo() == 21) {
 
                                         /* O cão não se transforma */
                                         if (creatureDestino.getIdTipo() == 9) {
@@ -371,6 +387,7 @@ public class TWDGameManager {
                                                 case 7:
                                                 case 8:
                                                 case 12:
+                                                case 20:
                                                     /* Vivo tranforma-se (->) em Zombie */
                                                     creatureOrigem.transformaEmZombie(creatureDestino);
                                                     creatureDestino.setTransformado(true);
@@ -427,6 +444,7 @@ public class TWDGameManager {
                                                             /* incrementa o numero de zombies destruidos */
                                                             creatureDestino.countZombiesDestruidos();
                                                             creatureOrigem.setZombieIsDestroyed(true);
+                                                            creatureOrigem.setPersonagensDestruidas(true);
                                                             if (creatureOrigem.zombieIsDestroyed()) {
                                                                 System.out.println(creatureOrigem.toString());
                                                             }
@@ -443,6 +461,7 @@ public class TWDGameManager {
                                                         /* incrementa o numero de zombies destruidos */
                                                         creatureDestino.countZombiesDestruidos();
                                                         creatureOrigem.setZombieIsDestroyed(true);
+                                                        creatureOrigem.setPersonagensDestruidas(true);
                                                         if (creatureOrigem.zombieIsDestroyed()) {
                                                             System.out.println(creatureOrigem.toString());
                                                         }
@@ -484,6 +503,7 @@ public class TWDGameManager {
                                                             /* incrementa o numero de zombies destruidos */
                                                             creatureDestino.countZombiesDestruidos();
                                                             creatureOrigem.setZombieIsDestroyed(true);
+                                                            creatureOrigem.setPersonagensDestruidas(true);
                                                             if (creatureOrigem.zombieIsDestroyed()) {
                                                                 System.out.println(creatureOrigem.toString());
                                                             }
@@ -572,6 +592,7 @@ public class TWDGameManager {
                                                         /* incrementa o numero de zombies destruidos */
                                                         creatureDestino.countZombiesDestruidos();
                                                         creatureOrigem.setZombieIsDestroyed(true);
+                                                        creatureOrigem.setPersonagensDestruidas(true);
                                                         if (creatureOrigem.zombieIsDestroyed()) {
                                                             System.out.println(creatureOrigem.toString());
                                                         }
@@ -868,6 +889,7 @@ public class TWDGameManager {
                                                         creatures.remove(creatureOrigem);
                                                         criaturasEnvenenadas.add(creatureOrigem);
                                                         creatureOrigem.setHumanDeadPorEnvenenamento(true);
+                                                        creatureOrigem.setPersonagensDestruidas(true);
                                                         incrementarTurno();
                                                         return true;
                                                     } else {
@@ -988,6 +1010,52 @@ public class TWDGameManager {
                         }
                     }
 
+                    /* Movimentos SLACKER */
+                    if (creatureOrigem.getIdEquipa() == 10 || creatureOrigem.getIdEquipa() == 20) {
+
+                         if ((nrTurno % 2 != 0) && (creatureOrigem.getIdTipo() == 20 || creatureOrigem.getIdTipo() == 21)) {
+
+                            if (isDay()) {
+
+                                if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
+                                    return false;
+                                }
+
+                            /* Coelho apenas move-se na horizontal e na vertical
+                                Se tentar mover 1 casa na diagonal a jogada é invalida */
+                                if (umaCasaNaDiagonal) {
+                                    return false;
+                                }
+
+                            /* Coelho apenas move-se na horizontal e na vertical
+                                 Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
+                                if (duasOuMaisCasasNaDiagonal) {
+                                    return false;
+                                }
+
+                                /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
+                                if (!creatureOrigem.moveDirecaoTurnosImpares(xO, yO, xD, yD, creatureOrigem)) {
+                                    return false;
+                                }
+
+                                if (creatureOrigem.getIdTipo() == 13) {
+                                    /* Zombies nao se podem mover para o Safe Haven */
+                                    if (isPortaSafeHaven) {
+                                        return false;
+                                    }
+                                }
+
+                                creatureOrigem.setXAtual(xD);
+                                creatureOrigem.setYAtual(yD);
+                                incrementarTurno();
+                                return true;
+
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
+
                     /* Movimentação a partir do idoso */
                     if (creatureOrigem.getIdEquipa() == 10) {
                         /* Idosos humanos só se movem em turnos diurnos */
@@ -1095,6 +1163,11 @@ public class TWDGameManager {
 
                             /* IDOSO ZOMBIE */
                             if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
+                                return false;
+                            }
+
+                            /* IDOSO ZOMBIE */
+                            if (creatureOrigem.getIdTipo() == 21 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
                             }
 
@@ -1464,7 +1537,7 @@ public class TWDGameManager {
         return null;
     }
 
-    /* TODO.: imcompleto faltou implementar guardar vivo com equipamento - 1 erro no DropProjet */
+    /* TODO.: incompleto faltou implementar guardar vivo com equipamento - 1 erro no DropProjet */
     public boolean saveGame(File fich) {
 
         /* retorna o separador de linha, ou seja será a quebra de linha quando chegar a final de uma linha lida */
@@ -1517,7 +1590,7 @@ public class TWDGameManager {
         }
     }
 
-    /* TODO.: imcompleto faltou implementar como carregar jogo completo - 1 erro no DropProjet */
+    /* TODO.: incompleto faltou implementar como carregar jogo completo - 1 erro no DropProjet */
     public boolean loadGame(File fich) {
 
         try {
@@ -1731,5 +1804,9 @@ public class TWDGameManager {
             }
         }
         return null;
+    }
+
+    public List<String> getCriaturasFinadas() {
+        return criaturasFinadasDestruidas;
     }
 }

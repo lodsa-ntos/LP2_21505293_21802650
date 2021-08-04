@@ -184,10 +184,10 @@ public class TWDGameManager {
                             case 20:
                             case 21:
                                 Creature slacker = new Slacker(id, idTipo, nome, posX, posY);
-                                creatures.add(slacker); // adiciona coelho
+                                creatures.add(slacker); // adiciona slacker
                                 slacker.setTipo(idTipo);
                                 slacker.setEquipa(idTipo);
-                                System.out.println(slacker); // imprime coelho
+                                System.out.println(slacker); // imprime slacker
                                 break;
 
                             default:
@@ -334,11 +334,6 @@ public class TWDGameManager {
 
                             /* Se idoso tentar entrar no safe Haven a noite, retorna falso, jogada invalida */
                             if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
-                                return false;
-                            }
-
-                            /* Crianca deixa de poder entrar no Safe Haven */
-                            if (creatureOrigem.getIdTipo() == 5) {
                                 if (isPortaSafeHaven) {
                                     return false;
                                 }
@@ -786,7 +781,7 @@ public class TWDGameManager {
                                                 // Incrementa o equipamento no bolso
                                                 creatureOrigem.incrementaEquipamentosNoBolso();
                                                 /* recarregar pistola */
-                                                creatureOrigem.getEquipamentosVivos().get(0).reloading(3);
+                                                creatureOrigem.getEquipamentosVivos().get(0).reloading(1);
                                             } else {
                                                 return false;
                                             }

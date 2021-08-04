@@ -289,10 +289,6 @@ public class ZombieVampiro extends Creature {
     public String toString() {
         TWDGameManager zombie = new TWDGameManager();
 
-        if (idTipo == 12 || idTipo == 13) {
-            return id + " | " + nome + " | " + countMovesValidos;
-        }
-
         if (isInSafeHaven()){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ A salvo";
         } else if (zombieIsDestroyed() || humanDeadPorEnvenenamento()){

@@ -160,6 +160,7 @@ public class Coelho extends Creature {
                 creatureDestino.setIdEquipa(20);
                 break;
             case 12:
+            case 20:
                 creatureDestino.setTipo(creatureIdTipo + 1);
                 creatureDestino.setEquipa(creatureIdTipo + 1);
                 creatureDestino.setIdTipo(creatureIdTipo + 1);
@@ -229,6 +230,16 @@ public class Coelho extends Creature {
     }
 
     @Override
+    public void countMovimentosValidosCoelho() {
+        countMovesValidos++;
+    }
+
+    @Override
+    public int getMovimentosValidosCoelho() {
+        return countMovesValidos;
+    }
+
+    @Override
     public boolean isTransformado() {
         return transformado;
     }
@@ -274,6 +285,16 @@ public class Coelho extends Creature {
     }
 
     @Override
+    public boolean isVivoWithoutBullets() {
+        return isSemBalas;
+    }
+
+    @Override
+    public void setVivoWithoutBullets(boolean noBullets) {
+        isSemBalas = noBullets;
+    }
+
+    @Override
     public String getTipo() {
         return tipo;
     }
@@ -293,14 +314,16 @@ public class Coelho extends Creature {
     public String toString() {
         TWDGameManager zombie = new TWDGameManager();
 
+        if (idTipo == 12 || idTipo == 13) {
+            return id + " | " + nome + " | " + countMovesValidos;
+        }
+
         if (isInSafeHaven()){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ A salvo";
         } else if (zombieIsDestroyed() || humanDeadPorEnvenenamento()){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + 0 + " @ (RIP)";
         }  else if (equipa.equals("Os Vivos") || equipa.equals("Os Outros") || (zombie.getCurrentTeamId() == 20 && isTransformado())){
             return id + " | " + tipo + " | " + equipa + " | " + nome + " " + equipamentosNoBolso + " @ (" + xAtual + ", " + yAtual + ")";
-        }  else if (personagensDestruidas()){
-            return id + " | " + nome;
         } else {
             return id + " | " + tipo + " | " + equipa + " | " + nome + " @ (" + xAtual + ", " + yAtual + ")";
         }

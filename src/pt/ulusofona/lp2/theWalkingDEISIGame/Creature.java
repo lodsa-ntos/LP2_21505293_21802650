@@ -19,10 +19,12 @@ public abstract class Creature {
     protected boolean deadPorEnvenenamento;
     protected boolean zombieIsRIP;
     protected boolean criaturasFinadasDead;
+    protected boolean isSemBalas;
     protected int creaturesNoBolso = 0;
     protected int equipamentosNoBolso = 0;
     protected int zombiesDestruidos = 0;
     protected int countTransformacoesFeitas = 0;
+    protected int countMovesValidos = 0;
 
     protected ArrayList<Equipamento> equipamentos = new ArrayList<>();
 
@@ -96,6 +98,10 @@ public abstract class Creature {
 
     abstract public int getNumTransformacoesFeitasPorZombies();
 
+    abstract public void countMovimentosValidosCoelho();
+
+    abstract public int getMovimentosValidosCoelho();
+
     abstract public boolean isTransformado();
 
     abstract public void setTransformado (boolean criaturaTransformada);
@@ -113,6 +119,10 @@ public abstract class Creature {
     abstract public boolean humanDeadPorEnvenenamento();
 
     abstract public void setHumanDeadPorEnvenenamento(boolean criaturaIsDead);
+
+    abstract public boolean isVivoWithoutBullets();
+
+    abstract public void setVivoWithoutBullets(boolean noBullets);
 
     abstract public String getTipo();
 

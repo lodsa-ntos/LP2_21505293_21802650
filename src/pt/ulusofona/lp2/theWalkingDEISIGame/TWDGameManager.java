@@ -31,7 +31,7 @@ public class TWDGameManager {
     //Lista de zombies destruidos
     static ArrayList<Creature> zombiesDestruidos = new ArrayList<>();
     //Lista de zombies destruidos
-    private ArrayList<String> criaturasFinadasDestruidas = new ArrayList<>();
+    static ArrayList<String> criaturasFinadasDestruidas = new ArrayList<>();
     //Lista para o safeHaven
     private ArrayList<Creature> doorsOfSalvation = new ArrayList<>();
     //Lista de Portas em Jogo
@@ -126,7 +126,7 @@ public class TWDGameManager {
                                 creatures.add(crianca); // adiciona crianca
                                 crianca.setTipo(idTipo);
                                 crianca.setEquipa(idTipo);
-                                System.out.println(crianca.toString()); // imprime crianca
+                                System.out.println(crianca); // imprime crianca
                                 break;
 
                             case 1: /* Adulto Zombie */
@@ -135,7 +135,7 @@ public class TWDGameManager {
                                 creatures.add(adulto); // adiciona aduLto
                                 adulto.setTipo(idTipo);
                                 adulto.setEquipa(idTipo);
-                                System.out.println(adulto.toString()); // imprime adulto
+                                System.out.println(adulto); // imprime adulto
                                 break;
 
                             case 2: /* Militar Zombie */
@@ -144,7 +144,7 @@ public class TWDGameManager {
                                 creatures.add(militar); // adiciona militar
                                 militar.setTipo(idTipo);
                                 militar.setEquipa(idTipo);
-                                System.out.println(militar.toString()); // imprime militar
+                                System.out.println(militar); // imprime militar
                                 break;
 
                             case 3: /* Idoso Zombie */
@@ -153,7 +153,7 @@ public class TWDGameManager {
                                 creatures.add(idoso); // adiciona idoso
                                 idoso.setTipo(idTipo);
                                 idoso.setEquipa(idTipo);
-                                System.out.println(idoso.toString()); // imprime idoso
+                                System.out.println(idoso); // imprime idoso
                                 break;
 
                             case 4: /* Zombie Vampiro */
@@ -161,7 +161,7 @@ public class TWDGameManager {
                                 creatures.add(zombieVamp); // adiciona zombie vampiro
                                 zombieVamp.setTipo(idTipo);
                                 zombieVamp.setEquipa(idTipo);
-                                System.out.println(zombieVamp.toString()); // imprime zombie vampiro
+                                System.out.println(zombieVamp); // imprime zombie vampiro
                                 break;
 
                             case 9: /* Cao */
@@ -169,7 +169,7 @@ public class TWDGameManager {
                                 creatures.add(cao); // adiciona cao
                                 cao.setTipo(idTipo);
                                 cao.setEquipa(idTipo);
-                                System.out.println(cao.toString()); // imprime cao
+                                System.out.println(cao); // imprime cao
                                 break;
 
                             case 12: /* Coelho Vivo */
@@ -178,7 +178,7 @@ public class TWDGameManager {
                                 creatures.add(coelho); // adiciona coelho
                                 coelho.setTipo(idTipo);
                                 coelho.setEquipa(idTipo);
-                                System.out.println(coelho.toString()); // imprime coelho
+                                System.out.println(coelho); // imprime coelho
                                 break;
 
                             case 20:
@@ -187,7 +187,7 @@ public class TWDGameManager {
                                 creatures.add(slacker); // adiciona coelho
                                 slacker.setTipo(idTipo);
                                 slacker.setEquipa(idTipo);
-                                System.out.println(slacker.toString()); // imprime coelho
+                                System.out.println(slacker); // imprime coelho
                                 break;
 
                             default:
@@ -232,11 +232,12 @@ public class TWDGameManager {
 
                                 // Verificar o idTipo e adiciona na lista
                                 if (idTipo == 0 || idTipo == 1 || idTipo == 2 || idTipo == 3 || idTipo == 4 || idTipo == 5
-                                        || idTipo == 6 || idTipo == 7 || idTipo == 8 || idTipo == 9 || idTipo == 10) {
+                                        || idTipo == 6 || idTipo == 7 || idTipo == 8 || idTipo == 9 || idTipo == 10
+                                        || idTipo == 11) {
                                     Equipamento allEquipments = new Equipamento(id, idTipo, posX, posY);
                                     equipamentos.add(allEquipments); // adiciona equipamento
                                     allEquipments.setIdTipo(idTipo); // chama o tipo de equipamento
-                                    System.out.println(allEquipments.toString());
+                                    System.out.println(allEquipments);
                                 }
                             } else {
                                 throw new InvalidTWDInitialFileException(nE, false, linha);
@@ -265,7 +266,7 @@ public class TWDGameManager {
 
                                     Porta portaSafeHaven = new Porta(xPortas, yPortas);
                                     portasEmJogo.add(portaSafeHaven);
-                                    System.out.println(portaSafeHaven.toString());
+                                    System.out.println(portaSafeHaven);
 
                                 } else {
                                     throw new InvalidTWDInitialFileException(nP, false, linha);
@@ -316,6 +317,7 @@ public class TWDGameManager {
             boolean encontrouEquip = false;
             boolean umaCasaNaDiagonal = (Math.abs(xD - xO) == 1) && (Math.abs(yD - yO) == 1);
             boolean duasOuMaisCasasNaDiagonal = (Math.abs(xD - xO) > 0 && Math.abs(xD - xO) <= 50) && (Math.abs(yD - yO) > 0 && Math.abs(yD - yO) <= 50);
+            boolean slackersInVertical = (Math.abs(xD - xO) == 0 && Math.abs(yD - yO) > 1);
             boolean isPortaSafeHaven = isDoorToSafeHaven(xD, yD);
 
             for (Creature creatureOrigem : creatures) {
@@ -335,8 +337,11 @@ public class TWDGameManager {
                                 return false;
                             }
 
+                            /* Crianca deixa de poder entrar no Safe Haven */
                             if (creatureOrigem.getIdTipo() == 5) {
-                                return false;
+                                if (isPortaSafeHaven) {
+                                    return false;
+                                }
                             }
 
                             /* Se existir uma porta safeHaven no destino */
@@ -476,6 +481,7 @@ public class TWDGameManager {
                                                             || creatureDestino.getIdTipo() == 9) {
 
                                                         if (creatureDestino.equipamentos.get(0).getCountUsos() == 0) {
+                                                            //creatureDestino.setVivoWithoutBullets(true);
                                                             /* A pistola não tem efeito contra Zombies Vampiros */
                                                             /* vamos transformar o vivo em zombie */
                                                             creatureOrigem.transformaEmZombie(creatureDestino);
@@ -683,6 +689,13 @@ public class TWDGameManager {
                                             }
                                         }
 
+                                        /* Vivo só pode apanhar as balas quando a pistola estiver sem nenhuma */
+                                        if (!creatureOrigem.isVivoWithoutBullets()) {
+                                            if (eq.getIdTipo() == 11) {
+                                                return false;
+                                            }
+                                        }
+
                                         /* Apenas podem apanhar o antidoto os 'vivos' que estejam envenenados */
                                         if (!creatureOrigem.isEnvenenado()) {
                                             if (eq.getIdTipo() == 9) {
@@ -743,31 +756,69 @@ public class TWDGameManager {
                                             }
                                         }
 
-                                        /* removemos o equipamento antigo */
-                                        Equipamento eqAntigo = creatureOrigem.equipamentos.get(0);
-                                        creatureOrigem.getEquipamentosVivos().remove(eqAntigo);
-
-                                        /* e largamos o equipamento antigo na casa original de onde o vivo estava antes */
-                                        eqAntigo.setXAtual(creatureOrigem.getXAtual());
-                                        eqAntigo.setYAtual(creatureOrigem.getYAtual());
-
-                                        // depois de removido, o vivo apanha o novo equipamento
-                                        // e fica com o equipamento novo na mão
-                                        creatureOrigem.equipamentos.add(eq);
-                                        System.out.println("Apanhou novo equipamento: " + eq);
-
-                                        // Incrementa o equipamento no bolso
-                                        creatureOrigem.incrementaEquipamentosNoBolso();
-
-                                        if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 8) {
-                                            System.out.println("\n" + creatureOrigem.getTipo() + " está envenenado." + "\n"
-                                                    + "Warning: Se o 'Vivo' estiver envenenado durante 3 turnos, morre. " +
-                                                    "\n" + "Tem mais uma jogada, tente encontrar o antidoto.");
+                                        /* Apenas podem apanhar o antidoto os 'vivos' que estejam envenenados */
+                                        if (!creatureOrigem.isEnvenenado()) {
+                                            if (eq.getIdTipo() == 9) {
+                                                return false;
+                                            }
                                         }
 
-                                        if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 9) {
-                                            System.out.println("\n" + creatureOrigem.getTipo() + " conseguiu o antídoto a tempo, " +
-                                                    "está curado. Encontre o safeHaven e salve-se...");
+                                        /* Vivo só pode apanhar as balas quando a pistola estiver sem nenhuma bala */
+                                        if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 2) {
+                                            if (creatureOrigem.equipamentos.get(0).getCountUsos() != 0) {
+                                                if (eq.getIdTipo() == 11) {
+                                                    return false;
+                                                }
+                                            }
+                                        }
+
+                                        /* Interação com balas - recarregar pistola */
+                                        if (eq.getIdTipo() == 11) {
+                                            /* Só pode apanhar balas se estiver com uma pistola, senão a jogada é inválida */
+                                            if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 2) {
+                                                /* removemos o equipamento da sua origem antes de ir apanhar as balas */
+                                                Equipamento eqAntigo = creatureOrigem.equipamentos.get(0);
+                                                eqAntigo.setXAtual(xO+30);
+                                                eqAntigo.setYAtual(yO+30);
+//                                              /* apanhar as balas */
+                                                creatureOrigem.equipamentos.add(eq);
+                                                System.out.println(creatureOrigem.getTipo() + " apanhou " + eq.getTitulo());
+                                                // Incrementa o equipamento no bolso
+                                                creatureOrigem.incrementaEquipamentosNoBolso();
+                                                /* recarregar pistola */
+                                                creatureOrigem.getEquipamentosVivos().get(0).reloading(3);
+                                            } else {
+                                                return false;
+                                            }
+                                        }
+
+                                        if (eq.getIdTipo() != 11) {
+                                            /* removemos o equipamento antigo */
+                                            Equipamento eqAntigo = creatureOrigem.equipamentos.get(0);
+                                            creatureOrigem.getEquipamentosVivos().remove(eqAntigo);
+
+                                            /* e largamos o equipamento antigo na casa original de onde o vivo estava antes */
+                                            eqAntigo.setXAtual(creatureOrigem.getXAtual());
+                                            eqAntigo.setYAtual(creatureOrigem.getYAtual());
+
+                                            // depois de removido, o vivo apanha o novo equipamento
+                                            // e fica com o equipamento novo na mão
+                                            creatureOrigem.equipamentos.add(eq);
+                                            System.out.println("Apanhou novo equipamento: " + eq);
+
+                                            // Incrementa o equipamento no bolso
+                                            creatureOrigem.incrementaEquipamentosNoBolso();
+
+                                            if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 8) {
+                                                System.out.println("\n" + creatureOrigem.getTipo() + " está envenenado." + "\n"
+                                                        + "Warning: Se o 'Vivo' estiver envenenado durante 3 turnos, morre. " +
+                                                        "\n" + "Tem mais uma jogada, tente encontrar o antidoto.");
+                                            }
+
+                                            if (creatureOrigem.getEquipamentosVivos().get(0).getIdTipo() == 9) {
+                                                System.out.println("\n" + creatureOrigem.getTipo() + " conseguiu o antídoto a tempo, " +
+                                                        "está curado. Encontre o safeHaven e salve-se...");
+                                            }
                                         }
                                     }
 
@@ -968,6 +1019,8 @@ public class TWDGameManager {
                                 }
                             }
 
+                            creatureOrigem.countMovimentosValidosCoelho();
+                            System.out.println(creatureOrigem.getMovimentosValidosCoelho());
                             creatureOrigem.setXAtual(xD);
                             creatureOrigem.setYAtual(yD);
                             incrementarTurno();
@@ -1003,6 +1056,8 @@ public class TWDGameManager {
                                 }
                             }
 
+                            creatureOrigem.countMovimentosValidosCoelho();
+                            System.out.println(creatureOrigem.getMovimentosValidosCoelho());
                             creatureOrigem.setXAtual(xD);
                             creatureOrigem.setYAtual(yD);
                             incrementarTurno();
@@ -1010,7 +1065,7 @@ public class TWDGameManager {
                         }
                     }
 
-                    /* Movimentos SLACKER */
+                    /* Movimentos SLACKER VIVO E SLACKER ZOMBIES */
                     if (creatureOrigem.getIdEquipa() == 10 || creatureOrigem.getIdEquipa() == 20) {
 
                          if ((nrTurno % 2 != 0) && (creatureOrigem.getIdTipo() == 20 || creatureOrigem.getIdTipo() == 21)) {
@@ -1021,24 +1076,22 @@ public class TWDGameManager {
                                     return false;
                                 }
 
-                            /* Coelho apenas move-se na horizontal e na vertical
-                                Se tentar mover 1 casa na diagonal a jogada é invalida */
-                                if (umaCasaNaDiagonal) {
+                            /* Slackers apenas movem-se na horizontal
+                                Se tentar mover na vertical a jogada é invalida */
+                                if (slackersInVertical) {
                                     return false;
                                 }
 
-                            /* Coelho apenas move-se na horizontal e na vertical
-                                 Se tentar mover 2 ou mais casas na diagonal a jogada é invalida */
-                                if (duasOuMaisCasasNaDiagonal) {
+                                if ((nrTurno % 2 == 0)) {
                                     return false;
                                 }
 
                                 /* Se não mover no deslocamento restrito para numeros pares, a jogada é invalida */
-                                if (!creatureOrigem.moveDirecaoTurnosImpares(xO, yO, xD, yD, creatureOrigem)) {
+                                if (!creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                     return false;
                                 }
 
-                                if (creatureOrigem.getIdTipo() == 13) {
+                                if (creatureOrigem.getIdTipo() == 21) {
                                     /* Zombies nao se podem mover para o Safe Haven */
                                     if (isPortaSafeHaven) {
                                         return false;
@@ -1050,8 +1103,6 @@ public class TWDGameManager {
                                 incrementarTurno();
                                 return true;
 
-                            } else {
-                                return false;
                             }
                         }
                     }
@@ -1076,7 +1127,7 @@ public class TWDGameManager {
                             }
 
                             /* Se forem outras criaturas vivas */
-                        } else if (creatureOrigem.getIdTipo() != 8 && creatureOrigem.getIdTipo() != 12) {
+                        } else if (creatureOrigem.getIdTipo() != 8 && creatureOrigem.getIdTipo() != 12 && creatureOrigem.getIdTipo() != 20) {
 
                             if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 5 && creatureOrigem.getIdTipo() != 8) {
                                 return false;
@@ -1140,7 +1191,7 @@ public class TWDGameManager {
                             }
 
                             /* Se forem outros zombies */
-                        } else if (creatureOrigem.getIdTipo() != 4 && creatureOrigem.getIdTipo() != 13) {
+                        } else if (creatureOrigem.getIdTipo() != 4 && creatureOrigem.getIdTipo() != 13 && creatureOrigem.getIdTipo() != 21) {
 
                             if (saltarPorCima(xO, yO, xD, yD) && creatureOrigem.getIdTipo() != 0 && creatureOrigem.getIdTipo() != 3) {
                                 return false;
@@ -1163,11 +1214,6 @@ public class TWDGameManager {
 
                             /* IDOSO ZOMBIE */
                             if (creatureOrigem.getIdTipo() == 3 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
-                                return false;
-                            }
-
-                            /* IDOSO ZOMBIE */
-                            if (creatureOrigem.getIdTipo() == 21 && !creatureOrigem.moveDirecao(xO, yO, xD, yD, creatureOrigem)) {
                                 return false;
                             }
 
@@ -1312,6 +1358,7 @@ public class TWDGameManager {
                         case 7:
                         case 9:
                         case 12:
+                        case 20:
                             countTodosMenosIdosoEmJogo++;
                     }
                     numeroVivosEmJogo++;
@@ -1346,6 +1393,7 @@ public class TWDGameManager {
                         case 2:
                         case 3:
                         case 13:
+                        case 21:
                             countTodosMenosZombieVampEmJogo++;
                     }
 
@@ -1507,7 +1555,7 @@ public class TWDGameManager {
         return false;
     }
 
-    public int getEquipmentTypeId(int equipmentId){
+    public int getEquipmentTypeId(int equipmentId) {
 
         for (Equipamento equipamento: equipamentos){
             if (equipmentId == equipamento.getId()){
@@ -1528,6 +1576,8 @@ public class TWDGameManager {
                 } else if (equipamento.getIdTipo() == 2) {
                     return equipamento.getTitulo() + " | " + equipamento.getCountUsos();
                 } else if (equipamento.getIdTipo() == 7) {
+                    return equipamento.getTitulo() + " | " + equipamento.getCountUsos();
+                } else if (equipamento.getIdTipo() == 11) {
                     return equipamento.getTitulo() + " | " + equipamento.getCountUsos();
                 }
                 // Caso nao for, retorna apenas <Nome Tipo>
@@ -1807,6 +1857,13 @@ public class TWDGameManager {
     }
 
     public List<String> getCriaturasFinadas() {
+
+        for (Creature c : getCreatures()) {
+            if (c.zombieIsDestroyed()) {
+                criaturasFinadasDestruidas.add(c.getId() + " | " + c.getNome());
+            }
+        }
+
         return criaturasFinadasDestruidas;
     }
 }

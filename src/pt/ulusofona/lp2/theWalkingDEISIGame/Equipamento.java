@@ -34,6 +34,11 @@ public class Equipamento {
             // Equipamento Defensivo
             /* Necessário 3 litros de lixivia */
             countUsos = 3;
+        } else if (idTipo == 11) {
+            // Bala
+            // Utensílios
+            /* A Bala permite recarregar uma pistola que tenha ficado com menos do que 3 balas */
+            countUsos = 3;
         }
     }
 
@@ -88,6 +93,8 @@ public class Equipamento {
             titulo = "Antídoto";
         } else if (idTipo == 10) {
             titulo = "Beskar Helmet";
+        } else if (idTipo == 11) {
+            titulo = "Balas";
         }
     }
 
@@ -109,6 +116,10 @@ public class Equipamento {
 
     public void diminuiProtecaoDoEscudo() {this.countProtecaoDoEscudo -= 1;}
 
+    public void reloading(int putBullets) {
+        this.countUsos = putBullets;
+    }
+
     public boolean isEscudoUsado() {
         return escudoUsado;
     }
@@ -129,5 +140,4 @@ public class Equipamento {
     public String toString () {
         return id + " | " + titulo + " @ (" + xAtual + ", " + yAtual + ") ";
     }
-
 }

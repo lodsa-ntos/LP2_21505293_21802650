@@ -333,11 +333,11 @@ public class TWDGameManager {
                             }
 
                             /* Se idoso tentar entrar no safe Haven a noite, retorna falso, jogada invalida */
-                            if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
+                            /*if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
                                 if (isPortaSafeHaven) {
                                     return false;
                                 }
-                            }
+                            }*/
 
                             /* Se existir uma porta safeHaven no destino */
                             if (isPortaSafeHaven) {
@@ -1391,7 +1391,6 @@ public class TWDGameManager {
                         case 21:
                             countTodosMenosZombieVampEmJogo++;
                     }
-
                     numeroZombiesEmJogo++;
                 }
             }

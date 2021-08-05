@@ -333,11 +333,11 @@ public class TWDGameManager {
                             }
 
                             /* Se idoso tentar entrar no safe Haven a noite, retorna falso, jogada invalida */
-                            /*if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
+                            if (creatureOrigem.getIdTipo() == 8 && !isDay()) {
                                 if (isPortaSafeHaven) {
                                     return false;
                                 }
-                            }*/
+                            }
 
                             /* Se existir uma porta safeHaven no destino */
                             if (isPortaSafeHaven) {
@@ -346,6 +346,7 @@ public class TWDGameManager {
                                 /*  E vamos remove-lo do mapa */
                                 //creatureOrigem.id = 0;
                                 creatures.get(creatures.indexOf(creatureOrigem)).inSafeHaven(true);
+                                System.out.println(creatureOrigem.getTipo() + " entrou no safeHaven, está seguro.");
                                 /* E adiciona-mos o vivo na lista do safeHaven */
                                 doorsOfSalvation.add(creatureOrigem);
                                 /* sair da casa original */
@@ -1343,7 +1344,7 @@ public class TWDGameManager {
         for (Creature creatureOrigem : creatures) {
             if (creatureOrigem.getIdEquipa() == 10) {
                 /* Se existirem "Vivos" e não passaram para o SafeHaven ou não foram transformado em Zombie */
-                if (!creatureOrigem.isInSafeHaven() && !creatureOrigem.isTransformado()
+                if (!creatureOrigem.isTransformado() // safe haven ...
                         && !creatureOrigem.isEnvenenado()) {
                     /* Ou não morreram envenenados, conta os "Vivos" que ainda estão em Jogo */
 

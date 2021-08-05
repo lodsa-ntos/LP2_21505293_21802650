@@ -76,7 +76,7 @@ As diferenças de comportamento vão dividir-se em duas grandes categorias:
 
 # Equipas
 Neste jogo existem duas equipas:
-- [Os Vivo]()
+- [Os Vivos]()
   - A equipa “Os Vivos” é controlada pelo utilizador. Esta é a equipa que contém o Freddy M. e os seus amigos
     e vizinhos.
     
@@ -97,6 +97,7 @@ Neste jogo existem duas equipas:
 | Defensivo          | Veneno                       | O veneno dá proteção durante 2 turnos.  Se o “Vivo” estiver envenenado durante 3 turnos, morre.  Os Zombies não se podem mover para casas onde esteja um veneno.               |
 | Defensivo          | Antídoto                     | O antídoto cura um “Vivo” envenenado.  Apenas podem apanhar o antídoto os “vivos” que estejam envenenados.  Ao ser apanhado, o antídoto é consumido automaticamente.           |
 | Defensivo/Ofensivo | Beskar Helmet                | Este fantástico capacete futurista não só defende quem o usa, como também serve como arma, dado que multiplica a força das cabeçadas por um número muito grande.               |
+| Ofensivo           | Bala                         | A bala permite recarregar uma pistola que tenha ficado com menos do que 3 balas.                                                                                               |
 
 
 # Regras do Jogo
@@ -184,7 +185,7 @@ os dois turnos seguintes ocorrem durante a noite, e assim por diante.
     - Componentes: ID: tipo: X: Y
     - Número errado: menos que 5 ou mais do que 5.
 
-- TestDoJogo — responsável por testar algumas fases do jogo, o movimento e combates de criaturas e a iteração com os equipamentops
+- TestDoJogo — responsável por testar algumas fases do jogo, o movimento e combates de criaturas e a iteração com os equipamentos.
 
 ### Classes abstratas
 - Creature — representa todas as criaturas, ou seja, contém os atributos relevantes para a caraterização das criaturas que

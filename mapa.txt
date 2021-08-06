@@ -4,7 +4,7 @@
 1 : 1 : Major : 4 : 3
 2 : 2 : Jackie Chan : 1 : 5
 3 : 3 : Freddy M. : 5 : 2
-4 : 8 : Shin chan : 3 : 4
+4 : 7 : Shin chan : 3 : 4
 5 : 7 : Kuririn : 3 : 2
 6 : 2 : Robocop : 4 : 6
 4

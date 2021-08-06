@@ -1333,7 +1333,14 @@ public class TWDGameManager {
         int numeroZombiesEmJogo = 0;
         int countTodosMenosZombieVampEmJogo = 0;
 
-        /* Verificar quantas criaturas em jogos */
+        for (Creature creatureOrigem : creatures) {
+            /* se até ao nrturno 12 não houver nenhuma transformação o jogo termina */
+            if (!creatureOrigem.isTransformado() && nrTurno == 12) {
+                return true;
+            }
+        }
+
+        /* Sem vivos em jogo */
         for (Creature creatureOrigem : creatures) {
             if (creatureOrigem.getIdEquipa() == 10) {
                 /* Se existirem "Vivos" e não passaram para o SafeHaven ou não foram transformado em Zombie */
@@ -1352,8 +1359,26 @@ public class TWDGameManager {
                     }
                     numeroVivosEmJogo++;
                 }
+            }
+        }
 
-            } else if (creatureOrigem.getIdEquipa() == 20) {
+        /* Se ficarem apenas os vivos em jogo, o jogo termina */
+        if (numeroVivosEmJogo == 0) {
+            return true;
+        }
+
+        /* Apenas idosos vivos em jogo no turno nocturno, o jogo termina */
+        if (getCurrentTeamId() == 10) {
+            if (!isDay()) {
+                return countTodosMenosIdosoEmJogo == 0;
+            } else {
+                return false;
+            }
+        }
+
+        /* Sem zombies em jogo */
+        for (Creature creatureOrigem : creatures) {
+            if (creatureOrigem.getIdEquipa() == 20) {
                 /* Se existirem 'zombies' e ainda não foram destruidos */
                 if (!creatureOrigem.zombieIsDestroyed()) {
                     /* conta os "zombies" que ainda estão em Jogo*/
@@ -1372,26 +1397,12 @@ public class TWDGameManager {
             }
         }
 
-        for (Creature creatureOrigem : creatures) {
-            /* se até ao nrturno 12 não houver nenhuma transformação o jogo termina */
-            return !creatureOrigem.isTransformado() && nrTurno == 12;
-        }
-
-        /* Se ficarem apenas os vivos em jogo ou apenas os zombies em jogo, o jogo termina */
-        if (numeroVivosEmJogo == 0 || numeroZombiesEmJogo == 0) {
+        /* Se ficarem apenas os zombies em jogo, o jogo termina */
+        if (numeroZombiesEmJogo == 0) {
             return true;
         }
 
-        /* Apenas idosos vivos em jogo no turno nocturno, o jogo termina */
-        if (getCurrentTeamId() == 10) {
-            if (!isDay()) {
-                return countTodosMenosIdosoEmJogo == 0;
-            } else {
-                return false;
-            }
-        }
-
-        /* Apenas Zombie Vampiro em jogo no turno diurno , o jogo termina */
+        /* Apenas Zombie Vampiro em jogo no turno diurno , jogo termina*/
         if (getCurrentTeamId() == 20) {
             if (isDay()) {
                 return countTodosMenosZombieVampEmJogo == 0;
